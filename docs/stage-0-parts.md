@@ -45,6 +45,12 @@ not verified.
 
 Digi-Key BOM upload file: [stage-0-digikey.csv](stage-0-digikey.csv).
 
+Ordering from Canada: Digi-Key Canada did not find the battery (1528-2731-ND),
+probably because LiPo cells ship ground-only. The CSV leaves it out; buy the
+battery locally instead (for example PiShop.ca, which carries Adafruit; check
+for product 3898). Prices in Canada will show in CAD: the full cart is about
+$200 CAD.
+
 ### Bench supplies (add to the Digi-Key order if you don't have them)
 
 | Item | Why |
