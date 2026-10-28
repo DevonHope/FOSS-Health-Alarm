@@ -24,7 +24,7 @@ Targets for the final pod:
 | --- | --- |
 | Pod size | 35 x 18 x 8 mm or smaller |
 | Battery life | 2 weeks or more per charge |
-| Charging | Sealed case, contact pads + magnets on a dock |
+| Charging and debug | Sealed case, no USB port; six contact pads + magnets on a dock that charges, programs and gives a serial console |
 | Radio | Bluetooth LE, for settings and logs only |
 
 ### Power budget (estimate)
@@ -49,7 +49,7 @@ measure the real number.
 | Clearance and foam | 0.3 |
 | Battery (3 mm pouch) | 3.0 |
 | Clearance and adhesive | 0.2 |
-| Case bottom wall with charge pads | 0.8 |
+| Case bottom wall with contact pads | 0.8 |
 | **Total** | **about 6.7** |
 
 The 8 mm coin LRA (2.55 to 3.25 mm thick) sits beside the battery in the
@@ -146,15 +146,57 @@ The final pick depends on the case layout in stage 2.
 **Pick:** nPM1304 for the slim pod (charger, regulator and fuel gauge in one).
 Fall back to BQ25100 plus the SoC's internal DC-DC if board space is tight.
 
-### Charging contacts
+### Dock contacts: charging, programming and serial
 
-Put the spring pins in the dock, not the band. The band gets two flat gold
-pads on its underside plus two small magnets that pull it onto the dock. This
-keeps the case sealed and adds almost no height, which is how the Fitbit Air
-puck works. Off-the-shelf magnetic pogo connectors (for example Mill-Max
-Maxnetic, at about 10.9 mm stack height) are too tall for the band itself but
-are fine to build the dock from. Low-profile Mill-Max 836/838 pogo pins (2 mm
-pitch, about 5 mm tall) suit the dock side.
+The band has no USB port. Everything goes through one row of flat gold pads
+on its underside: charging, firmware flashing over SWD, and a serial console
+over UART. The spring (pogo) pins live in the dock, not the band, which keeps
+the case sealed and adds almost no height, like the Fitbit Air puck.
+
+Pad order, one row at 2 mm pitch (about 12 mm wide, fits a 17 to 18 mm pod):
+
+| Pad | Signal | Band side | Why it sits here |
+| --- | --- | --- | --- |
+| 1 | VIN (5 V in) | Charger input (nPM1304 VBUS) | At the edge, so it only has one neighbour |
+| 2 | GND | Ground | Separates power from the data pins, so a bad dock or a sweat bridge can't put 5 V on a logic pin |
+| 3 | SWDCLK | SoC SWD clock | Programming pair kept together |
+| 4 | SWDIO | SoC SWD data | |
+| 5 | UART RX | SoC RX (band receives) | Serial pair kept together, and away from power |
+| 6 | UART TX | SoC TX (band sends) | |
+
+Design notes:
+
+- **Make GND connect first.** Use a slightly longer pogo pin for pad 2 in
+  the dock, so ground mates before power or data.
+- **Key the magnets.** Put the two magnets in opposite polarity so the band
+  only snaps onto the dock one way round and the pads can't be swapped.
+- **Protect every pad.** Add a small TVS/ESD diode on each pad and a series
+  resistor (about 100 to 330 ohm) on the four data pads. The pads touch skin
+  and sweat all night.
+- **Keep the pads quiet when worn.** Firmware only turns on the UART when
+  the charger reports VIN present (the band is docked), and leaves SWD in its
+  default state otherwise. This saves power and avoids slow corrosion from
+  voltage sitting on wet pads.
+- **Match logic levels.** The band's I/O runs at its own rail (likely
+  1.8 V). The dock powers its side of a level translator from a fixed 1.8 V
+  supply that matches it, so no extra voltage-sense pad is needed.
+- **No reset pad.** SWD can halt and reset the nRF54L15 and nRF52840 by
+  itself, so a dedicated reset line is not needed.
+- **Fallback with 4 pads.** If space gets tight, drop the UART pads and use
+  SEGGER RTT, which carries a serial console over the SWD pins. The 6-pad
+  layout is the default because a plain UART works with any tool.
+
+The dock itself:
+
+- A Raspberry Pi Pico running the open-source `debugprobe` firmware (or the
+  Raspberry Pi Debug Probe) gives SWD flashing and a USB serial port over a
+  single USB cable. OpenOCD and pyOCD both work with it.
+- The same USB cable supplies the 5 V that goes to pad 1.
+- Low-profile Mill-Max 836/838 pogo pins (2 mm pitch, about 5 mm tall) fit
+  the dock. Taller magnetic pogo connectors such as Mill-Max Maxnetic (about
+  10.9 mm) are fine in the dock but too tall for the band.
+- Once Bluetooth works, firmware updates can also go over the air (MCUboot
+  in nRF Connect SDK), and the dock becomes the recovery path.
 
 ## Custom PCB options
 
@@ -219,8 +261,10 @@ Goal: a wearable board with the real parts, sized for comfort but not yet slim.
 - 4-layer, 0.8 mm rigid board, assembled by the fab (JLCPCB or PCBWay).
 - Module (ISP2454, or MDBT50Q if easier to source), LIS2DW12, DRV2605L,
   MCP73831 or BQ25100, a protected 401230 cell, VG0832012 LRA.
-- SWD test pads, a current-measure jumper, and an LED for debugging.
-- Charge through pads with a simple pogo-pin dock.
+- The six-pad dock row (VIN, GND, SWDCLK, SWDIO, RX, TX) from day one, plus
+  a current-measure jumper and an LED for debugging. No USB connector.
+- First dock: a Pico running debugprobe, a level translator and a pogo
+  block, on a small board or perfboard.
 
 Done when: it runs the stage 0 firmware unchanged except for pin mapping, and
 battery life matches the stage 0 estimate.
@@ -232,8 +276,9 @@ Goal: hit the size target.
 - 4-layer, 0.6 mm rigid board, parts on one side only, battery on the other.
 - ISP2454 SiP (8 x 8 x 1 mm), DRV2625, nPM1304, ADXL367 or LIS2DW12.
 - 3 mm pouch cell (50 to 110 mAh) and VG0825003D LRA beside it.
-- Sealed case with gold contact pads and magnets; magnetic pogo dock.
-- Remove debug LEDs and jumpers; keep SWD as pads under the battery.
+- Sealed case with the six gold pads and keyed magnets; the dock handles
+  charging, flashing and serial.
+- Remove debug LEDs and jumpers; the dock pads are the only debug access.
 
 Done when: the pod is about 35 x 18 x 8 mm or smaller and lasts two weeks.
 
