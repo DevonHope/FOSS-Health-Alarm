@@ -43,6 +43,8 @@ at the cost of a third shipment.
 $52. Shipments with batteries go ground only. Free-shipping thresholds were
 not verified.
 
+Digi-Key BOM upload file: [stage-0-digikey.csv](stage-0-digikey.csv).
+
 ### Bench supplies (add to the Digi-Key order if you don't have them)
 
 | Item | Why |
