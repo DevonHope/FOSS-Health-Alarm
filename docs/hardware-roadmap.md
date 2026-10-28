@@ -247,8 +247,11 @@ Goal: prove the wake algorithm and measure power, with no custom board.
 - **Seeed XIAO nRF54L15 Sense** (nRF54L15, LSM6DS3TR-C 6-axis IMU, built-in
   LiPo charging). The XIAO nRF52840 Sense is the fallback, same idea.
 - **DRV2605L breakout** + **VG0832012 coin LRA**.
-- A small LiPo with a protection circuit (any 100 mAh-class pouch).
+- A 400 mAh protected LiPo (the XIAO charges at about 200 mA, too fast for
+  a 100 mAh cell).
 - 3D-printed wrist case and a strap.
+
+Verified order list with links: [stage-0-parts.md](stage-0-parts.md).
 
 Done when: the band logs motion all night, buzzes with a soft ramp inside the
 window, and a measured power budget shows at least two weeks on the chosen
