@@ -1,0 +1,9 @@
+(kicad_sch (version 20230121) (generator eeschema)
+  (uuid 1398fc5e-fb6b-4492-9e07-f85850d2736a)
+  (paper "A4")
+  (title_block (title "WakeBand flex rev A - Haptics") (date "2026-10-30") (rev "A0") (company "FOSS Health Alarm")
+    (comment 1 "Plan: docs/flex-pcb-schematic-plan.md"))
+  (lib_symbols
+  )
+  (text "Haptics sheet (step 5): DRV2605L VSSOP-10 (DRV2605LDGS) on VSYS.\n- 1 uF on VDD and on REG. EN <- HAPT_EN, IN/TRIG <- HAPT_TRIG.\n- I2C at 1.8 V (VIH 1.3 V), address 0x5A. Keep VDD powered (an unpowered driver clamps the bus).\n- OUT+/OUT- to two LRA lead pads beside the stiffened 9 mm LRA tape-down pad.\n- Firmware blocks the motor while docked (VSYS can reach 5.5 V)." (at 20.32 20.32 0) (effects (font (size 1.27 1.27)) (justify left top)) (uuid fe2a6e84-cd90-4ba4-8cbb-2a96a6cfac4a))
+)

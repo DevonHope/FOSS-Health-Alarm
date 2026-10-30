@@ -1,0 +1,9 @@
+(kicad_sch (version 20230121) (generator eeschema)
+  (uuid 2cce7013-529f-4cbb-951f-cb44d764f79d)
+  (paper "A4")
+  (title_block (title "WakeBand flex rev A - Dock") (date "2026-10-30") (rev "A0") (company "FOSS Health Alarm")
+    (comment 1 "Plan: docs/flex-pcb-schematic-plan.md"))
+  (lib_symbols
+  )
+  (text "Dock sheet (step 6): six pads at 2 mm pitch, about 1.2 x 3 mm:\n1 VIN  2 GND  3 SWDCLK  4 SWDIO  5 UART_RX  6 UART_TX\n- TVS on every pad, leakage under 50 nA; VIN TVS working voltage at least 5.5 V.\n- 100 ohm in series on the four data pads. Pull-down on UART_RX." (at 20.32 20.32 0) (effects (font (size 1.27 1.27)) (justify left top)) (uuid add8640e-8915-4ad0-91c9-a6f04058226b))
+)

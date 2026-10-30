@@ -1,0 +1,5 @@
+{
+  "meta": { "filename": "flex-rev-a.kicad_pro", "version": 1 },
+  "schematic": { "legacy_lib_dir": "", "legacy_lib_list": [] },
+  "sheets": [ ["76e919d5-563f-46c6-9f1d-00a6843a6499", "power"], ["c80ac41d-356f-4de9-b75d-a908c60d2f6b", "mcu"], ["7fd789a5-6a65-43c8-bbb4-63bf442409cd", "sensors"], ["c88d62cc-ced5-44c0-8000-743e5e784cef", "haptics"], ["de20b9bc-e37d-4796-8111-ffc0a40189f8", "dock"], ["6b0dd69e-a238-487e-a298-7f903c25cc3a", "debug"] ]
+}

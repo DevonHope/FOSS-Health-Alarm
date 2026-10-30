@@ -1,0 +1,9 @@
+(kicad_sch (version 20230121) (generator eeschema)
+  (uuid 3d403901-45b0-46ed-adb8-29bf537f695e)
+  (paper "A4")
+  (title_block (title "WakeBand flex rev A - Sensors") (date "2026-10-30") (rev "A0") (company "FOSS Health Alarm")
+    (comment 1 "Plan: docs/flex-pcb-schematic-plan.md"))
+  (lib_symbols
+  )
+  (text "Sensors sheet (step 5): LIS2DW12 LGA-12 on VDD_1V8.\n- CS tied to VDD_1V8 (I2C mode), SA0 strapped high -> address 0x19.\n- SDA/SCL on I2C_SDA / I2C_SCL, 4.7 k pull-ups to VDD_1V8 (shared bus).\n- INT1 -> ACC_INT1 (wake), INT2 -> ACC_INT2.\n- 100 nF on VDD and VDD_IO." (at 20.32 20.32 0) (effects (font (size 1.27 1.27)) (justify left top)) (uuid 276a5638-8066-46c5-9af7-24a397c00063))
+)

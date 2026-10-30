@@ -230,6 +230,10 @@ KiCad 10 has no native flex or stiffener layers. The plan:
 Steps 1, 2 and 4 to 6 can start now. Step 3 is drafted now and frozen after
 Stage 0b.
 
+**Progress (2026-10-30):** step 1 is done (`hardware/flex-rev-a/`). Step 2 is done
+except for the module footprint, which waits on the datasheet's pad drawing
+(see [flex-rev-a-pinout.md](flex-rev-a-pinout.md)).
+
 ## Battery sourcing in Canada
 
 Digi-Key only ships lithium cells by ground, which is likely why the cell
