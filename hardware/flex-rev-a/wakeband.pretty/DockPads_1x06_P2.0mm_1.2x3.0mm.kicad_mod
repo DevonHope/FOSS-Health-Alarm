@@ -1,0 +1,130 @@
+(footprint "DockPads_1x06_P2.0mm_1.2x3.0mm"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "Six dock contact pads for pogo pins, 1.2 x 3.0 mm at 2.0 mm pitch (0.8 mm gap), no paste. Pad 1 = VIN. Place on the outer (skin) face of island B.")
+	(tags "dock pogo contact pads")
+	(property "Reference" "REF**"
+		(at 0 -2.6 0)
+		(layer "F.SilkS")
+		(uuid "0f6fedab-c521-4b81-aed7-1a778d9355db")
+		(effects
+			(font
+				(size 0.6 0.6)
+				(thickness 0.1)
+			)
+		)
+	)
+	(property "Value" "DockPads_1x06_P2.0mm_1.2x3.0mm"
+		(at 0 2.4 0)
+		(layer "F.Fab")
+		(uuid "67abd195-e5c6-40e8-af2b-cf187c2039ca")
+		(effects
+			(font
+				(size 0.6 0.6)
+				(thickness 0.1)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "255d735f-fd80-4239-9ace-00e266f63b0b")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "40241e58-6524-41c3-8e03-a88de425a622")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(attr smd exclude_from_pos_files exclude_from_bom)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_rect
+		(start -6 -1.75)
+		(end 6 1.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "be9930b4-c215-4038-bddb-d917dd6e56e5")
+	)
+	(fp_rect
+		(start -5.6 -1.5)
+		(end 5.6 1.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "7cf3b86e-2d4b-481c-808c-ab9640c86db4")
+	)
+	(fp_text user "1"
+		(at -5 -2.2 0)
+		(layer "F.SilkS")
+		(uuid "e002d52c-4ca4-4bb9-bb87-da7f94b582d7")
+		(effects
+			(font
+				(size 0.6 0.6)
+				(thickness 0.1)
+			)
+		)
+	)
+	(pad "1" smd roundrect
+		(at -5 0)
+		(size 1.2 3)
+		(layers "F.Cu" "F.Mask")
+		(roundrect_rratio 0.1)
+		(uuid "3e1677f0-9a00-49d2-aa96-e0f68399b053")
+	)
+	(pad "2" smd roundrect
+		(at -3 0)
+		(size 1.2 3)
+		(layers "F.Cu" "F.Mask")
+		(roundrect_rratio 0.1)
+		(uuid "e61ee924-8588-4004-a26a-01c4ecf8c945")
+	)
+	(pad "3" smd roundrect
+		(at -1 0)
+		(size 1.2 3)
+		(layers "F.Cu" "F.Mask")
+		(roundrect_rratio 0.1)
+		(uuid "ef99a241-72db-4fa8-a798-800619bc0f35")
+	)
+	(pad "4" smd roundrect
+		(at 1 0)
+		(size 1.2 3)
+		(layers "F.Cu" "F.Mask")
+		(roundrect_rratio 0.1)
+		(uuid "f656cdd6-f2c5-4923-b0d7-93e67e45228c")
+	)
+	(pad "5" smd roundrect
+		(at 3 0)
+		(size 1.2 3)
+		(layers "F.Cu" "F.Mask")
+		(roundrect_rratio 0.1)
+		(uuid "01cfe789-93b9-4af6-8929-c420b82fe8ba")
+	)
+	(pad "6" smd roundrect
+		(at 5 0)
+		(size 1.2 3)
+		(layers "F.Cu" "F.Mask")
+		(roundrect_rratio 0.1)
+		(uuid "328eaa0c-d92d-4485-a5b7-80c50b8f0494")
+	)
+	(embedded_fonts no)
+)
