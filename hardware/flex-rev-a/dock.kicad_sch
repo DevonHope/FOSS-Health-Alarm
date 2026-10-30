@@ -1,9 +1,26 @@
-(kicad_sch (version 20230121) (generator eeschema)
-  (uuid bec33dea-edd7-43cf-ad89-b90c88d2ecc4)
-  (paper "A4")
-  (title_block (title "WakeBand flex rev A - Dock") (date "2026-10-30") (rev "A0") (company "FOSS Health Alarm")
-    (comment 1 "Plan: docs/flex-pcb-schematic-plan.md"))
-  (lib_symbols
-  )
-  (text "Dock sheet (step 6): six pads at 2 mm pitch, about 1.2 x 3 mm:\n1 VIN  2 GND  3 SWDCLK  4 SWDIO  5 UART_RX  6 UART_TX\n- TVS on every pad, leakage under 50 nA; VIN TVS working voltage at least 5.5 V.\n- 100 ohm in series on the four data pads. Pull-down on UART_RX." (at 20.32 20.32 0) (effects (font (size 1.27 1.27)) (justify left top)) (uuid dbf5e0a7-87e6-417b-8b98-37b38430cad4))
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "bec33dea-edd7-43cf-ad89-b90c88d2ecc4")
+	(paper "A4")
+	(title_block
+		(title "WakeBand flex rev A - Dock")
+		(date "2026-10-30")
+		(rev "A0")
+		(company "FOSS Health Alarm")
+		(comment 1 "Plan: docs/flex-pcb-schematic-plan.md")
+	)
+	(lib_symbols)
+	(text "Dock sheet (step 6): six pads at 2 mm pitch, about 1.2 x 3 mm:\n1 VIN  2 GND  3 SWDCLK  4 SWDIO  5 UART_RX  6 UART_TX\n- TVS on every pad, leakage under 50 nA; VIN TVS working voltage at least 5.5 V.\n- 100 ohm in series on the four data pads. Pull-down on UART_RX."
+		(exclude_from_sim no)
+		(at 20.32 20.32 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "dbf5e0a7-87e6-417b-8b98-37b38430cad4")
+	)
 )

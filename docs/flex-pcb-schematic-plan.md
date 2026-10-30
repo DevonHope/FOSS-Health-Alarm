@@ -75,18 +75,21 @@ smallest packages for rev B.
 | VBAT | Cell (through its PCM) | 3.0 to 4.2 V | nPM1304 VBAT |
 | VSYS | nPM1304 | VBUS or VBAT | DRV2605L VDD, BUCK1 input |
 | VDD_1V8 | nPM1304 BUCK1 | 1.8 V (try 1.8 vs 3.0 V in Stage 0b) | ISP2454 VDD, LIS2DW12 VDD/VDDIO, I2C pull-ups |
-| BUCK2 | nPM1304 | off | Unused: no inductor, VOUT2 tied to VSYS (Nordic says this stops leakage), VSET2 to GND, SW2 per the datasheet **(check)** |
+| BUCK2 | nPM1304 | off | Unused: no inductor, VOUT2 tied to VSYS (Nordic says this stops leakage), VSET2 to GND, SW2 left open and PVSS2 to GND (as in Nordic's reference configuration 2) |
 
 Notes:
 
 - **nPM1304 strapping.** VSET1 resistor so BUCK1 starts at 1.8 V on its own
-  (Nordic's table gives 47 kohm; confirm), VDDIO tied to VOUT1, CC1/CC2 as in
-  the reference circuit. BUCK1 with a 5 % tolerance can sit at 1.71 V, just
+  (the datasheet's VSET1 table confirms 47 kohm = 1.8 V, resistor 5 % or
+  better), VDDIO tied to VOUT1, CC1/CC2 to GND (no USB-C; the datasheet allows
+  floating or GND, and VBUS then stays at its 100 mA default limit). BUCK1 with a 5 % tolerance can sit at 1.71 V, just
   above the nRF54L15's 1.7 V minimum, so check the brown-out margin.
-- **Ship mode for storage.** The nPM1304 enters ship mode over I2C. Nordic's
-  FAQ only lists the SHPHLD pin as the way out; whether docking (VBUS) alone
-  wakes it is tested on the EK in Stage 0b. Until then SHPHLD gets its
-  pull-up, a test pad and a footprint for a tiny button. Nordic warns not to
+- **Ship mode for storage.** The nPM1304 enters ship mode over I2C. The
+  datasheet's ship-mode chapter lists two ways out: SHPHLD held low (a button
+  to GND), or VBUS rising above VBUSPOR (3.9 V typ), so docking alone should
+  wake it; confirm on the EK in Stage 0b. SHPHLD has an internal 50 kohm
+  pull-up; the board adds a test pad, an optional (DNP) extra pull-up to VBAT
+  and a footprint for a tiny button. Nordic warns not to
   tie SHPHLD to a SoC GPIO because of leakage.
 - **Battery current limit.** The nPM1304 caps battery current at about
   210 mA and VSYS from the battery is good for about 100 mA including the
@@ -114,7 +117,7 @@ Notes:
 | --- | --- | --- |
 | LIS2DW12 | 0x19 (SA0 strapped high) | CS tied to 1.8 V for I2C mode; SA0 hard-strapped (it has an internal pull-up); INT1 to a wake-capable GPIO, INT2 to a test pad |
 | DRV2605L | 0x5A | EN to GPIO, IN/TRIG to GPIO (PWM option) |
-| nPM1304 | 0x6B **(check)** | GPIO/INT to SoC for VBUS-present and charger events |
+| nPM1304 | 0x6B (datasheet: 7-bit address 110 1011) | GPIO/INT to SoC for VBUS-present and charger events |
 
 One shared 1.8 V I2C bus with 4.7 kohm pull-ups to VDD_1V8. 10 kohm would
 give about 425 ns rise time, too slow for 400 kHz. Every signal, plus nRESET
@@ -233,6 +236,11 @@ Stage 0b.
 **Progress (2026-10-30):** step 1 is done (`hardware/flex-rev-a/`). Step 2 is done,
 including the module footprint; every signal uses an outer-row pad, so the
 flex needs no via-in-pad (see [flex-rev-a-pinout.md](flex-rev-a-pinout.md)).
+Step 3 is drafted: the power sheet follows the nPM1304 datasheet's reference
+circuit "configuration 2" (QFN), and the project is now saved in KiCad 10
+format. Its remaining **(check)** items (QFN exposed-pad size against Nordic's
+reference layout, TVS and inductor part numbers, the GPIO used for PMIC_INT)
+are listed on the sheet. It is frozen after Stage 0b.
 
 ## Battery sourcing in Canada
 

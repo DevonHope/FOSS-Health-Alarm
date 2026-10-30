@@ -1,52 +1,373 @@
-(kicad_sch (version 20230121) (generator eeschema)
-  (uuid f1a047c3-8922-464f-af19-ac9fc5db330b)
-  (paper "A4")
-  (title_block (title "WakeBand flex rev A - Top") (date "2026-10-30") (rev "A0") (company "FOSS Health Alarm")
-    (comment 1 "Plan: docs/flex-pcb-schematic-plan.md"))
-  (lib_symbols
-  )
-  (text "WakeBand flex rev A: 2-layer polyimide flex, folds once around a 12 x 30 mm 110 mAh cell.\nPod about 22 x 36 x 8 mm. Sheets connect through global labels and power nets.\nStatus: step 1 (project) and step 2 (ISP2454 symbol + GPIO plan) done; other sheets are notes." (at 20.32 20.32 0) (effects (font (size 1.27 1.27)) (justify left top)) (uuid 8eb9f218-b463-4fef-b7c8-c2c35cec3bfb))
-  (sheet (at 25.4 60) (size 72 25) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid)) (fill (color 0 0 0 0.0000)) (uuid 908ad92c-e3c1-4826-a256-0102a537425c)
-    (property "Sheetname" "power" (at 25.4 59.3 0) (effects (font (size 1.27 1.27)) (justify left bottom)))
-    (property "Sheetfile" "power.kicad_sch" (at 25.4 85.6 0) (effects (font (size 1.27 1.27)) (justify left top)))
-    (instances (project "flex-rev-a" (path "/f1a047c3-8922-464f-af19-ac9fc5db330b" (page "2"))))
-  )
-  (text "Power: nPM1304 PMIC, battery, NTC, ship mode, current jumper" (at 27.4 65 0) (effects (font (size 1.27 1.27)) (justify left top)) (uuid 1ece0221-43d1-49e2-ae6a-7681f808150c))
-  (sheet (at 105.4 60) (size 72 25) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid)) (fill (color 0 0 0 0.0000)) (uuid 17001d3b-fbd8-4f96-b500-59fa238486df)
-    (property "Sheetname" "mcu" (at 105.4 59.3 0) (effects (font (size 1.27 1.27)) (justify left bottom)))
-    (property "Sheetfile" "mcu.kicad_sch" (at 105.4 85.6 0) (effects (font (size 1.27 1.27)) (justify left top)))
-    (instances (project "flex-rev-a" (path "/f1a047c3-8922-464f-af19-ac9fc5db330b" (page "3"))))
-  )
-  (text "MCU: ISP2454 (nRF54L15) module, SWD, UART, I2C, interrupts" (at 107.4 65 0) (effects (font (size 1.27 1.27)) (justify left top)) (uuid e69a5faa-25db-4049-8cfb-feafdbbbfcda))
-  (sheet (at 185.4 60) (size 72 25) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid)) (fill (color 0 0 0 0.0000)) (uuid ceb5f2dd-492b-433f-83a2-815804eaba12)
-    (property "Sheetname" "sensors" (at 185.4 59.3 0) (effects (font (size 1.27 1.27)) (justify left bottom)))
-    (property "Sheetfile" "sensors.kicad_sch" (at 185.4 85.6 0) (effects (font (size 1.27 1.27)) (justify left top)))
-    (instances (project "flex-rev-a" (path "/f1a047c3-8922-464f-af19-ac9fc5db330b" (page "4"))))
-  )
-  (text "Sensors: LIS2DW12 accelerometer" (at 187.4 65 0) (effects (font (size 1.27 1.27)) (justify left top)) (uuid 6f0fdb55-a820-49f3-81b6-97a44ab105ec))
-  (sheet (at 25.4 105) (size 72 25) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid)) (fill (color 0 0 0 0.0000)) (uuid 4ee268f0-03a5-4d77-9672-3e479198b19b)
-    (property "Sheetname" "haptics" (at 25.4 104.3 0) (effects (font (size 1.27 1.27)) (justify left bottom)))
-    (property "Sheetfile" "haptics.kicad_sch" (at 25.4 130.6 0) (effects (font (size 1.27 1.27)) (justify left top)))
-    (instances (project "flex-rev-a" (path "/f1a047c3-8922-464f-af19-ac9fc5db330b" (page "5"))))
-  )
-  (text "Haptics: DRV2605L driver and LRA pads" (at 27.4 110 0) (effects (font (size 1.27 1.27)) (justify left top)) (uuid 10e14505-d3f1-41ab-9857-05bca0e91c67))
-  (sheet (at 105.4 105) (size 72 25) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid)) (fill (color 0 0 0 0.0000)) (uuid b62e2f8f-7aba-44b2-b280-d73b5f830037)
-    (property "Sheetname" "dock" (at 105.4 104.3 0) (effects (font (size 1.27 1.27)) (justify left bottom)))
-    (property "Sheetfile" "dock.kicad_sch" (at 105.4 130.6 0) (effects (font (size 1.27 1.27)) (justify left top)))
-    (instances (project "flex-rev-a" (path "/f1a047c3-8922-464f-af19-ac9fc5db330b" (page "6"))))
-  )
-  (text "Dock: six pogo pads, TVS, series resistors" (at 107.4 110 0) (effects (font (size 1.27 1.27)) (justify left top)) (uuid 3ef27c05-90ca-4f93-88ab-3a7732f3e746))
-  (sheet (at 185.4 105) (size 72 25) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid)) (fill (color 0 0 0 0.0000)) (uuid b921d777-3568-41db-ab29-30400ded1567)
-    (property "Sheetname" "debug" (at 185.4 104.3 0) (effects (font (size 1.27 1.27)) (justify left bottom)))
-    (property "Sheetfile" "debug.kicad_sch" (at 185.4 130.6 0) (effects (font (size 1.27 1.27)) (justify left top)))
-    (instances (project "flex-rev-a" (path "/f1a047c3-8922-464f-af19-ac9fc5db330b" (page "7"))))
-  )
-  (text "Debug: test pads, debug LED (DNP option)" (at 187.4 110 0) (effects (font (size 1.27 1.27)) (justify left top)) (uuid 28bdd3f8-4ae0-442b-b595-18cf9ce74705))
-  (sheet_instances (path "/" (page "1")))
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "f1a047c3-8922-464f-af19-ac9fc5db330b")
+	(paper "A4")
+	(title_block
+		(title "WakeBand flex rev A - Top")
+		(date "2026-10-30")
+		(rev "A0")
+		(company "FOSS Health Alarm")
+		(comment 1 "Plan: docs/flex-pcb-schematic-plan.md")
+	)
+	(lib_symbols)
+	(text "Haptics: DRV2605L driver and LRA pads"
+		(exclude_from_sim no)
+		(at 27.4 110 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "10e14505-d3f1-41ab-9857-05bca0e91c67")
+	)
+	(text "Power: nPM1304 PMIC, battery, NTC, ship mode, current jumper"
+		(exclude_from_sim no)
+		(at 27.4 65 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "1ece0221-43d1-49e2-ae6a-7681f808150c")
+	)
+	(text "Debug: test pads, debug LED (DNP option)"
+		(exclude_from_sim no)
+		(at 187.4 110 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "28bdd3f8-4ae0-442b-b595-18cf9ce74705")
+	)
+	(text "Dock: six pogo pads, TVS, series resistors"
+		(exclude_from_sim no)
+		(at 107.4 110 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "3ef27c05-90ca-4f93-88ab-3a7732f3e746")
+	)
+	(text "Sensors: LIS2DW12 accelerometer"
+		(exclude_from_sim no)
+		(at 187.4 65 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "6f0fdb55-a820-49f3-81b6-97a44ab105ec")
+	)
+	(text "WakeBand flex rev A: 2-layer polyimide flex, folds once around a 12 x 30 mm 110 mAh cell.\nPod about 22 x 36 x 8 mm. Sheets connect through global labels and power nets.\nStatus: steps 1 and 2 done (project, ISP2454 symbol, GPIO plan); step 3 power sheet (nPM1304) drafted; other sheets are notes."
+		(exclude_from_sim no)
+		(at 20.32 20.32 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "8eb9f218-b463-4fef-b7c8-c2c35cec3bfb")
+	)
+	(text "MCU: ISP2454 (nRF54L15) module, SWD, UART, I2C, interrupts"
+		(exclude_from_sim no)
+		(at 107.4 65 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "e69a5faa-25db-4049-8cfb-feafdbbbfcda")
+	)
+	(sheet
+		(at 105.4 60)
+		(size 72 25)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "17001d3b-fbd8-4f96-b500-59fa238486df")
+		(property "Sheetname" "mcu"
+			(at 105.4 59.3 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mcu.kicad_sch"
+			(at 105.4 85.6 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "flex-rev-a"
+				(path "/f1a047c3-8922-464f-af19-ac9fc5db330b"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 25.4 105)
+		(size 72 25)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "4ee268f0-03a5-4d77-9672-3e479198b19b")
+		(property "Sheetname" "haptics"
+			(at 25.4 104.3 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "haptics.kicad_sch"
+			(at 25.4 130.6 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "flex-rev-a"
+				(path "/f1a047c3-8922-464f-af19-ac9fc5db330b"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 25.4 60)
+		(size 72 25)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "908ad92c-e3c1-4826-a256-0102a537425c")
+		(property "Sheetname" "power"
+			(at 25.4 59.3 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "power.kicad_sch"
+			(at 25.4 85.6 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "flex-rev-a"
+				(path "/f1a047c3-8922-464f-af19-ac9fc5db330b"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 105.4 105)
+		(size 72 25)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "b62e2f8f-7aba-44b2-b280-d73b5f830037")
+		(property "Sheetname" "dock"
+			(at 105.4 104.3 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "dock.kicad_sch"
+			(at 105.4 130.6 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "flex-rev-a"
+				(path "/f1a047c3-8922-464f-af19-ac9fc5db330b"
+					(page "6")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 185.4 105)
+		(size 72 25)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "b921d777-3568-41db-ab29-30400ded1567")
+		(property "Sheetname" "debug"
+			(at 185.4 104.3 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "debug.kicad_sch"
+			(at 185.4 130.6 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "flex-rev-a"
+				(path "/f1a047c3-8922-464f-af19-ac9fc5db330b"
+					(page "7")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 185.4 60)
+		(size 72 25)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "ceb5f2dd-492b-433f-83a2-815804eaba12")
+		(property "Sheetname" "sensors"
+			(at 185.4 59.3 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "sensors.kicad_sch"
+			(at 185.4 85.6 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "flex-rev-a"
+				(path "/f1a047c3-8922-464f-af19-ac9fc5db330b"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
 )
