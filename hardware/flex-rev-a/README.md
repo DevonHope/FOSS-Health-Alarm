@@ -104,22 +104,52 @@ Open questions for layout:
 - The NTC sits on island B's outer face, so it senses the cell through the
   0.12 mm flex, not in direct contact.
 
-## Routing (in progress, 2026-10-30)
+## Routing (complete, 2026-10-30)
 
-Partial route pushed so other machines can pull it: **DRC 0 errors**, 3
-connections still open (PAD_SWDIO at R602, VBUSOUT at C206, NTC from U201 to
-TH201). Warnings left: silkscreen overlaps only.
+**DRC: 0 errors, 0 warnings, 0 unconnected** (7 documented exclusions, below).
+Pad nets match the schematic netlist; ERC 0/0.
 
-- Routed with Freerouting 1.9.0 (Specctra DSN/SES), then post-processed:
-  GND pours (island A both layers, island B top, hatched top in the neck),
-  ISP2454 pads 8/24 tied to 7/25, teardrops enabled on every pad and via.
+How it was routed: Freerouting 1.9.0 (Specctra DSN/SES) for the bulk, a small
+scripted grid router for the last VSYS link and two GND links, then scripted
+post-processing (pours, teardrop flags, neck staggering, silkscreen).
+
 - Placement changes for routing: R601-R604 moved from island B to island A
-  next to the neck (TVS stay at the dock pads); neck widened from 5 to 7 mm
-  (y 105.5-112.5).
+  next to the neck (TVS stay at the dock pads); U501 (DRV2605L) group moved
+  to the lower right of island A and U401 (LIS2DW12) group next to the
+  module, so the PMIC's power pins face a clear path to the neck; PMIC caps
+  regrouped around U201. Neck widened from 5 to 7 mm (y 105.5-112.5).
 - Net classes: Power 0.3 mm (VIN, VSYS, VBAT, BATT_P, SW1, PVSS1), Motor
   0.25 mm (LRA), Rail 0.2 mm (VDD_2V0), GND 0.2 mm, signals 0.12 mm;
   clearance 0.13 mm so via holes stay 0.25 mm from other copper.
-- No-via rule areas everywhere except the stiffened areas, 0.5 mm inside
-  their edges; 0.32 mm no-track bands along the outline.
-- DRC exclusions (in the .kicad_pro): the 6 "unconnected" items on ISP2454
-  GND pads 12, 14, 16, 18, 21, 23, left unconnected on purpose.
+- Neck / fold zone: no vias; every trace is straight and perpendicular to
+  the fold; top and bottom traces staggered (no trace sits over another);
+  hatched GND on the top layer only. The stagger jogs at the neck ends are
+  45-degree corners, not arcs.
+- GND: solid top pour on island A and island B, hatched in the neck. No
+  bottom pour: island B allows no vias off its stiffeners, and on island A the
+  bottom layer is mostly tracks, so a bottom pour only left floating slivers.
+- No copper in either antenna keep-out (module rule area on island A,
+  ANTENNA_SHADOW_B on island B), on any layer.
+- Vias only on stiffened areas, at least 0.5 mm inside the stiffener edges
+  (no-via rule areas everywhere else); 0.32 mm no-track bands along the
+  outline. 65 vias in total.
+- ISP2454: only outer-row pads are routed (plus the pad 20-22 ANT_LINK
+  trace in the outer row). Pads 8 and 24 join 7 and 25 with short traces.
+  Pads 12, 14, 16, 18 (trapped lower row) and 21, 23 (inner) stay
+  unconnected.
+- nRESET is **not routed**: pad 13 is an inner-row pad. TP701 stays on the
+  board for a bodge wire; SWD can reset the chip.
+- Teardrops are enabled on every pad and via, but KiCad 10's Python API
+  cannot generate them: open the board in KiCad and refill the zones (B) to
+  create them before plotting Gerbers.
+- Silkscreen: reference designators moved to F.Fab (assembly drawing); the
+  footprint outlines stay on silk.
+
+Narrower than the net class (all short, at pins): VSYS 0.15 mm on the
+2 mm link from U201 pin 20 to C205 (0.3 mm cannot leave a 0.5 mm-pitch QFN
+pin between its neighbours), and a few VIN, SW1 and VSYS segments at 0.25 mm
+next to the PMIC.
+
+DRC exclusions (stored in `flex-rev-a.kicad_pro`, each with a comment): six
+"unconnected" items between the reserved ISP2454 GND pads, and the nRESET
+pad 13 to TP701 connection.
