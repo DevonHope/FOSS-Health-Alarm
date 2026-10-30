@@ -84,11 +84,31 @@
           "ISP2454 GND pad left unconnected on purpose (trapped lower row / inner pad), see mcu sheet note"
         ],
         [
-          "unconnected_items|101200000|109650000|f0066dd1-9735-42d0-af61-9ec0d898c12e|54c9c7c5-394e-400b-a7b5-a7406fe9fb30",
+          "unconnected_items|101850000|110625000|54c9c7c5-394e-400b-a7b5-a7406fe9fb30|a5800117-a427-4319-9299-6822cbc47303",
           "ISP2454 GND pad left unconnected on purpose (trapped lower row / inner pad), see mcu sheet note"
         ],
         [
-          "unconnected_items|101850000|111275000|a5800117-a427-4319-9299-6822cbc47303|54c9c7c5-394e-400b-a7b5-a7406fe9fb30",
+          "unconnected_items|101850000|110625000|54c9c7c5-394e-400b-a7b5-a7406fe9fb30|f0066dd1-9735-42d0-af61-9ec0d898c12e",
+          "ISP2454 GND pad left unconnected on purpose (trapped lower row / inner pad), see mcu sheet note"
+        ],
+        [
+          "unconnected_items|101850000|108025000|2e82f0c0-57f2-430f-ab22-3f2d1b322222|1d45cf3e-1ec3-4776-883f-9cb801b9dbfd",
+          "nRESET: ISP2454 pad 13 is an inner-row pad, not routed (outer-row pads only); TP701 left for a bodge, SWD resets the chip"
+        ],
+        [
+          "unconnected_items|101400000|112475000|d33c0dbd-1d40-4c2b-af34-532619cab883|a5800117-a427-4319-9299-6822cbc47303",
+          "ISP2454 GND pad left unconnected on purpose (trapped lower row / inner pad), see mcu sheet note"
+        ],
+        [
+          "unconnected_items|101200000|111600000|d33c0dbd-1d40-4c2b-af34-532619cab883|a5800117-a427-4319-9299-6822cbc47303",
+          "ISP2454 GND pad left unconnected on purpose (trapped lower row / inner pad), see mcu sheet note"
+        ],
+        [
+          "unconnected_items|101200000|111600000|a5800117-a427-4319-9299-6822cbc47303|d33c0dbd-1d40-4c2b-af34-532619cab883",
+          "ISP2454 GND pad left unconnected on purpose (trapped lower row / inner pad), see mcu sheet note"
+        ],
+        [
+          "unconnected_items|101850000|111275000|d33c0dbd-1d40-4c2b-af34-532619cab883|a5800117-a427-4319-9299-6822cbc47303",
           "ISP2454 GND pad left unconnected on purpose (trapped lower row / inner pad), see mcu sheet note"
         ],
         [
@@ -96,8 +116,8 @@
           "ISP2454 GND pad left unconnected on purpose (trapped lower row / inner pad), see mcu sheet note"
         ],
         [
-          "unconnected_items|101850000|108025000|2e82f0c0-57f2-430f-ab22-3f2d1b322222|1d45cf3e-1ec3-4776-883f-9cb801b9dbfd",
-          "nRESET: ISP2454 pad 13 is an inner-row pad, not routed (outer-row pads only); TP701 left for a bodge, SWD resets the chip"
+          "unconnected_items|101400000|112475000|a5800117-a427-4319-9299-6822cbc47303|d33c0dbd-1d40-4c2b-af34-532619cab883",
+          "ISP2454 GND pad left unconnected on purpose (trapped lower row / inner pad), see mcu sheet note"
         ]
       ],
       "meta": {

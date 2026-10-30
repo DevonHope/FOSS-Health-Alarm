@@ -139,9 +139,11 @@ post-processing (pours, teardrop flags, neck staggering, silkscreen).
   unconnected.
 - nRESET is **not routed**: pad 13 is an inner-row pad. TP701 stays on the
   board for a bodge wire; SWD can reset the chip.
-- Teardrops are enabled on every pad and via, but KiCad 10's Python API
-  cannot generate them: open the board in KiCad and refill the zones (B) to
-  create them before plotting Gerbers.
+- Teardrops are enabled on every pad and via. KiCad 10's Python API cannot
+  generate them, so the saved board has none; `kicad-cli pcb export gerbers
+  --check-zones` (used for `fab/`) refills the zones and adds them to the
+  Gerbers. Refill the zones in the KiCad GUI (B) to see them in the editor,
+  and check them there before ordering.
 - Silkscreen: reference designators moved to F.Fab (assembly drawing); the
   footprint outlines stay on silk.
 
@@ -153,3 +155,42 @@ next to the PMIC.
 DRC exclusions (stored in `flex-rev-a.kicad_pro`, each with a comment): six
 "unconnected" items between the reserved ISP2454 GND pads, and the nRESET
 pad 13 to TP701 connection.
+
+## Fold and assembly orientation (fixed 2026-10-30)
+
+Island B folds **under** island A along x = 136.
+
+- Island A's F side, with every SMT part, faces up, away from the wrist.
+- Island B's F side faces down to the case floor, so the dock pads (J601)
+  face the dock.
+- The cell and the LRA sit on island B's **B side** (inner face, between
+  the islands). Their pads are on B.Cu: cell tabs TP201 (+) / TP202 (-) at
+  the neck end, LRA leads TP501 (+) / TP502 (-) just outside the LRA
+  stiffener. The LRA tapes onto the FR4 stiffener in the 8 mm motor strip
+  beside the cell. These four pads are hand-soldered after assembly.
+- The NTC (TH201) stays on F and senses the cell through the 0.12 mm flex.
+- All SMT parts are on F: single-sided assembly.
+
+BATT_P, LRA+, LRA- and the TP202 GND link were rerouted to the B-side pads
+with the scripted router (BATT_P and the GND link at 0.3 mm, LRA at 0.25 mm).
+In the neck the LRA pair moved up on F.Cu to stay clear of VIN and BATT_P on
+B.Cu; LRA+ steps there with 45-degree jogs 0.75 mm either side of the fold
+line, so it does not cross LRA-. No trace sits over another at the fold line.
+
+## Fab package (`fab/`)
+
+`fab/flex-rev-a-fab.zip` holds the same files as `fab/gerbers/`,
+`fab/bom_jlcpcb.csv` and `fab/cpl_jlcpcb_top.csv`:
+
+- Gerbers: F/B copper, mask, paste and silkscreen, Edge.Cuts, the bottom
+  stiffener (User.2 `Stiffener_Bottom`), bend zone (User.3), antenna
+  keep-out (User.4), drawings/notes (Dwgs.User) and F.Fab. Exported with
+  `--check-zones`, so zones are refilled and teardrops included.
+- Drill: Excellon, plated and non-plated separate, with Gerber drill maps.
+- `cpl_jlcpcb_top.csv`: JLCPCB columns (Designator, Mid X, Mid Y, Layer,
+  Rotation), F side only, 31 fitted parts. JLCPCB's rotation convention
+  can differ per package: check the placement preview before ordering.
+- `bom_jlcpcb.csv`: fitted parts only (no DNP, no pads).
+- The User layer stiffener mapping (User.2 = bottom FR4/PI stiffeners)
+  must be confirmed with JLCPCB before ordering. User.1 (top stiffener) is
+  empty and not exported.
