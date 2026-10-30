@@ -350,7 +350,7 @@ the nets match across sheets, and there is one set of I2C pull-ups. Fixes:
 | --- | --- | --- |
 | 1 | ISP2454 pad 10 (HAPT_TRIG) sits in the lower outer row on the module mid-line. Below it is antenna keep-out, and the gaps between inner pads (0.25 mm) are too narrow for a trace, so it cannot escape without via-in-pad. | DRV2605L IN/TRIG tied to GND (TI's "if unused" option). Effects are started over I2C (GO bit). Pad 10 left unconnected. |
 | 2 | BUCK1 at 1.8 V +-5 % can drop to 1.71 V, against the module's 1.7 V minimum. | VSET1 changed to 68 kohm for 2.0 V; the rail is renamed VDD_2V0. The LIS2DW12, DRV2605L inputs and nPM1304 VDDIO all work at 2.0 V. |
-| 3 | DRV2605L footprint was TSSOP-10; TI's DGS package is VSSOP-10. | Footprint changed to VSSOP-10 3 x 3 mm, BOM updated. |
+| 3 | DRV2605L footprint was TSSOP-10; TI's DGS package is VSSOP-10. | Kept KiCad's TSSOP-10_3x3mm_P0.5mm footprint: it follows TI drawing MPDS035, which is the DGS (VSSOP) land pattern, and KiCad 10 has no footprint under the VSSOP name. |
 | 4 | ST asks for 10 uF bulk next to the LIS2DW12. | 10 uF added on the sensors sheet. |
 | 5 | The VIN TVS (6 V minimum breakdown) would burn on a wrong 9 to 12 V supply, giving up the nPM1304's 22 V input tolerance. | VIN TVS changed to a higher standoff part; the nPM1304 cuts VSYS off above 5.5 V by itself. |
 
