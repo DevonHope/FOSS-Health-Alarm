@@ -28,45 +28,84 @@ https://www.insightsip.com/fichiers_insightsip/pdf/ble/ISP2454/isp_ble_DS2454.pd
 
 nRF54L15 peripherals are tied to port groups: instances 30 (TWIM30, UARTE30)
 use port P0 in the low-power domain, instances 20 to 22 use P1, and instance 00
-uses P2. The choices below copy pin mappings from Zephyr's board files for the
-nRF54L15 DK and the XIAO nRF54L15, so they are known to work.
+uses P2. The UART and PWM pins copy Zephyr's board files for the nRF54L15 DK;
+the I2C clock pin copies the XIAO nRF54L15.
 
-| Net | Pin | Port | Peripheral | Why |
-| --- | --- | --- | --- | --- |
-| I2C_SDA | 33 | P0.04 | TWIM30 | Low-power domain, so the bus runs while most of the chip sleeps. Same pins as the XIAO nRF54L15's IMU bus. |
-| I2C_SCL | 34 | P0.03 | TWIM30 | as above |
-| ACC_INT1 | 32 | P0.02 | GPIO, wake | Accelerometer FIFO/wake interrupt, on P0 for the lowest-power wake |
-| ACC_INT2 | 27 | P0.01 | GPIO | Spare accelerometer interrupt |
-| PMIC_INT | 29 | P0.00 | GPIO, wake | nPM1304 interrupt: VBUS present, charger events |
-| UART_TX | 40 | P1.04 | UARTE20 | Same as the nRF54L15 DK console |
-| UART_RX | 38 | P1.05 | UARTE20 | Same as the nRF54L15 DK console |
-| HAPT_TRIG | 10 | P1.10 | PWM20 OUT0 | DRV2605L IN/TRIG; P1.10 is the DK's PWM20 pin, so the PWM input mode also works |
-| HAPT_EN | 19 | P1.08 | GPIO | DRV2605L EN |
-| LED_DBG | 17 | P1.15 | GPIO | Debug LED (DNP option) |
-| SWDIO | 28 | - | SWD | Dock pad 4 |
-| SWDCLK | 30 | - | SWD | Dock pad 3 |
-| nRESET | 13 | - | reset | Test pad only |
+**Every signal sits on an outer-row pad**, so the flex board needs no
+via-in-pad under the module (see the footprint section). That costs one choice:
+P0.00, P0.01 and P0.04 are inner-row pads, so the accelerometer and PMIC
+interrupts move from P0 to P1.
 
-Left unused (no-connect for now, test pads later where there is room):
-P1.02/P1.03 (NFC pins, need a register change to act as GPIO), P1.06, P1.07,
-P1.09, P1.11 to P1.14, and all of P2 (trace port and high-speed pins).
+| Net | Pin | Port | Row | Peripheral | Why |
+| --- | --- | --- | --- | --- | --- |
+| I2C_SDA | 32 | P0.02 | outer | TWIM30 | Low-power domain, so the bus runs while most of the chip sleeps **(check that TWIM30 SDA may use P0.02)** |
+| I2C_SCL | 34 | P0.03 | outer | TWIM30 | Same SCL pin as the XIAO nRF54L15's IMU bus |
+| ACC_INT1 | 36 | P1.07 | outer | GPIO, wake | Accelerometer FIFO/wake interrupt **(check GPIOTE20 port-event sleep current)** |
+| PMIC_INT | 48 | P1.11 | outer | GPIO, wake | nPM1304 interrupt: VBUS present, charger events |
+| UART_TX | 40 | P1.04 | outer | UARTE20 | Same as the nRF54L15 DK console |
+| UART_RX | 38 | P1.05 | outer | UARTE20 | Same as the nRF54L15 DK console |
+| HAPT_TRIG | 10 | P1.10 | outer | PWM20 OUT0 | DRV2605L IN/TRIG; the DK's PWM20 pin, so PWM input mode also works |
+| HAPT_EN | 42 | P2.05 | outer | GPIO | DRV2605L EN (static output) |
+| LED_DBG | 44 | P2.04 | outer | GPIO | Debug LED (DNP option) |
+| SWDIO | 28 | - | outer | SWD | Dock pad 4 |
+| SWDCLK | 30 | - | outer | SWD | Dock pad 3 |
+| VDD_1V8 | 26 | - | outer | supply | BUCK1 1.8 V |
+| ANT_LINK | 20, 22 | - | outer | RF | Short trace joining OUT_ANT and OUT_MOD |
+| nRESET | 13 | - | inner | reset | Optional test pad through a tented via under the module; SWD can reset the chip without it |
+| GND | 1, 7, 8, 12, 14, 16, 18, 24, 25, 31 outer; 21, 23 inner | - | | | Inner GND pads may use tented vias under the module, or be left as isolated pads |
 
-Analog pins still free for later: AIN2 to AIN7 (P1.06, P1.07, P1.11 to P1.14).
+The accelerometer's second interrupt (INT2) goes to a test pad only.
 
-## Footprint blocker
+Left unused: P1.02/P1.03 (NFC pins, outer, need a register change to act as
+GPIO), P2.01 and P2.02 (outer, spare), and every inner-row GPIO (P0.00, P0.01,
+P0.04, P1.06, P1.08, P1.09, P1.12 to P1.15, P2.00, P2.03, P2.06 to P2.10).
 
-The footprint (`wakeband:InsightSiP_ISP2454_LGA-62_8x8mm`) is not drawn yet.
-The pad sizes, pad positions, pin 1 corner and which pads sit on the inner row
-are only in the drawing in datasheet section 4.1, which is an image. The text
-says the land pattern should match the module pads, and gives this via advice:
+## Footprint
 
-- Standard PCB: 0.4 mm catch pads, 0.2 mm vias, plugged and capped.
-- HDI: 0.25 mm catch pads, 0.1 mm copper-filled laser vias.
-- If most inner pads are used, put capped vias in the pad centres.
-- With a reduced pinout, use outer pads where possible; inner pads can use
-  normal vias under the middle of the module, with mask openings only on the
-  pads in use.
+`hardware/flex-rev-a/wakeband.pretty/InsightSiP_ISP2454_LGA-62_8x8mm.kicad_mod`,
+built from the datasheet's section 4.1 drawing (read from the user's local
+copy of rev R7; the PDF is marked confidential, so it is not in this repo).
+Origin is the module centre; pin 1 is top-left; the antenna half (pins 49 to
+62) is the bottom 4 mm.
 
-The last point matters for flex: if every pin in the table above sits on the
-outer row, no via-in-pad is needed. The table will be checked against the
-drawing once it is readable.
+| Pad type | Size (mm) | Pins |
+| --- | --- | --- |
+| A, corner | 0.75 x 0.75 | 1, 31, 52, 59 |
+| B, side | 0.75 x 0.80 | 7, 25 |
+| c, outer row | 0.40 x 0.35 | top row 32 to 48 (even), lower row 8 to 24 (even), 53 to 58 |
+| d, inner row | 0.40 x 0.40 | 3, 5, 9 to 23 (odd), 27, 29, 33 to 47 (odd) |
+| e, side columns | 0.35 x 0.40 | 2, 4, 6, 26, 28, 30, 49 to 51, 60 to 62 |
+
+Pad centres (from the module's top-left corner, mm):
+
+| Pins | X | Y |
+| --- | --- | --- |
+| 48, 46 ... 32 (top outer, left to right) | 1.40 + 0.65 k | 0.30 |
+| 47, 45 ... 33 (top inner) | 1.725 + 0.65 k | 0.95 |
+| 2, 4, 6 / 30, 28, 26 (outer side columns) | 0.30 / 7.70 | 1.40, 2.05, 2.70 |
+| 3, 5 / 29, 27 (inner side columns) | 0.95 / 7.05 | 1.725, 2.375 |
+| 7 / 25 | 0.525 / 7.475 | 3.60 |
+| 9, 11 ... 23 (lower inner) | 1.725 + 0.65 k | 3.15 |
+| 8, 10 ... 24 (lower outer) | 1.40 + 0.65 k | 3.80 |
+| 49, 50, 51 / 62, 61, 60 | 0.30 / 7.70 | 4.55, 5.55, 6.55 |
+| 1, 31, 52, 59 (corners) | 0.525 / 7.475 | 0.525 / 7.475 |
+| 53 ... 58 (bottom, pitch 1.0) | 1.475 ... 6.475 | 7.68 |
+
+Printed on the drawing: the 0.65 pitch, the pad sizes, X 6.6 / 6.475 / 6.275 /
+7.05, and Y 0.525 / 2.375 / 2.7 / 3.6 / 3.8 / 6.55 / 7.475. **Derived, not
+printed:** the outer rows and columns at 0.30 mm from the edge (from the 0.65
+pitch and symmetry) and the bottom row at Y 7.68 (measured). The bottom row may
+be centred at 1.5 to 6.5 instead of 1.475 to 6.475 (0.025 mm at most). Check
+these against Insight SiP's own CAD files before ordering boards. The closest
+pad-to-pad gap is 0.25 mm, inside JLCPCB's flex limits.
+
+Land pattern rules from section 4.2: pads and mask openings the same size as
+the module pads (the footprint uses 0 mask margin); outer pads only where
+possible; a few inner pads may use normal vias under the middle of the module,
+tented, with mask openings only on the pads in use.
+
+The footprint includes a keep-out rule area on both copper layers for the
+antenna: from the module's mid-line down to the board edge 1 mm below the
+module, and 5 mm past each side (the large-board default). On the band's
+18 mm-wide island the module is centred, so 5 + 8 + 5 = 18 mm fills the width.
+Section 4.3 also allows 1 mm side clearance for a corner placement.

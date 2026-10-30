@@ -230,9 +230,9 @@ KiCad 10 has no native flex or stiffener layers. The plan:
 Steps 1, 2 and 4 to 6 can start now. Step 3 is drafted now and frozen after
 Stage 0b.
 
-**Progress (2026-10-30):** step 1 is done (`hardware/flex-rev-a/`). Step 2 is done
-except for the module footprint, which waits on the datasheet's pad drawing
-(see [flex-rev-a-pinout.md](flex-rev-a-pinout.md)).
+**Progress (2026-10-30):** step 1 is done (`hardware/flex-rev-a/`). Step 2 is done,
+including the module footprint; every signal uses an outer-row pad, so the
+flex needs no via-in-pad (see [flex-rev-a-pinout.md](flex-rev-a-pinout.md)).
 
 ## Battery sourcing in Canada
 
@@ -255,9 +255,9 @@ thick; a true 3 mm cell still needs a supplier.
 1. **RF exposure note.** The ISP2454 datasheet's RF-exposure statement assumes
    10 mm from the body. Ask Insight SiP whether a low-power wrist device is
    covered, or whether the band needs its own assessment **(check)**.
-2. **ISP2454 inner-row pads** may need plugged via-in-pad, which flex fabs may
-   not offer. Step 2 decides; the fallback is a smaller module with
-   perimeter pads (u-blox ANNA-B5, Raytac AN54LV).
+2. **ISP2454 inner-row pads.** Solved in step 2: every signal uses an
+   outer-row pad. Some outer-row positions in the footprint were derived from
+   the drawing, not printed; check them against Insight SiP's CAD files.
 3. **ISP2454 stock.** One distributor shows an 8-week lead time and an odd
    "discontinued" flag. Confirm before step 4.
 4. **Motor coupling** on a flex island is untested. Stage 0b can test it: tape

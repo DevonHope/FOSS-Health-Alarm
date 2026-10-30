@@ -1,9 +1,9 @@
 (kicad_sch (version 20230121) (generator eeschema)
-  (uuid d54c1806-1348-4115-bec1-d1b495d53efb)
+  (uuid c5de0971-1a3e-46a6-85b9-eb81b969fe3c)
   (paper "A4")
   (title_block (title "WakeBand flex rev A - Debug") (date "2026-10-30") (rev "A0") (company "FOSS Health Alarm")
     (comment 1 "Plan: docs/flex-pcb-schematic-plan.md"))
   (lib_symbols
   )
-  (text "Debug sheet (step 6): test pads for every signal plus nRESET, SHPHLD,\nACC_INT2 and spare GPIOs; one 0402 LED on LED_DBG with a DNP option." (at 20.32 20.32 0) (effects (font (size 1.27 1.27)) (justify left top)) (uuid a01e99b1-4ec0-4c36-95ce-f7e3ec1e64ef))
+  (text "Debug sheet (step 6): test pads for every signal plus nRESET, SHPHLD,\nACC_INT2 and spare GPIOs; one 0402 LED on LED_DBG with a DNP option." (at 20.32 20.32 0) (effects (font (size 1.27 1.27)) (justify left top)) (uuid 6c79f814-e194-4566-8842-b4af29539dd7))
 )

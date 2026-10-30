@@ -17,7 +17,7 @@ the format on save. `flex-rev-a.pdf` is a plot of the current sheets.
 | `sensors`, `haptics`, `dock`, `debug` | Notes only (steps 5 and 6) |
 
 Project libraries: `wakeband.kicad_sym` (ISP2454-LX symbol) and
-`wakeband.pretty` (footprints, ISP2454 pending). Sheets connect through global
+`wakeband.pretty` (ISP2454 footprint with its antenna keep-out). Sheets connect through global
 labels, so the top sheet has no wires.
 
 Not run yet: a full ERC (the build machine's KiCad 7 CLI has no ERC command).
