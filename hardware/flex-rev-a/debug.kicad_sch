@@ -592,6 +592,17 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "- Test pads: nRESET, I2C_SDA, I2C_SCL, VDD_2V0, VSYS, VBAT, GND (TP701-TP707).\n  SHPHLD (TP203, power sheet) and ACC_INT2 (TP401, sensors sheet) already have pads.\n- nRESET: test pad only. The nRF54L15 has an internal pull-up on nRESET, and SWD can reset the chip,\n  so nothing on the board drives this input. ERC: the passive test pad satisfies KiCad's 'input not driven'\n  check, so the earlier nRESET error is gone without any exclusion. This is intended, not a missing driver.\n- LED_DBG (P2.04) -> R701 1k -> D701 (0402 red) -> GND, both DNP. Fit them only for bench bring-up:\n  a lit LED would cost far more than the sleep budget."
+		(exclude_from_sim no)
+		(at 15.24 162.56 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "6974a489-0a1a-4979-8f78-7b4a8b4deeab")
+	)
 	(text "Debug sheet (step 6): 0.8 mm round test pads (no paste) on island A, and a DNP debug LED."
 		(exclude_from_sim no)
 		(at 15.24 15.24 0)
@@ -601,88 +612,7 @@
 			)
 			(justify left top)
 		)
-		(uuid "696d4f0b-40ac-41e0-b78d-69186485972d")
-	)
-	(text "- Test pads: nRESET, I2C_SDA, I2C_SCL, VDD_1V8, VSYS, VBAT, GND (TP701-TP707).\n  SHPHLD (TP203, power sheet) and ACC_INT2 (TP401, sensors sheet) already have pads.\n- nRESET: test pad only. The nRF54L15 has an internal pull-up on nRESET, and SWD can reset the chip,\n  so nothing on the board drives this input. ERC: the passive test pad satisfies KiCad's 'input not driven'\n  check, so the earlier nRESET error is gone without any exclusion. This is intended, not a missing driver.\n- LED_DBG (P2.04) -> R701 1k -> D701 (0402 red) -> GND, both DNP. Fit them only for bench bring-up:\n  a lit LED would cost far more than the sleep budget."
-		(exclude_from_sim no)
-		(at 15.24 162.56 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left top)
-		)
-		(uuid "c5326d2f-5b3d-42c4-97e4-2e9fa3505994")
-	)
-	(wire
-		(pts
-			(xy 50.8 125.73) (xy 50.8 128.27)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "322d4ee8-6c05-45c9-a109-9643826f68e8")
-	)
-	(wire
-		(pts
-			(xy 80.01 137.16) (xy 82.55 137.16)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3a4e0ec3-e581-466d-b296-2fcfa8d6146e")
-	)
-	(wire
-		(pts
-			(xy 81.28 66.04) (xy 81.28 68.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "47067d5f-bf60-423f-8311-d2c344f9ce18")
-	)
-	(wire
-		(pts
-			(xy 72.39 137.16) (xy 69.85 137.16)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4b62bd74-3947-4be1-91d6-edbe581f6f82")
-	)
-	(wire
-		(pts
-			(xy 162.56 66.04) (xy 162.56 68.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "54abd38d-bb00-4524-b078-3fecbc4ecbf5")
-	)
-	(wire
-		(pts
-			(xy 121.92 66.04) (xy 121.92 68.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "70a5b74d-2dac-41b6-9b83-3576b094640f")
-	)
-	(wire
-		(pts
-			(xy 142.24 66.04) (xy 142.24 68.58)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8481c3f9-b8a1-4a22-b0bf-c8fe6b6d5701")
+		(uuid "768c96fd-cd17-4f68-8f06-f28d1e55a18f")
 	)
 	(wire
 		(pts
@@ -692,7 +622,17 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "a45b9756-0e73-4fe0-935f-bd78b1f334cf")
+		(uuid "093cc078-e614-4635-bea4-4136b709479c")
+	)
+	(wire
+		(pts
+			(xy 80.01 137.16) (xy 82.55 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3d8c8f6d-d775-4747-8b8e-88918ea12df4")
 	)
 	(wire
 		(pts
@@ -702,17 +642,47 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "a6085786-d454-4ad8-aea4-73e79c65bc64")
+		(uuid "55690677-ea51-404e-b8bc-55c68a042a4d")
 	)
 	(wire
 		(pts
-			(xy 60.96 66.04) (xy 60.96 68.58)
+			(xy 162.56 66.04) (xy 162.56 68.58)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "cd743ad0-9747-4e95-91ab-949ca6e7e482")
+		(uuid "74e4d3ba-6322-400b-8173-d8ec1cd7fe56")
+	)
+	(wire
+		(pts
+			(xy 142.24 66.04) (xy 142.24 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7bb92a5a-8c8c-4f14-8bb5-bb9863dad738")
+	)
+	(wire
+		(pts
+			(xy 72.39 137.16) (xy 69.85 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "941ab5d3-0c90-4319-b87e-777865a81095")
+	)
+	(wire
+		(pts
+			(xy 81.28 66.04) (xy 81.28 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "96f3bcaa-46a1-416f-901c-320609bb707a")
 	)
 	(wire
 		(pts
@@ -722,17 +692,37 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "d9060168-9d93-479e-b48f-d3c0e672bdb0")
+		(uuid "a2534908-e20c-4895-a676-1aec0e26ab6c")
 	)
-	(label "LED_A"
-		(at 82.55 137.16 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
+	(wire
+		(pts
+			(xy 50.8 125.73) (xy 50.8 128.27)
 		)
-		(uuid "e757ed85-4f65-4df1-bf0c-1af06499a626")
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ec0e5f0f-6689-410a-9fef-992229467d4d")
+	)
+	(wire
+		(pts
+			(xy 60.96 66.04) (xy 60.96 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f36e429f-2486-4f7f-a317-8a8c6620f651")
+	)
+	(wire
+		(pts
+			(xy 121.92 66.04) (xy 121.92 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fe731e11-1a51-44cb-8eb0-b5814e65cf48")
 	)
 	(label "LED_A"
 		(at 50.8 128.27 270)
@@ -742,7 +732,17 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "f933eb7a-a8f8-43d0-9b91-231d2ea26983")
+		(uuid "6dd5ce5d-9580-4c00-9ac0-f167752f7bf0")
+	)
+	(label "LED_A"
+		(at 82.55 137.16 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d09720e0-fe08-4ac7-9b4f-84d1604ab57c")
 	)
 	(global_label "I2C_SCL"
 		(shape passive)
@@ -754,122 +754,7 @@
 			)
 			(justify right)
 		)
-		(uuid "144ae340-d9ef-486b-ae3b-d5e28f6d4023")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 0 0 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-	)
-	(global_label "VBAT"
-		(shape passive)
-		(at 142.24 68.58 270)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "2a4f1aef-fa63-4d41-8ad4-044db7dd8c23")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 0 0 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-	)
-	(global_label "VSYS"
-		(shape passive)
-		(at 121.92 68.58 270)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "6a14fd8d-d229-482e-b6dc-ca79499403f6")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 0 0 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-	)
-	(global_label "nRESET"
-		(shape passive)
-		(at 40.64 68.58 270)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "7c1216ff-35bf-4177-8ee2-b3bb95712b43")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 0 0 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-	)
-	(global_label "VDD_1V8"
-		(shape passive)
-		(at 101.6 68.58 270)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "9b7c6539-770a-4ad2-92e1-b9a29b11b44a")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 0 0 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-	)
-	(global_label "LED_DBG"
-		(shape passive)
-		(at 50.8 115.57 90)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "a4cfdef7-5871-4591-9b17-49c8b79de790")
+		(uuid "1a80ca7e-0c1c-4c9b-8173-4b3fa7f20b57")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 0 0 0)
 			(hide yes)
@@ -892,7 +777,122 @@
 			)
 			(justify right)
 		)
-		(uuid "f62c17bc-e822-4b83-9910-a5991029741f")
+		(uuid "403ab1df-b3ae-4771-8c51-e38a38ffc786")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 0 0 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "nRESET"
+		(shape passive)
+		(at 40.64 68.58 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "706a56a2-7c7e-4e49-99b0-640a201db0f9")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 0 0 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "VSYS"
+		(shape passive)
+		(at 121.92 68.58 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "aa01937f-55c5-404a-9253-2bdeeadde062")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 0 0 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "LED_DBG"
+		(shape passive)
+		(at 50.8 115.57 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "b4ba99f6-3073-4b5d-85d9-7daf7a3709a5")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 0 0 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "VDD_2V0"
+		(shape passive)
+		(at 101.6 68.58 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "cc6573a7-b1bc-4a90-a6c8-bf7f304294e0")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 0 0 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "VBAT"
+		(shape passive)
+		(at 142.24 68.58 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "ecc489a5-ba63-4a86-b0d7-dfeeab069f99")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 0 0 0)
 			(hide yes)
@@ -915,7 +915,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp yes)
-		(uuid "2c70b6a5-c7ff-4c1d-b387-f79690914aca")
+		(uuid "08f15f22-1658-47e5-9e74-98d2c89f4f83")
 		(property "Reference" "D701"
 			(at 73.66 130.81 0)
 			(show_name no)
@@ -997,173 +997,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "0b3909f4-94c3-40b3-8ec8-ebcd4117d533")
+			(uuid "686748b7-d5ab-4d16-ad5e-a2df962412cb")
 		)
 		(pin "2"
-			(uuid "b7b70d7e-f5ef-45d7-a2c2-f050c72c84b1")
+			(uuid "93225eec-bd1b-40ff-a72f-783a2dc62db9")
 		)
 		(instances
 			(project "flex-rev-a"
 				(path "/f1a047c3-8922-464f-af19-ac9fc5db330b/b921d777-3568-41db-ab29-30400ded1567"
 					(reference "D701")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:TestPoint")
-		(at 121.92 66.04 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "4e0ce095-97a1-4cdf-9464-a3f67d612fdc")
-		(property "Reference" "TP705"
-			(at 124.46 64.77 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "VSYS"
-			(at 124.46 67.31 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "wakeband:TestPoint_Pad_D0.8mm"
-			(at 124.46 69.85 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Datasheet" ""
-			(at 124.46 72.39 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Description" ""
-			(at 121.92 66.04 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "09eb667b-fd22-4b68-aa9e-c9c275af88e1")
-		)
-		(instances
-			(project "flex-rev-a"
-				(path "/f1a047c3-8922-464f-af19-ac9fc5db330b/b921d777-3568-41db-ab29-30400ded1567"
-					(reference "TP705")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector:TestPoint")
-		(at 40.64 66.04 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "5038aeb9-8057-4e2a-a988-6b82eaaab4a2")
-		(property "Reference" "TP701"
-			(at 43.18 64.77 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "nRESET"
-			(at 43.18 67.31 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "wakeband:TestPoint_Pad_D0.8mm"
-			(at 43.18 69.85 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Datasheet" ""
-			(at 43.18 72.39 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Description" ""
-			(at 40.64 66.04 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "af694ab7-3e34-4af5-a500-e9970d8b9507")
-		)
-		(instances
-			(project "flex-rev-a"
-				(path "/f1a047c3-8922-464f-af19-ac9fc5db330b/b921d777-3568-41db-ab29-30400ded1567"
-					(reference "TP701")
 					(unit 1)
 				)
 			)
@@ -1179,7 +1021,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "6acfc81c-403a-49ed-82f8-4fc5a47be923")
+		(uuid "4d830439-c669-47a8-a56b-7138e5f2d761")
 		(property "Reference" "TP706"
 			(at 144.78 64.77 0)
 			(show_name no)
@@ -1237,7 +1079,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "f54c1fc4-f088-4c77-96d1-85ac01a51471")
+			(uuid "27c6e7e8-b9b9-41d7-856a-300be76fd277")
 		)
 		(instances
 			(project "flex-rev-a"
@@ -1250,7 +1092,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 60.96 66.04 0)
+		(at 101.6 66.04 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -1258,9 +1100,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "7b726e1a-33f6-4338-b418-5e062228b0d6")
-		(property "Reference" "TP702"
-			(at 63.5 64.77 0)
+		(uuid "5f0a5482-5f53-495d-85d8-136509d3475b")
+		(property "Reference" "TP704"
+			(at 104.14 64.77 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1270,8 +1112,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "I2C_SDA"
-			(at 63.5 67.31 0)
+		(property "Value" "VDD_2V0"
+			(at 104.14 67.31 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1282,7 +1124,7 @@
 			)
 		)
 		(property "Footprint" "wakeband:TestPoint_Pad_D0.8mm"
-			(at 63.5 69.85 0)
+			(at 104.14 69.85 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1294,7 +1136,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 63.5 72.39 0)
+			(at 104.14 72.39 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1306,7 +1148,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 60.96 66.04 0)
+			(at 101.6 66.04 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1316,52 +1158,52 @@
 			)
 		)
 		(pin "1"
-			(uuid "0b08965d-3224-45a5-b356-e73eb29c65d1")
+			(uuid "0360933b-e592-4b68-af5e-a5fdee48e0cb")
 		)
 		(instances
 			(project "flex-rev-a"
 				(path "/f1a047c3-8922-464f-af19-ac9fc5db330b/b921d777-3568-41db-ab29-30400ded1567"
-					(reference "TP702")
+					(reference "TP704")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 69.85 137.16 270)
+		(lib_id "Connector:TestPoint")
+		(at 40.64 66.04 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
-		(in_bom yes)
+		(in_bom no)
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "848621e5-4377-4dab-86f1-4ccc123110d9")
-		(property "Reference" "#PWR702"
-			(at 69.85 137.16 0)
-			(hide yes)
+		(uuid "6268fc48-3687-4788-9909-8b6714e8796a")
+		(property "Reference" "TP701"
+			(at 43.18 64.77 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Value" "GND"
-			(at 69.85 140.97 0)
-			(hide yes)
+		(property "Value" "nRESET"
+			(at 43.18 67.31 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Footprint" ""
-			(at 69.85 137.16 0)
+		(property "Footprint" "wakeband:TestPoint_Pad_D0.8mm"
+			(at 43.18 69.85 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1369,10 +1211,11 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Datasheet" ""
-			(at 69.85 137.16 0)
+			(at 43.18 72.39 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1380,10 +1223,11 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Description" ""
-			(at 69.85 137.16 0)
+			(at 40.64 66.04 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1393,88 +1237,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "9fdd37bf-5903-4c32-9cc5-7a49e0df506b")
+			(uuid "92e4d02b-2205-4255-aaf6-56470fe410cb")
 		)
 		(instances
 			(project "flex-rev-a"
 				(path "/f1a047c3-8922-464f-af19-ac9fc5db330b/b921d777-3568-41db-ab29-30400ded1567"
-					(reference "#PWR702")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 162.56 68.58 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "a206bfb8-edf8-4ca4-82ac-231a243974ee")
-		(property "Reference" "#PWR701"
-			(at 162.56 68.58 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 162.56 72.39 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 162.56 68.58 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 162.56 68.58 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 162.56 68.58 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "82283f45-cf44-4fba-8b09-057962e2bcd5")
-		)
-		(instances
-			(project "flex-rev-a"
-				(path "/f1a047c3-8922-464f-af19-ac9fc5db330b/b921d777-3568-41db-ab29-30400ded1567"
-					(reference "#PWR701")
+					(reference "TP701")
 					(unit 1)
 				)
 			)
@@ -1490,7 +1258,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "b17a37b1-6bd2-405b-8bbd-b2b7f8fae6aa")
+		(uuid "6b4aa336-538f-4323-b548-2777e811c053")
 		(property "Reference" "TP703"
 			(at 83.82 64.77 0)
 			(show_name no)
@@ -1548,7 +1316,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "15fc1331-4421-44c9-9900-fe153477e479")
+			(uuid "bd4be931-b7e4-404b-b3fb-d1fbf28730a4")
 		)
 		(instances
 			(project "flex-rev-a"
@@ -1561,7 +1329,7 @@
 	)
 	(symbol
 		(lib_id "Connector:TestPoint")
-		(at 101.6 66.04 0)
+		(at 121.92 66.04 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -1569,9 +1337,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "cee93219-c58f-49ea-8bff-94f6de801ced")
-		(property "Reference" "TP704"
-			(at 104.14 64.77 0)
+		(uuid "6d7e3818-9e16-463a-9ea1-71705072d18b")
+		(property "Reference" "TP705"
+			(at 124.46 64.77 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1581,8 +1349,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "VDD_1V8"
-			(at 104.14 67.31 0)
+		(property "Value" "VSYS"
+			(at 124.46 67.31 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1593,7 +1361,7 @@
 			)
 		)
 		(property "Footprint" "wakeband:TestPoint_Pad_D0.8mm"
-			(at 104.14 69.85 0)
+			(at 124.46 69.85 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1605,7 +1373,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 104.14 72.39 0)
+			(at 124.46 72.39 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1617,7 +1385,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 101.6 66.04 0)
+			(at 121.92 66.04 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1627,12 +1395,244 @@
 			)
 		)
 		(pin "1"
-			(uuid "5ce9ac80-5fc9-4694-98fd-93d4cf6976d7")
+			(uuid "e6e7ac83-18dc-48b9-a903-c4413956108d")
 		)
 		(instances
 			(project "flex-rev-a"
 				(path "/f1a047c3-8922-464f-af19-ac9fc5db330b/b921d777-3568-41db-ab29-30400ded1567"
-					(reference "TP704")
+					(reference "TP705")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 69.85 137.16 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "6e6f2fed-e718-4546-983c-81bb8107b93f")
+		(property "Reference" "#PWR702"
+			(at 69.85 137.16 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 69.85 140.97 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 69.85 137.16 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 69.85 137.16 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 69.85 137.16 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "2ca0725d-4a63-49b1-bb10-acf5bf0a07e1")
+		)
+		(instances
+			(project "flex-rev-a"
+				(path "/f1a047c3-8922-464f-af19-ac9fc5db330b/b921d777-3568-41db-ab29-30400ded1567"
+					(reference "#PWR702")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 60.96 66.04 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "6ef02507-ebed-4551-8956-0f94772cb7fe")
+		(property "Reference" "TP702"
+			(at 63.5 64.77 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "I2C_SDA"
+			(at 63.5 67.31 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "wakeband:TestPoint_Pad_D0.8mm"
+			(at 63.5 69.85 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Datasheet" ""
+			(at 63.5 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Description" ""
+			(at 60.96 66.04 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "21feaa34-ed14-4dbd-9c64-8ed84ca9e4ef")
+		)
+		(instances
+			(project "flex-rev-a"
+				(path "/f1a047c3-8922-464f-af19-ac9fc5db330b/b921d777-3568-41db-ab29-30400ded1567"
+					(reference "TP702")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 162.56 68.58 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "84c244fb-2848-4b9e-a5b1-a583dc0b4700")
+		(property "Reference" "#PWR701"
+			(at 162.56 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 162.56 72.39 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 162.56 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 162.56 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 162.56 68.58 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "6e01a88a-ec3c-4494-837d-87631f87a176")
+		)
+		(instances
+			(project "flex-rev-a"
+				(path "/f1a047c3-8922-464f-af19-ac9fc5db330b/b921d777-3568-41db-ab29-30400ded1567"
+					(reference "#PWR701")
 					(unit 1)
 				)
 			)
@@ -1648,7 +1648,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp yes)
-		(uuid "d6ebd9e2-41d5-4adc-9ae0-2d3ac3084823")
+		(uuid "abed38a7-3fde-430d-bf2c-0de003ec432c")
 		(property "Reference" "R701"
 			(at 53.34 120.65 0)
 			(show_name no)
@@ -1718,10 +1718,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "9341d552-64de-4afd-9d5e-a919b2185824")
+			(uuid "b7231f61-6e0a-445c-bf23-e79db5a4745f")
 		)
 		(pin "2"
-			(uuid "ebd25a7d-e059-4447-a6a6-beebbb834c7f")
+			(uuid "fe96ef05-bc92-4bd7-a872-98603477eda7")
 		)
 		(instances
 			(project "flex-rev-a"
@@ -1742,7 +1742,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "e41f2dfc-9d40-441b-9854-d792aa1581a4")
+		(uuid "b50ce7a1-6d47-400f-ba92-7646d883f5b9")
 		(property "Reference" "TP707"
 			(at 165.1 64.77 0)
 			(show_name no)
@@ -1800,7 +1800,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "00938a18-ba0b-4b53-829c-7d8b3ccc6356")
+			(uuid "dc83e191-c8a7-4c46-a529-86088430b9a0")
 		)
 		(instances
 			(project "flex-rev-a"

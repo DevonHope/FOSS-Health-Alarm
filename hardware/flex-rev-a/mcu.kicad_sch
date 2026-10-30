@@ -12,6 +12,121 @@
 		(comment 1 "Plan: docs/flex-pcb-schematic-plan.md")
 	)
 	(lib_symbols
+		(symbol "power:GND"
+			(power global)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "#PWR"
+				(at 0 -6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "GND"
+				(at 0 -3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "GND_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GND_1_1"
+				(pin power_in line
+					(at 0 0 270)
+					(length 0)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "wakeband:ISP2454-LX"
 			(pin_names
 				(offset 1.016)
@@ -967,6 +1082,17 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "Review 2026-10-30:\n- Pad 10 (P1.10) is not connected: it sits in the lower outer row, which cannot be routed without via-in-pad\n  (antenna keep-out below, 0.25 mm gaps to the inner pads). The DRV2605L IN/TRIG is tied to GND; effects run over I2C.\n- GND pads 12, 14, 16 and 18 sit in the trapped lower row. They are tied together inside the module and stay\n  unconnected on the board, pending Insight SiP's OK. Pads 8 and 24 reach the large pads 7 and 25 by a short trace.\n  All of them stay on the GND net in the schematic.\n- VDD_nRF is VDD_2V0 (BUCK1 at 2.0 V, margin over the 1.7 V minimum when the buck is 5 % low)."
+		(exclude_from_sim no)
+		(at 20.32 150 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "80eed259-eea6-4667-b59d-175ae981c654")
+	)
 	(text "ISP2454 notes (datasheet R7):\n- Antenna, 32 MHz + 32.768 kHz crystals, DC-DC inductor and all decoupling are inside. No external parts.\n- OUT_ANT (20) must be joined to OUT_MOD (22) by a short trace (net ANT_LINK).\n- Pads 49-62 are mechanical: isolated copper in the footprint, not in this symbol.\n- Antenna corner 1 mm from the board edge, no copper or parts on any layer in the keep-out,\n  including the folded battery layer below it.\n- Firmware: set LFXO load capacitance to 19 pF (devicetree load-capacitance-femtofarad = <19000>).\n- Every signal uses an OUTER-row pad, so the flex needs no via-in-pad. Inner GND pads (21, 23) and\n  nRESET (13) may use tented vias under the module centre, as the datasheet allows.\n- I2C on TWIM30 (P0, low-power domain). UART on UARTE20 (P1).\n- P1.02/P1.03 are NFC pins: left unused. P2 trace pins left unused.\n- GPIO plan and reasons: docs/flex-rev-a-pinout.md"
 		(exclude_from_sim no)
 		(at 20.32 20.32 0)
@@ -1017,6 +1143,10 @@
 	(no_connect
 		(at 147.32 102.87)
 		(uuid "5b09b460-acee-4437-8b32-b77f3cc23026")
+	)
+	(no_connect
+		(at 147.32 95.25)
+		(uuid "5e3985f0-e68f-47c0-895c-01632d19cb25")
 	)
 	(no_connect
 		(at 147.32 113.03)
@@ -1164,16 +1294,6 @@
 	)
 	(wire
 		(pts
-			(xy 147.32 95.25) (xy 152.4 95.25)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9ed85c13-3adf-4d6a-a9e4-24fa2358e448")
-	)
-	(wire
-		(pts
 			(xy 106.68 74.93) (xy 101.6 74.93)
 		)
 		(stroke
@@ -1291,7 +1411,7 @@
 			)
 		)
 	)
-	(global_label "VDD_1V8"
+	(global_label "VDD_2V0"
 		(shape input)
 		(at 101.6 62.23 180)
 		(fields_autoplaced yes)
@@ -1302,29 +1422,6 @@
 			(justify right)
 		)
 		(uuid "1bca6f09-7b91-4042-be1e-c179bd5517bd")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 0 0 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-	)
-	(global_label "HAPT_TRIG"
-		(shape output)
-		(at 152.4 95.25 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "1c0145d9-161a-4d36-8b23-0cf3dbdd36f3")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 0 0 0)
 			(hide yes)
@@ -1440,29 +1537,6 @@
 			(justify left)
 		)
 		(uuid "878b8ffb-a04b-4546-b3c4-7f0b10e8c7be")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 0 0 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-	)
-	(global_label "GND"
-		(shape passive)
-		(at 101.6 135.89 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "8b653500-b158-4fe5-8736-f7f838a16b91")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 0 0 0)
 			(hide yes)
@@ -1801,6 +1875,83 @@
 			(project "flex-rev-a"
 				(path "/f1a047c3-8922-464f-af19-ac9fc5db330b/17001d3b-fbd8-4f96-b500-59fa238486df"
 					(reference "U1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 101.6 135.89 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "d75e3f52-7e13-492a-8aa1-01c39f62f8f5")
+		(property "Reference" "#PWR301"
+			(at 101.6 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 101.6 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 101.6 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 101.6 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 101.6 135.89 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "56da8125-2e60-4ad1-8b98-e912d2b00e6b")
+		)
+		(instances
+			(project "flex-rev-a"
+				(path "/f1a047c3-8922-464f-af19-ac9fc5db330b/17001d3b-fbd8-4f96-b500-59fa238486df"
+					(reference "#PWR301")
 					(unit 1)
 				)
 			)
