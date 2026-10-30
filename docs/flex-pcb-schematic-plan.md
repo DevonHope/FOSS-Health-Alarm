@@ -64,7 +64,7 @@ smallest packages for rev B.
 | Accelerometer | ST **LIS2DW12** | LGA-12 2 x 2 mm | 1.5 uA at 25 Hz low-power, 32-sample FIFO, wake interrupts, Zephyr driver, plenty of LCSC stock (C189624). | ADXL367 (0.9 uA, 512-sample FIFO) once LCSC stock improves |
 | Haptic driver | TI **DRV2605L** | VSSOP-10 3 x 3 mm | Hand-solderable, same chip as the Stage 0 breakout, runs from VSYS with 1.8 V I2C. LRA auto-resonance and soft-ramp library. | DRV2625 DSBGA-9 (105 nA shutdown, but needs at least 2.7 V) |
 | Motor | Vybronics **VG0832012** coin LRA | 8 x 3.25 mm | Same as Stage 0, 235 Hz, 58 mA typ. Taped to the stiffened motor pad. | VG0825003D (2.55 mm thick) **(check specs)** |
-| Battery | Protected LiPo, **80 to 110 mAh**, 3 to 4 mm thick | e.g. 401230 / 301230 class | The LRA's 60 to 80 mA peak is about 1.5C on a 50 mAh cell, so 80 mAh or more is safer. Solder tabs or a short lead to flex pads; no connector. | true 3 mm cell once a supplier is found |
+| Battery | Protected LiPo, **110 mAh, 12 x 30 mm**, 3 to 4 mm thick | e.g. 401230 class | The LRA's 60 to 80 mA peak is about 1.5C on a 50 mAh cell, so 80 mAh or more is safer. Solder tabs or a short lead to flex pads; no connector. | true 3 mm cell once a supplier is found |
 | Dock ESD | 6 x 0402 TVS with leakage under 50 nA (VIN TVS working voltage at least 5.5 V) + 4 x 0402 100 ohm series resistors | 0402 / 0201 | Pads touch skin and sweat all night; a leaky TVS would cost more than the whole sleep budget. | same |
 
 ## Power tree and rails
@@ -154,29 +154,35 @@ Rev A uses ENIG and we watch wear; rev B moves to hard gold if needed.
 
 ### Outline concept: one fold around the battery
 
-Inside a 35 x 18 mm pod with about 1 mm walls there is roughly 33 x 16 mm of
-floor. A 12 x 30 mm cell plus the 8 mm motor do not fit side by side (12 + 8
-is already 20 mm across), and the fold loop takes about 2 mm of length. So the
-board folds once at the short end, and the cell is shorter:
+**Decided 2026-10-30:** a bigger pod with a common 12 x 30 mm, 110 mAh cell,
+instead of the 35 x 18 mm Fitbit Air size with a shorter cell.
+
+With about 1 mm case walls, the motor beside the cell across the width needs
+12 + 0.5 + 8 = about 20.5 mm inside, so the pod is about **22 x 36 mm**
+outside (36 mm = 30 mm cell + about 2 mm fold loop + walls). Putting the motor
+at the end of the cell instead would need about 20 x 41 mm, and stacking it on
+the electronics side would push the height to about 10 mm.
 
 ```
-     Island A (top, faces away from the wrist), about 30 x 16 mm
+     Island A (top, faces away from the wrist), about 32 x 18 mm
   +--------------------------------------------+
   | ISP2454 (antenna corner, far end) nPM1304   |  FR4 0.4 mm stiffener,
   | LIS2DW12  DRV2605L  passives  test pads     |  no metal under antenna
   +--------------------------------------------+
    )  fold, about 5 mm wide neck, 1.5 to 2 mm radius, no vias
   +--------------------------------------------+
-  | battery bay, cell about 12 x 22 mm   | LRA  |  Island B (skin side)
-  | NTC under the cell                   | pad  |  bonded to the case floor
-  | six dock pads on the outer face      | 9 mm |
-  +--------------------------------------------+
-     Island B, about 32 x 16 mm (22 mm cell + 8 mm LRA + gaps)
+  | battery bay, 12 x 30 mm cell, 110 mAh        |  Island B (skin side)
+  | NTC under the cell                           |  bonded to the case floor
+  +---------------------------------+----------+
+  | six dock pads on the outer face | LRA pad  |
+  |                                 | 9 mm     |
+  +---------------------------------+----------+
+     Island B, about 32 x 20 mm (cell strip 12 mm + motor strip 8 mm)
 ```
 
-- **Cell.** About 12 x 22 mm and 3 to 4 mm thick, which is roughly 60 to
-  80 mAh. If the pod may grow to about 20 x 36 mm, a 12 x 30 mm 110 mAh cell
-  fits instead. This is the main question for you.
+- **Cell.** 12 x 30 mm, 3 to 4 mm thick, 110 mAh with a protection circuit,
+  for example the Solarbotics 110 mAh (12 x 32 x 4, check the exact length)
+  or a 401230. The motor's 60 to 80 mA peak is under 1C on this cell.
 - **Motor zone.** The LRA needs a rigid, heavy mount: Precision Microdrives
   rates its 8 mm LRA on a 100 g sled and warns soft mounts absorb the
   vibration and shift resonance. So the LRA pad gets its own FR4 stiffener on
@@ -265,10 +271,9 @@ thick; a true 3 mm cell still needs a supplier.
 
 ## Questions for you
 
-1. Pod size: keep 35 x 18 mm with a shorter 60 to 80 mAh cell, or grow to about 20 x 36 mm for a 110 mAh cell?
-2. Is a 4 mm thick cell (pod about 8 mm) acceptable, or should we hunt for a 3 mm cell?
-3. Will the band be worn in the shower or during sweaty sleep? That decides hard gold pads and a pad coating.
-4. The ISP2454's RF-exposure note assumes 10 mm from the body. For a personal device, are you fine proceeding while we ask Insight SiP?
+1. Is a 4 mm thick cell (pod about 8 mm) acceptable, or should we hunt for a 3 mm cell?
+2. Will the band be worn in the shower or during sweaty sleep? That decides hard gold pads and a pad coating.
+3. The ISP2454's RF-exposure note assumes 10 mm from the body. For a personal device, are you fine proceeding while we ask Insight SiP?
 
 ## Accelerometer settings for sleep (from the papers)
 
