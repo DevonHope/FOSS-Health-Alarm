@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name "wakeband")(type "KiCad")(uri "${KIPRJMOD}/wakeband.kicad_sym")(options "")(descr "WakeBand project symbols"))
+)

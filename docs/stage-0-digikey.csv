@@ -1,0 +1,7 @@
+Quantity,Digi-Key Part Number,Manufacturer,Manufacturer Part Number,Customer Reference,Description
+1,1528-1346-ND,Adafruit Industries LLC,2305,DRV2605L,DRV2605L haptic motor driver breakout STEMMA QT
+3,1670-VG0832012-ND,Vybronics Inc,VG0832012,LRA,8 mm coin LRA vibration motor 1.8 Vrms
+2,1528-2617-ND,Adafruit Industries LLC,3814,BAT-PIGTAIL,JST PH 2-pin male cable 200 mm
+1,1528-261-ND,Adafruit Industries LLC,261,PPK2-LEAD,JST PH 2-pin female cable 100 mm
+1,1528-4209-ND,Adafruit Industries LLC,4209,I2C-CABLE,STEMMA QT to male header cable 150 mm
+1,,Nordic Semiconductor ASA,NRF-PPK2,PPK2,Power Profiler Kit II
