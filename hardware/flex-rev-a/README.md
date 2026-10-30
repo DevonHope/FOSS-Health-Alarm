@@ -65,3 +65,39 @@ nPM1304-EK), so they need another source or consignment.
 - PWR_FLAGs mark the off-board sources: dock VIN (dock sheet), the cell
   (VBAT and GND, power sheet), and PVSS1, which reaches GND only through the
   net tie.
+
+## Layout hand-off (step 8, first pass, 2026-10-30)
+
+`flex-rev-a.kicad_pcb` holds the unfolded flex with every footprint placed
+and **no routing yet**. `flex-rev-a-layout.pdf` is a plot of it.
+
+- Outline (Edge.Cuts), all corners rounded 1 mm: island A x 100-132,
+  y 100-118 (32 x 18 mm); neck x 132-140, 5 mm wide; island B x 140-172,
+  y 99-119 (32 x 20 mm). Fold line at x = 136.
+- Layers: User.1 Stiffener.Top (unused), User.2 Stiffener.Bottom (FR4 0.4 mm
+  under island A and the LRA pad, PI 0.2 mm behind the dock pads),
+  User.3 Bend.Zone, User.4 Antenna.Keepout. Dwgs.User has the cell, LRA and
+  fab notes.
+- Rule areas: BEND_ZONE (no vias, pads or footprints) and ANTENNA_SHADOW_B
+  (no copper at all), the module's keep-out mirrored onto island B across the
+  fold. The module carries its own keep-out rule area.
+- Design rules: 0.12 mm board, 0.1 mm min track and clearance, 0.3 / 0.55 mm
+  vias, 0.3 mm copper-to-edge. Default net class 0.15 mm tracks.
+- Placement: ISP2454 in the far corner of island A, antenna 1 mm from the
+  edge; PMIC, sensor, haptic driver and test pads on island A. Island B has
+  the battery tabs at the neck end, the LRA pad, the six dock pads with
+  their TVS and series resistors, and the NTC under the cell bay.
+- DRC: no shorts, clearance, courtyard or keep-out errors. The 125
+  unconnected items are the unrouted nets. The rest (117) are silkscreen
+  overlaps to tidy during layout.
+
+Open questions for layout:
+
+- The 30 mm cell bay (x 140.5-170.5) runs 3.5 mm into the antenna shadow
+  (x 167-172). Either island B grows by about 4 mm (pod about 40 mm long), the
+  module moves off the far end, or the cell becomes 26 mm long.
+- About 11 nets cross the 5 mm neck (VIN, GND, VBAT/BATT_P, NTC, four
+  dock lines, two LRA lines); this fits at 0.1/0.1 mm, but the power lines
+  want 0.3 mm or more.
+- The NTC sits on island B's outer face, so it senses the cell through the
+  0.12 mm flex, not in direct contact.
