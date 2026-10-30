@@ -76,7 +76,8 @@ and **no routing yet**. `flex-rev-a-layout.pdf` is a plot of it.
 
 - Outline (Edge.Cuts), all corners rounded 1 mm: island A x 96-132,
   y 100-118 (36 x 18 mm); neck x 132-140, 5 mm wide; island B x 140-176,
-  y 99-119 (36 x 20 mm). Fold line at x = 136. Pod about 22 x 40 mm.
+  y 99-119 (36 x 20 mm). Fold line at x = 136. Pod about 22 x 40 mm
+  (superseded: now 23.5 x 40 mm, see "Layout review rework").
 - Both islands grew 4 mm (2026-10-30, option 1). The antenna shadow on
   island B mirrors island A's far end, so lengthening island B alone would
   not move it: island A grew too and the module moved to its new far end.

@@ -161,29 +161,32 @@ Rev A uses ENIG and we watch wear; rev B moves to hard gold if needed.
 instead of the 35 x 18 mm Fitbit Air size with a shorter cell.
 
 With about 1 mm case walls, the motor beside the cell across the width needs
-12 + 0.5 + 8 = about 20.5 mm inside, so the pod is about **22 x 40 mm**
-outside. It was first sized at 36 mm long (30 mm cell + about 2 mm fold loop
+12 + 0.5 + 8 = 20.5 mm, plus edge margins on the flex, so the pod is about
+**23.5 x 40 mm** outside. It was first sized at 36 mm long (30 mm cell + about 2 mm fold loop
 + walls), but the first layout showed the cell would reach 3.5 mm into the
 area under the antenna after folding. On 2026-10-30 the pod grew about 4 mm
-so that area stays clear of the cell. Putting the motor
+so that area stays clear of the cell. The layout review then found the 8 mm motor
+overlapping the cell by 0.6 mm on a 20 mm wide island, so both islands were
+widened to 21.5 mm (0.3 mm edge, 12 mm cell, 0.5 mm gap, 8 mm motor, 0.7 mm
+edge) and the pod grew from 22 to about 23.5 mm wide. Putting the motor
 at the end of the cell instead would need about 20 x 41 mm, and stacking it on
 the electronics side would push the height to about 10 mm.
 
 ```
-     Island A (top, faces away from the wrist), about 32 x 18 mm
+     Island A (top, faces away from the wrist), 36 x 21.5 mm
   +--------------------------------------------+
   | ISP2454 (antenna corner, far end) nPM1304   |  FR4 0.4 mm stiffener,
   | LIS2DW12  DRV2605L  passives  test pads     |  no metal under antenna
   +--------------------------------------------+
-   )  fold, about 5 mm wide neck, 1.5 to 2 mm radius, no vias
+   )  fold, 9 mm wide neck, 1.5 to 2 mm radius, no vias, straight traces
   +--------------------------------------------+
   | battery bay, 12 x 30 mm cell, 110 mAh        |  Island B (skin side)
-  | NTC under the cell                           |  bonded to the case floor
+  | NTC at the edge of the cell bay              |  bonded to the case floor
   +---------------------------------+----------+
   | six dock pads on the outer face | LRA pad  |
   |                                 | 9 mm     |
   +---------------------------------+----------+
-     Island B, about 32 x 20 mm (cell strip 12 mm + motor strip 8 mm)
+     Island B, 36 x 21.5 mm (cell strip 12 mm + motor strip 8 mm)
 ```
 
 - **Cell.** 12 x 30 mm, 3 to 4 mm thick, 110 mAh with a protection circuit,
@@ -249,6 +252,15 @@ the BOM (`hardware/flex-rev-a/bom.csv`, LCSC numbers) from step 7. ERC is
 clean. Step 7's power-budget check and independent review are still to do.
 SHPHLD decision: rely on the nPM1304's internal 50 kohm pull-up; the extra
 pull-up and the button stay DNP.
+
+**Progress (2026-10-30, later):** step 7 is done: the independent schematic
+review and the power budget are below. Step 8 is done too: the board is
+placed, routed (DRC 0 violations, 0 unconnected), reviewed independently and
+reworked, and `hardware/flex-rev-a/fab/` has the Gerbers, drill files, BOM and
+pick-and-place file for JLCPCB. See "Layout review" below and
+[the KiCad project README](../hardware/flex-rev-a/README.md). The paper
+mock-up of the fold is still to do, along with the checks under "Before
+ordering".
 
 ## Battery sourcing in Canada
 
@@ -393,3 +405,47 @@ Battery 3.8 V, buck about 85 % efficient.
 That is about 0.95 mAh per day typical and 1.5 mAh worst case: **roughly 3 to 4
 months on the 110 mAh cell** (2 months worst case), well past the 2-week target.
 The buzz is over half of it. Stage 0b measures the real numbers.
+
+## Layout review (2026-10-30)
+
+An independent review of the first routed board found six defects. All were
+fixed in the reworked layout (details in the
+[KiCad project README](../hardware/flex-rev-a/README.md#layout-review-rework-2026-10-30-current-layout)).
+
+| # | Finding | Fix |
+| --- | --- | --- |
+| 1 | Top and bottom traces sat on top of each other in the neck, and some had 45-degree jogs inside the bend. A 180-degree fold bends nearly the whole neck. | Neck widened to 9 mm. Every trace in it is one straight segment across the fold, top and bottom lanes at least 0.5 mm apart, no vias. Jogs and layer changes happen on the islands. |
+| 2 | The 8 mm motor overlapped the cell bay by 0.6 mm and came within 0.1 mm of the board edge. | Both islands widened from 18 and 20 mm to 21.5 mm; the pod is now about 23.5 x 40 mm. |
+| 3 | Two vias sat in ISP2454 pads 1 and 25. Unfilled vias wick solder away from the module. | Vias moved at least 0.15 mm off the pads, with short traces. No via touches an SMD pad except 4 intended vias in the nPM1304 exposed pad. |
+| 4 | The hand-soldered cell and motor pads were 0.18 to 0.20 mm from other nets, and the cell pads sat under the cell. | Pads moved to the motor strip near the neck, outside the cell bay, with 0.5 mm clearance and wider coverlay openings. |
+| 5 | The battery + path was 64 mm of 0.3 mm trace, and the cell - return used one via. | Both run 0.4 mm and straight (about 13 mm each). Each battery-path layer change on island A uses two vias. |
+| 6 | The dock TVS diodes and the NTC sat on bare flex, and the motor pads were in a 1.9 mm unstiffened gap. | One merged FR4 0.4 mm stiffener under the whole motor and dock strip, with windows around the hand-solder pads. FR4 replaces the thinner PI behind the dock pads, so pogo pins don't flex them. |
+
+Other changes from the review: a bottom ground pour on island A, 24 ground
+stitching vias, a solid connection on the module's ground pads, and a fixed
+fab package (stackup set to polyimide, 18 um copper and ENIG; the empty top
+stiffener layer removed from the job file).
+
+The FR4 stiffener stays under the antenna corner. The keep-out forbids
+copper, not dielectric, and a module like the ISP2454 is designed to sit on a
+FR4 host board, so FR4 there is closer to its reference conditions than bare
+polyimide. The antenna gets checked with a phone RSSI test on the first
+boards.
+
+Remaining compromises: a few 0.15 to 0.25 mm segments at fine-pitch pins, the
+top-pour pieces on island A joined through stitching vias instead of
+top-layer links, and nRESET still unrouted (inner pad 13, test pad TP701 for
+a bodge wire; SWD can reset the chip).
+
+### Before ordering
+
+- Check the derived ISP2454 outer-row pad positions, the nPM1304 exposed pad
+  and the inductor footprint against the vendors' CAD files.
+- Ask Insight SiP whether the trapped GND pads may stay unconnected, and
+  about the 10 mm RF-exposure note.
+- Confirm with JLCPCB that they read User.2 as the FR4 stiffener, and how
+  they open coverlay at fine-pitch pads.
+- Check part rotations in JLCPCB's placement preview (U201, U401, U501,
+  D601 polarity) and supply a pin-1 drawing for the consigned module U1.
+- Consign the ISP2454 and nPM1304 to JLCPCB (no LCSC stock).
+- Fold a paper or polyimide-film mock-up around a dummy cell.
