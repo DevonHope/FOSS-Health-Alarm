@@ -241,6 +241,11 @@ circuit "configuration 2" (QFN), and the project is now saved in KiCad 10
 format. Its remaining **(check)** items (QFN exposed-pad size against Nordic's
 reference layout, TVS and inductor part numbers, the GPIO used for PMIC_INT)
 are listed on the sheet. It is frozen after Stage 0b.
+Steps 5 and 6 are drafted too (sensors, haptics, dock and debug sheets), with
+the BOM (`hardware/flex-rev-a/bom.csv`, LCSC numbers) from step 7. ERC is
+clean. Step 7's power-budget check and independent review are still to do.
+SHPHLD decision: rely on the nPM1304's internal 50 kohm pull-up; the extra
+pull-up and the button stay DNP.
 
 ## Battery sourcing in Canada
 

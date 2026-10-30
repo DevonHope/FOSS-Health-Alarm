@@ -91,7 +91,7 @@
 				(pin power_in line
 					(at -20.32 -35.56 0)
 					(length 5.08)
-					(name "VSS"
+					(name "GND"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -200,7 +200,7 @@
 					(at -20.32 -35.56 0)
 					(length 5.08)
 					(hide yes)
-					(name "VSS"
+					(name "GND"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -219,7 +219,7 @@
 					(at -20.32 -35.56 0)
 					(length 5.08)
 					(hide yes)
-					(name "VSS"
+					(name "GND"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -292,7 +292,7 @@
 					(at -20.32 -35.56 0)
 					(length 5.08)
 					(hide yes)
-					(name "VSS"
+					(name "GND"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -329,7 +329,7 @@
 					(at -20.32 -35.56 0)
 					(length 5.08)
 					(hide yes)
-					(name "VSS"
+					(name "GND"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -366,7 +366,7 @@
 					(at -20.32 -35.56 0)
 					(length 5.08)
 					(hide yes)
-					(name "VSS"
+					(name "GND"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -403,7 +403,7 @@
 					(at -20.32 -35.56 0)
 					(length 5.08)
 					(hide yes)
-					(name "VSS"
+					(name "GND"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -458,7 +458,7 @@
 					(at -20.32 -35.56 0)
 					(length 5.08)
 					(hide yes)
-					(name "VSS"
+					(name "GND"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -495,7 +495,7 @@
 					(at -20.32 -35.56 0)
 					(length 5.08)
 					(hide yes)
-					(name "VSS"
+					(name "GND"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -514,7 +514,7 @@
 					(at -20.32 -35.56 0)
 					(length 5.08)
 					(hide yes)
-					(name "VSS"
+					(name "GND"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -533,7 +533,7 @@
 					(at -20.32 -35.56 0)
 					(length 5.08)
 					(hide yes)
-					(name "VSS"
+					(name "GND"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -642,7 +642,7 @@
 					(at -20.32 -35.56 0)
 					(length 5.08)
 					(hide yes)
-					(name "VSS"
+					(name "GND"
 						(effects
 							(font
 								(size 1.27 1.27)

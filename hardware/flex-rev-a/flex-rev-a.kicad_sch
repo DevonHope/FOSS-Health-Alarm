@@ -67,7 +67,7 @@
 		)
 		(uuid "6f0fdb55-a820-49f3-81b6-97a44ab105ec")
 	)
-	(text "WakeBand flex rev A: 2-layer polyimide flex, folds once around a 12 x 30 mm 110 mAh cell.\nPod about 22 x 36 x 8 mm. Sheets connect through global labels and power nets.\nStatus: steps 1 and 2 done (project, ISP2454 symbol, GPIO plan); step 3 power sheet (nPM1304) drafted; other sheets are notes."
+	(text "WakeBand flex rev A: 2-layer polyimide flex, folds once around a 12 x 30 mm 110 mAh cell.\nPod about 22 x 36 x 8 mm. Sheets connect through global labels and power nets.\nStatus: steps 1 and 2 done (project, ISP2454 symbol, GPIO plan); steps 3 to 6 drafted: power, sensors, haptics, dock and debug sheets drawn; ERC clean (0 errors, 0 warnings)."
 		(exclude_from_sim no)
 		(at 20.32 20.32 0)
 		(effects
