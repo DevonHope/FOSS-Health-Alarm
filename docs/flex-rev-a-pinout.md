@@ -2,7 +2,7 @@
 
 Step 2 of the [schematic plan](flex-pcb-schematic-plan.md#plan-for-building-the-schematic).
 Source: Insight SiP ISP2454 datasheet, revision R7 (10/09/2026),
-https://www.mouser.lt/datasheet/3/1572/1/isp_ble_DS2454_R7.pdf
+https://www.insightsip.com/fichiers_insightsip/pdf/ble/ISP2454/isp_ble_DS2454.pdf (Insight SiP), mirror: https://www.mouser.lt/datasheet/3/1572/1/isp_ble_DS2454.pdf
 
 ## Module facts that shape the schematic
 

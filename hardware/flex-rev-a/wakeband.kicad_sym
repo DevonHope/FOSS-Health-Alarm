@@ -3,7 +3,7 @@
     (property "Reference" "U" (at -10.16 43.18 0) (effects (font (size 1.27 1.27))))
     (property "Value" "ISP2454-LX" (at 0 43.18 0) (effects (font (size 1.27 1.27))))
     (property "Footprint" "wakeband:InsightSiP_ISP2454_LGA-62_8x8mm" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
-    (property "Datasheet" "https://www.mouser.lt/datasheet/3/1572/1/isp_ble_DS2454_R7.pdf" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "https://www.insightsip.com/fichiers_insightsip/pdf/ble/ISP2454/isp_ble_DS2454.pdf" (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
     (property "ki_description" "Insight SiP ISP2454 nRF54L15 BLE SiP module, 8x8x1 mm LGA-62, antenna and crystals inside. Pins 49-62 are mechanical pads (footprint only, isolated copper)." (at 0 0 0) (effects (font (size 1.27 1.27)) hide))
     (symbol "ISP2454-LX_0_1"
       (rectangle (start -15.24 40.64) (end 15.24 -38.1) (stroke (width 0.254) (type default)) (fill (type background)))
