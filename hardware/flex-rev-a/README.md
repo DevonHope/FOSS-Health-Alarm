@@ -1,7 +1,7 @@
 # WakeBand flex rev A (KiCad project)
 
 Schematic for the first custom board: a 2-layer flex PCB that folds once around
-a 12 x 30 mm, 110 mAh cell (pod about 22 x 40 x 8 mm). The design plan is in
+a 12 x 30 mm, 110 mAh cell (pod about 23.5 x 40 x 8 mm). The design plan is in
 [docs/flex-pcb-schematic-plan.md](../../docs/flex-pcb-schematic-plan.md) and the
 module pinout and GPIO plan are in
 [docs/flex-rev-a-pinout.md](../../docs/flex-rev-a-pinout.md).
@@ -67,6 +67,9 @@ nPM1304-EK), so they need another source or consignment.
   net tie.
 
 ## Layout hand-off (step 8, first pass, 2026-10-30)
+
+The sections from here to "Fold and assembly orientation" record earlier
+passes. The current layout is described under "Layout review rework" below.
 
 `flex-rev-a.kicad_pcb` holds the unfolded flex with every footprint placed
 and **no routing yet**. `flex-rev-a-layout.pdf` is a plot of it.
@@ -177,20 +180,71 @@ In the neck the LRA pair moved up on F.Cu to stay clear of VIN and BATT_P on
 B.Cu; LRA+ steps there with 45-degree jogs 0.75 mm either side of the fold
 line, so it does not cross LRA-. No trace sits over another at the fold line.
 
+## Layout review rework (2026-10-30, current layout)
+
+**DRC: 0 violations, 0 unconnected, 0 footprint errors** (7 documented
+exclusions: the six reserved ISP2454 GND pads and nRESET pad 13 to TP701).
+Pad nets match the schematic netlist; ERC 0/0.
+
+- Outline: both islands 21.5 mm wide (y 98.25-119.75), island A x 96-132,
+  island B x 140-176, neck x 132-140 and 9 mm wide (y 104.5-113.5), 1 mm
+  corner fillets. Folded pod about 23.5 x 40 mm.
+- Island B across its width: 0.3 mm edge, 12 mm cell bay, 0.5 mm gap, 8 mm
+  LRA/dock strip, 0.7 mm edge. The LRA no longer overlaps the cell.
+- Neck: every trace inside x 132-140 is one straight, locked segment along
+  x: 7 on F.Cu, 4 on B.Cu, at least 0.5 mm in y between any F and B lane, no
+  vias. All jogs and layer changes are on the islands. Hatched GND on F.Cu
+  only.
+- Stiffeners (User.2, FR4 0.4 mm): all of island A, and one merged strip on
+  island B (x 140.6-175.4, y 110.75-119.25) under the dock pads, D601-D605
+  and TH201, with no hinge gap at TP501/TP502. Windows 0.3 mm larger than
+  each B-side pad. Vias only on stiffened areas, 0.5 mm inside their edges.
+- Hand-solder pads (B.Cu): cell tabs TP201 (+) / TP202 (-) and LRA leads
+  TP501 / TP502 sit in the motor strip near the neck, outside the cell bay
+  and clear of the LRA. 0.5 mm clearance to other nets, coverlay opening
+  pad + 0.1 mm.
+- Battery path: BATT_P and the TP202 GND run 0.4 mm and straight on B.Cu
+  (about 13 mm per side) to their neck lanes, with no vias on island B. On
+  island A every battery-path layer change (VBAT/BATT_P) uses two vias.
+- No via touches an SMD pad, except the 4 intended vias in the nPM1304
+  exposed pad (pad 33). Vias moved off ISP2454 pads 1 and 25 sit at least
+  0.15 mm clear and join with short traces.
+- Ground: top pour on both islands, bottom pour on island A, 24 stitching
+  vias on island A, solid (not thermal) connection on ISP2454 GND pads 1, 7,
+  25 and 31. 98 vias in total (41 on GND).
+- Stackup in the board file: polyimide core 25 um, 18 um copper, polyimide
+  coverlay 25 um each side, ENIG.
+
+Remaining compromises:
+
+- Narrow segments at fine-pitch pins: VSYS at U501 0.25 mm, the GND link
+  from C203 to U201 pad 33 at 0.2 mm, VDD_2V0 into U201 pin 12 at 0.2 mm,
+  VSET1 at 0.15 mm.
+- The top-pour pieces on island A are joined through the bottom pour by
+  stitching vias, not by 0.5 mm top-layer links.
+- ANT_LINK (pads 20-22) is a short manual trace. The top pour cannot
+  surround it (antenna keep-out on one side, reserved pads on the other);
+  the bottom pour is under it.
+- TH201 (NTC) sits on the stiffened strip at the edge of the cell bay and
+  senses the side of the cell.
+- nRESET is still unrouted (inner pad 13); TP701 stays for a bodge wire.
+- Teardrops are only added at Gerber export (`--check-zones`); refill zones
+  in the KiCad GUI to see them in the editor.
+
 ## Fab package (`fab/`)
 
 `fab/flex-rev-a-fab.zip` holds the same files as `fab/gerbers/`,
-`fab/bom_jlcpcb.csv` and `fab/cpl_jlcpcb_top.csv`:
+`fab/bom_jlcpcb.csv` and `fab/cpl_jlcpcb_top.csv`. `fab/README.md` has the
+stackup, the coverlay-opening note and the JLCPCB rotation checks.
 
 - Gerbers: F/B copper, mask, paste and silkscreen, Edge.Cuts, the bottom
   stiffener (User.2 `Stiffener_Bottom`), bend zone (User.3), antenna
   keep-out (User.4), drawings/notes (Dwgs.User) and F.Fab. Exported with
-  `--check-zones`, so zones are refilled and teardrops included.
+  `--check-zones`, so zones are refilled and teardrops included. User.1 (top
+  stiffener) is not exported and the job file does not list it.
 - Drill: Excellon, plated and non-plated separate, with Gerber drill maps.
 - `cpl_jlcpcb_top.csv`: JLCPCB columns (Designator, Mid X, Mid Y, Layer,
-  Rotation), F side only, 31 fitted parts. JLCPCB's rotation convention
-  can differ per package: check the placement preview before ordering.
+  Rotation), F side only, 31 fitted parts.
 - `bom_jlcpcb.csv`: fitted parts only (no DNP, no pads).
-- The User layer stiffener mapping (User.2 = bottom FR4/PI stiffeners)
-  must be confirmed with JLCPCB before ordering. User.1 (top stiffener) is
-  empty and not exported.
+- The stiffener mapping (User.2 = FR4 0.4 mm) must be confirmed with JLCPCB
+  before ordering.

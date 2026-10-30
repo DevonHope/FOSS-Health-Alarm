@@ -5,7 +5,7 @@
       "Application": "Pcbnew",
       "Version": "10.0.5"
     },
-    "CreationDate": "2026-10-29T23:38:29-04:00"
+    "CreationDate": "2026-10-30T01:00:14-04:00"
   },
   "GeneralSpecs": {
     "ProjectId": {
@@ -15,11 +15,11 @@
     },
     "Size": {
       "X": 80.05,
-      "Y": 20.05
+      "Y": 21.55
     },
     "LayerNumber": 2,
     "BoardThickness": 0.12,
-    "Finish": "None"
+    "Finish": "ENIG"
   },
   "DesignRules": [
     {
@@ -89,11 +89,6 @@
       "FilePolarity": "Positive"
     },
     {
-      "Path": "flex-rev-a-Stiffener_Top.gbr",
-      "FileFunction": "Other,User",
-      "FilePolarity": "Positive"
-    },
-    {
       "Path": "flex-rev-a-Stiffener_Bottom.gbr",
       "FileFunction": "Other,User",
       "FilePolarity": "Positive"
@@ -120,29 +115,33 @@
     },
     {
       "Type": "SolderMask",
-      "Thickness": 0.01,
+      "Color": "Yellow",
+      "Thickness": 0.025,
+      "Material": "Polyimide coverlay",
       "Name": "Top Solder Mask"
     },
     {
       "Type": "Copper",
-      "Thickness": 0.035,
+      "Thickness": 0.018,
       "Name": "F.Cu"
     },
     {
       "Type": "Dielectric",
-      "Thickness": 0.03,
-      "Material": "FR4",
+      "Thickness": 0.025,
+      "Material": "Polyimide",
       "Name": "F.Cu/B.Cu",
       "Notes": "Type: dielectric layer 1 (from F.Cu to B.Cu)"
     },
     {
       "Type": "Copper",
-      "Thickness": 0.035,
+      "Thickness": 0.018,
       "Name": "B.Cu"
     },
     {
       "Type": "SolderMask",
-      "Thickness": 0.01,
+      "Color": "Yellow",
+      "Thickness": 0.025,
+      "Material": "Polyimide coverlay",
       "Name": "Bottom Solder Mask"
     },
     {
