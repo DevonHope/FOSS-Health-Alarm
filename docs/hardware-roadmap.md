@@ -54,8 +54,9 @@ measure the real number.
 
 The 8 mm coin LRA (2.55 to 3.25 mm thick) sits beside the battery in the
 battery layer, not on top of it, so it does not add height. Footprint is the
-tighter constraint: a 12 x 30 mm cell plus an 8 mm motor fits in about
-20 x 35 mm.
+tighter constraint: a 12 x 30 mm cell plus an 8 mm motor needs about
+20 x 36 mm. Inside a 35 x 18 mm pod the cell has to be about 12 x 22 mm
+(see the [flex PCB plan](flex-pcb-schematic-plan.md#outline-concept-one-fold-around-the-battery)).
 
 ## Parts shortlist
 
@@ -257,7 +258,17 @@ Done when: the band logs motion all night, buzzes with a soft ramp inside the
 window, and a measured power budget shows at least two weeks on the chosen
 cell.
 
+### Stage 0b: battery and BMS bench test
+
+nPM1304-EK wired to the XIAO with a small protected cell, before the flex
+schematic is frozen. Details in the
+[flex PCB plan](flex-pcb-schematic-plan.md#when-do-the-battery-and-bms-get-tested).
+
 ### Stage 1: first custom board
+
+**Update 2026-10-30:** Stage 1 is now a flexible PCB that folds around the
+battery; see [flex-pcb-schematic-plan.md](flex-pcb-schematic-plan.md). The
+rigid board below is the fallback.
 
 Goal: a wearable board with the real parts, sized for comfort but not yet slim.
 
