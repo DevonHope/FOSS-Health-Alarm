@@ -1,7 +1,7 @@
 # WakeBand flex rev A (KiCad project)
 
 Schematic for the first custom board: a 2-layer flex PCB that folds once around
-a 12 x 30 mm, 110 mAh cell (pod about 22 x 36 x 8 mm). The design plan is in
+a 12 x 30 mm, 110 mAh cell (pod about 22 x 40 x 8 mm). The design plan is in
 [docs/flex-pcb-schematic-plan.md](../../docs/flex-pcb-schematic-plan.md) and the
 module pinout and GPIO plan are in
 [docs/flex-rev-a-pinout.md](../../docs/flex-rev-a-pinout.md).
@@ -71,9 +71,14 @@ nPM1304-EK), so they need another source or consignment.
 `flex-rev-a.kicad_pcb` holds the unfolded flex with every footprint placed
 and **no routing yet**. `flex-rev-a-layout.pdf` is a plot of it.
 
-- Outline (Edge.Cuts), all corners rounded 1 mm: island A x 100-132,
-  y 100-118 (32 x 18 mm); neck x 132-140, 5 mm wide; island B x 140-172,
-  y 99-119 (32 x 20 mm). Fold line at x = 136.
+- Outline (Edge.Cuts), all corners rounded 1 mm: island A x 96-132,
+  y 100-118 (36 x 18 mm); neck x 132-140, 5 mm wide; island B x 140-176,
+  y 99-119 (36 x 20 mm). Fold line at x = 136. Pod about 22 x 40 mm.
+- Both islands grew 4 mm (2026-10-30, option 1). The antenna shadow on
+  island B mirrors island A's far end, so lengthening island B alone would
+  not move it: island A grew too and the module moved to its new far end.
+  The shadow is now x 171-176, and the 30 mm cell bay (x 140.5-170.5) ends
+  0.5 mm before it.
 - Layers: User.1 Stiffener.Top (unused), User.2 Stiffener.Bottom (FR4 0.4 mm
   under island A and the LRA pad, PI 0.2 mm behind the dock pads),
   User.3 Bend.Zone, User.4 Antenna.Keepout. Dwgs.User has the cell, LRA and
@@ -93,9 +98,6 @@ and **no routing yet**. `flex-rev-a-layout.pdf` is a plot of it.
 
 Open questions for layout:
 
-- The 30 mm cell bay (x 140.5-170.5) runs 3.5 mm into the antenna shadow
-  (x 167-172). Either island B grows by about 4 mm (pod about 40 mm long), the
-  module moves off the far end, or the cell becomes 26 mm long.
 - About 11 nets cross the 5 mm neck (VIN, GND, VBAT/BATT_P, NTC, four
   dock lines, two LRA lines); this fits at 0.1/0.1 mm, but the power lines
   want 0.3 mm or more.
