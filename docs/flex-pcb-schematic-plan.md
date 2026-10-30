@@ -161,8 +161,11 @@ Rev A uses ENIG and we watch wear; rev B moves to hard gold if needed.
 instead of the 35 x 18 mm Fitbit Air size with a shorter cell.
 
 With about 1 mm case walls, the motor beside the cell across the width needs
-12 + 0.5 + 8 = about 20.5 mm inside, so the pod is about **22 x 36 mm**
-outside (36 mm = 30 mm cell + about 2 mm fold loop + walls). Putting the motor
+12 + 0.5 + 8 = about 20.5 mm inside, so the pod is about **22 x 40 mm**
+outside. It was first sized at 36 mm long (30 mm cell + about 2 mm fold loop
++ walls), but the first layout showed the cell would reach 3.5 mm into the
+area under the antenna after folding. On 2026-10-30 the pod grew about 4 mm
+so that area stays clear of the cell. Putting the motor
 at the end of the cell instead would need about 20 x 41 mm, and stacking it on
 the electronics side would push the height to about 10 mm.
 

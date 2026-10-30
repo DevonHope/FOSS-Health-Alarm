@@ -22,7 +22,7 @@ Targets for the final pod:
 
 | Item | Target |
 | --- | --- |
-| Pod size | about 22 x 36 x 8 mm (grown from 35 x 18 on 2026-10-30 to fit a 110 mAh cell) |
+| Pod size | about 22 x 40 x 8 mm (grown from 35 x 18 on 2026-10-30 to fit a 110 mAh cell and keep it clear of the antenna) |
 | Battery life | 2 weeks or more per charge |
 | Charging and debug | Sealed case, no USB port; six contact pads + magnets on a dock that charges, programs and gives a serial console |
 | Radio | Bluetooth LE, for settings and logs only |
@@ -55,7 +55,8 @@ measure the real number.
 The 8 mm coin LRA (2.55 to 3.25 mm thick) sits beside the battery in the
 battery layer, not on top of it, so it does not add height. Footprint is the
 tighter constraint: a 12 x 30 mm cell plus an 8 mm motor side by side needs
-about 22 x 36 mm with case walls. On 2026-10-30 the pod grew to that size to
+about 22 x 36 mm with case walls, and about 22 x 40 mm once the area under the
+antenna is kept clear. On 2026-10-30 the pod grew to that size to
 keep a common 110 mAh cell (see the
 [flex PCB plan](flex-pcb-schematic-plan.md#outline-concept-one-fold-around-the-battery)).
 
@@ -295,7 +296,7 @@ Goal: hit the size target.
   charging, flashing and serial.
 - Remove debug LEDs and jumpers; the dock pads are the only debug access.
 
-Done when: the pod is about 22 x 36 x 8 mm or smaller and lasts two weeks.
+Done when: the pod is about 22 x 40 x 8 mm or smaller and lasts two weeks.
 
 ### Stage 3: optional refinements
 
