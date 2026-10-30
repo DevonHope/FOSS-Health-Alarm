@@ -37,7 +37,7 @@ check against the XIAO schematic before the first power-up **(check)**.
  Dock pads (6)                 nPM1304 PMIC                     Loads
  ------------                  ------------                     -----
  VIN  --TVS--+---------------> VBUS   VSYS -------------------> DRV2605L VDD (2.0-5.2 V)
- GND  -------+                        BUCK1 1.8 V ------------> ISP2454 VDD, LIS2DW12, I2C pull-ups
+ GND  -------+                        BUCK1 2.0 V ------------> ISP2454 VDD, LIS2DW12, I2C pull-ups
  SWDCLK --R--TVS-------------------------------------------------> ISP2454 SWDCLK
  SWDIO  --R--TVS-------------------------------------------------> ISP2454 SWDIO
  RX     --R--TVS-------------------------------------------------> ISP2454 UART RX
@@ -74,7 +74,7 @@ smallest packages for rev B.
 | VBUS | Dock pad 1 | 5 V | nPM1304 VBUS only |
 | VBAT | Cell (through its PCM) | 3.0 to 4.2 V | nPM1304 VBAT |
 | VSYS | nPM1304 | VBUS or VBAT | DRV2605L VDD, BUCK1 input |
-| VDD_1V8 | nPM1304 BUCK1 | 1.8 V (try 1.8 vs 3.0 V in Stage 0b) | ISP2454 VDD, LIS2DW12 VDD/VDDIO, I2C pull-ups |
+| VDD_2V0 | nPM1304 BUCK1 | 2.0 V (VSET1 = 68 kohm; raised from 1.8 V after review, see below) | ISP2454 VDD, LIS2DW12 VDD/VDDIO, I2C pull-ups |
 | BUCK2 | nPM1304 | off | Unused: no inductor, VOUT2 tied to VSYS (Nordic says this stops leakage), VSET2 to GND, SW2 left open and PVSS2 to GND (as in Nordic's reference configuration 2) |
 
 Notes:
@@ -119,7 +119,7 @@ Notes:
 | DRV2605L | 0x5A | EN to GPIO, IN/TRIG to GPIO (PWM option) |
 | nPM1304 | 0x6B (datasheet: 7-bit address 110 1011) | GPIO/INT to SoC for VBUS-present and charger events |
 
-One shared 1.8 V I2C bus with 4.7 kohm pull-ups to VDD_1V8. 10 kohm would
+One shared 1.8 V I2C bus with 4.7 kohm pull-ups to VDD_2V0. 10 kohm would
 give about 425 ns rise time, too slow for 400 kHz. Every signal, plus nRESET
 (module pin 13), gets a test pad on the electronics island.
 
@@ -300,7 +300,9 @@ thick; a true 3 mm cell still needs a supplier.
   is the van Hees sleep rule.
 - Every 30 or 60 s epoch: an activity count for Cole-Kripke / Sadeh-style
   scoring.
-- FIFO batching so the SoC wakes about once a minute.
+- Run the LIS2DW12 at 12.5 Hz and lean on its activity/inactivity interrupt. Its
+  32-sample FIFO fills every 1.28 s at 25 Hz (2.6 s at 12.5 Hz), so it cannot
+  hold a whole minute; draining it is the biggest digital cost in the budget.
 
 ## Sources
 
@@ -337,3 +339,54 @@ Parts:
 Open designs to borrow from: ZSWatch (nPM1300, KiCad) https://github.com/Kampi/ZSWatch-HW,
 PineTime https://wiki.pine64.org/wiki/Category:PineTime, SensWear (nRF54L15
 wearable, 2026) https://www.cnx-software.com/2026/07/29/senswear-an-open-source-modular-nordic-nrf54l15-development-platform-for-wearables/
+
+## Schematic review (2026-10-30)
+
+An independent review of the finished rev A schematic, checked against the
+vendor datasheets. Every IC pin map, decoupling value and strap was correct,
+the nets match across sheets, and there is one set of I2C pull-ups. Fixes:
+
+| # | Finding | Fix |
+| --- | --- | --- |
+| 1 | ISP2454 pad 10 (HAPT_TRIG) sits in the lower outer row on the module mid-line. Below it is antenna keep-out, and the gaps between inner pads (0.25 mm) are too narrow for a trace, so it cannot escape without via-in-pad. | DRV2605L IN/TRIG tied to GND (TI's "if unused" option). Effects are started over I2C (GO bit). Pad 10 left unconnected. |
+| 2 | BUCK1 at 1.8 V +-5 % can drop to 1.71 V, against the module's 1.7 V minimum. | VSET1 changed to 68 kohm for 2.0 V; the rail is renamed VDD_2V0. The LIS2DW12, DRV2605L inputs and nPM1304 VDDIO all work at 2.0 V. |
+| 3 | DRV2605L footprint was TSSOP-10; TI's DGS package is VSSOP-10. | Footprint changed to VSSOP-10 3 x 3 mm, BOM updated. |
+| 4 | ST asks for 10 uF bulk next to the LIS2DW12. | 10 uF added on the sensors sheet. |
+| 5 | The VIN TVS (6 V minimum breakdown) would burn on a wrong 9 to 12 V supply, giving up the nPM1304's 22 V input tolerance. | VIN TVS changed to a higher standoff part; the nPM1304 cuts VSYS off above 5.5 V by itself. |
+
+Other risks noted, not schematic changes:
+
+- **Trapped ground pads.** GND pads 12, 14, 16 and 18 are in the same trapped
+  row. They are tied together inside the module; ask Insight SiP whether they
+  may stay unconnected on the board. Pads 8 and 24 reach the large pads 7 and 25
+  with a short trace.
+- **Dock logic level.** There is no VTref pad, so the dock must drive SWD and UART
+  at the band's 2.0 V and only after the band is alive (for example when it
+  sees UART_TX high). A 3.3 V probe would back-power the band through the
+  100 ohm resistors.
+- **Dock supply.** VSYS follows VBUS up to 5.5 V, the DRV2605L's absolute maximum,
+  so the dock supply must be 5.0 V +-3 %.
+- **Sweat.** The SWDIO pad sits at 2.0 V (internal pull-up) next to GND all night.
+- **Sourcing.** The ISP2454 and nPM1304 have no LCSC stock, so they must be
+  consigned to JLCPCB.
+
+### Power budget (estimate)
+
+Battery 3.8 V, buck about 85 % efficient.
+
+| Load | Typical (uA at the battery) | Worst (uA) |
+| --- | --- | --- |
+| nPM1304, one buck, auto mode | 0.8 | 1.1 |
+| nRF54L15 System ON idle with RTC (GRTC + 32 kHz crystal) | 0.8 | 1.8 |
+| LIS2DW12 low-power at 25 Hz | 0.8 | 1.1 |
+| FIFO drains every 1.28 s | 4.5 | 8.9 |
+| DRV2605L standby, EN low | 4.0 | 7.0 |
+| Cell protection circuit | 3.0 | 6.0 |
+| BLE, light use | 4.5 | 8.9 |
+| TVS leakage, NTC (biased only when measuring), pull-ups idle | about 0 | 0.1 |
+| **Sleep total** | **18 uA (0.44 mAh/day)** | **35 uA (0.84 mAh/day)** |
+| Morning buzz, 30 s at 60 to 80 mA | 0.5 to 0.67 mAh/day | |
+
+That is about 0.95 mAh per day typical and 1.5 mAh worst case: **roughly 3 to 4
+months on the 110 mAh cell** (2 months worst case), well past the 2-week target.
+The buzz is over half of it. Stage 0b measures the real numbers.

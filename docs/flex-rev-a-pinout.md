@@ -10,7 +10,7 @@ https://www.insightsip.com/fichiers_insightsip/pdf/ble/ISP2454/isp_ble_DS2454.pd
   LL has no 32.768 kHz crystal; LP adds 4 MB flash but takes P2.00 to P2.05.
 - Inside the module: antenna, both crystals, DC-DC inductor, RF match and all
   decoupling (11.2 uF in total). The datasheet says only a DC supply is needed.
-- VDD_nRF (pin 26): 1.7 to 3.6 V. Rev A runs it from the nPM1304 BUCK1 at 1.8 V.
+- VDD_nRF (pin 26): 1.7 to 3.6 V. Rev A runs it from the nPM1304 BUCK1 at 2.0 V (raised from 1.8 V for margin over the 1.7 V minimum).
 - Pin 20 OUT_ANT must be joined to pin 22 OUT_MOD on the board (net `ANT_LINK`).
 - Pins 49 to 62 are mechanical pads: isolated copper, no net.
 - 12 ground pads: 1, 7, 8, 12, 14, 16, 18, 21, 23, 24, 25, 31.
@@ -44,19 +44,26 @@ interrupts move from P0 to P1.
 | PMIC_INT | 48 | P1.11 | outer | GPIO, wake | nPM1304 interrupt: VBUS present, charger events |
 | UART_TX | 40 | P1.04 | outer | UARTE20 | Same as the nRF54L15 DK console |
 | UART_RX | 38 | P1.05 | outer | UARTE20 | Same as the nRF54L15 DK console |
-| HAPT_TRIG | 10 | P1.10 | outer | PWM20 OUT0 | DRV2605L IN/TRIG; the DK's PWM20 pin, so PWM input mode also works |
 | HAPT_EN | 42 | P2.05 | outer | GPIO | DRV2605L EN (static output) |
 | LED_DBG | 44 | P2.04 | outer | GPIO | Debug LED (DNP option) |
 | SWDIO | 28 | - | outer | SWD | Dock pad 4 |
 | SWDCLK | 30 | - | outer | SWD | Dock pad 3 |
-| VDD_1V8 | 26 | - | outer | supply | BUCK1 1.8 V |
+| VDD_2V0 | 26 | - | outer | supply | BUCK1 2.0 V |
 | ANT_LINK | 20, 22 | - | outer | RF | Short trace joining OUT_ANT and OUT_MOD |
 | nRESET | 13 | - | inner | reset | Optional test pad through a tented via under the module; SWD can reset the chip without it |
 | GND | 1, 7, 8, 12, 14, 16, 18, 24, 25, 31 outer; 21, 23 inner | - | | | Inner GND pads may use tented vias under the module, or be left as isolated pads |
 
 The accelerometer's second interrupt (INT2) goes to a test pad only.
 
-Left unused: P1.02/P1.03 (NFC pins, outer, need a register change to act as
+**Lower outer row (pads 8 to 24).** These sit on the module mid-line with the
+antenna keep-out directly below, and the 0.25 mm gaps between inner pads are
+too narrow for a trace. So they cannot be routed without via-in-pad. Pad 10
+(P1.10) is therefore unused: the DRV2605L's IN/TRIG is tied to GND and effects
+are started over I2C. Only ANT_LINK (20 to 22, a short trace along the row) and
+GND pads 8 and 24 (short traces to the large pads 7 and 25) use this row.
+GND pads 12 to 18 stay unconnected on the board, pending Insight SiP's OK.
+
+Left unused: P1.10 (pad 10, trapped, see above), P1.02/P1.03 (NFC pins, outer, need a register change to act as
 GPIO), P2.01 and P2.02 (outer, spare), and every inner-row GPIO (P0.00, P0.01,
 P0.04, P1.06, P1.08, P1.09, P1.12 to P1.15, P2.00, P2.03, P2.06 to P2.10).
 
