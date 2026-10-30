@@ -103,3 +103,23 @@ Open questions for layout:
   want 0.3 mm or more.
 - The NTC sits on island B's outer face, so it senses the cell through the
   0.12 mm flex, not in direct contact.
+
+## Routing (in progress, 2026-10-30)
+
+Partial route pushed so other machines can pull it: **DRC 0 errors**, 3
+connections still open (PAD_SWDIO at R602, VBUSOUT at C206, NTC from U201 to
+TH201). Warnings left: silkscreen overlaps only.
+
+- Routed with Freerouting 1.9.0 (Specctra DSN/SES), then post-processed:
+  GND pours (island A both layers, island B top, hatched top in the neck),
+  ISP2454 pads 8/24 tied to 7/25, teardrops enabled on every pad and via.
+- Placement changes for routing: R601-R604 moved from island B to island A
+  next to the neck (TVS stay at the dock pads); neck widened from 5 to 7 mm
+  (y 105.5-112.5).
+- Net classes: Power 0.3 mm (VIN, VSYS, VBAT, BATT_P, SW1, PVSS1), Motor
+  0.25 mm (LRA), Rail 0.2 mm (VDD_2V0), GND 0.2 mm, signals 0.12 mm;
+  clearance 0.13 mm so via holes stay 0.25 mm from other copper.
+- No-via rule areas everywhere except the stiffened areas, 0.5 mm inside
+  their edges; 0.32 mm no-track bands along the outline.
+- DRC exclusions (in the .kicad_pro): the 6 "unconnected" items on ISP2454
+  GND pads 12, 14, 16, 18, 21, 23, left unconnected on purpose.

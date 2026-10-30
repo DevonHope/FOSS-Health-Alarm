@@ -70,7 +70,32 @@
         }
       },
       "diff_pair_dimensions": [],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        [
+          "unconnected_items|101200000|107700000|12cc2617-cc86-44b4-bac2-aa21ff0edf97|cd30318b-5cfe-42b3-bb62-3ca6963a6611",
+          "ISP2454 GND pad left unconnected on purpose (trapped lower row / inner pad), see mcu sheet note"
+        ],
+        [
+          "unconnected_items|101200000|108350000|cd30318b-5cfe-42b3-bb62-3ca6963a6611|3f5b5148-b41b-4339-96ad-182f59d5d6dd",
+          "ISP2454 GND pad left unconnected on purpose (trapped lower row / inner pad), see mcu sheet note"
+        ],
+        [
+          "unconnected_items|101200000|109000000|3f5b5148-b41b-4339-96ad-182f59d5d6dd|f0066dd1-9735-42d0-af61-9ec0d898c12e",
+          "ISP2454 GND pad left unconnected on purpose (trapped lower row / inner pad), see mcu sheet note"
+        ],
+        [
+          "unconnected_items|101850000|110625000|54c9c7c5-394e-400b-a7b5-a7406fe9fb30|a5800117-a427-4319-9299-6822cbc47303",
+          "ISP2454 GND pad left unconnected on purpose (trapped lower row / inner pad), see mcu sheet note"
+        ],
+        [
+          "unconnected_items|101850000|110625000|54c9c7c5-394e-400b-a7b5-a7406fe9fb30|f0066dd1-9735-42d0-af61-9ec0d898c12e",
+          "ISP2454 GND pad left unconnected on purpose (trapped lower row / inner pad), see mcu sheet note"
+        ],
+        [
+          "unconnected_items|101850000|111275000|a5800117-a427-4319-9299-6822cbc47303|ac17417c-707f-4911-9a78-1207f33d96e2",
+          "ISP2454 GND pad left unconnected on purpose (trapped lower row / inner pad), see mcu sheet note"
+        ]
+      ],
       "meta": {
         "version": 2
       },
@@ -264,14 +289,14 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "flex-rev-a.kicad_pro",
+    "filename": "route.kicad_pro",
     "version": 3
   },
   "net_settings": {
     "classes": [
       {
         "bus_width": 12,
-        "clearance": 0.1,
+        "clearance": 0.13,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.2,
@@ -282,7 +307,83 @@
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "priority": 2147483647,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.15,
+        "track_width": 0.12,
+        "tuning_profile": "",
+        "via_diameter": 0.55,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.13,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Gnd",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": -1,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.2,
+        "tuning_profile": "",
+        "via_diameter": 0.55,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.13,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Motor",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": -1,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.25,
+        "tuning_profile": "",
+        "via_diameter": 0.55,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.13,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Power",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": -1,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.3,
+        "tuning_profile": "",
+        "via_diameter": 0.55,
+        "via_drill": 0.3,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.13,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Rail",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": -1,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.2,
         "tuning_profile": "",
         "via_diameter": 0.55,
         "via_drill": 0.3,
@@ -294,7 +395,48 @@
     },
     "net_colors": null,
     "netclass_assignments": null,
-    "netclass_patterns": []
+    "netclass_patterns": [
+      {
+        "netclass": "Power",
+        "pattern": "VIN"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "VSYS"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "VBAT"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "BATT_P"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "SW1"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "PVSS1"
+      },
+      {
+        "netclass": "Motor",
+        "pattern": "LRA_P"
+      },
+      {
+        "netclass": "Motor",
+        "pattern": "LRA_N"
+      },
+      {
+        "netclass": "Rail",
+        "pattern": "VDD_2V0"
+      },
+      {
+        "netclass": "Gnd",
+        "pattern": "GND"
+      }
+    ]
   },
   "pcbnew": {
     "last_paths": {
