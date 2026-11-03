@@ -9,7 +9,7 @@
 | Pod | about 35 x 17 mm outline with 1 mm walls (estimate); height = cell (4-5 mm) + 0.8 mm board + tallest top-side part |
 | DRC | 0 violations, 0 unconnected, schematic parity 0 (3 documented exclusions) |
 | ERC | 0 errors, 0 warnings |
-| Vias | 131: 120 x 0.45/0.3 mm, 11 x 0.3/0.2 mm |
+| Vias | 143: 132 x 0.45/0.3 mm, 11 x 0.3/0.2 mm |
 | Files | `rigid-rev-a-layout.pdf` (layers), `rigid-rev-a.pdf` (schematic), `fab/` |
 
 ## Stackup
@@ -26,7 +26,7 @@ JLCPCB JLC04081H-7628, 0.8 mm (also in `fab/gerbers/rigid-rev-a-job.gbrjob`):
 | prepreg 7628, 0.21 mm | |
 | B.Cu (L4, 35 um) | the six dock pads, signal routing, GND pour |
 
-Track length by layer: F.Cu 157 mm, In2.Cu 153 mm, B.Cu 101 mm, In1.Cu 0.
+Track length by layer: F.Cu 144 mm, In2.Cu 158 mm, B.Cu 107 mm, In1.Cu 0.
 
 ## Orientation and outline
 
@@ -67,8 +67,11 @@ with the board from (100, 100) to (133, 115).
 - Power nets as routed before: 0.4 mm on the battery path (BATT_P, VBAT),
   0.3 mm on VIN/VSYS/PVSS1/SW1/LRA, 0.25 mm on VDD_2V0 where it leaves the
   PMIC. VSYS changes layer through two parallel In2 paths with two vias at
-  each end; VBAT, BATT_P, VIN, PVSS1 and LRA_P use one 0.45/0.3 via per
-  layer change (each is good for about 1 A, well above these currents).
+  each end. VBAT, BATT_P, VIN, PVSS1 and LRA_P have a second 0.45/0.3 via
+  beside each layer change, joined on both layers, except three spots with
+  no room: BATT_P at (121.7, 102.7), VIN's F-to-B jump at the dock (122.65,
+  113.2) and LRA_P at U501 (129.15, 106.4). Each via is good for about 1 A,
+  well above these currents.
 - Signals: 0.12 mm tracks, 0.10 mm clearance, VDD_2V0 and REG 0.2 mm,
   routed with a scripted grid router because Freerouting crashed on this
   board. I2C runs U401 - U1 - U201 - U501 with test pads TP702/TP703. Each
@@ -92,19 +95,20 @@ with the board from (100, 100) to (133, 115).
 - Each F-side GND pad has its own via to In1 where there is room (15
   fan-out vias), plus 18 stitching vias around the board edge and 2 more at
   the module's top and bottom (outside the keep-out).
-- Short GND links where no via fits: U401 pad 8 + C402 share one via; C401's
-  GND pad ties to U401's GND pads; C403 has its own stub and via; D605 and
-  NT201 reach a GND via through thin tracks (see compromises).
+- Short GND links where no via fits beside the pad: U401 pad 8 + C402 share
+  one via; C401's GND pad ties to U401's GND pads. C403, D605 and NT201 each
+  have their own short stub and via: D605 0.6 mm of 0.3 mm track, NT201
+  (the PVSS1 star point) 1.5 mm of 0.3 mm track.
 - Two 0.3/0.2 mm GND vias under the U501 body tie the pin 4 and pin 8 pour
   pockets to In1.
 
 | Vias | Count |
 | --- | --- |
-| 0.45/0.3, signal and power | 70 |
-| 0.45/0.3, GND (incl. 9 in the nPM1304 exposed pad and 4 in module corner pads) | 50 |
+| 0.45/0.3, signal and power (incl. 8 second vias on power layer changes) | 80 |
+| 0.45/0.3, GND (incl. 9 in the nPM1304 exposed pad and 4 in module corner pads) | 52 |
 | 0.3/0.2, GND (8 in module pads, 2 under U501) | 10 |
 | 0.3/0.2, nRESET (module pad 13) | 1 |
-| Total | 131 |
+| Total | 143 |
 
 ### Inner module pads and POFV
 
@@ -149,14 +153,14 @@ Until firmware does this the cell does not charge from the dock.
    and LRA fitted (and in the pod) against a bare module before committing.
 2. **POFV is required** (paid option) because of the via-in-pad on U1, U201
    and TP701.
-3. **One via per layer change** on VBAT, BATT_P, VIN, PVSS1 and LRA_P (VSYS
-   has two). Fine for the current, but less margin than planned.
-4. **Thin GND returns:** D605 (ESD diode on the UART_TX dock line) reaches
-   GND through 4.7 mm of 0.12 mm track to a module GND via, which weakens
-   its clamp. NT201's GND side (the PVSS1 star point) reaches a GND via
-   through 4.0 mm of 0.2 mm track. Both work but are not ideal returns.
+3. **Three single-via power layer changes** remain where a second via does
+   not fit: BATT_P at (121.7, 102.7), VIN at the dock (122.65, 113.2) and
+   LRA_P at U501 (129.15, 106.4). Each is fine for the current.
+4. **GND returns:** D605 and NT201 now have short 0.3 mm stubs to their own
+   vias. NT201's via sits 1.5 mm from the pad because the net tie's copper
+   bridge keeps vias away from its own side.
 5. **Fine routing:** 0.12 mm tracks with 0.10 mm clearance (JLCPCB's 4-layer
-   minimum is 0.09/0.09). B.Cu carries 101 mm of signal routing, so the
+   minimum is 0.09/0.09). B.Cu carries 107 mm of signal routing, so the
    outer-face GND pour is cut up; In1 stays solid.
 6. **Placement nudges for routing:** C203 moved 0.65 mm left and C401 moved
    and turned 90 deg next to U401. Both stay next to the pins they decouple.

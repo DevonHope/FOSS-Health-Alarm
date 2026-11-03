@@ -19,7 +19,7 @@ consigned ISP2454 (F.Fab outline with pin-1 mark, pads numbered, board edge).
 | Copper | 1 oz outer, 0.5 oz inner |
 | Finish | ENIG |
 | Via covering | **Epoxy filled and capped (POFV) - paid option, must be selected** |
-| Min via | 0.3 mm pad / 0.2 mm hole (11 vias); the other 120 are 0.45 / 0.3 |
+| Min via | 0.3 mm pad / 0.2 mm hole (11 vias); the other 132 are 0.45 / 0.3 |
 | Min track / space | 0.12 / 0.10 mm |
 | Impedance control | not needed (ANT_LINK is two module pads joined on F.Cu, 0.65 mm) |
 | Assembly | top side only; bottom has only the six dock pads (no paste) |
