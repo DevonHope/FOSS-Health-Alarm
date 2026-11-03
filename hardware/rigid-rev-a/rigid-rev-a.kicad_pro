@@ -74,10 +74,6 @@
         [
           "lib_footprint_mismatch|108000000|113900000|75330810-5d23-41c0-8e63-03dc1c7f2ccb|00000000-0000-0000-0000-000000000000",
           "D701 silk dot removed on purpose (clipped by board edge); polarity stays on F.Fab"
-        ],
-        [
-          "lib_footprint_mismatch|112977500|105400000|b39e02dc-3ac9-47ef-9df5-6f81846ce822|00000000-0000-0000-0000-000000000000",
-          "L201 silk segment removed on purpose (overlapped U201 silk)"
         ]
       ],
       "meta": {
