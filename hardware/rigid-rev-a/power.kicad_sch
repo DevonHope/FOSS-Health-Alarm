@@ -2303,7 +2303,7 @@
 		)
 		(uuid "3423439e-3867-44c0-8014-e33a487bb7ee")
 	)
-	(text "(check) before freezing:\n- U201 footprint: KiCad QFN-32 5x5 EP 3.45 mm; datasheet EP is 3.5 nom (3.4-3.6). Compare with Nordic's QFN reference layout.\n- U201 has no LCSC stock (only the nPM1304-EK, C50090302); source the chip elsewhere or as a consigned part.\n- L201: DFE201610E-2R2M on the KiCad DFE201610P land pattern; confirm the pad sizes.\n- GPIO3 for PMIC_INT: match the nPM1304-EK / Zephyr devicetree used in Stage 0b.\n- VSYS abs max 5.5 V: dock supply must stay at 5.0 V; DRV2605L blocked while VBUS is present."
+	(text "(check) before freezing:\n- U201 footprint: KiCad QFN-32 5x5 EP 3.45 mm; datasheet EP is 3.5 nom (3.4-3.6). Compare with Nordic's QFN reference layout.\n- U201 has no LCSC stock (only the nPM1304-EK, C50090302); source the chip elsewhere or as a consigned part.\n- L201: Murata DFE201610E-2R2M confirmed, on KiCad's L_Murata_DFE201610P land pattern (not yet compared with Murata's drawing).\n- GPIO3 for PMIC_INT: match the nPM1304-EK / Zephyr devicetree used in Stage 0b.\n- VSYS abs max 5.5 V: dock supply must stay at 5.0 V; DRV2605L blocked while VBUS is present."
 		(exclude_from_sim no)
 		(at 228.6 213.36 0)
 		(effects
@@ -3904,7 +3904,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "2.2uH (check)"
+		(property "Value" "2.2uH"
 			(at 281.94 107.95 0)
 			(show_name no)
 			(do_not_autoplace no)

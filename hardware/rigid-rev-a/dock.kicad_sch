@@ -990,7 +990,7 @@
 			(embedded_fonts no)
 		)
 	)
-	(text "Pad order: 1 VIN, 2 GND, 3 SWDCLK, 4 SWDIO, 5 UART_RX, 6 UART_TX.\n- TVS at the pad on VIN (D601) and on each data pad (D602-D605). No TVS on pad 2: it is the GND reference.\n- D601 is Littelfuse SMF18A (SOD-123FL, unidirectional, 18 V standoff, 20.0-22.1 V breakdown, 1 uA max at 18 V),\n  so a wrong 9-12 V supply does not burn it. The nPM1304 VBUS tolerates 22 V and cuts VSYS off above 5.5 V.\n  D601 replaces the VIN TVS that was on the power sheet (the pads and the PMIC are on different islands).\n- 100 ohm in series between each data pad and the SoC net (R601-R604), TVS on the pad side.\n- R605 100k pull-down on UART_RX at the SoC side, so the RX input does not float off the dock.\n- Firmware enables the UART only while the PMIC reports VBUS present.\n- SWDIO has an always-on internal pull-up in the nRF54L15, so pad 4 sits at 2.0 V on the skin all night.\n- Pads: ENIG for rev A (JLCPCB rigid); hard gold (PCBWay) if pogo wear shows."
+	(text "Pad order: 1 VIN, 2 GND, 3 SWDCLK, 4 SWDIO, 5 UART_RX, 6 UART_TX.\n- TVS at the pad on VIN (D601) and on each data pad (D602-D605). No TVS on pad 2: it is the GND reference.\n- D601 is Littelfuse SMF12A (SOD-123FL, unidirectional, 12 V standoff, 13.3-14.7 V breakdown at 1 mA, 2.5 uA max at 12 V),\n  clamping at 19.9 V max at 10.1 A: below the nPM1304 VBUS abs max of 22 V, and a wrong 12 V supply does not burn it.\n  The nPM1304 cuts VSYS off above 5.5 V.\n  D601 replaces the VIN TVS that was on the power sheet (the pads and the PMIC are on different islands).\n- 100 ohm in series between each data pad and the SoC net (R601-R604), TVS on the pad side.\n- R605 100k pull-down on UART_RX at the SoC side, so the RX input does not float off the dock.\n- Firmware enables the UART only while the PMIC reports VBUS present.\n- SWDIO has an always-on internal pull-up in the nRF54L15, so pad 4 sits at 2.0 V on the skin all night.\n- Pads: ENIG for rev A (JLCPCB rigid); hard gold (PCBWay) if pogo wear shows."
 		(exclude_from_sim no)
 		(at 15.24 147.32 0)
 		(effects
@@ -1012,7 +1012,7 @@
 		)
 		(uuid "e9f93773-3cd0-48fc-86ff-03f332cd656f")
 	)
-	(text "(check):\n- D601 SMF18A clamps at up to 29.2 V at its full 6.8 A surge rating, above VBUS's 22 V abs max: fine for ESD and\n  slow over-voltage, but a large surge could still reach the PMIC.\n- Data pads, TPD1E10B06DPYR: Vrwm 5.5 V (bidirectional), clamp 10 V at 1 A, C 12 pF. Leakage is 100 nA MAX at 5 V, above the\n  50 nA target. The four 2.0 V data pads have no datasheet\n  figure at 2.0 V: measure it. TPD1E0B04 is a lower-leakage alternative for the data pads.\n- TVS footprint: KiCad D_0402 used for TI's DPY (X1SON 1.0 x 0.6 mm); check against TI's land pattern."
+	(text "Notes:\n- D601 SMF12A clamps at 19.9 V max at its full 10.1 A surge rating, below VBUS's 22 V abs max.\n- Data pads, TPD1E10B06DPYR: Vrwm 5.5 V (bidirectional), clamp 10 V at 1 A, C 12 pF. Leakage is 100 nA MAX at 5 V, above the\n  50 nA target. The four 2.0 V data pads have no datasheet\n  figure at 2.0 V: measure it. TPD1E0B04 is a lower-leakage alternative for the data pads.\n- TVS footprint: KiCad Package_SON:Texas_DPY0002A_0.6x1mm_P0.65mm, TI's DPY0002A (X1SON 1.0 x 0.6 mm) land pattern."
 		(exclude_from_sim no)
 		(at 15.24 208.28 0)
 		(effects
@@ -2394,7 +2394,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "TPD1E10B06 (check)"
+		(property "Value" "TPD1E10B06"
 			(at 127 72.39 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2405,7 +2405,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Diode_SMD:D_0402_1005Metric"
+		(property "Footprint" "Package_SON:Texas_DPY0002A_0.6x1mm_P0.65mm"
 			(at 127 74.93 90)
 			(hide yes)
 			(show_name no)
@@ -2500,7 +2500,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "TPD1E10B06 (check)"
+		(property "Value" "TPD1E10B06"
 			(at 210.82 72.39 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2511,7 +2511,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Diode_SMD:D_0402_1005Metric"
+		(property "Footprint" "Package_SON:Texas_DPY0002A_0.6x1mm_P0.65mm"
 			(at 210.82 74.93 90)
 			(hide yes)
 			(show_name no)
@@ -2683,7 +2683,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "TPD1E10B06 (check)"
+		(property "Value" "TPD1E10B06"
 			(at 154.94 72.39 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2694,7 +2694,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Diode_SMD:D_0402_1005Metric"
+		(property "Footprint" "Package_SON:Texas_DPY0002A_0.6x1mm_P0.65mm"
 			(at 154.94 74.93 90)
 			(hide yes)
 			(show_name no)
@@ -2959,7 +2959,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "SMF18A (TVS)"
+		(property "Value" "SMF12A (TVS)"
 			(at 99.06 72.39 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3004,7 +3004,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C409420"
+		(property "LCSC" "C207255"
 			(at 99.06 80.01 90)
 			(hide yes)
 			(show_name no)
@@ -3016,7 +3016,7 @@
 				(justify left)
 			)
 		)
-		(property "MPN" "Littelfuse SMF18A"
+		(property "MPN" "Littelfuse SMF12A"
 			(at 99.06 82.55 90)
 			(hide yes)
 			(show_name no)
@@ -3141,7 +3141,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "TPD1E10B06 (check)"
+		(property "Value" "TPD1E10B06"
 			(at 182.88 72.39 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3152,7 +3152,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Diode_SMD:D_0402_1005Metric"
+		(property "Footprint" "Package_SON:Texas_DPY0002A_0.6x1mm_P0.65mm"
 			(at 182.88 74.93 90)
 			(hide yes)
 			(show_name no)
