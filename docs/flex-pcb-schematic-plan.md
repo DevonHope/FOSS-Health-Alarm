@@ -1,5 +1,24 @@
 # Flex PCB schematic plan (rev A)
 
+> **Update 2026-11-02: rev A is now a rigid board.** To shrink the pod, the
+> 110 mAh cell was swapped for a 60 mAh one (about 50 days per charge typical,
+> 32 days worst case). With a small cell the fold no longer pays off, so rev A
+> became a 4-layer, 0.8 mm rigid board, 33 x 15 mm, for a pod of about
+> 35 x 17 x 9 mm. The schematic below carries over unchanged except for the
+> cell. The board, its fab package and the remaining compromises are in
+> [hardware/rigid-rev-a/README.md](../hardware/rigid-rev-a/README.md). The flex
+> design stays in `hardware/flex-rev-a/` as an archive, and the rest of this
+> document describes it.
+>
+> Why rigid won once the cell was small:
+> - It is much cheaper to make, with no stiffeners, bend zones or coverlay.
+> - It has 4 layers with a solid ground plane under the radio.
+> - Filled vias in pads (JLCPCB's POFV option) reach the module's inner
+>   pads, so nRESET and the trapped ground pads are now connected.
+> - The cell and motor have wire leads anyway, so the fold saved no wiring.
+>   The motor is glued to the case floor, and the dock pads move to the
+>   pod's outer face, away from sweat.
+
 This is the plan for the first custom board: one flexible PCB that carries every
 part of the band, has a flat stiffened area where the coin LRA is taped down,
 and includes a proper battery-management (BMS) block. It replaces the rigid
@@ -269,6 +288,7 @@ showed as not found from Canada. Buy locally:
 
 | Seller | Cell | Size (mm) | Notes |
 | --- | --- | --- | --- |
+| X2 Robotics (North York) | **60 mAh (rigid rev A cell)**, protection built in, JST-PH | about 16 x 13 x 4 (could be 5 thick, measure) | CA$2.99 when checked 2026-11-02, rated 1C |
 | Solarbotics (Calgary) | 110 mAh, PCM, JST | 12 x 32 x 4 | About USD 5.39, in stock when checked |
 | Abra Electronics | 100 mAh and 150 mAh (Adafruit 1317), PCM, JST-PH | 150 mAh: 19.75 x 26 x 3.8 | Prices not visible **(check)** |
 | PiShop.ca (took over Elmwood) | Adafruit 1317 150 mAh, Adafruit 3898 400 mAh | | Elmwood listed about CAD 9.99 / 11.99; PiShop stock not verified |
