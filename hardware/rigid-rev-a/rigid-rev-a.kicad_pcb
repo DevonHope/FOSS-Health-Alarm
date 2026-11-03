@@ -393,7 +393,7 @@
 			(at 0 0)
 			(size 2 2)
 			(layers "F.Cu" "F.Mask")
-			(net "BATT_P")
+			(net "/power/BATT_P")
 			(solder_mask_margin 0.1)
 			(clearance 0.5)
 			(teardrops
@@ -469,6 +469,18 @@
 			(effects
 				(font
 					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C96446"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "fa32d25f-2c24-415f-aa01-aa077160b420")
+			(effects
+				(font
+					(size 1.27 1.27)
 					(thickness 0.15)
 				)
 			)
@@ -552,7 +564,7 @@
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "PVSS1")
+			(net "/power/PVSS1")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -641,6 +653,18 @@
 				)
 			)
 		)
+		(property "LCSC" "C96446"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8824f6a1-2477-49ed-a5b3-aac888deb47d")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -720,7 +744,7 @@
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "PVSS1")
+			(net "/power/PVSS1")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -892,6 +916,18 @@
 				)
 			)
 		)
+		(property "LCSC" "C25076"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2ac14ce5-f5ae-4934-bb4e-a16d8e045b56")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -952,7 +988,7 @@
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "PAD_SWDCLK")
+			(net "/dock/PAD_SWDCLK")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -1060,6 +1096,18 @@
 				)
 			)
 		)
+		(property "LCSC" "C52923"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "aa3b0307-8b93-4099-9749-5dcad124ef78")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1120,7 +1168,7 @@
 			(size 0.56 0.62)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "REG")
+			(net "/haptics/REG")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -1375,7 +1423,7 @@
 			(at -0.65 0 270)
 			(size 1 0.5)
 			(layers "F.Cu" "F.Mask")
-			(net "BATT_P")
+			(net "/power/BATT_P")
 			(zone_connect 2)
 			(thermal_bridge_angle 45)
 			(options
@@ -1525,7 +1573,19 @@
 				)
 			)
 		)
-		(attr smd)
+		(property "LCSC" "C11702"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c55e2beb-b360-4d3b-a88f-4d1729b6409f")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 -0.38)
@@ -1604,7 +1664,7 @@
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "LED_A")
+			(net "/debug/LED_A")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -1693,6 +1753,18 @@
 				)
 			)
 		)
+		(property "LCSC" "C36871"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "910ce559-9fd7-4b79-9013-37cd80cc358d")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1753,7 +1825,7 @@
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "VSET1")
+			(net "/power/VSET1")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -1857,6 +1929,18 @@
 			(effects
 				(font
 					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C527464"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ea6747d5-5a5e-45e7-aac5-b45520a0769e")
+			(effects
+				(font
+					(size 1.27 1.27)
 					(thickness 0.15)
 				)
 			)
@@ -2083,7 +2167,7 @@
 			(size 1.45 0.3)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "REG")
+			(net "/haptics/REG")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -2197,7 +2281,7 @@
 			(size 1.45 0.3)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "LRA_P")
+			(net "/haptics/LRA_P")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -2235,7 +2319,7 @@
 			(size 1.45 0.3)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "LRA_N")
+			(net "/haptics/LRA_N")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -2343,6 +2427,18 @@
 				)
 			)
 		)
+		(property "LCSC" "C25076"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d2d0c4de-1ee0-44c1-b42b-20ed90459592")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -2403,7 +2499,7 @@
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "PAD_TX")
+			(net "/dock/PAD_TX")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -2517,7 +2613,7 @@
 			(size 1 1.5)
 			(layers "F.Cu" "F.Mask")
 			(roundrect_rratio 0.15)
-			(net "LRA_P")
+			(net "/haptics/LRA_P")
 			(solder_mask_margin 0.1)
 			(clearance 0.5)
 			(teardrops
@@ -2845,6 +2941,18 @@
 			(effects
 				(font
 					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C96446"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "141030c6-645a-495b-9f2e-3d43436a8317")
+			(effects
+				(font
+					(size 1.27 1.27)
 					(thickness 0.15)
 				)
 			)
@@ -3294,6 +3402,7 @@
 			(at -3.7 -2.6 270)
 			(size 0.35 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P1.02{slash}NFC1-Pad2)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -3311,6 +3420,7 @@
 			(at -3.05 -2.275 270)
 			(size 0.4 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P2.03-Pad3)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -3328,6 +3438,7 @@
 			(at -3.7 -1.95 270)
 			(size 0.35 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P1.03{slash}NFC2-Pad4)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -3345,6 +3456,7 @@
 			(at -3.05 -1.625 270)
 			(size 0.4 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P2.10{slash}TRACEDATA3-Pad5)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -3362,6 +3474,7 @@
 			(at -3.7 -1.3 270)
 			(size 0.35 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P2.01-Pad6)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -3416,6 +3529,7 @@
 			(at -2.275 -0.85 270)
 			(size 0.4 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P2.08{slash}TRACEDATA1-Pad9)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -3433,6 +3547,7 @@
 			(at -1.95 -0.2 270)
 			(size 0.4 0.35)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P1.10-Pad10)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -3450,6 +3565,7 @@
 			(at -1.625 -0.85 270)
 			(size 0.4 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P2.07{slash}TRACEDATA0-Pad11)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -3521,6 +3637,7 @@
 			(at -0.325 -0.85 270)
 			(size 0.4 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P2.06{slash}TRACECLK-Pad15)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -3556,6 +3673,7 @@
 			(at 0.325 -0.85 270)
 			(size 0.4 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P1.15-Pad17)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -3591,6 +3709,7 @@
 			(at 0.975 -0.85 270)
 			(size 0.4 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P1.08-Pad19)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -3735,6 +3854,7 @@
 			(at 3.05 -1.625 270)
 			(size 0.4 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P0.01-Pad27)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -3770,6 +3890,7 @@
 			(at 3.05 -2.275 270)
 			(size 0.4 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P0.00-Pad29)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -3842,6 +3963,7 @@
 			(at 2.275 -3.05 270)
 			(size 0.4 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P0.04-Pad33)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -3877,6 +3999,7 @@
 			(at 1.625 -3.05 270)
 			(size 0.4 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P1.06{slash}AIN2-Pad35)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -3912,6 +4035,7 @@
 			(at 0.975 -3.05 270)
 			(size 0.4 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P2.09{slash}TRACEDATA2-Pad37)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -3947,6 +4071,7 @@
 			(at 0.325 -3.05 270)
 			(size 0.4 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P1.09-Pad39)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -3982,6 +4107,7 @@
 			(at -0.325 -3.05 270)
 			(size 0.4 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P1.13{slash}AIN6-Pad41)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -4017,6 +4143,7 @@
 			(at -0.975 -3.05 270)
 			(size 0.4 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P1.12{slash}AIN5-Pad43)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -4052,6 +4179,7 @@
 			(at -1.625 -3.05 270)
 			(size 0.4 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P1.14{slash}AIN7-Pad45)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -4069,6 +4197,7 @@
 			(at -1.95 -3.7 270)
 			(size 0.4 0.35)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P2.02-Pad46)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -4086,6 +4215,7 @@
 			(at -2.275 -3.05 270)
 			(size 0.4 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
+			(net "unconnected-(U1-P2.00-Pad47)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -4450,6 +4580,18 @@
 				)
 			)
 		)
+		(property "LCSC" "C1525"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6690f721-6d9d-4c64-9858-6d5561174fef")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -4610,7 +4752,31 @@
 				)
 			)
 		)
-		(attr smd)
+		(property "LCSC" "C231329"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "556a4a53-2595-4f9d-8340-1c804be19e7d")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "Omron B3U-1000P"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "42c0a17c-6c21-4b4d-9820-43e45bc62a32")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -1.65 -1.4)
@@ -4778,7 +4944,7 @@
 			(at -1.7 0)
 			(size 0.9 1.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "SHPHLD")
+			(net "/power/SHPHLD")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -4885,6 +5051,18 @@
 				)
 			)
 		)
+		(property "LCSC" "C15849"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "23ca1881-92e9-46b4-a8f9-264bd3fc1355")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -4945,7 +5123,7 @@
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "VBUSOUT")
+			(net "/power/VBUSOUT")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -5049,6 +5227,18 @@
 			(effects
 				(font
 					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C25900"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "82abf9b8-906c-4594-9adc-c3bdc4756563")
+			(effects
+				(font
+					(size 1.27 1.27)
 					(thickness 0.15)
 				)
 			)
@@ -5221,6 +5411,30 @@
 				)
 			)
 		)
+		(property "LCSC" "C48260"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "655b5257-577e-4a56-8f69-fa32d40b5f0e")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "TI TPD1E10B06DPYR"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3438cbe1-bb93-405d-8a34-02f0159c8d81")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_circle
@@ -5292,7 +5506,7 @@
 			(size 0.59 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "PAD_TX")
+			(net "/dock/PAD_TX")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -5400,7 +5614,31 @@
 				)
 			)
 		)
-		(attr smd)
+		(property "LCSC" "C25503345"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "225a243e-28b5-4e5e-a50b-c0fbb5d303b1")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "XINGLIGHT XL-1005SURC"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2b51b861-120f-4b05-884c-634aa0651c75")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_circle
 			(center -1.09 0)
@@ -5490,7 +5728,7 @@
 			(size 0.59 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "LED_A")
+			(net "/debug/LED_A")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -5579,6 +5817,30 @@
 				)
 			)
 		)
+		(property "LCSC" "C77131"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "23a033df-1944-49e7-8c3d-7a3128f88f1f")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "Murata NCP15XH103F03RC"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "db12eb19-6841-4a9e-b60e-877cae49ebed")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -5639,7 +5901,7 @@
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "NTC")
+			(net "/power/NTC")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -5743,6 +6005,18 @@
 			(effects
 				(font
 					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C25900"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "56b2728a-5fc4-420f-baf4-8e26ac0f0bbb")
+			(effects
+				(font
+					(size 1.27 1.27)
 					(thickness 0.15)
 				)
 			)
@@ -5915,6 +6189,30 @@
 				)
 			)
 		)
+		(property "LCSC" "C48260"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8acfae11-ea2e-46e4-b445-591c576dd4aa")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "TI TPD1E10B06DPYR"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "254bfc18-942c-4046-814a-e3a85c763932")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_circle
@@ -5986,7 +6284,7 @@
 			(size 0.59 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "PAD_SWDCLK")
+			(net "/dock/PAD_SWDCLK")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -6090,6 +6388,18 @@
 			(effects
 				(font
 					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C1525"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "dfa7b7c2-71fc-4e14-8444-015787fb7294")
+			(effects
+				(font
+					(size 1.27 1.27)
 					(thickness 0.15)
 				)
 			)
@@ -6247,6 +6557,30 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "1b146ece-694b-44bc-b4c0-216f49013bf3")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C409420"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f88c4e6f-0e06-420b-a17f-c63976585635")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "Littelfuse SMF18A"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8e634559-8d9a-4489-8479-d7ee83f8fac4")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6560,6 +6894,18 @@
 				)
 			)
 		)
+		(property "LCSC" "C25076"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2139c828-7ece-436d-8683-061f533672d5")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -6620,7 +6966,7 @@
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "PAD_SWDIO")
+			(net "/dock/PAD_SWDIO")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -6728,6 +7074,30 @@
 				)
 			)
 		)
+		(property "LCSC" "C48260"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9e95c994-5c8f-4288-8a29-ecb8287aa9cd")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "TI TPD1E10B06DPYR"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "370dc929-eaca-4ecd-ae9c-087beccdc9b2")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_circle
@@ -6799,7 +7169,7 @@
 			(size 0.59 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "PAD_RX")
+			(net "/dock/PAD_RX")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -6990,6 +7360,18 @@
 				)
 			)
 		)
+		(property "LCSC" "C1525"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "de8cabee-61ea-4fbe-a9ce-9b9f28d0dd6b")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -7158,6 +7540,18 @@
 				)
 			)
 		)
+		(property "LCSC" "C25076"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "1f73a9c8-5a4a-4847-9bd1-5f9f4f5773ea")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -7218,7 +7612,7 @@
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "PAD_RX")
+			(net "/dock/PAD_RX")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -7322,6 +7716,18 @@
 			(effects
 				(font
 					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c2d41624-d98c-47ee-93a4-b17b21ccc97b")
+			(effects
+				(font
+					(size 1.27 1.27)
 					(thickness 0.15)
 				)
 			)
@@ -7829,7 +8235,7 @@
 			(size 0.875 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "PVSS1")
+			(net "/power/PVSS1")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -7848,7 +8254,7 @@
 			(size 0.875 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "SW1")
+			(net "/power/SW1")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -7886,6 +8292,7 @@
 			(size 0.875 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
+			(net "unconnected-(U201-SW2-Pad5)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -7923,6 +8330,7 @@
 			(size 0.875 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
+			(net "unconnected-(U201-GPIO0-Pad7)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -7941,6 +8349,7 @@
 			(size 0.875 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
+			(net "unconnected-(U201-GPIO1-Pad8)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -7959,6 +8368,7 @@
 			(size 0.25 0.875)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
+			(net "unconnected-(U201-GPIO2-Pad9)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -7996,6 +8406,7 @@
 			(size 0.25 0.875)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
+			(net "unconnected-(U201-GPIO4-Pad11)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -8071,7 +8482,7 @@
 			(size 0.25 0.875)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "SHPHLD")
+			(net "/power/SHPHLD")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -8109,7 +8520,7 @@
 			(size 0.875 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "VSET1")
+			(net "/power/VSET1")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -8128,7 +8539,7 @@
 			(size 0.875 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "NTC")
+			(net "/power/NTC")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -8204,7 +8615,7 @@
 			(size 0.875 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "VBUSOUT")
+			(net "/power/VBUSOUT")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -8261,6 +8672,7 @@
 			(size 0.25 0.875)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
+			(net "unconnected-(U201-LED0-Pad25)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -8279,6 +8691,7 @@
 			(size 0.25 0.875)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
+			(net "unconnected-(U201-LED1-Pad26)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -8297,6 +8710,7 @@
 			(size 0.25 0.875)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
+			(net "unconnected-(U201-LED2-Pad27)")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -8672,7 +9086,7 @@
 			(at 0 0)
 			(size 1 1)
 			(layers "F.Cu" "F.Mask")
-			(net "SHPHLD")
+			(net "/power/SHPHLD")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -8746,6 +9160,18 @@
 			(effects
 				(font
 					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C52923"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "44c78d70-c340-4473-9956-c857c7308cd2")
+			(effects
+				(font
+					(size 1.27 1.27)
 					(thickness 0.15)
 				)
 			)
@@ -8931,7 +9357,7 @@
 			(at -0.5 0 90)
 			(size 0.5 0.5)
 			(layers "F.Cu")
-			(net "PVSS1")
+			(net "/power/PVSS1")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -9027,6 +9453,30 @@
 				)
 			)
 		)
+		(property "LCSC" "C48260"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "dc30d0cb-3182-4190-aa5e-90eb13d7ef9b")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "TI TPD1E10B06DPYR"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d7e81e5e-25f3-496a-8a9c-ebd37dc9bdca")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_circle
@@ -9098,7 +9548,7 @@
 			(size 0.59 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "PAD_SWDIO")
+			(net "/dock/PAD_SWDIO")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -9206,6 +9656,30 @@
 				)
 			)
 		)
+		(property "LCSC" "C337891"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e91fb38b-10d2-4090-bee7-90bdd63d9d6d")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "Murata DFE201610E-2R2M"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "88cc97b5-f8ce-47f6-820f-3d59db624d18")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -9266,7 +9740,7 @@
 			(size 0.55 1.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "SW1")
+			(net "/power/SW1")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -9370,6 +9844,18 @@
 			(effects
 				(font
 					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C15849"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "98d48ee3-b28f-4451-8e25-0ccd24ba3f28")
+			(effects
+				(font
+					(size 1.27 1.27)
 					(thickness 0.15)
 				)
 			)
@@ -9621,6 +10107,18 @@
 			(effects
 				(font
 					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C23630"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "6de4822b-8c28-440d-9934-69472a7a1215")
+			(effects
+				(font
+					(size 1.27 1.27)
 					(thickness 0.15)
 				)
 			)
@@ -9959,6 +10457,18 @@
 				)
 			)
 		)
+		(property "LCSC" "C25741"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ada080b0-05c9-4e7d-92ee-75787824e266")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -10133,7 +10643,7 @@
 			(size 1 1.5)
 			(layers "F.Cu" "F.Mask")
 			(roundrect_rratio 0.15)
-			(net "LRA_N")
+			(net "/haptics/LRA_N")
 			(solder_mask_margin 0.1)
 			(clearance 0.5)
 			(teardrops
@@ -10198,6 +10708,18 @@
 			(layer "F.Fab")
 			(hide yes)
 			(uuid "aa2abe9f-fc84-4047-9456-00475c734746")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "LCSC" "C189624"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "33c589a8-4408-4e8f-b9d6-57135d16e5b6")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10731,6 +11253,18 @@
 				)
 			)
 		)
+		(property "LCSC" "C96446"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "19d75a99-3fa4-4e5d-8808-8c151d62d037")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -10899,7 +11433,19 @@
 				)
 			)
 		)
-		(attr smd)
+		(property "LCSC" "C25741"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "aed52813-9e35-4998-81a0-1089995783f1")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(attr smd dnp)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
 			(start -0.153641 -0.38)
@@ -10978,7 +11524,7 @@
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
-			(net "SHPHLD")
+			(net "/power/SHPHLD")
 			(teardrops
 				(best_length_ratio 0.5)
 				(max_length 1)
@@ -11172,7 +11718,7 @@
 			(at -1.25 0 180)
 			(size 1.6 1.6)
 			(layers "B.Cu" "B.Mask")
-			(net "PAD_SWDCLK")
+			(net "/dock/PAD_SWDCLK")
 			(solder_mask_margin 0.05)
 			(uuid "9c8dc965-c7bf-466e-bf44-6471c208c24c")
 		)
@@ -11180,7 +11726,7 @@
 			(at 1.25 0 180)
 			(size 1.6 1.6)
 			(layers "B.Cu" "B.Mask")
-			(net "PAD_SWDIO")
+			(net "/dock/PAD_SWDIO")
 			(solder_mask_margin 0.05)
 			(uuid "d0a6cbfa-ccbd-4b09-80e0-377b84e41456")
 		)
@@ -11188,7 +11734,7 @@
 			(at 3.75 0 180)
 			(size 1.6 1.6)
 			(layers "B.Cu" "B.Mask")
-			(net "PAD_RX")
+			(net "/dock/PAD_RX")
 			(solder_mask_margin 0.05)
 			(uuid "69e39910-d3f7-4b63-bd4b-f579155215ae")
 		)
@@ -11196,7 +11742,7 @@
 			(at 6.25 0 180)
 			(size 1.6 1.6)
 			(layers "B.Cu" "B.Mask")
-			(net "PAD_TX")
+			(net "/dock/PAD_TX")
 			(solder_mask_margin 0.05)
 			(uuid "9241bca1-e42c-4ac2-b99a-a5b96898902b")
 		)
@@ -11525,7 +12071,7 @@
 		(width 0.4)
 		(locked yes)
 		(layer "F.Cu")
-		(net "BATT_P")
+		(net "/power/BATT_P")
 		(uuid "87e7d3d1-cfbb-447f-bc1c-a8ee99cf57c4")
 	)
 	(segment
@@ -11534,7 +12080,7 @@
 		(width 0.4)
 		(locked yes)
 		(layer "F.Cu")
-		(net "BATT_P")
+		(net "/power/BATT_P")
 		(uuid "df06665d-a215-4b55-969d-b74433519dc1")
 	)
 	(segment
@@ -11543,7 +12089,7 @@
 		(width 0.4)
 		(locked yes)
 		(layer "F.Cu")
-		(net "BATT_P")
+		(net "/power/BATT_P")
 		(uuid "f688376b-6df4-4d81-9cf3-68ff6f0de529")
 	)
 	(via
@@ -11552,7 +12098,7 @@
 		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(locked yes)
-		(net "BATT_P")
+		(net "/power/BATT_P")
 		(uuid "598c55e8-ed7d-4a7c-957c-c93caaf01db1")
 	)
 	(via
@@ -11561,7 +12107,7 @@
 		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(locked yes)
-		(net "BATT_P")
+		(net "/power/BATT_P")
 		(uuid "b7cd8a34-7cda-4acb-9987-d1a9102958bd")
 	)
 	(segment
@@ -11570,7 +12116,7 @@
 		(width 0.4)
 		(locked yes)
 		(layer "In2.Cu")
-		(net "BATT_P")
+		(net "/power/BATT_P")
 		(uuid "20df1c57-e438-4400-bfd1-e4226ab396d4")
 	)
 	(segment
@@ -11579,7 +12125,7 @@
 		(width 0.4)
 		(locked yes)
 		(layer "In2.Cu")
-		(net "BATT_P")
+		(net "/power/BATT_P")
 		(uuid "cde33c34-a3f7-4ecd-b3d9-b03baaaa4376")
 	)
 	(segment
@@ -11651,7 +12197,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "F.Cu")
-		(net "PVSS1")
+		(net "/power/PVSS1")
 		(uuid "14e52747-0330-45e9-9a6b-2ca629623999")
 	)
 	(segment
@@ -11660,7 +12206,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "F.Cu")
-		(net "PVSS1")
+		(net "/power/PVSS1")
 		(uuid "3cf39a28-10ec-4746-bd75-31905a7954e3")
 	)
 	(segment
@@ -11669,7 +12215,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "F.Cu")
-		(net "PVSS1")
+		(net "/power/PVSS1")
 		(uuid "41f24654-d44d-4bae-b8e9-471cb9a1ee31")
 	)
 	(segment
@@ -11678,7 +12224,7 @@
 		(width 0.25)
 		(locked yes)
 		(layer "F.Cu")
-		(net "PVSS1")
+		(net "/power/PVSS1")
 		(uuid "430fa50f-67cf-49b3-b90f-5693eb2cdee8")
 	)
 	(segment
@@ -11687,7 +12233,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "F.Cu")
-		(net "PVSS1")
+		(net "/power/PVSS1")
 		(uuid "47c10c74-0280-4015-95f4-b03750d8f670")
 	)
 	(segment
@@ -11696,7 +12242,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "F.Cu")
-		(net "PVSS1")
+		(net "/power/PVSS1")
 		(uuid "4d7115b0-3a99-403b-9f05-86c90344d75f")
 	)
 	(segment
@@ -11705,7 +12251,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "F.Cu")
-		(net "PVSS1")
+		(net "/power/PVSS1")
 		(uuid "59c2f8e8-a184-49a7-a526-ca3af6fb625e")
 	)
 	(segment
@@ -11714,7 +12260,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "F.Cu")
-		(net "PVSS1")
+		(net "/power/PVSS1")
 		(uuid "5e14426f-38de-48f2-905c-e1cb21068a33")
 	)
 	(segment
@@ -11723,7 +12269,7 @@
 		(width 0.25)
 		(locked yes)
 		(layer "F.Cu")
-		(net "PVSS1")
+		(net "/power/PVSS1")
 		(uuid "6d631548-02c2-4b04-aedf-ea7cdcbbe0f5")
 	)
 	(segment
@@ -11732,7 +12278,7 @@
 		(width 0.25)
 		(locked yes)
 		(layer "F.Cu")
-		(net "PVSS1")
+		(net "/power/PVSS1")
 		(uuid "83e1e1e2-7ccc-4c45-8c1a-1deab06566c6")
 	)
 	(segment
@@ -11741,7 +12287,7 @@
 		(width 0.25)
 		(locked yes)
 		(layer "F.Cu")
-		(net "PVSS1")
+		(net "/power/PVSS1")
 		(uuid "9ca2e19e-c149-4669-bb5a-fa1fe2bfd0f2")
 	)
 	(segment
@@ -11750,7 +12296,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "F.Cu")
-		(net "PVSS1")
+		(net "/power/PVSS1")
 		(uuid "cffd22ee-9c19-43d3-9789-e55660e7046f")
 	)
 	(segment
@@ -11759,7 +12305,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "F.Cu")
-		(net "PVSS1")
+		(net "/power/PVSS1")
 		(uuid "eaf8e8b1-8a5b-4b7e-9cb2-1824d0fb4f75")
 	)
 	(segment
@@ -11768,7 +12314,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "F.Cu")
-		(net "PVSS1")
+		(net "/power/PVSS1")
 		(uuid "fe6b08ac-0ec3-4e43-892f-1145df06d18b")
 	)
 	(via
@@ -11777,7 +12323,7 @@
 		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(locked yes)
-		(net "PVSS1")
+		(net "/power/PVSS1")
 		(uuid "03e7897f-0c1d-4e7a-86a2-63e1a26b1fe0")
 	)
 	(via
@@ -11786,7 +12332,7 @@
 		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(locked yes)
-		(net "PVSS1")
+		(net "/power/PVSS1")
 		(uuid "46a19a2e-db0e-4d57-89a6-00d8bbad7b08")
 	)
 	(segment
@@ -11795,7 +12341,7 @@
 		(width 0.25)
 		(locked yes)
 		(layer "In2.Cu")
-		(net "PVSS1")
+		(net "/power/PVSS1")
 		(uuid "bc8d71ea-6729-4f4b-aef1-cf81d0028169")
 	)
 	(segment
@@ -11804,7 +12350,7 @@
 		(width 0.25)
 		(locked yes)
 		(layer "In2.Cu")
-		(net "PVSS1")
+		(net "/power/PVSS1")
 		(uuid "eb06f010-9e9f-4059-a009-a9fee215692e")
 	)
 	(segment
@@ -12605,7 +13151,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "F.Cu")
-		(net "LRA_P")
+		(net "/haptics/LRA_P")
 		(uuid "6c436721-2c39-4c7a-a639-b9141700f352")
 	)
 	(segment
@@ -12614,7 +13160,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "F.Cu")
-		(net "LRA_P")
+		(net "/haptics/LRA_P")
 		(uuid "9f76cac4-a375-43c8-afb5-d2ecd7ba97b6")
 	)
 	(via
@@ -12623,7 +13169,7 @@
 		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(locked yes)
-		(net "LRA_P")
+		(net "/haptics/LRA_P")
 		(uuid "7340c920-9341-495b-8595-26aa8b70ff99")
 	)
 	(via
@@ -12632,7 +13178,7 @@
 		(drill 0.3)
 		(layers "F.Cu" "B.Cu")
 		(locked yes)
-		(net "LRA_P")
+		(net "/haptics/LRA_P")
 		(uuid "cddca207-8ef4-4da3-b654-d6ee7b1f7cd1")
 	)
 	(segment
@@ -12641,7 +13187,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "In2.Cu")
-		(net "LRA_P")
+		(net "/haptics/LRA_P")
 		(uuid "12da9d84-c45d-4c68-8254-17dab199d4e0")
 	)
 	(segment
@@ -12650,7 +13196,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "In2.Cu")
-		(net "LRA_P")
+		(net "/haptics/LRA_P")
 		(uuid "b82f013c-02c6-4fc9-87bc-7c420515f6c7")
 	)
 	(segment
@@ -12659,7 +13205,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "F.Cu")
-		(net "LRA_N")
+		(net "/haptics/LRA_N")
 		(uuid "75621052-c85c-46a4-9ac5-c905c6491c73")
 	)
 	(segment
@@ -12668,7 +13214,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "F.Cu")
-		(net "LRA_N")
+		(net "/haptics/LRA_N")
 		(uuid "a0c21910-3847-4ddc-8740-21b3fe94dbdd")
 	)
 	(segment
@@ -12677,7 +13223,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "F.Cu")
-		(net "LRA_N")
+		(net "/haptics/LRA_N")
 		(uuid "ac119e1e-3ccf-4c62-8b40-a4c4d411806a")
 	)
 	(segment
@@ -12686,7 +13232,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "F.Cu")
-		(net "LRA_N")
+		(net "/haptics/LRA_N")
 		(uuid "f91b2f2e-5503-4a17-86c3-7df1bbc28c72")
 	)
 	(via
@@ -12749,7 +13295,7 @@
 		(width 0.2)
 		(locked yes)
 		(layer "F.Cu")
-		(net "VBUSOUT")
+		(net "/power/VBUSOUT")
 		(uuid "221ce625-e6c3-4b95-9656-220b3209a2f9")
 	)
 	(segment
@@ -12758,7 +13304,7 @@
 		(width 0.2)
 		(locked yes)
 		(layer "F.Cu")
-		(net "VBUSOUT")
+		(net "/power/VBUSOUT")
 		(uuid "d8598b85-2769-419d-93fc-587516d5108f")
 	)
 	(segment
@@ -12848,7 +13394,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "F.Cu")
-		(net "SW1")
+		(net "/power/SW1")
 		(uuid "42186adb-de51-45f8-a654-5ae195bf15eb")
 	)
 	(segment
@@ -12857,7 +13403,7 @@
 		(width 0.3)
 		(locked yes)
 		(layer "F.Cu")
-		(net "SW1")
+		(net "/power/SW1")
 		(uuid "44d3dbef-7edc-40f7-8264-b546f9cea253")
 	)
 	(zone

@@ -420,19 +420,19 @@
       },
       {
         "netclass": "Power",
-        "pattern": "SW1"
+        "pattern": "/power/SW1"
       },
       {
         "netclass": "Power",
-        "pattern": "PVSS1"
+        "pattern": "/power/PVSS1"
       },
       {
         "netclass": "Motor",
-        "pattern": "LRA_P"
+        "pattern": "/haptics/LRA_P"
       },
       {
         "netclass": "Motor",
-        "pattern": "LRA_N"
+        "pattern": "/haptics/LRA_N"
       },
       {
         "netclass": "Rail",
@@ -444,7 +444,7 @@
       },
       {
         "netclass": "Batt",
-        "pattern": "BATT_P"
+        "pattern": "/power/BATT_P"
       },
       {
         "netclass": "Batt",
