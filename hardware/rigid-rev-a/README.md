@@ -240,10 +240,15 @@ Until firmware does this the cell does not charge from the dock.
    the six pads.
 7. **C403** (10 uF on VDD_2V0) is 4.5 mm from U401 pin 9; C401 (100 nF) is
    1.0 mm from it.
-8. **L201 land pattern.** L201 uses KiCad's `L_Murata_DFE201610P`
-   footprint for the Murata DFE201610E-2R2M. It has not been compared with
-   Murata's own recommended land drawing (Murata's product page needs a
-   browser to view). Check it before ordering.
+8. **L201 land pattern (confirmed).** L201 uses KiCad's
+   `L_Murata_DFE201610P` footprint for the Murata DFE201610E-2R2M. Murata's
+   DFE201610E sheet (m_dfe201610e, "Recommended patterns") gives two
+   1.6 mm tall pads with a 0.9 mm gap and 2.0 mm overall span, so
+   0.55 x 1.6 mm pads centred at +/-0.725 mm. That is exactly the KiCad
+   footprint (and the copy on the board), and the DFE201610P sheet gives the
+   same drawing. The part is 2.0 +/-0.2 x 1.6 +/-0.2 x 1.0 max mm with
+   0.5 +/-0.3 mm electrodes. No change needed; the only difference is that
+   KiCad rounds the pad corners (roundrect), which is normal.
 9. **SW201 (DNP)** has a courtyard over the LRA envelope. Don't fit it.
 10. **NTC** runs a long way round (In2 beside the charger caps, 18.5 mm
     from TH201 to pin 18). It is a DC thermistor line, so this is only a layout tidiness

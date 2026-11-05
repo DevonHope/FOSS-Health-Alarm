@@ -71,6 +71,10 @@ Sources: [KiBot position notes (internal rotation list)](https://kibot.readthedo
 
 The passives are non-polar, but check them in the preview anyway.
 
+L201's footprint (0.55 x 1.6 mm pads at +/-0.725 mm, 0.9 mm gap) matches
+Murata's recommended land pattern for the DFE201610E; see compromise 8 in
+`../README.md`.
+
 ## Consigned and unassembled parts
 
 - **U1 (ISP2454-LX) and U201 (nPM1304-QEAA)** have no LCSC part number and
