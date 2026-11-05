@@ -48,16 +48,26 @@ that, conformal-coat B.Cu except the six pads after assembly. See compromise
 ## Placement rotation checks (JLCPCB preview)
 
 `cpl_jlcpcb_top.csv` gives KiCad's rotations. JLCPCB's zero orientation
-differs per package, so check each of these in the placement preview:
+differs per package, so check each of these in the placement preview. The
+"Expected at JLCPCB" column comes from the rotation-correction tables that
+the JLCKicadTools and KiBot exporters apply for JLCPCB (QFN, TSSOP, DFN: +270).
+Neither table has an entry for SOD-123F, a generic LGA or the TI DPY
+package, so those stay at the KiCad value until the preview shows otherwise.
+The CPL itself is left at KiCad's values, so fix rotations in the preview,
+not in the file.
 
-| Ref | Part | Package | CPL | Check |
-| --- | --- | --- | --- | --- |
-| U201 | nPM1304-QEAA | QFN-32 | 0 | likely needs +270 deg; pin 1 at the dot (top-left, VDD_2V0 pin) |
-| U401 | LIS2DW12 | LGA-12 | 0 | check pin 1 in the preview |
-| U501 | DRV2605L | TSSOP-10 | 90 | check pin 1 (REG) is at the bottom-left of the part (board coordinates 127.6, 109.65) |
-| D601 | SMF12A (unidirectional TVS, LCSC C207255) | SOD-123F | 0 | cathode band on pad 1 = VIN (left), not on GND |
-| D602-D605 | TPD1E10B06DPYR | X1SON DPY (1.0 x 0.6 mm) | 0 | bidirectional, but check the body sits across both pads |
-| U1 | ISP2454-LX (consigned) | LGA-62 module | 270 | enter 270 and attach `u1-pin1-drawing.pdf` |
+| Ref | Part | Package | CPL | Expected at JLCPCB | What to check in the preview |
+| --- | --- | --- | --- | --- | --- |
+| U201 | nPM1304-QEAA (consigned) | QFN-32 | 0 | 270 (QFN rule), but it is consigned, so JLCPCB may model it from the drawing | pin 1 dot at the VDD_2V0 corner |
+| U501 | DRV2605L | TSSOP-10 (TI DGS) | 90 | 0 (90 + 270, TSSOP rule) | pin 1 (REG) at board coordinates (127.6, 109.65) |
+| U401 | LIS2DW12 | LGA-12 2 x 2 mm | 0 | 0 (no rule) | pin 1 mark on the correct corner |
+| D601 | SMF12A (unidirectional TVS, LCSC C207255) | SOD-123F | 0 | 0 (no rule); flip 180 if the band shows on GND | cathode band on pad 1 = VIN (left) |
+| D602-D605 | TPD1E10B06DPYR | X1SON DPY (1.0 x 0.6 mm) | 0 | 0 (no rule) | bidirectional, so 0 or 180 both work; body must sit across both pads, not at 90 |
+| L201 | DFE201610E-2R2M | 2016 inductor | 180 | 0 or 180 (non-polar) | body across both pads |
+| U1 | ISP2454-LX (consigned) | LGA-62 module | 270 | 270 (enter it by hand) | attach `u1-pin1-drawing.pdf` |
+
+Sources: [KiBot position notes (internal rotation list)](https://kibot.readthedocs.io/en/latest/notes_position.html),
+[JLCKicadTools rotation database](https://github.com/matthewlai/JLCKicadTools/blob/master/jlc_kicad_tools/cpl_rotations_db.csv).
 
 The passives are non-polar, but check them in the preview anyway.
 
