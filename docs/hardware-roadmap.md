@@ -22,8 +22,8 @@ Targets for the final pod:
 
 | Item | Target |
 | --- | --- |
-| Pod size | about 23.5 x 40 x 8 mm (grown from 35 x 18 on 2026-10-30 to fit a 110 mAh cell, keep it clear of the antenna, and fit the motor beside it) |
-| Battery life | 2 weeks or more per charge |
+| Pod size | about 35 x 17 x 9 mm with the rigid rev A board and a 60 mAh cell (2026-11-02); the flex version with a 110 mAh cell was about 23.5 x 40 x 8 |
+| Battery life | 2 weeks or more per charge; the 60 mAh cell gives about 50 days typical, 32 days worst case |
 | Charging and debug | Sealed case, no USB port; six contact pads + magnets on a dock that charges, programs and gives a serial console |
 | Radio | Bluetooth LE, for settings and logs only |
 
@@ -60,6 +60,13 @@ antenna is kept clear. The layout then needed 1.5 mm more width so the motor
 clears the cell and the board edge, giving about 23.5 x 40 mm. On 2026-10-30
 the pod grew to that size to keep a common 110 mAh cell (see the
 [flex PCB plan](flex-pcb-schematic-plan.md#outline-concept-one-fold-around-the-battery)).
+
+On 2026-11-02 the user asked for the smallest off-the-shelf cell that still
+lasts a month. A 60 mAh cell (about 16 x 13 x 4 mm) does. It sits under a
+33 x 15 mm rigid board, with the motor at the far end and both kept 2 mm past
+the antenna keep-out. The pod is about 35 x 17 mm, back near the Fitbit Air
+size, and about 9 mm tall with a 4 to 5 mm cell. See
+[hardware/rigid-rev-a/README.md](../hardware/rigid-rev-a/README.md).
 
 ## Parts shortlist
 
@@ -269,9 +276,11 @@ schematic is frozen. Details in the
 
 ### Stage 1: first custom board
 
-**Update 2026-10-30:** Stage 1 is now a flexible PCB that folds around the
-battery; see [flex-pcb-schematic-plan.md](flex-pcb-schematic-plan.md). The
-rigid board below is the fallback.
+**Update 2026-11-02:** Stage 1 is the 4-layer rigid board again, now with
+the nPM1304 and a 60 mAh cell. It is routed and has a JLCPCB fab package in
+[hardware/rigid-rev-a/](../hardware/rigid-rev-a/README.md). The flex board
+(2026-10-30, [flex-pcb-schematic-plan.md](flex-pcb-schematic-plan.md)) is
+archived. The original Stage 1 notes follow.
 
 Goal: a wearable board with the real parts, sized for comfort but not yet slim.
 
@@ -297,7 +306,7 @@ Goal: hit the size target.
   charging, flashing and serial.
 - Remove debug LEDs and jumpers; the dock pads are the only debug access.
 
-Done when: the pod is about 23.5 x 40 x 8 mm or smaller and lasts two weeks.
+Done when: the pod is about 35 x 17 x 9 mm or smaller and lasts a month.
 
 ### Stage 3: optional refinements
 
