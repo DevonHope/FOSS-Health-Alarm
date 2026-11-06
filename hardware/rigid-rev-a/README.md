@@ -67,7 +67,8 @@ compromise 6).
 Every part on the board has a 3D model, except the test pads, the dock
 pads, NT201 and JP201, which need none. KiCad 10 has no model for two
 footprints, so `wakeband.3dshapes/` holds parametric ones (build123d; rebuild
-with `python make_models.py wakeband.3dshapes`):
+with `pip install build123d`, then from this folder
+`python wakeband.3dshapes/make_models.py wakeband.3dshapes`):
 
 | Model | Used by | Size and source |
 | --- | --- | --- |

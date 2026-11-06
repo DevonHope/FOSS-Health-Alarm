@@ -5,15 +5,14 @@ footprint origin, z = 0 on the board surface, +Y = KiCad -Y.
 Cell and LRA use their own frame: origin at the centre of the face that
 sits towards the board, the part extending along +Z.
 
-usage: python make_models.py OUT_DIR
+usage (needs `pip install build123d`): python make_models.py OUT_DIR
 """
 import sys
 from pathlib import Path
 from build123d import (Box, Cylinder, Sphere, Compound, Color, Pos, Rot, Align,
                        fillet, chamfer, Axis, export_step, Vector)
 
-OUT = Path(sys.argv[1])
-OUT.mkdir(parents=True, exist_ok=True)
+OUT = Path(".")  # set by __main__ or the caller
 MIN = (Align.CENTER, Align.CENTER, Align.MIN)
 
 BLACK = Color(0.10, 0.10, 0.10)
@@ -160,6 +159,8 @@ def lra(stubs=True):
 
 
 if __name__ == "__main__":
+    OUT = Path(sys.argv[1])
+    OUT.mkdir(parents=True, exist_ok=True)
     isp2454()
     dpy0002a()
     save(cell(), "LiPo_3.7V_60mAh_401215_PCM.step", "LiPo 60 mAh")

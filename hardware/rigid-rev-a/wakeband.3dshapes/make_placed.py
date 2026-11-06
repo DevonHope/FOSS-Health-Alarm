@@ -3,8 +3,11 @@ with leads routed to their hand-solder pads.  usage: make_placed.py OUT_DIR"""
 import sys
 from pathlib import Path
 from build123d import Compound, Location, export_step
-sys.argv, out = sys.argv[:1] + ["/tmp/wb3d/unused"], Path(sys.argv[1])
-import make_models as mm
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import make_models as mm  # noqa: E402
+
+out = Path(sys.argv[1])
+out.mkdir(parents=True, exist_ok=True)
 
 F_SURF = 0.796          # top of F.Cu parts' seat in kicad-cli's STEP
 Z0 = F_SURF + 1.1 + 0.2  # tallest F part 1.1 mm + 0.2 mm gap
