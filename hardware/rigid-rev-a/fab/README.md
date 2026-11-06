@@ -1,6 +1,6 @@
 # WakeBand rigid rev A fab package
 
-Generated 2026-11-03 from `../rigid-rev-a.kicad_pcb` with kicad-cli 10.0.3
+Generated 2026-11-06 from `../rigid-rev-a.kicad_pcb` with kicad-cli 10.0.3
 (Gerbers exported with `--check-zones`; the previous package used 10.0.5). See `../README.md` for the stackup,
 orientation, placement and the list of compromises.
 
