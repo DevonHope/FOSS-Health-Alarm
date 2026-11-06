@@ -52,7 +52,9 @@ zl = Z0 + 0.5
 r = 0.15
 p = mm.wire([(131.27, -102.14, zl), (131.7, -101.5, zl), (131.7, -101.5, PAD + r)],
             0.3, "LRA+ lead to TP501 (red)", mm.RED)
-n = mm.wire([(132.13, -102.64, zl), (132.6, -103.2, zl), (132.6, -103.2, 1.9),
-             (132.6, -113.0, 1.9), (131.9, -113.5, 1.9), (131.9, -113.5, PAD + r)],
+# runs at x = 132.0, between the board and the LRA, so the case can support
+# the board edge at x 132.3-133 (hardware/case-rev-a)
+n = mm.wire([(132.13, -102.64, zl), (132.0, -103.2, zl), (132.0, -103.2, 1.9),
+             (132.0, -113.0, 1.9), (131.9, -113.5, 1.9), (131.9, -113.5, PAD + r)],
             0.3, "LRA- lead to TP502 (black)", mm.WIRE_BLACK)
 keep(lra, "VG0832012 LRA (placed)", [p, n], "wakeband-lra-vg0832012-placed.step")
