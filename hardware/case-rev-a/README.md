@@ -5,9 +5,9 @@ together by one M2 screw.
 
 | Part | File | Size (x, y, z) |
 | --- | --- | --- |
-| Outer shell (over B.Cu) | `wakeband-case-rev-a-shell.step` / `.stl` | 42.65 x 18.3 x 6.8 mm |
-| Wrist cover with strap loops | `wakeband-case-rev-a-cover.step` / `.stl` | 52.05 x 20.4 x 3.0 mm (inner features to 7.75) |
-| Assembled | | **42.65 x 18.3 x 9.8 mm** body, 52.05 x 20.4 mm with the strap loops |
+| Outer shell (over B.Cu) | `wakeband-case-rev-a-shell.step` / `.stl` | 42.85 x 18.3 x 6.8 mm |
+| Wrist cover with strap loops | `wakeband-case-rev-a-cover.step` / `.stl` | 52.25 x 20.4 x 3.0 mm (inner features to 7.75) |
+| Assembled | | **42.85 x 18.3 x 9.8 mm** body, 52.25 x 20.4 mm with the strap loops |
 
 ![iso](wakeband-case-rev-a-preview-iso.png)
 ![wrist face](wakeband-case-rev-a-preview-wrist.png)
@@ -60,7 +60,7 @@ the dock. The cell leads land on F pads, and the LRA sits next to the wrist.
   - **Strap:** loops at both ends, 16.6 x 2.2 mm slots for a **16 mm**
     strap up to 2 mm thick (velcro or fabric). The slots are rounded on the
     loop side and chamfered on the wrist side.
-- No metal near the antenna. The screw and insert sit at x = 137, past the
+- No metal near the antenna. The screw and insert sit at x = 137.2, past the
   board's LRA end; the ISP2454 keep-out is x 100-105.
 
 ## Hardware
@@ -102,8 +102,10 @@ print slightly small: open them with a 1.6 mm drill.
    compromise 6).
 4. Stick the LRA's adhesive face onto the cover's pedestal, inside the three
    arcs, with its lead tab towards TP501. Put the foam tape in the cell bay.
-5. Hook the cover's tongue into the antenna end pocket, then swing the LRA
-   end down so the column slides into its slot.
+5. Hold the cover at about 20-25 deg to the shell, touching at the antenna
+   end and open at the LRA end, so the hook enters its pocket. Close the LRA
+   end until the column slides into its slot and the cover sits flat. The
+   hook can't go in with a straight push.
 6. Fit the screw from the wrist side. Stop when it's snug.
 7. Thread the strap through both loops.
 
@@ -112,6 +114,9 @@ print slightly small: open them with a 1.6 mm drill.
 - **Clash check:** against the board STEP (all 35 part models), the cell,
   the LRA and their leads. No overlaps, except the intended 0.1 mm press of
   the six window rims into the board. The shell and the cover don't overlap.
+- **Fitting the cover:** a sweep from 25 deg to closed, in 0.5 deg steps
+  about the antenna-end seam edge, finds no contact between the cover (with
+  the LRA and cell) and the shell or the board.
 - **Wall thickness:** sampled by rays from about 6000 surface points per
   part. Structural walls are 1.2 mm or more, the floor 1.0 mm, the roof
   1.2 mm. Thinner, on purpose: the webs between dock windows (0.9 mm), the
@@ -121,10 +126,10 @@ print slightly small: open them with a 1.6 mm drill.
 ## Compromises
 
 1. **Bigger than the README budget** (about 35 x 17 x 8-9 mm). The body is
-   42.65 x 18.3 x 9.8 mm because of:
+   42.85 x 18.3 x 9.8 mm because of:
    - walls of 1.5 mm and roof/floor of 1.2/1.0 mm, instead of 0.8 mm;
    - room for a 5 mm cell plus foam (`CELL_MAX = 4.0` makes it 8.8 mm tall);
-   - the screw block and board column past the LRA end (+7.5 mm);
+   - the screw block and board column past the LRA end (+7.7 mm);
    - the 2.0 mm antenna end wall that holds the hook pocket.
 2. **The strap loops** add 4.6 mm at each end, and are 20.4 mm wide (the body
    is 18.3) because a 16 mm strap needs a 16.6 mm slot. Each loop hangs on two
@@ -132,7 +137,11 @@ print slightly small: open them with a 1.6 mm drill.
    for a velcro strap. Pull-test a print.
 3. **A printed case is not waterproof.** The window rims only press on the
    solder mask. Seal with silicone or conformal coat (step 3).
-4. **The cover must flex slightly** for the hook to engage. Check the fit on
-   the first print; the hook depth (0.7 mm) is a parameter.
+4. **The hook tilts in and holds on a 45 deg face.** Seated, there is
+   0.1 mm of play between the hook's underside and its ramp. Strap tension
+   pulls the antenna end of the cover towards the wrist, and the 45 deg faces
+   push the tongue inwards a little. The tongue is short and stiff (1.2 mm,
+   fused to the rim up to z = 3). Check the fit on the first print; the hook
+   depth (0.7 mm) is a parameter.
 5. **The LRA end support is small** (1.0 mm column, 0.6 mm ledge), because
    the LRA reaches x = 132.75 and the board ends at 133.

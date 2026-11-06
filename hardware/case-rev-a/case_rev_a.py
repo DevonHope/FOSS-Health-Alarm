@@ -50,9 +50,9 @@ TOP = BOARD_B + ROOF                                    # 9.8
 # outline
 CAV = (BOARD[0] - CLR, BOARD[1] + CLR, BOARD[2] - CLR, BOARD[3] + CLR)
 X_A = CAV[0] - END_A                                    # antenna end, 97.85
-SCREW = (137.0, 107.5)
+SCREW = (137.2, 107.5)
 INSERT_D, INSERT_DEPTH = 3.2, 4.0                       # M2 x 3 heat-set insert
-X_E = 140.5                                             # LRA end
+X_E = 140.7                                             # LRA end
 Y0, Y1 = CAV[2] - WALL, CAV[3] + WALL
 CORNER = 3.0
 
@@ -122,11 +122,11 @@ def make_shell():
     cav = rrect(*CAV, BOARD_R + CLR)
     s -= Pos(0, 0, SPLIT - 1) * extrude(cav, BOARD_B - SPLIT + 1)
     # slot for the cover's board-support column at the LRA end
-    s -= box(133.0, 134.2, 104.9, 110.1, SPLIT - 1, BOARD_F + 0.1)
+    s -= box(133.0, 134.4, 104.9, 110.1, SPLIT - 1, BOARD_F + 0.1)
     # heat-set insert hole
     s -= cyl(*SCREW, INSERT_D / 2, SPLIT - 1, SPLIT + INSERT_DEPTH)
     # hook pocket in the antenna end wall; its wrist-side face slopes 45 deg
-    s -= prism_xz([(CAV[0] + 0.1, 3.9), (CAV[0] - 0.8, 4.8), (CAV[0] - 0.8, 5.3),
+    s -= prism_xz([(CAV[0] + 0.1, 4.3), (CAV[0] - 0.8, 5.2), (CAV[0] - 0.8, 5.3),
                    (CAV[0] + 0.1, 5.3)], 102.0, 113.0)
     # dock windows the size of the pads (0.9 mm webs at 2.5 mm pitch), with a
     # 0.2 mm lead-in for the pogo pins on the outside
