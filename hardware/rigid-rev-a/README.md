@@ -8,7 +8,8 @@ KiCad 10.0.3 (earlier revisions used 10.0.5; the file format is the same).
 | --- | --- |
 | Board | 33 x 15 mm, 1 mm corner radius, 0.8 mm FR4, ENIG |
 | Pod | about 35 x 17 mm outline with 1 mm side walls (estimate); height about 8-9 mm (see below) |
-| DRC | 0 violations, 0 unconnected, schematic parity 0 (1 documented exclusion) |
+| DRC | 0 violations, 0 unconnected, schematic parity 0 (1 documented exclusion); off-centre via ends checked as errors |
+| Traces | straight or 45-degree segments only, 45-degree bends, every end on its pad or via centre (audit 2026-11-06, below) |
 | ERC | 0 errors, 0 warnings |
 | Vias | 135: 124 x 0.45/0.3 mm, 11 x 0.3/0.2 mm |
 | Files | `rigid-rev-a-layout.pdf` (layers), `rigid-rev-a.pdf` (schematic), `fab/` |
@@ -98,16 +99,20 @@ Laid out after Nordic's reference: input cap across PVDD/PVSS1 at the pins,
 output cap between the inductor and PVSS1, PVSS1 tied to GND only at the net
 tie next to pin 2.
 
-| Path (pad centre to pad centre, along the copper) | Now | Before |
+| Path (pad centre to pad centre, along the copper) | Now | Before the review |
 | --- | --- | --- |
-| C204.2 (PVSS1) to pin 2 | 1.6 mm, no vias | 5.4 mm |
-| C204.1 (VSYS) to pin 4 (PVDD) | 1.6 mm, no vias | 3.3 mm, 2 vias |
-| C207.2 (PVSS1) to pin 2 | 4.0 mm, no vias | 7.3 mm, 2 vias |
-| C207.1 to L201.2 | 1.1 mm | 2.9 mm |
-| NT201.1 to pin 2 | 3.2 mm | 9.6 mm |
+| C204.2 (PVSS1) to pin 2 | 1.7 mm, no vias | 5.4 mm |
+| C204.1 (VSYS) to pin 4 (PVDD) | 1.7 mm, no vias | 3.3 mm, 2 vias |
+| C207.2 (PVSS1) to pin 2 | 4.2 mm, no vias | 7.3 mm, 2 vias |
+| C207.1 to L201.2 | 2.3 mm (pad centres are 2.2 mm apart) | 2.9 mm |
+| NT201.1 to pin 2 | 3.0 mm | 9.6 mm |
 | L201.1 to pin 3 (SW1) | 2.9 mm | 1.1 mm |
 | C205.1 (VSYS) to pin 20 | 1.5 mm | 13.0 mm |
-| pin 4 to pin 20 (VSYS) | 12.5 mm, 2 vias | 23.9 mm, 4 vias |
+| pin 4 to pin 20 (VSYS) | 12.4 mm, 2 vias | 23.9 mm, 4 vias |
+
+"Now" was measured after the 2026-11-06 trace clean-up, when every track
+end sits on its pad centre; the clean-up moved these paths by 0.2 mm or
+less.
 
 - C204 sits 0.7 mm from pins 2 and 4. SW1 (0.3 mm) leaves pin 3 between
   C204's pads, under its body, to L201. The edge-to-edge copper of SW1 is
@@ -136,7 +141,8 @@ tie next to pin 2.
   currents.
 - Signals: 0.12 mm tracks, 0.10 mm clearance, VDD_2V0 and REG 0.2 mm,
   routed with a scripted grid router because Freerouting crashed on this
-  board. The router keeps vias out of pads. I2C runs U401 - U1 - U201 - U501
+  board, then cleaned up (see "Trace audit" below). The router keeps vias
+  out of pads. I2C runs U401 - U1 - U201 - U501
   with test pads TP702/TP703. Each dock line runs from its B-side pad through
   one via to its TVS and 100 ohm resistor on F, then on to the module.
 - Rules (in `rigid-rev-a.kicad_dru` and the netclasses): 0.10 mm clearance
@@ -192,10 +198,57 @@ board.
 
 ## DRC and ERC
 
-`kicad-cli pcb drc --schematic-parity`: 0 violations, 0 unconnected items,
-0 parity issues. One warning is excluded in `rigid-rev-a.kicad_pro` with a
+`kicad-cli pcb drc --schematic-parity --severity-all` (KiCad 10.0.3,
+2026-11-06, after the trace clean-up and a zone refill): 0 errors, 0
+warnings, 0 unconnected items, 0 parity issues, no isolated copper or
+starved thermals. One warning is excluded in `rigid-rev-a.kicad_pro` with a
 comment: D701 differs from its library copy because its silk dot (clipped by
-the board edge) was removed on purpose. ERC: 0 errors, 0 warnings.
+the board edge) was removed on purpose. `track_not_centered_on_via` is now
+an error (it was set to ignore, which is how off-centre via ends passed DRC
+before). ERC: 0 errors, 0 warnings.
+
+## Trace audit (2026-11-06)
+
+Every track was checked by script against the rules below, before and after
+a clean-up. Vias, layers, track widths and the netlist did not change; every
+net stays connected and every clearance holds (0.10 mm, 0.2 mm from vias on
+inner layers, 0.2 mm to holes, 0.3 mm to the edge, 0.5 mm at the
+hand-solder pads, nothing in the antenna keep-out).
+
+| Check | Before (2ebc6fb) | After |
+| --- | --- | --- |
+| Segments | 599 | 399 |
+| Staircase steps (short zig-zags from the grid router) | 182 | 0 |
+| Segments not at 0, 45 or 90 degrees | 34 | 0 |
+| Bends outside pads that are not 45 degrees (14 of them at 90 degrees) | 30 | 0 |
+| Segments shorter than 0.1 mm outside pads | 142 | 0 |
+| Junctions with an acute angle between branches | 3 | 0 |
+| Track ends that touch a pad or via but stop off its centre | 118 | 0 |
+| Tracks that join on a pad or via edge instead of its centre | 25 | 0 |
+| Tracks ending on the middle of another track | 3 | 0 |
+| Stubs (one dead end, one poking 0.3 mm out of a via) | 2 | 0 |
+| Overlapping or crossing same-net tracks (VSYS and LRA_P on In2) | 4 | 0 |
+| Other-net clearance problems | 0 | 0 |
+
+How: each run between pads, vias and junctions was re-laid with straight and
+45-degree segments only, ends moved to pad and via centres, and each new
+segment checked against all other-net copper. Eight spots were laid by
+hand: the nPM1304 ground pins (straight stubs from each pin centre into the
+exposed pad), C401/C402 and U401 GND into their vias, the I2C_SCL branch on
+B.Cu (now meets the diagonal at 90 degrees), PMIC_INT into its via (a small
+loop removed), R204.1 into its via, the In2 VSYS runs (one straight run, fed
+at 90 degrees) and VBAT down to R201.1.
+
+Kept on purpose:
+
+- 19 very short segments (0.01-0.1 mm) and 3 small jogs sit wholly inside a
+  pad or via, where a pad centre is off the 45-degree line to the next point
+  (for example two vias 0.45 x 0.40 mm apart). They add no copper outside
+  the pad.
+- Five direct pin-to-pin links: U401 pins 2-3, 2-9 (VDD), 5-6, 6-7 (GND),
+  and the ISP2454 ANT_LINK between pads 20 and 22.
+- The F.Cu GND bar at x = 123.025 that passes over C205.2 and C201.2: it is
+  the GND spine of the charger caps.
 
 ## Firmware charger requirements
 
