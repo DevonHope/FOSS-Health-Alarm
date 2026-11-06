@@ -7,11 +7,11 @@ KiCad 10.0.3 (earlier revisions used 10.0.5; the file format is the same).
 | Item | Value |
 | --- | --- |
 | Board | 33 x 15 mm, 1 mm corner radius, 0.8 mm FR4, ENIG |
-| Pod | about 35 x 17 mm outline with 1 mm side walls (estimate); height about 8-9 mm (see below) |
+| Pod | printed case rev A in `../case-rev-a` (one M2 screw); see below for the height stack |
 | DRC | 0 violations, 0 unconnected, schematic parity 0 (1 documented exclusion); off-centre via ends checked as errors |
 | Traces | straight or 45-degree segments only, 45-degree bends, every end on its pad or via centre (audit 2026-11-06, below) |
 | ERC | 0 errors, 0 warnings |
-| Vias | 135: 124 x 0.45/0.3 mm, 11 x 0.3/0.2 mm |
+| Vias | 136: 125 x 0.45/0.3 mm, 11 x 0.3/0.2 mm |
 | Files | `rigid-rev-a-layout.pdf` (layers), `rigid-rev-a.pdf` (schematic), `fab/` |
 
 ## Stackup
@@ -20,47 +20,49 @@ JLCPCB JLC04081H-7628, 0.8 mm (also in `fab/gerbers/rigid-rev-a-job.gbrjob`):
 
 | Layer | Use |
 | --- | --- |
-| F.Cu (L1, 35 um) | all SMT parts, signal fan-out, GND pour |
+| F.Cu (L1, 35 um) | all SMT parts, the six dock pads (J601, top edge), signal fan-out, GND pour |
 | prepreg 7628, 0.21 mm | |
 | In1.Cu (L2, 15 um) | solid GND, no tracks; no copper in the antenna keep-out |
 | core 0.26 mm | |
 | In2.Cu (L3, 15 um) | power jumps (VSYS, VBAT, VIN, VDD_2V0, LRA_P, nRESET) and signal routing; GND fill in the spare area |
 | prepreg 7628, 0.21 mm | |
-| B.Cu (L4, 35 um) | the six dock pads, signal routing, GND pour |
+| B.Cu (L4, 35 um) | faces the cell and LRA: hand-solder pads TP201/TP202/TP501/TP502, JP201, signal routing, GND pour; no parts |
 
-Track length by layer: F.Cu 159 mm, In2.Cu 165 mm, B.Cu 96 mm, In1.Cu 0.
+Track length by layer: F.Cu 208 mm, In2.Cu 205 mm, B.Cu 147 mm, In1.Cu 0.
 
 ## Orientation, outline and pod height
 
-The board mounts **parts-side down**: F.Cu faces into the pod, towards the
-cell and the LRA, and B.Cu is the pod's outer face, carrying the dock pads
-J601 (Ø1.6 mm, 2.5 mm pitch, y = 113): VIN, GND, SWDCLK, SWDIO, UART_RX,
-UART_TX from right to left in board coordinates (mirrored when you look at
-the outer face). Coordinates below are KiCad board coordinates,
-with the board from (100, 100) to (133, 115).
+The board mounts **parts-side out** (changed 2026-11-06): F.Cu, with every
+part and the six dock pads, faces the case top, the pod's outer face. B.Cu
+has no parts and faces the cell and the LRA, which sit between the board and
+the wrist. The dock pads J601 are a row on F along the top edge, y = 101.6,
+2.0 mm pitch, Ø1.4 mm: from left to right UART_TX (x 121.75), UART_RX,
+SWDIO, SWDCLK, GND, VIN (x 131.75). GND sits between VIN and the data pads.
+Coordinates below are KiCad board coordinates, with the board from
+(100, 100) to (133, 115). The strip round the dock row (x 120.9-132.5,
+y 100.3-102.9) has no parts, so the case top can sit right on the board
+there and the pogo pins only reach through the case top.
 
-Pod height, counting both walls:
+Pod height, from the outer face (case rev A):
 
 | Layer | mm |
 | --- | --- |
-| outer wall over B.Cu | 0.8 |
+| case top | 1.2 |
+| tallest F part (L201, 0603 caps, SOD-123F) plus 0.2 mm | 1.3 |
 | board | 0.8 |
-| tallest F-side part (L201, 0603 caps, SOD-123F) | 1.1 |
-| gap | 0.2 |
-| cell | 4-5 |
-| floor | 0.8 |
-| **Total** | **about 8-9** |
-
-The outer wall covers B.Cu except six windows over the dock pads (see
-compromise 6).
+| gap (B.Cu has no parts) | 0.2 |
+| cell, up to | 5.0 |
+| foam | 0.5 |
+| wrist cover floor | 1.0 |
+| **Total** | **about 10** (9 with a 4 mm cell) |
 
 ## Envelopes (Dwgs.User)
 
 | Envelope | Where | Notes |
 | --- | --- | --- |
 | ISP2454 antenna keep-out | x 100-105, full height | rule area inside the U1 footprint: no tracks, vias or pours on any layer |
-| 60 mAh cell, 17 x 13.5 mm | x 107-124, y 100.75-114.25 | under F; starts 2 mm past the keep-out; PCM and lead end at x = 124 |
-| Ø8 LRA (Ø8.5 envelope) | centre (128.75, 107.5), x 124.5-133 | under F, far end of the board; circle top at y 103.25 |
+| 60 mAh cell, 17 x 13.5 mm | x 107-124, y 100.75-114.25 | under B; starts 2 mm past the keep-out; PCM and lead end at x = 124 |
+| Ø8 LRA (Ø8.5 envelope) | centre (128.75, 107.5), x 124.5-133 | under B, far end of the board; circle top at y 103.25, bottom at 111.75 |
 
 ## 3D models
 
@@ -81,13 +83,13 @@ The paths use `${KIPRJMOD}`. D602-D605 use the KiCad library footprint
 `Package_SON:Texas_DPY0002A_0.6x1mm_P0.65mm`; "Update footprint from library"
 puts back the library's model path, which has no file in KiCad 10.
 
-`make_placed.py` places the cell and the LRA in the board's STEP frame:
-they sit 1.3 mm out from F.Cu (1.1 mm tallest part plus a 0.2 mm gap), the
-cell centred at (115.5, 107.5) with its lead end at x = 124, and the LRA
-centred at (128.75, 107.5) with its lead tab turned towards TP501. The leads
-run to TP201/TP202 and TP501/TP502. A clash check against the board's STEP
-finds no overlaps. SW201 (DNP, 1.6 mm tall) is in the board STEP and sits
-outside the LRA circle.
+`make_placed.py` places the cell and the LRA in the board's STEP frame,
+under B.Cu with a 0.2 mm gap: the cell centred at (115.5, 107.5) with its
+lead end at x = 124, and the LRA centred at (128.75, 107.5) with its lead tab
+turned towards TP501. The leads run to TP201 (bottom right) and TP202 (top
+right) and to TP501/TP502. A clash check against the board's STEP finds no
+overlaps. SW201 (DNP, 1.6 mm tall) is in the board STEP; the case top clears
+it.
 
 ## Placement
 
@@ -102,18 +104,20 @@ outside the LRA circle.
   pin 19). Their GND pads are joined by an F.Cu spine with three vias to
   In1 between the pads. R202 (VSET1) and R201 (DNP) sit below the stack.
   C203 sits under PMIC pin 12, offset left so pins 13-15 can escape.
-- **JP201** (I_BAT jumper) in the top strip between the cell area and
-  TP201.
-- **Dock row** along the bottom edge: R601-R604 and D602-D605 (TI DPY
-  package) between the module and D601 (VIN TVS), above the B-side dock
-  pads.
+- **JP201** (I_BAT jumper) on B in the bottom-right corner, between the
+  cell's lead end and TP201, outside the cell and LRA outlines, so it can
+  be cut for current measurement with the cell fitted.
+- **Dock pads** J601 on F along the top edge (see Orientation). Their
+  protection parts stay along the bottom edge: R601-R604 and D602-D605 (TI
+  DPY package) between the module and D601 (VIN TVS).
 - **U501 DRV2605L** at the right end over the LRA envelope, with C501, C502.
-- **Hand-solder pads** on F, 0.5 mm to other copper and mask at pad + 0.1 mm:
-  TP201 (BAT+) at (125.75, 101.6) and TP202 (BAT-) at (128.86, 101.6),
-  past the cell's lead end (pad copper starts at x 124.75 and 127.86) and
-  above the LRA circle (pads end at y 102.6, the circle starts at 103.25),
-  so neither solder joint sits on the cell pouch. TP501/TP502 (LRA) at the
-  right edge. TH201 sits over the cell.
+- **Hand-solder pads** on B (the cell side), 0.5 mm to other copper and
+  mask at pad + 0.1 mm, all outside the cell and LRA outlines: TP201 (BAT+)
+  at (129.0, 113.5) and JP201 in the bottom-right corner below the LRA
+  circle, TP202 (BAT-) at (125.3, 101.6) in the top-right corner, TP501
+  (LRA+) at (131.7, 101.5) and TP502 (LRA-) at (131.9, 113.5) at the right
+  edge. TP202 joins the GND via in dock pad 2; TP502 has a filled via in its
+  pad. TH201 sits on F over the cell, through the board.
 - **Test pads**: TP702 (I2C_SDA) and TP704 (VDD_2V0) at the top edge near
   TH201, TP703 (I2C_SCL) left of U501, TP706 (VBAT) beside R201, TP401
   (ACC_INT2), TP701 (nRESET), TP705 (VSYS), TP707 (GND) and TP203
@@ -170,8 +174,14 @@ less.
   routed with a scripted grid router because Freerouting crashed on this
   board, then cleaned up (see "Trace audit" below). The router keeps vias
   out of pads. I2C runs U401 - U1 - U201 - U501
-  with test pads TP702/TP703. Each dock line runs from its B-side pad through
-  one via to its TVS and 100 ohm resistor on F, then on to the module.
+  with test pads TP702/TP703.
+- Dock lines (rework 2026-11-06): the pads moved from B (bottom edge) to F
+  (top edge), and each line now runs from its pad across the board to its
+  TVS and 100 ohm resistor at the bottom edge, then on to the module:
+  UART_TX 28.8 mm / 3 vias, UART_RX 27.0 / 3, SWDIO 41.9 / 4 (round the
+  module end), SWDCLK 27.3 / 2, VIN 23.8 mm / 3 vias to C201.1. These were
+  laid by a small 3-layer grid router (F, In2, B; In1 stays solid GND) and
+  then checked by DRC and the trace audit; three spots were laid by hand.
 - Rules (in `rigid-rev-a.kicad_dru` and the netclasses): 0.10 mm clearance
   on all netclasses, 0.2 mm hole clearance, 0.2 mm from vias to other copper
   on inner layers, 0.5 mm around the hand-solder pads. Zones use 0.2 mm
@@ -191,8 +201,8 @@ less.
   stitching vias around the board edge and at the module's top and bottom
   (outside the keep-out).
 - Shared GND vias: U401 pads 5-8 share one; C401 and C402 share one; the
-  four charger caps share three on their GND spine. TP202 (BAT-) has three
-  GND vias around it.
+  four charger caps share three on their GND spine. TP202 (BAT-) on B
+  joins the GND via in dock pad 2 by a short B track.
 - Each data TVS (D602-D605) has its own GND via about 0.8 mm from its GND
   pad.
 - Two 0.3/0.2 mm GND vias under the U501 body tie the pin 4 and pin 8 pour
@@ -200,11 +210,11 @@ less.
 
 | Vias | Count |
 | --- | --- |
-| 0.45/0.3, signal and power | 70 |
-| 0.45/0.3, GND (incl. 9 in the nPM1304 exposed pad and 4 in module corner pads) | 54 |
+| 0.45/0.3, signal and power | 76 |
+| 0.45/0.3, GND (incl. 9 in the nPM1304 exposed pad, 4 in module corner pads, 1 in dock pad 2) | 49 |
 | 0.3/0.2, GND (8 in module pads, 2 under U501) | 10 |
 | 0.3/0.2, nRESET (module pad 13) | 1 |
-| Total | 135 |
+| Total | 136 |
 
 ### Vias in pads and POFV
 
@@ -235,6 +245,14 @@ an error (it was set to ignore, which is how off-centre via ends passed DRC
 before). ERC: 0 errors, 0 warnings.
 
 ## Trace audit (2026-11-06)
+
+**Dock rework (later on 2026-11-06).** After the dock pads moved to F and
+the lead pads to B, the same checks were run again by script on the whole
+board: every segment at 0, 45 or 90 degrees, every bend 45 degrees, no
+segment under 0.1 mm outside a pad, no zig-zag step, no overlapping
+same-net tracks, every end on a pad or via centre (the eight nPM1304
+exposed-pad stubs below excepted, as before). DRC with schematic parity:
+0 violations, 0 unconnected, 0 parity. ERC: 0. Segments 432, vias 136.
 
 Every track was checked by script against the rules below, before and after
 a clean-up. Vias, layers, track widths and the netlist did not change; every
@@ -313,11 +331,13 @@ Until firmware does this the cell does not charge from the dock.
    wider ones); it carries only the buck's input current.
 5. **Fine routing:** 0.12 mm tracks with 0.10 mm clearance (JLCPCB's 4-layer
    minimum is 0.09/0.09).
-6. **B.Cu carries signal tracks** (96 mm), so the outer face is not just
-   GND and dock pads. The pod's outer wall must cover B.Cu except the six
-   dock-pad windows, with the window edges sealed so sweat cannot reach the
-   tracks. If the case cannot do that, conformal-coat B.Cu everywhere except
-   the six pads.
+6. **The cell and LRA sit on B.Cu signal tracks.** B carries 147 mm of
+   tracks, 128 mm of them under the cell and LRA outlines (87 mm before the
+   dock rework; the dock lines added 41 mm). They are under solder mask, but
+   put a layer of kapton tape over B.Cu (or on the cell) before fitting the
+   cell, and fit the cell and LRA with foam or adhesive pads, not bare.
+   The F side, now the outer face, carries the parts; the case top covers
+   it except the six dock windows, sealed round each window.
 7. **C403** (10 uF on VDD_2V0) is 4.5 mm from U401 pin 9; C401 (100 nF) is
    1.0 mm from it.
 8. **L201 land pattern (confirmed).** L201 uses KiCad's
@@ -329,7 +349,15 @@ Until firmware does this the cell does not charge from the dock.
    same drawing. The part is 2.0 +/-0.2 x 1.6 +/-0.2 x 1.0 max mm with
    0.5 +/-0.3 mm electrodes. No change needed; the only difference is that
    KiCad rounds the pad corners (roundrect), which is normal.
-9. **SW201 (DNP)** has a courtyard over the LRA envelope. Don't fit it.
+9. **SW201 (DNP)** is 1.6 mm tall, more than the 1.1 mm the case top
+   allows for. Don't fit it.
 10. **NTC** runs a long way round (In2 beside the charger caps, 18.5 mm
     from TH201 to pin 18). It is a DC thermistor line, so this is only a layout tidiness
     issue.
+11. **Dock lines are long.** The TVS diodes D602-D605 and D601 stay at the
+   bottom edge, 11-20 mm (along the copper 24-42 mm) from the dock pads at
+   the top edge, so an ESD hit travels that far before it is clamped. The
+   lines are under the case and mask, and the series resistors are still
+   between the TVS and the module. Moving the protection parts to the top
+   edge needs a re-route of the MCU-side nets.
+12. **Bring-up test pads** TP702 and TP704 stay on F, under the case top.

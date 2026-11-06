@@ -1707,7 +1707,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "wakeband:DockPads_1x06_P2.5mm_D1.6mm"
+		(property "Footprint" "wakeband:DockPads_1x06_P2.0mm_D1.4mm"
 			(at 53.34 80.01 0)
 			(hide yes)
 			(show_name no)
