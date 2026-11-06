@@ -62,6 +62,32 @@ compromise 6).
 | 60 mAh cell, 17 x 13.5 mm | x 107-124, y 100.75-114.25 | under F; starts 2 mm past the keep-out; PCM and lead end at x = 124 |
 | Ø8 LRA (Ø8.5 envelope) | centre (128.75, 107.5), x 124.5-133 | under F, far end of the board; circle top at y 103.25 |
 
+## 3D models
+
+Every part on the board has a 3D model, except the test pads, the dock
+pads, NT201 and JP201, which need none. KiCad 10 has no model for two
+footprints, so `wakeband.3dshapes/` holds parametric ones (build123d; rebuild
+with `python make_models.py wakeband.3dshapes`):
+
+| Model | Used by | Size and source |
+| --- | --- | --- |
+| `InsightSiP_ISP2454_LGA-62_8x8mm.step` | U1 (also set in `wakeband.pretty`) | 8 x 8 x 1.0 mm, substrate plus overmould, pin-1 dot; size from the footprint |
+| `Texas_DPY0002A_0.6x1mm_P0.65mm.step` | D602-D605 | 1.0 x 0.6 x 0.375 mm X1SON-2, bottom terminals, pin-1 band; TI MPSS034C |
+| `LiPo_3.7V_60mAh_401215_PCM.step` | cell (off board) | 17 x 13 x 4.0 mm pouch with folded PCM at +X, lead stubs |
+| `Vybronics_VG0832012_LRA_D8x3.25mm.step` | LRA (off board) | Ø8.0 x 3.25 mm can, lead tab at +X |
+
+The paths use `${KIPRJMOD}`. D602-D605 use the KiCad library footprint
+`Package_SON:Texas_DPY0002A_0.6x1mm_P0.65mm`; "Update footprint from library"
+puts back the library's model path, which has no file in KiCad 10.
+
+`make_placed.py` places the cell and the LRA in the board's STEP frame:
+they sit 1.3 mm out from F.Cu (1.1 mm tallest part plus a 0.2 mm gap), the
+cell centred at (115.5, 107.5) with its lead end at x = 124, and the LRA
+centred at (128.75, 107.5) with its lead tab turned towards TP501. The leads
+run to TP201/TP202 and TP501/TP502. A clash check against the board's STEP
+finds no overlaps. SW201 (DNP, 1.6 mm tall) is in the board STEP and sits
+outside the LRA circle.
+
 ## Placement
 
 - **U1 ISP2454** at the left end, antenna end in the keep-out strip.

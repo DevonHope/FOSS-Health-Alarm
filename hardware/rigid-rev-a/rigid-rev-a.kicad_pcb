@@ -767,7 +767,7 @@
 			(uuid "52d65c4d-34f0-449e-874c-e28f50edd171")
 		)
 		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Package_SON.3dshapes/Texas_DPY0002A_0.6x1mm_P0.65mm.step"
+		(model "${KIPRJMOD}/wakeband.3dshapes/Texas_DPY0002A_0.6x1mm_P0.65mm.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -2729,7 +2729,7 @@
 			(uuid "479b8f11-92d0-4117-a33b-fc58c7081c96")
 		)
 		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Package_SON.3dshapes/Texas_DPY0002A_0.6x1mm_P0.65mm.step"
+		(model "${KIPRJMOD}/wakeband.3dshapes/Texas_DPY0002A_0.6x1mm_P0.65mm.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -4893,6 +4893,17 @@
 			)
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/wakeband.3dshapes/InsightSiP_ISP2454_LGA-62_8x8mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "Capacitor_SMD:C_0402_1005Metric"
 		(layer "F.Cu")
@@ -9672,7 +9683,7 @@
 			(uuid "6b80bda8-c384-4a33-bd40-21232cbce9da")
 		)
 		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Package_SON.3dshapes/Texas_DPY0002A_0.6x1mm_P0.65mm.step"
+		(model "${KIPRJMOD}/wakeband.3dshapes/Texas_DPY0002A_0.6x1mm_P0.65mm.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -9940,7 +9951,7 @@
 			(uuid "cade5836-6d81-484c-8576-84ca41c6f39a")
 		)
 		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Package_SON.3dshapes/Texas_DPY0002A_0.6x1mm_P0.65mm.step"
+		(model "${KIPRJMOD}/wakeband.3dshapes/Texas_DPY0002A_0.6x1mm_P0.65mm.step"
 			(offset
 				(xyz 0 0 0)
 			)
