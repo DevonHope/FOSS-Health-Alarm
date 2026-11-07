@@ -11,7 +11,7 @@ KiCad 10.0.3 (earlier revisions used 10.0.5; the file format is the same).
 | DRC | 0 violations, 0 unconnected, schematic parity 0 (1 documented exclusion); off-centre via ends checked as errors |
 | Traces | straight or 45-degree segments only, 45-degree bends, every end on its pad or via centre (audit 2026-11-06, below) |
 | ERC | 0 errors, 0 warnings |
-| Vias | 136: 125 x 0.45/0.3 mm, 11 x 0.3/0.2 mm |
+| Vias | 142: 131 x 0.45/0.3 mm, 11 x 0.3/0.2 mm |
 | Files | `rigid-rev-a-layout.pdf` (layers), `rigid-rev-a.pdf` (schematic), `fab/` |
 
 ## Stackup
@@ -78,6 +78,8 @@ with `pip install build123d`, then from this folder
 | `Texas_DPY0002A_0.6x1mm_P0.65mm.step` | D602-D605 | 1.0 x 0.6 x 0.375 mm X1SON-2, bottom terminals, pin-1 band; TI MPSS034C |
 | `LiPo_3.7V_60mAh_401215_PCM.step` | cell (off board) | 17 x 13 x 4.0 mm pouch with folded PCM at +X, lead stubs |
 | `Vybronics_VG0832012_LRA_D8x3.25mm.step` | LRA (off board) | Ø8.0 x 3.25 mm can, lead tab at +X |
+| `LED_TOGIALED_1615_RGB_CommonAnode.step` | D702 | 1.6 x 1.5 x 0.6 mm body and lens, pin-1 (anode) mark |
+| `Kinetic_UTDFN-8_1.5x1.5mm_P0.4mm_EP1.45x0.8mm.step` | U202 | 1.5 x 1.5 x 0.5 mm UTDFN-8, pin-1 dot, terminals |
 
 The paths use `${KIPRJMOD}`. D602-D605 use the KiCad library footprint
 `Package_SON:Texas_DPY0002A_0.6x1mm_P0.65mm`; "Update footprint from library"
@@ -88,8 +90,8 @@ under B.Cu with a 0.2 mm gap: the cell centred at (115.5, 107.5) with its
 lead end at x = 124, and the LRA centred at (128.75, 107.5) with its lead tab
 turned towards TP501. The leads run to TP201 (bottom right) and TP202 (top
 right) and to TP501/TP502. A clash check against the board's STEP finds no
-overlaps. SW201 (DNP, 1.6 mm tall) is in the board STEP; the case top clears
-it.
+overlaps. The tallest F part is now 1.1 mm (SW201 was removed on
+2026-11-07); the charge LED is 0.6 mm.
 
 ## Placement
 
@@ -118,10 +120,15 @@ it.
   (LRA+) at (131.7, 101.5) and TP502 (LRA-) at (131.9, 113.5) at the right
   edge. TP202 joins the GND via in dock pad 2; TP502 has a filled via in its
   pad. TH201 sits on F over the cell, through the board.
+- **Charge LED** D702 (RGB, 1.6 x 1.5 mm) at (130.225, 113.2), in SW201's old
+  place at the bottom edge below U501, with its driver U202 (KTD2026) at
+  (126.55, 113.2) and C208 (1 uF, VIN) at (128.1, 112.17). See "Charge LED"
+  below.
 - **Test pads**: TP702 (I2C_SDA) and TP704 (VDD_2V0) at the top edge near
   TH201, TP703 (I2C_SCL) left of U501, TP706 (VBAT) beside R201, TP401
   (ACC_INT2), TP701 (nRESET), TP705 (VSYS), TP707 (GND) and TP203
-  (SHPHLD). TP704 has a filled via in its pad (flat after POFV, still
+  (SHPHLD; with SW201 gone, this pad is the only way to pull SHPHLD low).
+  TP704 has a filled via in its pad (flat after POFV, still
   probeable).
 
 ## Buck loop (nPM1304 BUCK1, pins 1-4)
@@ -236,7 +243,7 @@ board.
 ## DRC and ERC
 
 `kicad-cli pcb drc --schematic-parity --severity-all` (KiCad 10.0.3,
-2026-11-06, after the trace clean-up and a zone refill): 0 errors, 0
+2026-11-07, after the charge LED was added and the zones refilled): 0 errors, 0
 warnings, 0 unconnected items, 0 parity issues, no isolated copper or
 starved thermals. One warning is excluded in `rigid-rev-a.kicad_pro` with a
 comment: D701 differs from its library copy because its silk dot (clipped by
@@ -245,6 +252,15 @@ an error (it was set to ignore, which is how off-centre via ends passed DRC
 before). ERC: 0 errors, 0 warnings.
 
 ## Trace audit (2026-11-06)
+
+**Charge LED (2026-11-07).** U202, D702 and C208 were placed and routed, and
+SW201 with its SHPHLD stub removed. Same checks, whole board: no new
+findings (only the eight nPM1304 exposed-pad stubs, as before). LED_R and
+LED_G run side by side under U202's bottom pins along the board edge (U202
+moved 0.2 mm up so both fit at 0.10 mm clearance and 0.3 mm from the edge);
+I2C_SCL reaches the bus on In2 (3 vias), VSYS to D702's anode on In2 (2
+vias), and U202's GND pin and exposed pad join the F.Cu GND pour (solid
+connection). DRC with parity: 0 / 0 / 0. ERC: 0. Segments 465, vias 142.
 
 **Dock rework (later on 2026-11-06).** After the dock pads moved to F and
 the lead pads to B, the same checks were run again by script on the whole
@@ -306,6 +322,38 @@ and **4.0 V** termination. Firmware must, over I2C:
 
 Until firmware does this the cell does not charge from the dock.
 
+## Charge LED (D702, U202)
+
+An RGB LED that shows charging through a 0.4 mm skin in the case top (no
+opening; see `../case-rev-a`).
+
+| Ref | Part | Notes |
+| --- | --- | --- |
+| D702 | TOGIALED TJ-S1615SW6TGLCCYRGB-A5, LCSC C273610 (JLCPCB extended) | 1.6 x 1.5 x 0.6 mm, top view, common anode. Pin 1 A, 2 B, 3 G, 4 R |
+| U202 | Kinetic KTD2026EWE-TR, UTDFN-8 1.5 x 1.5 mm | 3-channel I2C LED driver, 0.125-24 mA current sinks. Digi-Key KTD2026EWE-TR; no LCSC listing found, so consign it |
+| C208 | 1 uF 25 V X5R 0402, LCSC C52923 | U202 VIN decoupling, beside pin 5 |
+
+- **Why a driver.** The module's GPIOs run at 2.0 V. Green and blue need
+  about 2.8-3.6 V, so a GPIO can't light them. U202 sinks each colour to
+  GND from the anode on VSYS.
+- **Wiring.** Anode and U202 VIN on VSYS. D1 = blue, D2 = green, D3 = red.
+  ST (pin 1) is not connected.
+- **I2C.** On the existing bus (R203/R204 4.7 k to VDD_2V0) at address
+  **0x30**. No clash with the nPM1304 (0x6B), DRV2605L (0x5A) or LIS2DW12
+  (0x18/0x19). U202's VIH min is 1.2 V, so the 2.0 V bus drives it.
+- **Power.** U202 starts in shutdown (about 0.1 uA). The LED is off until
+  firmware turns it on, and only needs to be on while on the dock.
+- **Brightness.** While docked VSYS is fed from the dock supply, so all
+  three colours have headroom. On battery VSYS follows the cell, so blue
+  and green get dim or go out as the cell runs down; use red for low-battery
+  signals.
+
+**Firmware.** The nPM1304 doesn't drive this LED. Firmware reads the
+charger status from the nPM1304 over I2C and sets U202 to match, for
+example amber while charging, green when done, red blinking on a fault.
+Charging itself must still be enabled by firmware (see "Firmware charger
+requirements" above).
+
 ## Protection parts
 
 - **D601 (VIN TVS): Littelfuse SMF12A**, LCSC C207255, SOD-123FL. 12 V
@@ -349,8 +397,9 @@ Until firmware does this the cell does not charge from the dock.
    same drawing. The part is 2.0 +/-0.2 x 1.6 +/-0.2 x 1.0 max mm with
    0.5 +/-0.3 mm electrodes. No change needed; the only difference is that
    KiCad rounds the pad corners (roundrect), which is normal.
-9. **SW201 (DNP)** is 1.6 mm tall, more than the 1.1 mm the case top
-   allows for. Don't fit it.
+9. **SW201 removed (2026-11-07).** The ship-mode button was DNP and too tall
+   for the case. Its place now holds the charge LED. SHPHLD is still on
+   TP203 for bring-up.
 10. **NTC** runs a long way round (In2 beside the charger caps, 18.5 mm
     from TH201 to pin 18). It is a DC thermistor line, so this is only a layout tidiness
     issue.
@@ -361,3 +410,4 @@ Until firmware does this the cell does not charge from the dock.
    between the TVS and the module. Moving the protection parts to the top
    edge needs a re-route of the MCU-side nets.
 12. **Bring-up test pads** TP702 and TP704 stay on F, under the case top.
+13. **U202 (KTD2026) has no LCSC listing.** Consign it with U1 and U201.

@@ -1,6 +1,6 @@
 # WakeBand rigid rev A fab package
 
-Generated 2026-11-06 from `../rigid-rev-a.kicad_pcb` with kicad-cli 10.0.3
+Generated 2026-11-07 from `../rigid-rev-a.kicad_pcb` with kicad-cli 10.0.3
 (Gerbers exported with `--check-zones`; the previous package used 10.0.5). See `../README.md` for the stackup,
 orientation, placement and the list of compromises.
 
@@ -19,7 +19,7 @@ consigned ISP2454 (F.Fab outline with pin-1 mark, pads numbered, board edge).
 | Copper | 1 oz outer, 0.5 oz inner |
 | Finish | ENIG |
 | Via covering | **Epoxy filled and capped (POFV) - paid option, must be selected** |
-| Min via | 0.3 mm pad / 0.2 mm hole (11 vias); the other 125 are 0.45 / 0.3 |
+| Min via | 0.3 mm pad / 0.2 mm hole (11 vias); the other 131 are 0.45 / 0.3 |
 | Min track / space | 0.12 / 0.10 mm |
 | Impedance control | not needed (ANT_LINK is two module pads joined on F.Cu, 0.65 mm) |
 | Assembly | top side only; the bottom has no parts, only the hand-solder pads TP201/TP202/TP501/TP502 and the bridged jumper JP201 (no paste) |
@@ -64,6 +64,8 @@ not in the file.
 | D601 | SMF12A (unidirectional TVS, LCSC C207255) | SOD-123F | 0 | 0 (no rule); flip 180 if the band shows on GND | cathode band on pad 1 = VIN (left) |
 | D602-D605 | TPD1E10B06DPYR | X1SON DPY (1.0 x 0.6 mm) | 0 | 0 (no rule) | bidirectional, so 0 or 180 both work; body must sit across both pads, not at 90 |
 | L201 | DFE201610E-2R2M | 2016 inductor | 180 | 0 or 180 (non-polar) | body across both pads |
+| U202 | KTD2026EWE-TR (consigned) | UTDFN-8 1.5 x 1.5 mm | 0 | 270 (DFN rule), but it is consigned | pin 1 (ST) at the bottom-left corner, board coordinates (125.95, 113.95); the I2C pins face up |
+| D702 | TJ-S1615SW6TGLCCYRGB-A5 (LCSC C273610) | 1615 RGB LED | 0 | 0 (no rule) | pin 1 (anode, corner mark) at the top-right pad, (131.1, 112.65), the pad joined to VSYS |
 | U1 | ISP2454-LX (consigned) | LGA-62 module | 270 | 270 (enter it by hand) | attach `u1-pin1-drawing.pdf` |
 
 Sources: [KiBot position notes (internal rotation list)](https://kibot.readthedocs.io/en/latest/notes_position.html),
@@ -77,11 +79,11 @@ Murata's recommended land pattern for the DFE201610E; see compromise 8 in
 
 ## Consigned and unassembled parts
 
-- **U1 (ISP2454-LX) and U201 (nPM1304-QEAA)** have no LCSC part number and
-  must be consigned (or sourced another way). Send the U1 pin-1 drawing with
-  the consignment.
-- **Not assembled:** R201, SW201, D701 and R701 are DNP (not in the BOM or
-  CPL). Don't fit SW201 later either: its courtyard sits over the LRA. The 60 mAh cell (BT1) and the 8 mm LRA are hand-soldered to
+- **U1 (ISP2454-LX), U201 (nPM1304-QEAA) and U202 (KTD2026EWE-TR, from
+  Digi-Key)** have no LCSC part number and must be consigned (or sourced
+  another way). Send the U1 pin-1 drawing with the consignment.
+- **Not assembled:** R201, D701 and R701 are DNP (not in the BOM or CPL).
+  SW201 was removed from the design on 2026-11-07. The 60 mAh cell (BT1) and the 8 mm LRA are hand-soldered to
   TP201/TP202 and TP501/TP502 on B.Cu after assembly (TP201 and JP201 bottom
   right, TP202 and TP501 top right, TP502 bottom right; all outside the cell
   and LRA outlines).

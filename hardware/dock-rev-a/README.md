@@ -6,6 +6,9 @@ You lay the band face down in the dock's recess. Two magnets pull it in and
 line it up, and six spring pins press on the band's six flush gold
 contacts: VIN, GND, SWDCLK, SWDIO, UART_RX, UART_TX.
 
+A light channel under the band's charge LED runs out through the dock's
+side wall, so the LED's glow can be seen while the band charges face down.
+
 The magnets are keyed. The band only seats one way round: turned end for
 end it is pushed away.
 
@@ -20,6 +23,8 @@ end it is pushed away.
 
 - **Size:** 52.4 x 26.9 x 10.2 mm.
 - **Recess:** 1.5 mm deep, the band's outer outline plus 0.3 mm.
+- **Light channel:** 2.4 mm wide, 1.0 mm into the recess floor, from under
+  the band's LED (board (130.225, 113.2)) out through the long side wall.
 - **Frames:** the STEP files are in the band's assembly frame, docked on the
   band. The STL files are turned for printing, base side down.
 - **Regenerate:** `python dock_rev_a.py OUT_DIR` (needs build123d and

@@ -158,10 +158,37 @@ def lra(stubs=True):
     return parts
 
 
+# ---------------------------------------------------------------- D702
+# TOGIALED TJ-S1615SW6TGLCCYRGB-A5 RGB LED: 1.6 x 1.5 x 0.6 mm top view,
+# white body, clear top, pin 1 (anode) at KiCad (+x, -y) = model (+x, +y).
+def togialed1615():
+    body = Box(1.6, 1.5, 0.45, align=MIN)
+    lens = Box(1.2, 1.1, 0.15, align=MIN).translate((0, 0, 0.45))
+    mark = Box(0.3, 0.3, 0.01, align=MIN).translate((0.55, 0.5, 0.45))
+    save([part(body, "1615 RGB body", WHITE), part(lens, "1615 RGB lens", Color(0.85, 0.9, 0.95)),
+          part(mark, "1615 RGB pin 1 mark", Color(0.2, 0.5, 0.9))],
+         "LED_TOGIALED_1615_RGB_CommonAnode.step", "TJ-S1615 RGB")
+
+
+# ---------------------------------------------------------------- U202
+# Kinetic KTD2026 UTDFN-8 1.5 x 1.5 x 0.5 mm, pin 1 at KiCad (-x, +y) = model (-x, -y).
+def utdfn8():
+    body = Box(1.5, 1.5, 0.5, align=MIN)
+    dot = Cylinder(0.12, 0.02, align=MIN).translate((-0.45, -0.45, 0.48))
+    body = body - dot
+    parts = [part(body, "UTDFN-8 body", BLACK), part(Cylinder(0.12, 0.02, align=MIN).translate((-0.45, -0.45, 0.48)), "UTDFN-8 pin 1", WHITE)]
+    for k, x in enumerate((-0.6, -0.2, 0.2, 0.6)):
+        for y in (-0.6375, 0.6375):
+            parts.append(part(Box(0.2, 0.225, 0.02, align=MIN).translate((x, y, 0)), f"UTDFN-8 pad {k}", TIN))
+    save(parts, "Kinetic_UTDFN-8_1.5x1.5mm_P0.4mm_EP1.45x0.8mm.step", "KTD2026")
+
+
 if __name__ == "__main__":
     OUT = Path(sys.argv[1])
     OUT.mkdir(parents=True, exist_ok=True)
     isp2454()
     dpy0002a()
+    togialed1615()
+    utdfn8()
     save(cell(), "LiPo_3.7V_60mAh_401215_PCM.step", "LiPo 60 mAh")
     save(lra(), "Vybronics_VG0832012_LRA_D8x3.25mm.step", "VG0832012")

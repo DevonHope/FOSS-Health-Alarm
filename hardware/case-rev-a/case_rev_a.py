@@ -30,7 +30,7 @@ BOARD_R = 1.0
 BOARD_T = 0.8
 CLR = 0.15
 CELL_MAX, FOAM, GAP = 5.0, 0.5, 0.2
-F_PARTS = 1.1                         # tallest F part (DNP SW201 left out)
+F_PARTS = 1.1                         # tallest F part
 CELL_ENV = (107.0, 124.0, 100.75, 114.25)
 LRA_C, LRA_R, LRA_H = (128.75, 107.5), 4.0, 3.25
 LRA_ENV_R = 4.25                      # Ø8.5 envelope incl. the lead round the can
@@ -45,6 +45,11 @@ MAG_POCKET_D, MAG_POCKET_T = 3.1, 1.05
 MAG_SKIN = 0.2                        # plastic over the magnet on the outer face
 MAG_XY = ((118.6, 101.6), (134.9, 101.6))
 CONTACT_TOP = None                    # set below: flush with the outer face
+# charge LED D702 (1.6 x 1.5 x 0.6 mm, top view): seen through a thin skin of
+# the case top, from a blind pocket on the inside (no opening)
+LED_XY = (130.225, 113.2)
+LED_SKIN = 0.4
+LED_WIN = (2.4, 2.3)                  # pocket over the LED: body + 0.4 mm a side
 
 WALL = 2.0          # side walls: lip 0.95 + 0.15 + skirt 0.9
 LIP_W = 0.95        # cover lip (inner part of the wall)
@@ -154,6 +159,10 @@ def make_shell():
     # magnet pockets: closed on the outside by MAG_SKIN; insert at a print pause
     for x, y in MAG_XY:
         s -= cyl(x, y, MAG_POCKET_D / 2, TOP - MAG_SKIN - MAG_POCKET_T, TOP - MAG_SKIN)
+    # charge LED window: blind pocket from inside, LED_SKIN left on the outer face
+    lx, ly = LED_XY
+    s -= slab(rrect(lx - LED_WIN[0] / 2, lx + LED_WIN[0] / 2, ly - LED_WIN[1] / 2, ly + LED_WIN[1] / 2, 0.3),
+              ROOF_IN - 0.1, TOP - LED_SKIN)
     # posts onto F.Cu in the antenna keep-out strip (no copper or parts there)
     for y0, y1 in ((101.1, 103.2), (111.8, 113.9)):
         s += box(CAV[0] + 0.3, BOARD[0] + 0.95, y0, y1, BOARD_F, ROOF_IN + 0.1)
@@ -251,10 +260,6 @@ def assembly_in_design_frame(paths):
     for f in paths:
         for s in import_step(f).solids():
             s2 = mirror(s.translate((0, 0, BOARD_B)), about=Plane.XZ)
-            bb = s2.bounding_box()
-            # SW201 is DNP: leave it out (it is in the board STEP)
-            if 126.0 < bb.min.X < 127.0 and 111.5 < bb.min.Y < 112.5 and bb.max.Z > BOARD_F + 1.2:
-                continue
             out.append((s2, Path(f).stem))
     return out
 
@@ -308,6 +313,6 @@ if __name__ == "__main__":
         hits = [h for h in hits if not (h[1] == 'wakeband-rigid-rev-a-full' and h[2] < 0.01)]
         print(f"contacts vs board/cell/LRA: {len(hits)} overlaps beyond touching", hits[:3])
         hits = clash((("shell", shell), ("cover", cover)), asm)
-        print(f"clash check: {len(asm)} assembly solids (SW201 left out), {len(hits)} overlaps")
+        print(f"clash check: {len(asm)} assembly solids, {len(hits)} overlaps")
         for h in hits:
             print("  ", h)

@@ -35,6 +35,7 @@ Targets for the final pod:
 | Accelerometer in low-power mode (25 to 100 Hz) | about 1 to 4 uA |
 | Occasional BLE advertising / sync | a few uA averaged |
 | Motor: about 60 mA for about 30 s per morning | about 0.5 mAh per day |
+| Charge LED driver (KTD2026) in shutdown; the LED lights only on the dock | about 0.1 uA |
 
 That is roughly 1 mAh per day, so a 40 mAh cell should last a month and a
 100 mAh cell much longer. These are datasheet-level guesses; stage 0 exists to

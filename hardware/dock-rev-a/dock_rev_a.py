@@ -35,6 +35,8 @@ USB = (8.94, 7.35, 3.26)           # USB-C receptacle body (w, d, h), at +x end
 TOP_PART = PCB_Z + PCB_T + USB[2] + 0.8   # inside of the base plate
 BASE_T = 1.6
 H_END = TOP_PART + BASE_T          # outside of the base (table side)
+LED_CH_W = 2.4                     # light channel under the band's charge LED
+LED_CH_D = 1.0                     # its depth below the recess floor
 
 
 def make_dock():
@@ -62,6 +64,12 @@ def make_dock():
     hx = outline.bounding_box().min.X
     d -= case.box(hx - 1, PCB[0] + 1, 101.0, 113.0, PCB_Z + PCB_T, TOP_PART + 1)
     d -= case.box(hx - 1, PCB[0] + 1, 101.0, 113.0, PCB_Z - 0.01, TOP_PART + 1) & case.box(hx - 1, PCB[0] + 1, 101.0, 113.0, 0, 99)
+    # light channel: the band lies face down, so its charge LED faces the
+    # recess floor. A groove under the LED, open through the side wall, lets
+    # the glow out where it can be seen.
+    lx, ly = case.LED_XY
+    oy = outline.bounding_box().max.Y
+    d -= case.box(lx - LED_CH_W / 2, lx + LED_CH_W / 2, ly - LED_CH_W / 2, oy + 1, TOP - REC_D - 1, TOP + LED_CH_D)
     # base plate (separate part)
     base = case.slab(offset(outline, -0.2, kind=Kind.ARC), TOP_PART, H_END)
     return d, base

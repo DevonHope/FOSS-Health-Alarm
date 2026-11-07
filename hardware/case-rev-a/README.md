@@ -18,6 +18,7 @@ joined by a stepped ridge all round and held by one M2 screw. Since the
 ![iso](wakeband-case-rev-a-preview-iso.png)
 ![outer face](wakeband-case-rev-a-preview-top.png)
 ![wrist face](wakeband-case-rev-a-preview-wrist.png)
+![charge LED under the shell (shell see-through)](wakeband-case-rev-a-preview-led.png)
 
 `case_rev_a.py` (build123d) makes both parts. From this folder:
 
@@ -58,7 +59,10 @@ None open:
    - Round the row, the case top (the dock land) sits right on the board.
      A 0.3 mm relief at each bore leaves room for the solder fillet.
    - The webs between bores are 0.95 mm.
-2. **The screw hole** in the wrist face is filled by the countersunk M2
+2. **The charge LED window is not an opening.** Over the RGB LED D702
+   (board (130.225, 113.2)) a 2.4 x 2.3 mm blind pocket from the inside
+   leaves a **0.4 mm skin** of the case top. The LED shows through it.
+3. **The screw hole** in the wrist face is filled by the countersunk M2
    screw, with the head 0.2 mm below flush.
 
 The strap slots go through the strap loops only, outside the closed body.
@@ -86,6 +90,18 @@ The band uses a magnetic pin system. The dock is in `../dock-rev-a`.
     the right magnet.
   - The left pocket also opens a little into the inside, so a drop of CA
     glue there holds that magnet too.
+
+## Charge LED
+
+- **Window:** 0.4 mm skin over D702, from a pocket on the inside (above).
+  The shell prints top face down, so the skin is the first 0.4 mm of the
+  print and the pocket needs no support.
+- **Filament:** the light has to pass through the skin. Print the shell in
+  white, natural or another light colour. In black or dark PETG the LED will
+  be hard to see.
+- **On the dock:** the band lies face down in the dock, so the dock has a
+  light channel under the LED that opens through its side wall (see
+  `../dock-rev-a`).
 
 ## Joint (the ridge)
 
@@ -187,13 +203,15 @@ The two pins print standing up on the shell, so print them at 100 % infill.
 
 ## Checks (2026-11-06)
 
-- **Clash check** against the board STEP (all part models except SW201,
-  which is DNP), the cell, the LRA and their leads: no overlaps.
+- **Clash check** (2026-11-07, with the charge LED and its driver on the
+  board) against the board STEP with every part model, the cell, the LRA
+  and their leads: no overlaps.
 - **Shell against cover:** the only overlap is the intended 0.05 mm press
   fit of the two pins (0.77 mm³).
 - **Wall thickness**, sampled by rays from several thousand surface points
   per part:
-  - shell: top and land at least 1.0 mm; the ridge skirt 0.9 mm (0.6 mm at
+  - shell: top and land at least 1.0 mm (0.4 mm at the LED window, on
+    purpose); the ridge skirt 0.9 mm (0.6 mm at
     its edge chamfer); webs between contact bores 0.95 mm; boss wall 1.2 mm;
   - cover: floor 1.0 mm; the ridge lip and the board ledge 0.5 mm; about
     0.6 mm round the pin holes (0.33 mm at the seam chamfer); 0.5 mm web
@@ -224,7 +242,7 @@ The two pins print standing up on the shell, so print them at 100 % infill.
 4. **Sealing depends on the resin at the six contacts** and on the ridge
    joint. For more than sweat resistance, add a thin gasket or a bead of
    silicone in the ridge.
-5. **SW201 (DNP) must not be fitted:** at 1.6 mm it is taller than the
-   1.1 mm the shell allows for.
+5. **The LED shows through plastic, not an opening.** It is dimmer and more
+   diffuse than through a hole, and depends on a light filament colour.
 6. **The strap loops are wider than the body** (20.4 mm against 19.3 mm),
    because a 16 mm strap needs a 16.6 mm slot.
