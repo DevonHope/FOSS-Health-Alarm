@@ -1,0 +1,18 @@
+(version 1)
+
+# JLCPCB 4-layer: inner-layer via-to-copper clearance 0.2 mm (other nets).
+(rule "inner_via_clearance"
+	(layer inner)
+	(condition "A.Type == 'Via' && A.Net != B.Net")
+	(constraint clearance (min 0.2mm)))
+
+# Vias in the ISP2454 pads: 0.2/0.3 mm, epoxy filled and copper capped (POFV).
+(rule "module_via_in_pad"
+	(condition "A.Type == 'Via' && A.insideCourtyard('U1')")
+	(constraint via_diameter (min 0.3mm))
+	(constraint hole_size (min 0.2mm)))
+
+# Hand-solder pads for the cell and LRA leads: 0.5 mm to other nets.
+(rule "hand_solder_pad_clearance"
+	(condition "(A.Parent == 'TP201' || A.Parent == 'TP202' || A.Parent == 'TP501' || A.Parent == 'TP502') && A.Net != B.Net")
+	(constraint clearance (min 0.5mm)))
