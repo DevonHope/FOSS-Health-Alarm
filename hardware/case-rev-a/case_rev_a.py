@@ -38,6 +38,12 @@ DOCK_X = [121.75 + 2.0 * i for i in range(6)]
 DOCK_Y = 101.6
 CONTACT_D = 1.0                       # gold dock contact pins, soldered on the Ø1.4 pads
 BORE_D = 1.05                         # bore in the case top: pin + epoxy/UV-resin seal
+# magnetic dock: two Ø3 x 1 mm N52 discs sealed in the case top either side of
+# the contact row (opposite poles out, so the band only latches one way round)
+MAG_D, MAG_T = 3.0, 1.0
+MAG_POCKET_D, MAG_POCKET_T = 3.1, 1.05
+MAG_SKIN = 0.2                        # plastic over the magnet on the outer face
+MAG_XY = ((118.6, 101.6), (134.9, 101.6))
 CONTACT_TOP = None                    # set below: flush with the outer face
 
 WALL = 2.0          # side walls: lip 0.95 + 0.15 + skirt 0.9
@@ -145,6 +151,9 @@ def make_shell():
     for x in DOCK_X:
         s -= cyl(x, DOCK_Y, BORE_D / 2, BOARD_F - 1, TOP + 1)
         s -= cyl(x, DOCK_Y, 0.7, BOARD_F - 1, BOARD_F + 0.3)
+    # magnet pockets: closed on the outside by MAG_SKIN; insert at a print pause
+    for x, y in MAG_XY:
+        s -= cyl(x, y, MAG_POCKET_D / 2, TOP - MAG_SKIN - MAG_POCKET_T, TOP - MAG_SKIN)
     # posts onto F.Cu in the antenna keep-out strip (no copper or parts there)
     for y0, y1 in ((101.1, 103.2), (111.8, 113.9)):
         s += box(CAV[0] + 0.3, BOARD[0] + 0.95, y0, y1, BOARD_F, ROOF_IN + 0.1)
@@ -226,6 +235,11 @@ def make_contacts():
     return c
 
 
+def make_magnets():
+    mags = [cyl(x, y, MAG_D / 2, TOP - MAG_SKIN - MAG_T, TOP - MAG_SKIN) for x, y in MAG_XY]
+    return mags[0] + mags[1]
+
+
 def to_step_frame(shape):
     """Design frame (KiCad y) to the output frame (STEP y = -KiCad y)."""
     return mirror(shape, about=Plane.XZ)
@@ -282,6 +296,12 @@ if __name__ == "__main__":
     p = to_step_frame(pins)
     p.label, p.color = "dock contacts (6x gold Ø1.0 pin)", Color(0.85, 0.68, 0.30)
     export_step(p, str(out / "wakeband-case-rev-a-dock-contacts.step"))
+    mags = make_magnets()
+    ov = shell & mags
+    print("magnets vs shell overlap:", round(ov.volume if ov is not None else 0, 4))
+    p = to_step_frame(mags)
+    p.label, p.color = "dock magnets (2x Ø3x1 N52)", Color(0.6, 0.6, 0.65)
+    export_step(p, str(out / "wakeband-case-rev-a-magnets.step"))
     if len(sys.argv) > 4:
         asm = assembly_in_design_frame(sys.argv[2:5])
         hits = clash((("contacts", pins),), [a for a in asm if a[1] != 'wakeband-rigid-rev-a-full' or True])

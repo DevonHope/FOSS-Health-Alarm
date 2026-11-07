@@ -10,6 +10,7 @@ joined by a stepped ridge all round and held by one M2 screw. Since the
 | Part | File | Size (x, y, z) |
 | --- | --- | --- |
 | Dock contacts (6 pins, for the assembly) | `wakeband-case-rev-a-dock-contacts.step` | Ø1.0 x 2.5 mm each |
+| Magnets (2, for the assembly) | `wakeband-case-rev-a-magnets.step` | Ø3 x 1 mm each |
 | Outer shell | `wakeband-case-rev-a-shell.step` / `.stl` | 44.8 x 19.3 x 4.0 mm, plus the screw boss down to z 3.5 |
 | Wrist cover with strap loops | `wakeband-case-rev-a-cover.step` / `.stl` | 54.2 x 20.4 x 6.7 mm |
 | Assembled | | **44.8 x 19.3 x 10.0 mm** body, 54.2 x 20.4 mm with the strap loops |
@@ -62,6 +63,30 @@ None open:
 
 The strap slots go through the strap loops only, outside the closed body.
 
+## Magnetic dock
+
+The band uses a magnetic pin system. The dock is in `../dock-rev-a`.
+
+- **Contacts:** the six flush gold contacts are the targets. The dock's
+  spring pins press on them.
+- **Magnets:** two **Ø3 x 1 mm N52 disc magnets** are sealed in the case
+  top at each end of the contact row, at x 118.6 and x 134.9 (y 101.6).
+  - They sit in Ø3.1 x 1.05 mm pockets under a 0.2 mm skin, so nothing is
+    open on the outside.
+  - **Polarity:** the left one (antenna side) faces N outwards, the right
+    one S. The dock's magnets are reversed, so the band only seats the right
+    way round.
+  - **Antenna clearance:** the left magnet is 13.6 mm from the antenna
+    keep-out (x 100-105). The case has no steel.
+- **Fitting the magnets:**
+  - The shell prints top face down, so the pockets sit 0.2-1.25 mm above
+    the bed.
+  - Add a **print pause before the first layer above 1.25 mm**. Drop both
+    magnets in with the poles as above, and resume. The plastic closes over
+    the right magnet.
+  - The left pocket also opens a little into the inside, so a drop of CA
+    glue there holds that magnet too.
+
 ## Joint (the ridge)
 
 All round the parting line, the inner 0.95 mm of the cover wall stands
@@ -99,6 +124,7 @@ F side. Together they clamp the board.
 | Strap | 16 mm velcro or fabric strap, up to 2 mm thick |
 | Dock contacts | 6 x gold-plated brass pin, Ø1.0 mm x 2.5 mm (see below) |
 | Seal | low-viscosity epoxy or UV-curing resin |
+| Magnets | 2 x Ø3 x 1 mm N52 disc, axially magnetized (K&J, JC Magnetics, Magnet Baron) |
 
 **Dock contact pins.** No catalogue pin is exactly Ø1.0 x 2.5 mm without a
 collar wider than the 2.0 mm pitch allows. Spring pins such as the Mill-Max
