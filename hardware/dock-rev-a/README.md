@@ -96,11 +96,14 @@ a fixed-direction 74LVC1T45.
 `placement.json`), then routed with a grid router plus a hand-laid QSPI
 fan-out, and ground-stitched to the solid In1 plane.
 
-**Trace audit (not yet at the band's standard):** every segment is at 0, 45
-or 90 degrees, but the router left about 30 cosmetic items: short 0.2-0.3 mm
-stair-steps round the RP2040, about a dozen track ends inside a pad but off
-its centre, and three ends that join a track mid-span. They pass DRC and
-don't affect function; tidy them in KiCad before a production run.
+**Trace audit (2026-11-07, same checks as the band board):** every segment
+at 0, 45 or 90 degrees, every bend 45 degrees, no stair-steps (no segment
+under 0.3 mm between bends), no overlapping same-net tracks, every track end
+on its pad or via centre, no dangling ends. The router's leftovers were
+re-laid by hand (QSPI fan-out, the RP2040 inner +1V1/+3V3 links, SWD and
+power stubs; C3, C6, C10, C19, R4, R10, R11 and R13 nudged so their pad
+centres line up with 45-degree runs). DRC with parity 0 / 0 / 0, with
+`track_not_centered_on_via` as an error; ERC 0. Segments 352, vias 88.
 
 **Cost (rough, JLCPCB, 5 boards):** board about US$10 for a small 4-layer
 order; parts about US$4 a board (RP2040 0.90, flash 1.00, crystal 0.09, the
