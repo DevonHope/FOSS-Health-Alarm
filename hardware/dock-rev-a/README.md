@@ -46,10 +46,10 @@ band's charge LED faces up while it sits in the dock.
 | -6.34 | dock PCB bottom |
 | -8.24 | bottom of the tray |
 
-- **Spring pins:** 4 x Mill-Max **0906-4-15-20-75-14-11-0** (through-hole,
+- **Spring pins:** 4 x Mill-Max **0906-4-15-20-72-14-11-0** (through-hole, low-force spring 72,
   1.40 mm stroke) on the dock PCB at the band's contact positions
   (x 131.5, y 101.1 / 103.3 / 111.7 / 113.9). Their plungers rise through
-  Ø1.3 mm guide bores in the top plate; when the band is down they are at
+  Ø1.5 mm guide bores in the top plate; when the band is down they are at
   mid-stroke (0.70 mm).
 - **Magnets:** 2 x Ø3 x 1 mm N52 at (112.5, 107.5) and (120.5, 107.5),
   pressed into pockets from the underside of the top plate (0.2 mm skin on
@@ -60,6 +60,14 @@ band's charge LED faces up while it sits in the dock.
 - **LEDs and BOOTSEL:** light holes over D1 (USB) and D2 (activity) and a
   poke hole over the BOOTSEL button, all in the top margin on the USB-C
   side.
+- **USB-C:** both parts are notched 13 mm wide in front of the receptacle,
+  so its face sits at the dock's edge and a normal cable plugs fully home.
+- **Spring force against the magnets:** the dock pins use the low-force
+  spring (72) so the four of them at mid-stroke don't lift the band off the
+  two magnet pairs. This hasn't been measured: at bring-up, check that the
+  band stays seated and charges when the dock is tilted and tapped. If it
+  lifts, fit Ø4 x 1.5 mm magnets in the dock (there is room under the
+  recess) or shorten the dock pins' stroke with a thinner top plate.
 
 ## Dock PCB (`pcb/`)
 
@@ -74,7 +82,7 @@ assembly; the four spring pins are hand-soldered.
 | Rails | XC6206P332MR 3.3 V (C2897477), XC6206P182MR 1.8 V (C21659) | |
 | SWD level shift | 74LVC1T45 (C168856) for SWCLK, TXS0101 (C132604) for SWDIO, 22 R series | band side at 1.8 V, so 3.3 V never reaches the band |
 | Band power | SY6280AAC (C55136), Rset 15 k (C25756) | current-limited switch, about 0.45 A (the part's minimum is 0.4 A), behind the PTC |
-| Pins | 4 x Mill-Max 0906-4 | hand-soldered |
+| Pins | 4 x Mill-Max 0906-4-15-20-72-14-11-0 | hand-soldered; the GND pin (P3) has a thermal relief so it solders by hand |
 
 **Why these translators.** The stock firmware has no direction pin for
 SWDIO (GPIO14 drives, GPIO13 reads the same line), so SWDIO needs an

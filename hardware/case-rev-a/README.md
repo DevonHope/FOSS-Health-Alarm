@@ -165,7 +165,7 @@ the four spring pins can't push it off the ledge.
 | Insert | M2 brass heat-set insert, 3.0 mm long, Ø3.2 mm hole |
 | Foam | foam tape under the cell: 1.5 mm for a 4 mm cell, 0.5 mm for a 5 mm cell (0.25 mm less over the magnet domes) |
 | Kapton | one layer over B.Cu under the cell and LRA, cut away round the four landing pads |
-| Epoxy | low-viscosity 2-part epoxy or UV resin, for the carrier |
+| Epoxy | **thick / gel** 2-part epoxy (not a thin, wicking one: it would run under the carrier into the windows and coat the contact tails) |
 | Strap | see `../strap`: 16 mm wide, at most about 1 mm per layer where it folds round a loop bar (two layers pass the 2.2 mm slot) |
 
 ## Printing
@@ -188,9 +188,9 @@ itself.
 ## Home build
 
 **Tools:** soldering iron with a fine tip, tweezers, a 1.2 mm drill (by
-hand, if the windows print small), 2-part epoxy or UV resin, a reference
-magnet for marking poles, a multimeter, and the dock top plate with its
-spring pins fitted (it does not need to be powered).
+hand, if the windows print small), gel epoxy, a reference magnet for
+marking poles, a multimeter, and the assembled dock (for the final check;
+it does not need to be powered).
 
 1. **Print** both parts. During the cover print, at the pause above
    z 1.25 mm, drop the two magnets into their pockets: x 112.5 with N
@@ -201,14 +201,19 @@ spring pins fitted (it does not need to be powered).
 3. **Carrier in the cover.** Lay the carrier in its pocket (it is
    symmetric, so either end works). Drop the four spring pins in from the
    top, tail first.
-4. **Align on the dock.** Turn the cover over and set it wrist side down
-   in the dock's recess. The magnets pull it in, and the dock's four spring
-   pins push up through the windows onto the pin tails, seating every
-   flange flat on the carrier and holding each pin square.
+4. **Seat the pins.** Stand the cover wrist side down on a flat surface.
+   Gravity (or a light press with tweezers) seats every flange flat on the
+   carrier, and the 0.6 mm plated holes keep the 0.43 mm tails centred to
+   about 0.1 mm, so each pin stands square in its window.
+   - Don't do this step on the dock: its spring pins would push up on the
+     loose pins from below and lift them off the carrier.
 5. **Solder** each flange to its carrier pad from the inside, with a little
-   solder (keep it off the plunger). Lift the cover off the dock.
-6. **Seal:** run epoxy round the carrier's edge and over the solder joints
-   from the inside, keeping it off the plungers. Let it cure.
+   solder (keep it off the plunger). The carrier sits on PETG, so touch each
+   joint briefly and let it cool before the next.
+6. **Seal:** run a small bead of **gel epoxy** round the inside edge of the
+   carrier and over the solder joints, keeping it off the plungers. Let it
+   cure. Then set the cover on the dock and check with a multimeter that
+   each of the dock's pins touches its tail.
 7. **Board:** solder the cell to TP201 (+) and TP202 (-), and the LRA to
    TP501 (+) and TP502 (-), all on B. Put kapton over B.Cu with the four
    landing pads (x 131.5) left clear.

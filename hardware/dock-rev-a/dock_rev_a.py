@@ -49,7 +49,7 @@ WALL = 1.6
 MAG_SKIN = 0.2
 STRAP_CH = ((91.0, 97.6), (140.4, 146.4))   # x ranges under the strap loops
 STRAP_W, STRAP_D = 18.0, 2.6
-USB = (108.0, 9.4, PCB_TOP - 0.1, PCB_TOP + 3.6)   # x centre, width, z0, z1 of the USB-C opening
+USB = (108.0, 13.0, 123.9)        # x centre and width of the notch in front of USB-C, notch back face (J1 face ~ y 124.0)
 LEDS = ((133.0, 122.6), (116.4, 122.8))            # D1 (USB), D2 (DAP running)
 BOOTSEL = (122.2, 122.2)
 
@@ -64,12 +64,14 @@ def make_top():
     for x0, x1 in STRAP_CH:                                                      # strap channels
         t -= case.box(x0, x1, case.YC - STRAP_W / 2, case.YC + STRAP_W / 2, -STRAP_D, TOP + 1)
     for y in case.SP_Y:                                                          # plunger guide bores
-        t -= case.cyl(case.SP_X, y, 0.65, PLATE_Z0 - 1, TOP + 1)
+        t -= case.cyl(case.SP_X, y, 0.75, PLATE_Z0 - 1, TOP + 1)
     for x, y in case.MAG_XY:                                                     # magnets, from below
         t -= case.cyl(x, y, case.MAG_POCKET_D / 2, PLATE_Z0 - 1, -MAG_SKIN)
     for x, y in LEDS:                                                            # light holes
         t -= case.cyl(x, y, 0.75, PLATE_Z0 - 1, TOP + 1)
     t -= case.cyl(*BOOTSEL, 0.9, PLATE_Z0 - 1, TOP + 1)                         # BOOTSEL poke hole
+    ux, uw, uy = USB                                                             # notch: USB-C face flush
+    t -= case.box(ux - uw / 2, ux + uw / 2, uy, DOCK[3] + 1, PLATE_Z0 - 1, TOP + 1)
     return t
 
 
@@ -82,8 +84,8 @@ def make_tray():
     for x0, x1, y0, y1 in ((PCB[0] - 1.4, PCB[0] - 0.2, PCB[2] - 1.4, PCB[2] + 3), (PCB[1] + 0.2, PCB[1] + 1.4, PCB[2] - 1.4, PCB[2] + 3),
                            (PCB[0] - 1.4, PCB[0] - 0.2, PCB[3] - 3, PCB[3] + 0.2), (PCB[1] + 0.2, PCB[1] + 1.4, PCB[3] - 3, PCB[3] + 0.2)):
         t += case.box(x0, x1, y0, y1, TRAY_Z0 + FLOOR_T - 0.01, PCB_TOP + 0.6)  # PCB corner stops
-    ux, uw, uz0, uz1 = USB
-    t -= case.box(ux - uw / 2, ux + uw / 2, DOCK[3] - WALL - 1, DOCK[3] + 1, uz0, uz1)
+    ux, uw, uy = USB                                                             # notch: USB-C face flush
+    t -= case.box(ux - uw / 2, ux + uw / 2, uy, DOCK[3] + 1, TRAY_Z0 + FLOOR_T, PLATE_Z0 + RIM_H + 1)
     for x0, x1 in STRAP_CH:
         t -= case.box(x0, x1, case.YC - STRAP_W / 2, case.YC + STRAP_W / 2, -STRAP_D, PLATE_Z0 + RIM_H + 1)
     return t
