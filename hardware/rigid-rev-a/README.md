@@ -128,7 +128,7 @@ overlaps. The tallest F part is now 1.1 mm (SW201 was removed on
   TH201, TP703 (I2C_SCL) left of U501, TP706 (VBAT) beside R201, TP401
   (ACC_INT2), TP701 (nRESET), TP705 (VSYS), TP707 (GND) and TP203
   (SHPHLD; with SW201 gone, this pad is the only way to pull SHPHLD low).
-  TP704 has a filled via in its pad (flat after POFV, still
+  TP704 and TP705 have a filled via in their pads (flat after POFV, still
   probeable).
 
 ## Buck loop (nPM1304 BUCK1, pins 1-4)
@@ -236,7 +236,8 @@ track on F.Cu. Their outcome:
   unconnected.
 
 Other vias in pads: nine in the nPM1304 exposed pad, TP701 (nRESET), C201.1
-(VIN), C205.1 (VSYS) and TP704 (VDD_2V0). All of these need JLCPCB's
+(VIN), C205.1 (VSYS), TP704 (VDD_2V0) and TP705 (VSYS, the feed to the
+charge LED). All of these need JLCPCB's
 **epoxy-filled and capped (POFV)** option, which fills every via on the
 board.
 
@@ -258,9 +259,9 @@ SW201 with its SHPHLD stub removed. Same checks, whole board: no new
 findings (only the eight nPM1304 exposed-pad stubs, as before). LED_R and
 LED_G run side by side under U202's bottom pins along the board edge (U202
 moved 0.2 mm up so both fit at 0.10 mm clearance and 0.3 mm from the edge);
-I2C_SCL reaches the bus on In2 (3 vias), VSYS to D702's anode on In2 (2
-vias), and U202's GND pin and exposed pad join the F.Cu GND pour (solid
-connection). DRC with parity: 0 / 0 / 0. ERC: 0. Segments 465, vias 142.
+I2C_SCL reaches the bus on In2 (3 vias), VSYS reaches D702's anode on In2
+from a via in TP705's pad (2 vias), and U202's GND pin and exposed pad join the F.Cu GND pour (solid
+connection). DRC with parity: 0 / 0 / 0. ERC: 0. Segments 464, vias 142.
 
 **Dock rework (later on 2026-11-06).** After the dock pads moved to F and
 the lead pads to B, the same checks were run again by script on the whole

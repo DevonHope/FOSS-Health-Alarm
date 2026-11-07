@@ -27,7 +27,7 @@ consigned ISP2454 (F.Fab outline with pin-1 mark, pads numbered, board edge).
 **POFV is not optional.** There are vias in pads: the ISP2454 GND pads 1, 7,
 8, 12, 14, 16, 18, 21, 23, 24, 25, 31 and nRESET pad 13; nine vias in the
 nPM1304 exposed pad; the nRESET via in test pad TP701; the VIN via in C201.1,
-the VSYS via in C205.1 the VDD_2V0 via in test pad TP704, the GND via in dock pad 2 (J601), the
+the VSYS via in C205.1 the VDD_2V0 via in test pad TP704, the VSYS via in test pad TP705, the GND via in dock pad 2 (J601), the
 VBAT via in JP201 pad 2 and the LRA- via in TP502. Without filling
 and capping, solder wicks down these vias and the module and PMIC joints
 starve. With POFV every via on the board is filled and plated over.
