@@ -2,8 +2,8 @@
 
 A small bare PCB that holds the band's four dock contacts. It is glued into
 a pocket in the wrist cover (`../case-rev-a`) and doubles as the soldering
-jig: the pins drop into its plated holes and are soldered while the cover
-sits on the dock, which holds them square.
+jig: the pins drop into its plated holes, which hold them square while you
+solder the flanges with the cover lying wrist side down on the bench.
 
 | Item | Value |
 | --- | --- |
