@@ -17,3 +17,18 @@
 (rule "hand_solder_pad_clearance"
 	(condition "(A.Parent == 'TP201' || A.Parent == 'TP202' || A.Parent == 'TP501' || A.Parent == 'TP502') && A.Net != B.Net")
 	(constraint clearance (min 0.5mm)))
+
+# Inside the BQ25125 footprint every via is filled and capped (POFV), so hole-to-copper can be 0.15 mm.
+(rule "bga_hole_clearance"
+	(condition "A.Type == 'Via' && A.insideCourtyard('U201')")
+	(constraint hole_clearance (min 0.15mm))
+	(constraint clearance (min 0.1mm)))
+
+# U202 (IS31FL3193, DFN-10 0.5 mm): vias in the outer ends of pins 1 and 2, 0.25/0.15 mm, filled and capped (POFV).
+(rule "dfn_via_in_pad"
+	(condition "A.Type == 'Via' && A.insideCourtyard('U202')")
+	(constraint via_diameter (min 0.25mm))
+	(constraint hole_size (min 0.15mm))
+	(constraint annular_width (min 0.05mm))
+	(constraint hole_clearance (min 0.15mm))
+	(constraint clearance (min 0.1mm)))

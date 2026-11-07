@@ -74,8 +74,13 @@ def box(d, width=25.4):
     return s
 
 
+LDO = dict(
+    name='TPS7A0220', ref='U', fp='Package_SON:Texas_X2SON-4_1x1mm_P0.65mm',
+    desc='TI TPS7A0220 2.0 V LDO, 25 nA Iq, X2SON-4 (DQN)', ds='https://www.ti.com/lit/ds/symlink/tps7a02.pdf',
+    left=[('4', 'IN', 'power_in'), ('3', 'EN', 'input'), None, ('2', 'GND', 'power_in'), ('5', 'EP', 'passive')],
+    right=[('1', 'OUT', 'power_out')])
 lis = symlib.get('wakeband', 'LIS2DW12', REVA)
 txt = ('(kicad_symbol_lib\n\t(version 20251024)\n\t(generator "kicad_symbol_editor")\n\t(generator_version "10.0")\n'
-       + '\t' + lis + '\n' + box(NRF, 30.48) + box(BQ, 22.86) + box(IS31, 17.78) + ')\n')
+       + '\t' + lis + '\n' + box(NRF, 30.48) + box(BQ, 22.86) + box(IS31, 17.78) + box(LDO, 12.7) + ')\n')
 open(OUT, 'w').write(txt)
 print('wrote', OUT)

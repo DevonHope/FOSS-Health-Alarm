@@ -10,6 +10,7 @@ VD = 0.4
 dist = R.obstacle_dist(NET)
 def ok_pt(x, y):
     i, j = int(round((x - R.X0) / R.RES)), int(round((y - R.Y0) / R.RES))
+    if not (0 <= i < R.NX and 0 <= j < R.NY): return False
     return all(dist[l][j, i] >= R.CLR + VD / 2 + 0.03 + (0.1 if l == 'In2.Cu' else 0) for l in R.LAYERS) and R.edge_d[j, i] >= R.EDGE + VD / 2 + 0.06 and not R.ko_mask[j, i]
 def ok_seg(a, b, w):
     n = max(2, int(math.hypot(b[0] - a[0], b[1] - a[1]) / 0.025))

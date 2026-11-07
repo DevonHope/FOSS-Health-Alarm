@@ -474,7 +474,11 @@
       },
       {
         "netclass": "Rail",
-        "pattern": "/VDD_1V8"
+        "pattern": "/VDD_2V0"
+      },
+      {
+        "netclass": "Rail",
+        "pattern": "/VSYS"
       },
       {
         "netclass": "Rail",

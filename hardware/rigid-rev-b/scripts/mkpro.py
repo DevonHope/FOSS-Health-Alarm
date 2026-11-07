@@ -11,7 +11,7 @@ rf = copy.deepcopy(next(c for c in ns['classes'] if c['name'] == 'Default'))
 rf.update(name='RF', track_width=0.25, clearance=0.1, priority=-1)
 rf50 = copy.deepcopy(rf); rf50.update(name='RF50', track_width=0.36, clearance=0.16)
 ns['classes'] = [c for c in ns['classes'] if c['name'] not in ('RF', 'RF50')] + [rf, rf50]
-P = {'Power': ['/VIN', '/PMID', '/SW', '/VLED'], 'Motor': ['/LRA_P', '/LRA_N'], 'Rail': ['/VDD_1V8', '/DECD', '/DECA', '/DCC'],
+P = {'Power': ['/VIN', '/PMID', '/SW', '/VLED'], 'Motor': ['/LRA_P', '/LRA_N'], 'Rail': ['/VDD_2V0', '/VSYS', '/DECD', '/DECA', '/DCC'],
      'Gnd': ['/GND'], 'Batt': ['/BATT_P', '/VBAT'], 'RF': ['/ANT', '/RF1', '/RF2'], 'RF50': ['/RF_50', '/ANT_FEED']}
 ns['netclass_patterns'] = [{'netclass': k, 'pattern': p} for k, v in P.items() for p in v]
 s = json.dumps(d, indent=2).replace('rigid-rev-a', 'rigid-rev-b')

@@ -16,12 +16,14 @@ STATUS_PLACEHOLDER
 | Rev A | Rev B | Why |
 | --- | --- | --- |
 | ISP2454 module (radio + antenna) | **nRF54L10-QFAA** (C44800139) + Nordic's QFN48 reference circuit + Johanson **2450AT18A0100001E** chip antenna (C17430588) | Module not stocked at JLC. The nRF54L15 (C42458750) is out of stock at JLC and LCSC (0 on 2026-11-07); the L10 has the same package, pins and reference circuit, with 1 MB RRAM / 192 KB RAM. An nRF54L05 or nRF54L15 drops in unchanged. |
-| nPM1304 PMIC | **BQ25125** (C2871567) | Same family and pinout as the BQ25120A (C2866577, only 4 at JLC). 4.2 V charge, 30 mA set by R202, 1.8 V buck on at power-up, LS/LDO switches the LED driver. **No fuel gauge** (the nPM1304 had one): firmware estimates charge from the BQ's VBMON battery-voltage reading. |
-| KTD2026 LED driver | **IS31FL3193** (C2653363) | Stocked; its I2C inputs work at 1.8 V (VIH 1.4 V). |
-| 2.0 V rail | **1.8 V** rail | The buck's power-up default. The charger's I2C watchdog puts every register back to default after 50 s without I2C, so a raised voltage would not hold. 1.8 V is inside the nRF54L10 (1.7-3.6 V; 1.75 V needed at power-on reset), LIS2DW12 and DRV2605L logic ranges. |
-| DRV2605L on VSYS | DRV2605L on **VBAT** | Straight from the cell (2.0-5.2 V); the 1.8 V buck can't run it. |
+| nPM1304 PMIC | **BQ25125** (C2871567) | Same family and pinout as the BQ25120A (C2866577, only 4 at JLC). 4.2 V charge, 30 mA set by R202, 1.8 V buck on at power-up (unused here), LS/LDO switches the LED's supply. **No fuel gauge** (the nPM1304 had one): firmware estimates charge from the BQ's VBMON battery-voltage reading. |
+| KTD2026 LED driver | **IS31FL3193** (C2653363) | Stocked; its I2C inputs work on the 2.0 V bus (VIH 1.4 V). |
+| 2.0 V rail (nPM1304 buck) | **2.0 V from a TPS7A0220 LDO** (U203, C2860934) on PMID | The BQ25125 buck is 1.8 V +/- 2.5 % (1.755 V worst case), too close to the nRF54L10's 1.75 V power-on-reset minimum, and a board that fails reset can't run firmware to fix it. The LDO is 2.0 V +/- 1.5 % (1.97 V minimum), draws 25 nA, and sits in a 1 x 1 mm X2SON. The buck stays fitted but unloaded (VSYS). A BQ2512x with a higher default (BQ25121A, 2.5 V) has 1 in stock. |
+| DRV2605L on VSYS | DRV2605L on **VBAT** | Straight from the cell (2.0-5.2 V). |
 | UART pads beside the dock landings | UART pads (J601 5/6) on F above the SWD landings | Freed room for the charger. |
-| I2C/1.8 V test pads TP702-TP704 | removed | Probe R203/R204 and any 1.8 V capacitor instead. |
+| I2C/2.0 V test pads TP702-TP704 | removed | Probe R203/R204 and any 2.0 V capacitor instead. |
+| R209, R210 (/INT and /PG pull-ups) | removed | No routing room; use the nRF54L10's internal pull-ups on P1.05 and P1.06. |
+| KTD2026 on VSYS | IS31FL3193 VCC on **PMID** | Always powered on battery, so its I2C inputs (rated to VCC + 0.3 V) never clamp the shared bus. |
 
 Unchanged: LIS2DW12, DRV2605L, ESD (TPD1E10B06 x4, SMF12A), the dock series resistors.
 
@@ -65,14 +67,22 @@ I2C addresses: LIS2DW12 0x19, DRV2605L 0x5A, IS31FL3193 0x68, BQ25125 0x6A.
 - **RF:** the matching network is the board's own (see "Antenna tuning"); leave TX power at 0 dBm
   until it is tuned.
 - **NFC pins:** unused; leave NFC disabled.
+- **PMIC_INT (P1.05):** enable the internal pull-up (no external resistor). /INT is open drain; with
+  EN_INT cleared it only pulses low for 128 us on events.
+- **DOCK_PG (P1.06):** enable the internal pull-up (about 13 kOhm; there's no external
+  resistor). /PG is open drain and low only while docked, so the pull-up draws about 140 uA
+  from the dock and nothing on battery.
 
 ### BQ25125
 
 - **/CD:** the BQ25125 talks I2C on battery only while /CD is high.
-  - Drive CHG_CD high to configure it. Drive it low to idle: that is Hi-Z mode, where the 1.8 V buck stays on and the BQ draws 0.75 uA.
+  - Drive CHG_CD high to configure it. Drive it low to idle: that is Hi-Z mode, where the BQ draws 0.7-0.75 uA. The 2.0 V rail comes from U203 on PMID, so it is unaffected.
+  - The buck's 1.8 V output (VSYS) powers nothing, but **leave it on**: the BQ's /CD and LSCTRL input
+    thresholds are 0.25 / 0.75 x VSYS, so with SYS off the nRF couldn't reliably drive them. (The I2C
+    threshold is 0.75 x the pull-up voltage, 1.5 V on the 2.0 V bus; /CD at 2.0 V is above 0.75 x 1.8 V.)
   - Also drive it low while docked (DOCK_PG low), because /CD high stops charging.
 - **Defaults:** without I2C the charger already does the right thing.
-  - 1.8 V buck on.
+  - 1.8 V buck on (unused).
   - 4.2 V charge.
   - 30 mA from R202 (6.65 k) in default mode.
   - 2 mA termination (IPRETERM to GND).
@@ -82,29 +92,104 @@ I2C addresses: LIS2DW12 0x19, DRV2605L 0x5A, IS31FL3193 0x68, BQ25125 0x6A.
   - Charge current 30 mA (reg 0x03, as for the BQ25120A).
   - Termination.
   - EN_INT = 0 in reg 0x02, so /INT pulses instead of staying low through the whole charge.
-- **LED supply:** the BQ25125's LS/LDO output powers up as a 1.8 V LDO, too low for the IS31FL3193 (2.7 V minimum).
-  - Write reg 0x07 for load-switch mode, then raise LS_CTRL to power the LED driver.
-  - The watchdog undoes this after 50 s without I2C: the LED driver just browns out, nothing is damaged.
+- **LED supply:** the LED anode (VLED) is on the BQ25125's LS/LDO output, which powers up as a
+  1.8 V LDO, too low to light the LED. Write reg 0x07 for load-switch mode (VLED then follows PMID),
+  then raise LS_CTRL. The watchdog undoes this after 50 s without I2C in host mode: the LED just
+  goes dark, nothing is damaged.
 - **Battery level:** read VBMON (reg 0x0A): the battery voltage as a percentage of VBATREG, in 2 % steps.
-- **Ship mode:** with VIN absent, /CD high and /MR high, write EN_SHIPMODE. The cell then sees about 2 nA (the DRV2605L on VBAT adds its shutdown current). The dock (VIN) or shorting TP203 (/MR) to GND wakes it.
+- **Ship mode:** with VIN absent, /CD high and /MR high, write EN_SHIPMODE. The cell then sees about 2 nA (the DRV2605L on VBAT adds its shutdown current). The dock (VIN) or shorting TP203 (/MR) to GND wakes it; the nRF54L10 then starts from reset.
 
 ### IS31FL3193
 
 - **Shutdown by default:** it starts in software shutdown (reg 0x00). Write EN = 1, SSD = 0, set the current with reg 0x03 (e.g. 5 mA), then write PWM and the update register 0x07.
 - **Channels:** OUT1 is green, OUT2 blue, OUT3 red (assigned for routing).
-- **Supply:** LED_EN high, and VLED needs LS_CTRL on (see above).
+- **Supply:** VCC is on PMID (always up on battery), so the I2C bus is never clamped by an
+  unpowered driver. Drive LED_EN (SDB) high to wake it. The LED anode is on VLED, which needs
+  LS_CTRL on in load-switch mode (see above).
 
 ## Antenna tuning
 
-ANTENNA_PLACEHOLDER
+The radio output runs: ANT pin -> Nordic's low-pass ladder (L2 2.7 nH, C6 1.5 pF, L3 3.5 nH, C9 2.0 pF,
+L4 3.5 nH, C11 0.3 pF; their exact 0201 parts and placement) -> RF_50 -> **tuning network** -> antenna:
+
+| Part | Position | Fitted | Role |
+| --- | --- | --- | --- |
+| C14 (0402) | RF_50 to GND, at the ladder end | not fitted | pi shunt 1 |
+| R2 (0402) | series, RF_50 to ANT_FEED | 0 ohm | pi series (a 0402 inductor or capacitor) |
+| C15 (0402) | ANT_FEED to GND, at the antenna side | not fitted | pi shunt 2 |
+
+The antenna (AE1) sits in a 4.2 x 5.9 mm corner (x 100-104.2, y 109.1-115) with no copper on any
+layer (rule area "Antenna keep-out"); the 50-ohm feed (0.36 mm on F.Cu over the In1 ground, 0.16 mm
+gap) enters it from the ground edge. Johanson's evaluation board uses 6.5 x 6.5 mm and its own
+match, so this board needs its own values. Expect less range than the datasheet until it is tuned.
+
+**Tune with the cell, case, strap and wrist (or a hand) in place:** the plastic, the cell and the
+body all pull the antenna down in frequency.
+
+With a VNA (best):
+1. Cut the feed at R2: lift R2 and solder a 0402-pad pigtail (a short 1.13 mm coax, shield to the
+   C15/C14 ground pads, centre to the AE1 side of R2). Calibrate at the coax end (port extension).
+2. Measure S11 of the antenna from 2.3 to 2.6 GHz with the band assembled and on the wrist.
+3. Use a Smith-chart tool (e.g. SimSmith or Johanson's own) to pick an L-match with C15 and R2 (or
+   a pi with C14) that moves 2.44 GHz to 50 ohm; Murata LQP03/LQG15 inductors and GJM capacitors
+   come in 0.1 nH / 0.1 pF steps. Typical starting points for this antenna: series 2-4 nH, shunt
+   0.5-1.5 pF.
+4. Fit the parts, put R2 back as the series part and re-measure. Aim for S11 below -10 dB across
+   2.402-2.480 GHz.
+
+Without a VNA (RSSI method):
+1. Start as built: R2 = 0 ohm, C14 and C15 not fitted.
+2. Run the nRF54L10 as a constant-carrier transmitter at 2.440 GHz, 0 dBm (Nordic's radio test
+   sample / `radio_test` in nRF Connect SDK).
+3. Put a receiver (an nRF52/nRF54 DK running the same sample in RX, or a phone app that shows BLE
+   RSSI) 1-2 m away, fixed, and note the RSSI averaged over a few seconds with the band on the wrist.
+4. Try one change at a time: R2 as 1.0 / 1.5 / 2.2 / 3.3 nH; then C15 (or C14) as 0.5 / 1.0 /
+   1.5 pF. Keep the change that raises the RSSI; 3 dB is a real gain, 1 dB is noise.
+5. Re-check the ends of the band (2.402 and 2.480 GHz).
 
 ## Power budget
 
-POWER_PLACEHOLDER
+Average current drawn from the cell (60 mAh) in normal use (asleep most of the day, logging motion
+at night, one wake buzz). Datasheet typicals; the stage 0 bench measurement replaces these.
+
+| Load | Average | Notes |
+| --- | --- | --- |
+| BQ25125 in Hi-Z (/CD low) | 0.7 uA | buck idling with no load; 0.75 uA with it on |
+| TPS7A0220 LDO (2.0 V rail) | 0.025 uA | plus the rail's own loads at the cell's current (no buck gain) |
+| nRF54L10 System ON idle, LFXO + GRTC running | about 2 uA | DC/DC on |
+| LIS2DW12 low-power mode, 12.5-25 Hz | about 1-2 uA | |
+| DRV2605L shut down (EN low), on VBAT | up to 4 uA | datasheet max; typical is lower |
+| IS31FL3193 hardware shutdown (SDB low), on PMID | up to 2.5 uA | datasheet max |
+| Waking once a minute to read the accelerometer FIFO | a few uA | |
+| BLE: an occasional sync or advertising burst | a few uA | |
+| **Sleep floor** | **about 5-15 uA** | **0.1-0.35 mAh a day** |
+| Wake buzz: about 60 mA for 30 s each morning | | about 0.5 mAh a day |
+| **Total** | | **about 0.7-1 mAh a day** |
+
+A 60 mAh cell lasts about two months between charges. The charge LED is off when the band
+is off the dock. The LS/LDO output (VLED) is switched off, so neither the LED nor its driver's
+outputs draw anything; the driver itself sits in hardware shutdown on PMID. Ship mode (about
+2 nA plus the DRV2605L and IS31 shutdown currents, which then have no supply because PMID
+drops) is for storage.
+
+**PMID and the LDO:** off the dock the BQ25125 runs PMID from the cell through its battery FET (at
+most 160 mV drop at 400 mA; microvolts at our currents), in active and Hi-Z modes alike. The BQ cuts
+the cell off at BUVLO (3.0 V default), so the LDO input never goes below about 2.9 V. The TPS7A0220
+needs well under 0.1 V of headroom at a few mA, so the 2.0 V rail holds until the BQ shuts the system
+down. In ship mode the battery FET is off and PMID is discharged (20 kOhm), so the LDO, the nRF54L10
+and everything on PMID are unpowered, as intended. The dock (VIN) or shorting TP203 (/MR) to GND
+brings it back.
+
+**Logic rail margin:** the 2.0 V LDO is +/- 1.5 % (1.97 V minimum), against the nRF54L10's
+1.7 V operating minimum and 1.75 V power-on-reset requirement (datasheet v1.0, Table 92 and
+section 11.14.1; brown-out 1.56-1.64 V). The LDO needs about 0.3 V of headroom, so the rail holds
+down to a cell at about 2.3 V; the BQ25125 cuts the battery off well above that (BUVLO 3.0 V
+default). Every I2C part reads 2.0 V as high: BQ25125 (thresholds 0.75 x its 1.8 V SYS), IS31FL3193
+(VIH 1.4 V), DRV2605L (1.3 V), LIS2DW12 (0.8 x its own 2.0 V supply).
 
 ## Source
 
-The schematic and board are generated from `scripts/` (`build.sh` runs it all):
+The schematic and the placed board (with the hand-laid radio and charger copper) are generated by `scripts/build.sh`; the rest of the routing was done with the grid router in `scripts/route/` and then checked by hand (see Routing):
 - `parts.py` is the netlist and BOM source.
 - `mksym.py` builds the project symbols and `mkfp.py` the DSBGA-25 footprint.
 - `fixnordic.py` tidies the footprints imported from Nordic's reference layout.

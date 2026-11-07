@@ -2,13 +2,13 @@
 import json, math, sys
 g = json.load(open('/tmp/wbrevb/geom.json'))
 SKIP = {'/GND'}
-PLANE_NETS = {'/VDD_1V8'}
+PLANE_NETS = set()
 W = {'/VIN': 0.3, '/PMID': 0.3, '/VBAT': 0.4, '/BATT_P': 0.4, '/SW': 0.3, '/VLED': 0.25, '/LRA_P': 0.3, '/LRA_N': 0.3,
-     '/VDD_1V8': 0.15, '/REG': 0.2, '/DECD': 0.2, '/DECA': 0.2}
+     '/VDD_2V0': 0.15, '/REG': 0.2, '/DECD': 0.2, '/DECA': 0.2}
 ORDER = ['/I2C_SCL', '/I2C_SDA', '/PMIC_INT', '/DOCK_PG', '/LED_EN', '/HAPT_EN', '/CHG_CD', '/LS_CTRL', '/UART_RX', '/UART_TX',
          '/ACC_INT1', '/ACC_INT2', '/SWDIO', '/SWDCLK', '/nRESET', '/LED_DBG', '/TS', '/ISET', '/CHG_MR',
          '/LED_R', '/LED_G', '/LED_B', '/PAD_RX', '/PAD_TX', '/PAD_SWDCLK', '/PAD_SWDIO', '/LED_A',
-         '/SW', '/VLED', '/PMID', '/VIN', '/VBAT', '/BATT_P', '/REG', '/LRA_P', '/LRA_N', '/VDD_1V8']
+         '/SW', '/VLED', '/PMID', '/VIN', '/VBAT', '/BATT_P', '/REG', '/LRA_P', '/LRA_N', '/VDD_2V0']
 def inpoly(pt, poly):
     x, y = pt; c = False
     for (x1, y1), (x2, y2) in zip(poly, poly[1:] + poly[:1]):
@@ -103,5 +103,7 @@ for n in ORDER + sorted(set(nets) - set(ORDER)):
         jobs.append({'net': n, 'w': W.get(n, 0.15), 'src': [sx, sy, sl], 'src_pad': spad,
                      'tgt_pads': [[g['pads'][j]['ref'], g['pads'][j]['num']] for j in tgt], 'tgt_points': [list(p) for p in tpts if p[2] != 'via'], 'allow_b': True, 'src_via': sv})
         done.append(bi)
+for j in jobs:
+    if j['net'] in ('/PMID', '/VDD_2V0'): j['exclude_refs'] = ['U203']     # LDO pins are hand-laid; land on C210/C211
 json.dump(jobs, open(sys.argv[1], 'w'), indent=0)
 print(len(jobs), 'jobs')

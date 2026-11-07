@@ -56,66 +56,6 @@
 	(sheetfile "nRF54L15_qfaa_4L_config1.kicad_sch")
 	(duplicate_pad_numbers_are_jumpers no)
 	(fp_line
-		(start -0.49001 -0.22)
-		(end -0.17501 -0.22)
-		(stroke
-			(width 0.125)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "509e2869-fe87-4733-a9e3-9741fff22a58")
-	)
-	(fp_line
-		(start -0.49001 0.22)
-		(end -0.49001 -0.22)
-		(stroke
-			(width 0.125)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "8d537c7c-546f-4cc7-8bb0-3f800daae3b8")
-	)
-	(fp_line
-		(start -0.49001 0.22)
-		(end -0.17501 0.22)
-		(stroke
-			(width 0.125)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "20b86e7f-4e5f-4f94-b521-b67f9d922237")
-	)
-	(fp_line
-		(start 0.17499 -0.22)
-		(end 0.48999 -0.22)
-		(stroke
-			(width 0.125)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "a6d1d729-0fc1-43ba-8015-61882079a871")
-	)
-	(fp_line
-		(start 0.17499 0.22)
-		(end 0.48999 0.22)
-		(stroke
-			(width 0.125)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "480d077c-3228-49d2-bcb5-a6c632d8ec1a")
-	)
-	(fp_line
-		(start 0.48999 0.22)
-		(end 0.48999 -0.22)
-		(stroke
-			(width 0.125)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "d879cb19-3532-46d8-9c02-51d8213bd5d2")
-	)
-	(fp_line
 		(start -0.315 -0.165)
 		(end 0.31499 -0.165)
 		(stroke

@@ -10,7 +10,8 @@ def line(a, b, layer, w=0.05):
 for fn in sorted(os.listdir(LIB)):
     if not fn.startswith('Nordic_'): continue
     p = os.path.join(LIB, fn); t = open(p).read()
-    if 'F.CrtYd' in t: continue
+    t = re.sub(r'\t\(fp_(?:line|arc|circle|poly|rect)\n(?:\t\t[^\n]*\n|\t\t\t[^\n]*\n|\t\t\t\t[^\n]*\n)*?\t\t\(layer "F\.SilkS"\)\n\t\t\(uuid "[^"]*"\)\n\t\)\n', '', t)   # no silkscreen
+    if 'F.CrtYd' in t: open(p, 'w').write(t); continue
     xs, ys = [], []
     for m in re.finditer(r'\(pad "[^"]*" smd \w+\s*\(at ([-\d.]+) ([-\d.]+)( [-\d.]+)?\)\s*\(size ([-\d.]+) ([-\d.]+)\)', t):
         x, y, r, w, h = m.groups(); x, y, w, h = map(float, (x, y, w, h))

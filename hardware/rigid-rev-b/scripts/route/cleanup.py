@@ -23,6 +23,7 @@ for s in segs:
     for k, pt in (('s', P(s.GetStart())), ('e', P(s.GetEnd()))):
         ends.setdefault((pt, s.GetLayer(), s.GetNetname()), []).append((s, k))
 moved = dog = 0
+dead = []
 for (pt, layer, net), lst in ends.items():
     c = owner(pt, net, layer)
     if c is None or math.dist(c, pt) < 0.002: continue
@@ -30,7 +31,7 @@ for (pt, layer, net), lst in ends.items():
     if all(okang(P(o), c) for o in others):
         for s, k in lst:
             (s.SetStart if k == 's' else s.SetEnd)(V(c))
-            if P(s.GetStart()) == P(s.GetEnd()): b.Remove(s)
+            if P(s.GetStart()) == P(s.GetEnd()) and s not in dead: dead.append(s)
         moved += 1; continue
     if len(lst) == 1:
         s, k = lst[0]; o = P(s.GetEnd() if k == 's' else s.GetStart())
@@ -51,6 +52,8 @@ for (pt, layer, net), lst in ends.items():
             (s.SetStart if k == 's' else s.SetEnd)(V(K))
             n = pcbnew.PCB_TRACK(b); n.SetStart(V(K)); n.SetEnd(V(c)); n.SetWidth(s.GetWidth()); n.SetLayer(layer); n.SetNet(s.GetNet()); b.Add(n)
             dog += 1
+for s in dead: b.Remove(s)
+pcbnew.SaveBoard(B, b); b = pcbnew.LoadBoard(B)     # fresh object list (SWIG lists go stale after Remove)
 # remove exact duplicate segments
 seen = set()
 for t in list(b.GetTracks()):
@@ -59,11 +62,12 @@ for t in list(b.GetTracks()):
     key = (t.GetNetname(), t.GetLayer(), min(a, e), max(a, e))
     if key in seen or a == e: b.Remove(t)
     else: seen.add(key)
+pcbnew.SaveBoard(B, b); b = pcbnew.LoadBoard(B)
 # merge collinear overlapping same-net segments
 changed = True
+ts = [t for t in b.GetTracks() if t.Type() == pcbnew.PCB_TRACE_T]
 while changed:
     changed = False
-    ts = [t for t in b.GetTracks() if t.Type() == pcbnew.PCB_TRACE_T]
     for i, t1 in enumerate(ts):
         a1, e1 = P(t1.GetStart()), P(t1.GetEnd())
         for t2 in ts[i+1:]:
@@ -80,9 +84,10 @@ while changed:
             if min(s2[1], L) - max(s2[0], 0) < 1e-3: continue   # only touching
             lo, hi = min(0, s2[0]), max(L, s2[1])
             pa = (round(a1[0]+u[0]*lo, 4), round(a1[1]+u[1]*lo, 4)); pb = (round(a1[0]+u[0]*hi, 4), round(a1[1]+u[1]*hi, 4))
-            t1.SetStart(V(pa)); t1.SetEnd(V(pb)); t1.SetWidth(max(t1.GetWidth(), t2.GetWidth())); b.Remove(t2)
+            t1.SetStart(V(pa)); t1.SetEnd(V(pb)); t1.SetWidth(max(t1.GetWidth(), t2.GetWidth())); ts.remove(t2); b.Remove(t2)
             changed = True; break
         if changed: break
+pcbnew.SaveBoard(B, b); b = pcbnew.LoadBoard(B)
 # 2-segment fix for any remaining off-angle segment
 fix2 = 0
 for t in list(b.GetTracks()):

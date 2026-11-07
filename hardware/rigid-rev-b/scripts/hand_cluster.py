@@ -12,9 +12,10 @@ def seg(net, layer, pts, w):
     n = b.FindNet('/' + net); L = b.GetLayerID(layer)
     for a, c in zip(pts, pts[1:]):
         t = pcbnew.PCB_TRACK(b); t.SetStart(V(*a)); t.SetEnd(V(*c)); t.SetWidth(F(w)); t.SetLayer(L); t.SetNet(n); b.Add(t)
+VIAS = [t for t in b.GetTracks() if t.Type() == pcbnew.PCB_VIA_T]   # cached: GetTracks() goes stale after Remove()
 def via_at(x, y):
-    for v in b.GetTracks():
-        if v.Type() == pcbnew.PCB_VIA_T and abs(mm(v.GetPosition().x) - x) < 0.01 and abs(mm(v.GetPosition().y) - y) < 0.01:
+    for v in VIAS:
+        if abs(mm(v.GetPosition().x) - x) < 0.01 and abs(mm(v.GetPosition().y) - y) < 0.01:
             return v
     raise SystemExit(f'no via at {x},{y}')
 def move_via(a, c): via_at(*a).SetPosition(V(*c))
@@ -22,7 +23,8 @@ move_via((106.525, 106.775), (106.56, 106.775))     # DECA via: 45 deg from C5
 move_via((110.31, 109.595), (110.31, 109.56))       # DECA via: 45 deg from C12
 move_via((112.19, 109.49), (112.17, 109.6))         # DECD via: on the C1-L1 line, clear of DCC
 move_via((106.135, 104.61), (106.135, 104.615))     # C13 GND via in line with the pad
-b.Remove(via_at(113.69, 108.475))                   # clashes with the pin 47/48 VDD link; C10 GND goes to the pour
+_v = via_at(113.69, 108.475); VIAS.remove(_v); b.Remove(_v)
+move_via((110.92, 109.9), (110.97, 109.9))          # C12 GND via under the pad (no pour here: Nordic rule area)                   # clashes with the pin 47/48 VDD link; C10 GND goes to the pour
 # RF ladder (F.Cu) and 50-ohm feed
 seg('ANT', 'F.Cu', [(107.975, 105.2), (107.115, 105.2)], 0.25)
 seg('RF1', 'F.Cu', [(106.545, 105.2), (106.015, 105.2)], 0.25)
@@ -42,6 +44,7 @@ seg('GND', 'F.Cu', [(106.545, 106.22), (106.135, 106.22)], 0.25)                
 seg('GND', 'F.Cu', [(106.19, 107.98), (105.04, 109.13), (105.04, 109.43)], 0.15)                    # X2 case pads (no pour under X2)
 seg('GND', 'F.Cu', [(105.04, 109.43), (105.04, 110.455)], 0.15)
 seg('GND', 'F.Cu', [(115.085, 103.03), (115.085, 102.585)], 0.25)                                  # C7
+seg('GND', 'F.Cu', [(110.97, 109.47), (110.97, 109.9)], 0.2)                                        # C12
 # crystals
 seg('XC1', 'F.Cu', [(107.975, 106.4), (107.575, 106.4), (106.725, 107.25), (105.77, 107.25), (105.04, 107.98)], 0.15)
 seg('XC2', 'F.Cu', [(107.975, 106.8), (107.6, 106.8), (106.88, 107.52), (106.88, 108.74), (106.19, 109.43)], 0.15)
@@ -62,11 +65,11 @@ seg('DECD', 'B.Cu', [(112.17, 109.6), (112.17, 110.625), (111.22, 111.575)], 0.2
 seg('DECD', 'F.Cu', [(111.22, 111.575), (110.97, 111.325), (110.97, 111.07)], 0.2)
 seg('DCC', 'F.Cu', [(112.4, 108.025), (112.4, 108.4), (112.62, 108.62), (112.62, 109.33), (113.52, 110.23)], 0.2)
 # VDD next to the IC
-seg('VDD_1V8', 'F.Cu', [(112.8, 108.025), (113.2, 108.025)], 0.2)
-seg('VDD_1V8', 'F.Cu', [(112.8, 108.025), (112.8, 108.35), (113.025, 108.575), (113.025, 108.905)], 0.2)
-seg('VDD_1V8', 'F.Cu', [(107.975, 107.2), (107.69, 107.2), (107.44, 107.45), (107.44, 107.71)], 0.2)
-seg('VDD_1V8', 'F.Cu', [(109.6, 101.975), (109.6, 101.04)], 0.2)
-seg('VDD_1V8', 'F.Cu', [(114.025, 103.6), (114.6, 103.6), (115.085, 103.6)], 0.2)
+seg('VDD_2V0', 'F.Cu', [(112.8, 108.025), (113.2, 108.025)], 0.2)
+seg('VDD_2V0', 'F.Cu', [(112.8, 108.025), (112.8, 108.35), (113.025, 108.575), (113.025, 108.905)], 0.2)
+seg('VDD_2V0', 'F.Cu', [(107.975, 107.2), (107.69, 107.2), (107.44, 107.45), (107.44, 107.71)], 0.2)
+seg('VDD_2V0', 'F.Cu', [(109.6, 101.975), (109.6, 101.04)], 0.2)
+seg('VDD_2V0', 'F.Cu', [(114.025, 103.6), (115.085, 103.6)], 0.2)
 # nRESET filter
 seg('nRESET_IC', 'F.Cu', [(107.975, 104.8), (107.295, 104.8), (107.11, 104.615)], 0.15)
 seg('nRESET_IC', 'F.Cu', [(107.11, 104.615), (107.11, 104.525), (106.635, 104.05)], 0.15)
@@ -86,7 +89,6 @@ seg('UART_TX', 'F.Cu', [(110.8, 101.975), (110.8, 100.95)], 0.15); via('UART_TX'
 seg('UART_RX', 'F.Cu', [(111.2, 101.975), (111.2, 101.4), (111.6, 101.0)], 0.15); via('UART_RX', 111.6, 101.0)
 seg('LS_CTRL', 'F.Cu', [(113.2, 101.975), (113.2, 100.95)], 0.15); via('LS_CTRL', 113.2, 100.95)
 seg('LED_EN', 'F.Cu', [(109.2, 108.025), (109.2, 108.9)], 0.15); via('LED_EN', 109.2, 108.9)                   # bottom
-via('VDD_1V8', 114.6, 103.6)                                                                         # pin 10 / C7 to the In2 plane
 seg('CHG_CD', 'F.Cu', [(109.6, 108.025), (109.6, 108.65), (109.85, 108.9)], 0.15); via('CHG_CD', 109.85, 108.9)
 pcbnew.SaveBoard(B, b)
 import subprocess; subprocess.run(['python3', os.path.join(HERE, 'mkpro.py')], capture_output=True)

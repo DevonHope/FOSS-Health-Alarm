@@ -58,26 +58,6 @@
 	(sheetfile "nRF54L15_qfaa_4L_config1.kicad_sch")
 	(duplicate_pad_numbers_are_jumpers no)
 	(fp_line
-		(start -0.24 -0.6)
-		(end 0.24 -0.6)
-		(stroke
-			(width 0.2)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "df46877e-3785-436e-93f6-09e7aef9c4ad")
-	)
-	(fp_line
-		(start -0.24 0.59999)
-		(end 0.24 0.59999)
-		(stroke
-			(width 0.2)
-			(type solid)
-		)
-		(layer "F.SilkS")
-		(uuid "cff6e404-48e5-4013-9c88-3e25e399f89d")
-	)
-	(fp_line
 		(start -1 -0.5)
 		(end -1 0.5)
 		(stroke
