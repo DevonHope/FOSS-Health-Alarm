@@ -1,106 +1,159 @@
-# WakeBand dock rev A (concept)
+# WakeBand dock rev A
 
-A magnetic charging and programming dock for the band in `../case-rev-a`.
+Charges the band and programs it from a computer over one USB-C cable.
 
-You lay the band face down in the dock's recess. Two magnets pull it in and
-line it up, and six spring pins press on the band's six flush gold
-contacts: VIN, GND, SWDCLK, SWDIO, UART_RX, UART_TX.
+You set the band **wrist side down** in the dock's recess. Two magnets pull
+it in and line it up, and four spring pins press up through the band's
+contact windows: **VIN, GND, SWDCLK, SWDIO**. The dock board is a
+**USB CMSIS-DAP probe** (an RP2040 running Raspberry Pi's open-source
+`debugprobe` firmware), so any SWD tool on the computer can flash the band
+and read its log over **SEGGER RTT**. There is no serial port on the four
+pins; RTT replaces it.
 
-A light channel under the band's charge LED runs out through the dock's
-side wall, so the LED's glow can be seen while the band charges face down.
+The magnets are keyed: turned end for end, the band is pushed away. The
+band's charge LED faces up while it sits in the dock.
 
-The magnets are keyed. The band only seats one way round: turned end for
-end it is pushed away.
-
-![dock](wakeband-dock-rev-a-preview-iso.png)
-![recess](wakeband-dock-rev-a-preview-recess.png)
+![dock with the band, see-through](wakeband-dock-rev-a-preview-iso.png)
+![top plate](wakeband-dock-rev-a-preview-recess.png)
+![PCB in the tray](wakeband-dock-rev-a-preview-pcb.png)
 
 | Part | File |
 | --- | --- |
-| Dock body (recess, pin bores, magnet pockets, USB-C and header slots) | `wakeband-dock-rev-a-dock.step` / `.stl` |
-| Base plate (glued in) | `wakeband-dock-rev-a-base.step` / `.stl` |
-| Dock board, spring pins, USB-C, magnets (for fit checks only) | `wakeband-dock-rev-a-{board,spring-pins,usb-c,magnets}.step` |
+| Top plate (recess, plunger guides, magnet pockets, LED and BOOTSEL holes, strap channels) | `wakeband-dock-rev-a-top.step` / `.stl` |
+| Tray (PCB pocket, USB-C opening, rim) | `wakeband-dock-rev-a-tray.step` / `.stl` |
+| Spring pins, magnets, PCB envelope (fit checks) | `wakeband-dock-rev-a-{spring-pins,magnets,pcb-envelope}.step` |
+| Dock PCB | `pcb/` (KiCad 10 project, fab package in `pcb/fab/`) |
 
-- **Size:** 52.4 x 26.9 x 10.2 mm.
-- **Recess:** 1.5 mm deep, the band's outer outline plus 0.3 mm.
-- **Light channel:** 2.4 mm wide, 1.0 mm into the recess floor, from under
-  the band's LED (board (130.225, 113.2)) out through the long side wall.
-- **Frames:** the STEP files are in the band's assembly frame, docked on the
-  band. The STL files are turned for printing, base side down.
+- **Size:** 60.3 x 31.1 x 9.7 mm.
+- **Frames:** STEP files are in the band's assembly frame, docked under the
+  band (the band's wrist face at z = 0).
 - **Regenerate:** `python dock_rev_a.py OUT_DIR` (needs build123d and
   `../case-rev-a`).
+- **Checks:** the top plate, tray, spring pins, magnets and the dock PCB's
+  KiCad model (every part) don't clash with each other or with the band's
+  wrist cover; both printed parts are single valid solids.
 
-## Why this layout
+## How it fits together
 
-- **Band side:** the six flush gold contacts are already the contact
-  targets, so the band's board needs no change. Its two Ø3 x 1 mm N52
-  magnets sit in the case top at each end of the contact row, under a
-  0.2 mm skin.
-- **Ready-made 6-pin magnetic connectors were checked and not used.**
-  - Adafruit 5467 (2.2 mm pitch, US$7.95 a pair) would need the band's
-    pads moved to 2.2 mm pitch, and Adafruit gives no height for it.
-  - CCP P2526MR01-06F200HR (2.0 mm pitch) has no distributor and no
-    readable drawing.
-  - Mill-Max Maxnetic connectors are about 10.9 mm tall.
-- **Antenna:** the band's nearest magnet is at x 118.6, 13.6 mm from the
-  ISP2454 keep-out (x 100-105). There is no steel in the band.
-- **LRA:** the case magnets are 6-7 mm from the LRA's own magnet and much
-  smaller, so the pull is negligible.
-
-## Parts
-
-| Qty | Part | Where | Price (about) |
-| --- | --- | --- | --- |
-| 6 | Mill-Max 0965-0-15-20-80-14-11-0 spring pin, SMT, Ø1.07 mm plunger, 2.24 mm working height | Digi-Key ED1649-ND | CA$0.81 each at 10 |
-| 2 | Ø3 x 1 mm N52 disc magnet, axially magnetized (poles on the flat faces) | K&J Magnetics, JC Magnetics, Magnet Baron (100-packs) | under CA$0.20 each |
-| 1 | USB-C receptacle, 5 V power only (with 5.1 k CC pull-downs) | any USB-C power-only receptacle, about 8.9 x 7.4 x 3.3 mm | about CA$1 |
-| 1 | 2.54 mm 1x6 header (or Tag-Connect / 1.27 mm 2x5 SWD) | any | - |
-| 1 | dock board, 27 x 9.2 x 0.8 mm | JLCPCB | - |
-
-The same two magnets also go in the band (see `../case-rev-a/README.md`).
-
-**Spring-pin pads.** The 0965's base is Ø1.83 mm, so at 2.0 mm pitch the
-bases sit only 0.17 mm apart. Use Ø1.5 mm pads with a thin paste stencil.
-Or use any 2.0 mm pitch, 6-position SMT pogo strip of a similar working
-height.
-
-## Dock board (to draw)
-
-- **Pin row:** six pads at 2.0 mm pitch. Seen from the band's outer face,
-  they run left to right as the band's contacts do: UART_TX at x 121.75,
-  UART_RX, SWDIO, SWDCLK, GND, VIN at x 131.75. The dock board faces the
-  band, so on the board itself the order is mirrored.
-- **USB-C:** VBUS to the VIN pin, through a 500 mA PTC fuse. GND to the GND
-  pin.
-- **Header:** VIN, GND, SWDCLK, SWDIO, UART_RX, UART_TX, for a debug probe
-  or USB-serial adapter. Signal levels are the band's 1.8 V, so use a
-  level-shifting probe (see the roadmap's dock notes).
-- **GND first:** if GND should mate first, use a slightly longer spring pin
-  in that position.
-
-## Magnet polarity (keying)
-
-| Magnet | Pole facing out of its part |
+| z (mm, band frame) | |
 | --- | --- |
-| Band, left (x 118.6, antenna end of the contact row) | N |
-| Band, right (x 134.9, LRA end) | S |
-| Dock, left (under the band's left magnet) | S, towards the band |
-| Dock, right | N, towards the band |
+| +1.5 | dock top, recess rim |
+| +0.55 | band contact tails; dock plunger tips (0.70 mm compressed = mid-stroke) |
+| 0 | band wrist face = recess floor |
+| -0.2 / -1.25 | dock magnets (0.2 mm skin) |
+| -1.3 | underside of the top plate (ceiling over the parts) |
+| -4.74 | dock PCB top (Mill-Max 0906-4 flanges) |
+| -6.34 | dock PCB bottom |
+| -8.24 | bottom of the tray |
 
-- **Correct way round:** both pairs attract.
-- **Turned end for end:** both pairs repel.
-- **Checking:** mark each magnet's pole with a reference magnet before
-  fitting.
+- **Spring pins:** 4 x Mill-Max **0906-4-15-20-75-14-11-0** (through-hole,
+  1.40 mm stroke) on the dock PCB at the band's contact positions
+  (x 131.5, y 101.1 / 103.3 / 111.7 / 113.9). Their plungers rise through
+  Ø1.3 mm guide bores in the top plate; when the band is down they are at
+  mid-stroke (0.70 mm).
+- **Magnets:** 2 x Ø3 x 1 mm N52 at (112.5, 107.5) and (120.5, 107.5),
+  pressed into pockets from the underside of the top plate (0.2 mm skin on
+  top). **Polarity:** the one at x 112.5 faces **S up**, the one at x 120.5
+  faces **N up** (opposite to the band's).
+- **Strap:** two 18 mm channels, 2.6 mm deep, run under the strap loops and
+  out of both ends, so a strap can stay on the band while it docks.
+- **LEDs and BOOTSEL:** light holes over D1 (USB) and D2 (activity) and a
+  poke hole over the BOOTSEL button, all in the top margin on the USB-C
+  side.
+
+## Dock PCB (`pcb/`)
+
+4-layer 1.6 mm, 40 x 26.5 mm, all parts on the top side for JLCPCB
+assembly; the four spring pins are hand-soldered.
+
+| Block | Parts (LCSC) | Notes |
+| --- | --- | --- |
+| USB-C | HRO TYPE-C-31-M-12 (C165948), 2 x 5.1 k CC pull-downs (C25905), USBLC6-2SC6 (C7519), 2 x 27 R (C25100) | USB 2.0 device, 5 V sink |
+| Input | 500 mA PTC FSMD050-0805 (C181350), 10 uF (C19702) | |
+| Probe | RP2040 (C2040), W25Q16JVSNIQ 2 MB flash (C2456211), 12 MHz crystal (C2981639) + 2 x 15 pF, BOOTSEL TS-1088 (C720477) | Raspberry Pi Debug Probe pin map: SWCLK GPIO12, SWDI GPIO13, SWDIO GPIO14, LEDs GPIO2 (USB) and GPIO16 (DAP running) |
+| Rails | XC6206P332MR 3.3 V (C2897477), XC6206P182MR 1.8 V (C21659) | |
+| SWD level shift | 74LVC1T45 (C168856) for SWCLK, TXS0101 (C132604) for SWDIO, 22 R series | band side at 1.8 V, so 3.3 V never reaches the band |
+| Band power | SY6280AAC (C55136), Rset 15 k (C25756) | current-limited switch, about 0.45 A (the part's minimum is 0.4 A), behind the PTC |
+| Pins | 4 x Mill-Max 0906-4 | hand-soldered |
+
+**Why these translators.** The stock firmware has no direction pin for
+SWDIO (GPIO14 drives, GPIO13 reads the same line), so SWDIO needs an
+auto-direction part: the TXS0101. SWCLK only goes out, and the nRF54L15
+pulls it down internally, which would fight a TXS's weak pull-up, so it gets
+a fixed-direction 74LVC1T45.
+
+**Checks:** ERC 0; DRC with schematic parity 0 violations, 0 unconnected,
+0 parity. The schematic and board are generated from `pcb/scripts/`
+(`parts.py` is the netlist and BOM source; `gen_sch.py`, `gen_pcb.py`,
+`placement.json`), then routed with a grid router plus a hand-laid QSPI
+fan-out, and ground-stitched to the solid In1 plane.
+
+**Trace audit (not yet at the band's standard):** every segment is at 0, 45
+or 90 degrees, but the router left about 30 cosmetic items: short 0.2-0.3 mm
+stair-steps round the RP2040, about a dozen track ends inside a pad but off
+its centre, and three ends that join a track mid-span. They pass DRC and
+don't affect function; tidy them in KiCad before a production run.
+
+**Cost (rough, JLCPCB, 5 boards):** board about US$10 for a small 4-layer
+order; parts about US$4 a board (RP2040 0.90, flash 1.00, crystal 0.09, the
+rest cents each) plus about US$3 setup per extended part type (about 12);
+spring pins a few US$ each from distributors (4 a dock).
+
+**Fab:** `pcb/fab/dock-pcb-rev-a-fab.zip` (Gerbers, drill, `bom_jlcpcb.csv`,
+`cpl_jlcpcb.csv`). The CPL leaves out the spring pins and test pads. Check
+the RP2040, SOT-23 parts and USB-C rotations in the JLCPCB preview.
+
+## Power notes
+
+- USB 5 V goes through the PTC to the SY6280 switch and out to the band's
+  VIN pin; the band's nPM1304 does the charging (firmware sets the charge
+  current, see the board README).
+- If the band's pins short, the switch limits at about 0.45 A and the PTC
+  backs it up.
+- The probe side draws about 30-40 mA from USB.
+- The band's SWD lines see 1.8 V from the dock. The band's I/O runs at
+  2.0 V, which reads 1.8 V as high, and the TXS0101 accepts the band's 2.0 V.
+
+## Flashing the dock (once)
+
+1. Download `debugprobe.uf2` from the latest release of
+   https://github.com/raspberrypi/debugprobe (the build for the Raspberry Pi
+   Debug Probe; this board copies its pin map, so no rebuild is needed).
+2. Hold **BOOTSEL** (a pin through the poke hole) and plug in USB-C. The
+   dock appears as a drive called `RPI-RP2`.
+3. Copy `debugprobe.uf2` onto it. The dock restarts as "Debug Probe
+   (CMSIS-DAP)", and the USB LED (D1) lights.
+4. **Recovery:** if the RP2040 won't show the drive, the pads on the
+   underside of the dock PCB (TP1 SWCLK, TP2 SWDIO, TP3 RUN, TP4 GND) give
+   direct SWD access to the RP2040.
+
+## Programming the band
+
+Put the band in the dock, then use any CMSIS-DAP tool. Check these on the
+nRF54L15 DK first; nRF54L15 support is recent in each tool:
+
+- **probe-rs:** `probe-rs download --chip nRF54L15 --binary-format hex app.hex`
+  (or give it the `.elf`), then `probe-rs reset --chip nRF54L15`.
+- **Logs over RTT:** `probe-rs attach --chip nRF54L15 app.elf` prints the
+  RTT channels; with Zephyr, enable `CONFIG_USE_SEGGER_RTT` and the RTT log
+  backend.
+- **Zephyr:** `west flash --runner pyocd` (or the probe-rs runner if your
+  Zephyr version has it).
+- **pyOCD:** `pyocd flash -t nrf54l15 app.hex` once the nRF54L target
+  support is installed.
+- **Locked part:** if the nRF54L15's access port protection is on, erase it
+  with the tool's recover / erase-all command before flashing.
+
+There is no reset pin on the dock; the tools reset the chip over SWD.
 
 ## Assembly
 
-1. Print the dock body with its recess up and the base plate flat.
-   - The dock is not worn, so finish matters less.
-   - The ceiling of the board cavity bridges about 9 mm. Print it slowly,
-     or add supports inside the cavity only.
-2. Glue the two magnets into their pockets from inside, with the poles as
-   in the table, using a drop of CA glue.
-3. Solder the spring pins, the USB-C and the header to the dock board.
-   Fit the board in the cavity, pins up through the bores.
-4. Check the pin tips stand about 0.3 mm proud of the recess floor. Then
-   glue in the base plate.
+1. Order the PCB assembled (top side) from `pcb/fab/`; solder the four
+   0906-4 spring pins by hand, flanges flat on the board.
+2. Print the top plate and the tray, both flat on their underside (no
+   supports). PETG or PLA (the dock is not worn).
+3. Press the two magnets into the top plate's pockets from below with the
+   poles as above, with a drop of CA glue.
+4. Lay the PCB in the tray on its four pads (USB-C into its opening),
+   flash it (above), then drop the top plate into the tray's rim, guiding
+   the plungers into their bores. Glue the plate in once everything works.

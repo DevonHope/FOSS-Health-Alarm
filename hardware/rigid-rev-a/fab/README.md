@@ -19,16 +19,17 @@ consigned ISP2454 (F.Fab outline with pin-1 mark, pads numbered, board edge).
 | Copper | 1 oz outer, 0.5 oz inner |
 | Finish | ENIG |
 | Via covering | **Epoxy filled and capped (POFV) - paid option, must be selected** |
-| Min via | 0.3 mm pad / 0.2 mm hole (11 vias); the other 131 are 0.45 / 0.3 |
+| Min via | 0.3 mm pad / 0.2 mm hole (11 vias); the other 129 are 0.45 / 0.3 |
 | Min track / space | 0.12 / 0.10 mm |
 | Impedance control | not needed (ANT_LINK is two module pads joined on F.Cu, 0.65 mm) |
-| Assembly | top side only; the bottom has no parts, only the hand-solder pads TP201/TP202/TP501/TP502 and the bridged jumper JP201 (no paste) |
+| Assembly | top side only; the bottom has no parts, only the four dock landing pads (J601 1-4, ENIG, no paste), the hand-solder pads TP201/TP202/TP501/TP502 and the bridged jumper JP201 |
 
 **POFV is not optional.** There are vias in pads: the ISP2454 GND pads 1, 7,
 8, 12, 14, 16, 18, 21, 23, 24, 25, 31 and nRESET pad 13; nine vias in the
 nPM1304 exposed pad; the nRESET via in test pad TP701; the VIN via in C201.1,
-the VSYS via in C205.1 the VDD_2V0 via in test pad TP704, the VSYS via in test pad TP705, the GND via in dock pad 2 (J601), the
-VBAT via in JP201 pad 2 and the LRA- via in TP502. Without filling
+the VSYS via in C205.1, the VDD_2V0 via in test pad TP704, the VIN via in
+D601 pad 1, the VBAT via in JP201 pad 2, the LRA+ via in TP501 and the vias
+in and at the edge of the B-side dock landing pads (J601 1-3). Without filling
 and capping, solder wicks down these vias and the module and PMIC joints
 starve. With POFV every via on the board is filled and plated over.
 
@@ -40,8 +41,9 @@ V-score.
 Mask: openings equal the pads (0 expansion), except the hand-solder pads
 TP201, TP202 (cell) and TP501, TP502 (LRA), which open 0.1 mm larger.
 
-Since the 2026-11-06 rework F.Cu is the pod's outer face: the parts and the
-six dock pads (J601, top edge) are on F, and B.Cu faces the cell and the
+Since the 2026-11-06 rework F.Cu is the pod's outer face and carries all
+the parts; the four dock landing pads (J601 1-4) are on B at x 131.5, and
+B.Cu faces the cell and the
 LRA. B carries signal tracks under green mask; put kapton over B before the
 cell goes on (compromise 6 in `../README.md`).
 
@@ -85,7 +87,7 @@ Murata's recommended land pattern for the DFE201610E; see compromise 8 in
 - **Not assembled:** R201, D701 and R701 are DNP (not in the BOM or CPL).
   SW201 was removed from the design on 2026-11-07. The 60 mAh cell (BT1) and the 8 mm LRA are hand-soldered to
   TP201/TP202 and TP501/TP502 on B.Cu after assembly (TP201 and JP201 bottom
-  right, TP202 and TP501 top right, TP502 bottom right; all outside the cell
-  and LRA outlines).
-- Test pads, the dock pads (J601), the I_BAT solder jumper (JP201, bridged
+  right; TP502, TP501 and TP202 along the top edge left of the dock landing
+  pads; all outside the cell and LRA outlines).
+- Test pads, the dock landing pads and UART bench pads (J601), the I_BAT solder jumper (JP201, bridged
   in copper) and the net tie NT201 are copper only.

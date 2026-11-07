@@ -160,6 +160,13 @@ Fall back to BQ25100 plus the SoC's internal DC-DC if board space is tight.
 
 ### Dock contacts: charging, programming and serial
 
+> **Rigid rev A uses the 4-pad fallback (2026-11-07):** VIN, GND, SWDCLK,
+> SWDIO on the wrist side, as spring pins on a carrier PCB in the wrist
+> cover, with the log over SEGGER RTT. The dock is an RP2040 running
+> `debugprobe` on its own PCB. See `hardware/case-rev-a`,
+> `hardware/contact-carrier-rev-a` and `hardware/dock-rev-a`. The 6-pad text
+> below is the original plan.
+
 The band has no USB port. Everything goes through one row of flat gold pads
 on its underside: charging, firmware flashing over SWD, and a serial console
 over UART. The spring (pogo) pins live in the dock, not the band, which keeps

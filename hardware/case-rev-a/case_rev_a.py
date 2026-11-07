@@ -34,17 +34,28 @@ F_PARTS = 1.1                         # tallest F part
 CELL_ENV = (107.0, 124.0, 100.75, 114.25)
 LRA_C, LRA_R, LRA_H = (128.75, 107.5), 4.0, 3.25
 LRA_ENV_R = 4.25                      # Ø8.5 envelope incl. the lead round the can
-DOCK_X = [121.75 + 2.0 * i for i in range(6)]
-DOCK_Y = 101.6
-CONTACT_D = 1.0                       # gold dock contact pins, soldered on the Ø1.4 pads
-BORE_D = 1.05                         # bore in the case top: pin + epoxy/UV-resin seal
-# magnetic dock: two Ø3 x 1 mm N52 discs sealed in the case top either side of
-# the contact row (opposite poles out, so the band only latches one way round)
+# dock contacts on the wrist face: four Mill-Max 0906-2 spring pins on a
+# 1.6 mm contact carrier PCB (../contact-carrier-rev-a) glued in a pocket in
+# the cover floor. Each pin's solder tail is the dock target (seen through a
+# cone window in the floor); its plunger presses the main board's B pad.
+SP_X = 131.5
+SP_Y = (101.1, 103.3, 111.7, 113.9)       # SWDCLK, SWDIO, GND, VIN
+CARRIER = (130.4, 132.6, 99.95, 115.05)     # carrier outline (x0, x1, y0, y1)
+CARRIER_T = 1.6
+CARRIER_Z = 0.7                             # carrier underside: floor step
+CARRIER_CLR = 0.1
+WIN_D0, WIN_D1 = 2.0, 1.2                   # window cone: at the wrist face, at the carrier
+# Mill-Max 0906-2: flange Ø1.83 x 0.41, body Ø1.50, plunger Ø1.07, tail Ø0.43 x 1.75,
+# A = 5.00 mm (flange underside to free tip), stroke 1.40 mm (mid 0.70)
+SP_A, SP_TAIL, SP_STROKE = 5.00, 1.75, 1.40
+SP_FLANGE_D, SP_FLANGE_T, SP_BODY_D, SP_PLUNGER_D, SP_TAIL_D = 1.83, 0.41, 1.50, 1.07, 0.43
+SP_BODY_L = 2.69                            # flange underside to the top of the barrel (0.106 in)
+# magnetic dock: two Ø3 x 1 mm N52 discs in the cover floor under the cell,
+# on the centre line (opposite poles out, so the band only seats one way round)
 MAG_D, MAG_T = 3.0, 1.0
 MAG_POCKET_D, MAG_POCKET_T = 3.1, 1.05
-MAG_SKIN = 0.2                        # plastic over the magnet on the outer face
-MAG_XY = ((118.6, 101.6), (134.9, 101.6))
-CONTACT_TOP = None                    # set below: flush with the outer face
+MAG_SKIN = 0.2                        # plastic over the magnet on the wrist face
+MAG_XY = ((112.5, 107.5), (120.5, 107.5))
 # charge LED D702 (1.6 x 1.5 x 0.6 mm, top view): seen through a thin skin of
 # the case top, from a blind pocket on the inside (no opening)
 LED_XY = (130.225, 113.2)
@@ -150,15 +161,11 @@ def make_shell():
     s = chamfer(s.edges().filter_by_position(Axis.Z, Z_SKIRT - 1e-3, Z_SKIRT + 1e-3), 0.3)
     s -= slab(SKIRT_IN, Z_SKIRT - 1, BOARD_B)             # room for the cover lip
     s -= slab(POCKET, BOARD_B - 1, ROOF_IN)               # board and parts
-    # dock land onto F.Cu (0.05 mm press); bores for the six embedded contacts,
-    # with a 0.3 mm relief at the board for the solder fillet round each pin
+    # land and post onto F.Cu (0.05 mm press): they take the push of the four
+    # spring pins on B (land over the top pair, post over the bottom pair,
+    # clear of the LED and its window)
     s += box(*LAND, BOARD_F - 0.05, ROOF_IN + 0.1) & slab(POCKET, 0, TOP)
-    for x in DOCK_X:
-        s -= cyl(x, DOCK_Y, BORE_D / 2, BOARD_F - 1, TOP + 1)
-        s -= cyl(x, DOCK_Y, 0.7, BOARD_F - 1, BOARD_F + 0.3)
-    # magnet pockets: closed on the outside by MAG_SKIN; insert at a print pause
-    for x, y in MAG_XY:
-        s -= cyl(x, y, MAG_POCKET_D / 2, TOP - MAG_SKIN - MAG_POCKET_T, TOP - MAG_SKIN)
+    s += box(131.75, CAV[1], 110.8, 114.6, BOARD_F - 0.05, ROOF_IN + 0.1) & slab(POCKET, 0, TOP)
     # charge LED window: blind pocket from inside, LED_SKIN left on the outer face
     lx, ly = LED_XY
     s -= slab(rrect(lx - LED_WIN[0] / 2, lx + LED_WIN[0] / 2, ly - LED_WIN[1] / 2, ly + LED_WIN[1] / 2, 0.3),
@@ -224,6 +231,23 @@ def make_cover():
     c += cyl(*LRA_C, LRA_R, FLOOR, PART_FACE - LRA_H)
     for a0, a1 in ((110, 145), (215, 280)):
         c += sector(*LRA_C, LRA_R + CLR, LRA_R + 0.95, a0, a1, FLOOR, PART_FACE - LRA_H + 1.35)
+    # contact carrier: pocket from the floor step up, open to the cavity; the
+    # LRA pedestal is cut back so the carrier drops in from above; a notch
+    # through the board ledge round each spring pin
+    cx0, cx1, cy0, cy1 = CARRIER
+    c -= box(cx0 - CARRIER_CLR, cx1 + CARRIER_CLR, cy0 - CARRIER_CLR, cy1 + CARRIER_CLR, CARRIER_Z, BOARD_B + 1)
+    c -= box(cx0 - 0.2, cx1 + 0.3, 104.0, 111.0, FLOOR, BOARD_B + 1)
+    for y in SP_Y:
+        c -= cyl(SP_X, y, 1.15, CARRIER_Z, BOARD_B + 1)
+        # window: cone from the wrist face up to the tail
+        c -= Pos(SP_X, y, -0.01) * Cone(WIN_D0 / 2, WIN_D1 / 2, CARRIER_Z + 0.01,
+                                         align=(Align.CENTER, Align.CENTER, Align.MIN))
+        c -= cyl(SP_X, y, WIN_D1 / 2, CARRIER_Z - 0.1, CARRIER_Z + 0.3)
+    # dock magnets: pockets under a MAG_SKIN skin, each under a low dome that
+    # gives the floor the extra 0.25 mm (insert at a print pause)
+    for x, y in MAG_XY:
+        c += cyl(x, y, MAG_POCKET_D / 2 + 0.6, FLOOR - 0.01, MAG_SKIN + MAG_POCKET_T + 0.25)
+        c -= cyl(x, y, MAG_POCKET_D / 2, MAG_SKIN, MAG_SKIN + MAG_POCKET_T)
     # antenna end: holes for the shell's press-fit pins (0.05 mm interference)
     for y in PIN_Y:
         c -= cyl(PIN_X, y, PIN_D / 2 - 0.05, Z_SKIRT - PIN_L - 0.3, Z_SKIRT + 1)
@@ -235,17 +259,31 @@ def make_cover():
     return c
 
 
-def make_contacts():
-    """Six gold Ø1.0 mm contact pins, from the pad (soldered) up to flush."""
-    pins = [cyl(x, DOCK_Y, CONTACT_D / 2, BOARD_F, TOP) for x in DOCK_X]
-    c = pins[0]
-    for p in pins[1:]:
-        c = c + p
-    return c
+def make_carrier():
+    cx0, cx1, cy0, cy1 = CARRIER
+    b = slab(rrect(cx0, cx1, cy0, cy1, 0.5), CARRIER_Z, CARRIER_Z + CARRIER_T)
+    for y in SP_Y:
+        b -= cyl(SP_X, y, 0.3, CARRIER_Z - 1, CARRIER_Z + CARRIER_T + 1)
+    return b
+
+
+def make_spring_pins(compressed=True):
+    """Four 0906-2 pins: tail through the carrier, flange on it, plunger up
+    to B.Cu (compressed) or free."""
+    zf = CARRIER_Z + CARRIER_T                       # flange underside
+    tip = BOARD_B if compressed else zf + SP_A
+    out = None
+    for y in SP_Y:
+        p = (cyl(SP_X, y, SP_TAIL_D / 2, zf - SP_TAIL, zf)
+             + cyl(SP_X, y, SP_FLANGE_D / 2, zf, zf + SP_FLANGE_T)
+             + cyl(SP_X, y, SP_BODY_D / 2, zf + SP_FLANGE_T - 0.01, zf + SP_BODY_L)
+             + cyl(SP_X, y, SP_PLUNGER_D / 2, zf + SP_BODY_L - 0.01, tip))
+        out = p if out is None else out + p
+    return out
 
 
 def make_magnets():
-    mags = [cyl(x, y, MAG_D / 2, TOP - MAG_SKIN - MAG_T, TOP - MAG_SKIN) for x, y in MAG_XY]
+    mags = [cyl(x, y, MAG_D / 2, MAG_SKIN + 0.02, MAG_SKIN + 0.02 + MAG_T) for x, y in MAG_XY]
     return mags[0] + mags[1]
 
 
@@ -295,23 +333,25 @@ if __name__ == "__main__":
         p.label, p.color = ("case shell" if name == "shell" else "case wrist cover"), col
         export_step(p, str(out / f"wakeband-case-rev-a-{name}.step"))
         export_stl(p, str(out / f"wakeband-case-rev-a-{name}.stl"), tolerance=0.01, angular_tolerance=0.1)
-    pins = make_contacts()
-    ov = shell & pins
-    print("contacts vs shell overlap:", round(ov.volume if ov is not None else 0, 4))
-    p = to_step_frame(pins)
-    p.label, p.color = "dock contacts (6x gold Ø1.0 pin)", Color(0.85, 0.68, 0.30)
-    export_step(p, str(out / "wakeband-case-rev-a-dock-contacts.step"))
-    mags = make_magnets()
-    ov = shell & mags
-    print("magnets vs shell overlap:", round(ov.volume if ov is not None else 0, 4))
-    p = to_step_frame(mags)
-    p.label, p.color = "dock magnets (2x Ø3x1 N52)", Color(0.6, 0.6, 0.65)
-    export_step(p, str(out / "wakeband-case-rev-a-magnets.step"))
+    zf = CARRIER_Z + CARRIER_T
+    print(f"spring pins: flange at z {zf:.2f}, free tip {zf + SP_A:.2f}, B.Cu {BOARD_B:.2f}, "
+          f"compression {zf + SP_A - BOARD_B:.2f} of {SP_STROKE} (mid {SP_STROKE / 2}); "
+          f"tail tip z {zf - SP_TAIL:.2f} (recess from the wrist face)")
+    carrier, pins, mags = make_carrier(), make_spring_pins(), make_magnets()
+    for n, a in (("carrier", carrier), ("spring pins", pins), ("magnets", mags)):
+        for m, b in (("shell", shell), ("cover", cover)):
+            ov = a & b
+            print(f"{n} vs {m} overlap:", round(ov.volume if ov is not None else 0, 4))
+    for obj, name, label, col in ((carrier, "contact-carrier", "contact carrier PCB", Color(0.1, 0.4, 0.2)),
+                                  (pins, "spring-pins", "4x Mill-Max 0906-2 spring pin", Color(0.85, 0.68, 0.30)),
+                                  (mags, "magnets", "dock magnets (2x Ø3x1 N52)", Color(0.6, 0.6, 0.65))):
+        p = to_step_frame(obj)
+        p.label, p.color = label, col
+        export_step(p, str(out / f"wakeband-case-rev-a-{name}.step"))
     if len(sys.argv) > 4:
         asm = assembly_in_design_frame(sys.argv[2:5])
-        hits = clash((("contacts", pins),), [a for a in asm if a[1] != 'wakeband-rigid-rev-a-full' or True])
-        hits = [h for h in hits if not (h[1] == 'wakeband-rigid-rev-a-full' and h[2] < 0.01)]
-        print(f"contacts vs board/cell/LRA: {len(hits)} overlaps beyond touching", hits[:3])
+        hits = clash((("spring pins", pins), ("carrier", carrier), ("magnets", mags)), asm)
+        print(f"pins/carrier/magnets vs board/cell/LRA: {len(hits)} overlaps", hits[:4])
         hits = clash((("shell", shell), ("cover", cover)), asm)
         print(f"clash check: {len(asm)} assembly solids, {len(hits)} overlaps")
         for h in hits:
