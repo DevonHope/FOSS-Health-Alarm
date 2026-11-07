@@ -6,11 +6,12 @@
 	(condition "A.Type == 'Via' && A.Net != B.Net")
 	(constraint clearance (min 0.2mm)))
 
-# Vias in the ISP2454 pads: 0.2/0.3 mm, epoxy filled and copper capped (POFV).
-(rule "module_via_in_pad"
-	(condition "A.Type == 'Via' && A.insideCourtyard('U1')")
-	(constraint via_diameter (min 0.3mm))
-	(constraint hole_size (min 0.2mm)))
+# Via-in-pad under the BQ25125 (DSBGA-25, 0.4 mm pitch): 0.25/0.15 mm, epoxy filled and copper capped (POFV).
+(rule "bga_via_in_pad"
+	(condition "A.Type == 'Via' && A.insideCourtyard('U201')")
+	(constraint via_diameter (min 0.25mm))
+	(constraint hole_size (min 0.15mm))
+	(constraint annular_width (min 0.05mm)))
 
 # Hand-solder pads for the cell and LRA leads: 0.5 mm to other nets.
 (rule "hand_solder_pad_clearance"

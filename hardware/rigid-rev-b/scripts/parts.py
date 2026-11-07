@@ -8,6 +8,11 @@ C0201 = "Capacitor_SMD:C_0201_0603Metric"
 L0201 = "Inductor_SMD:L_0201_0603Metric"
 L0402 = "Inductor_SMD:L_0402_1005Metric"
 TP08 = "wakeband:TestPoint_Pad_D0.8mm"
+NC0201 = "wakeband:Nordic_CAPC0603X03L_C"
+NC0402 = "wakeband:Nordic_CAPC1005X04L"
+NL0201 = "wakeband:Nordic_INDC0603X03L_C"
+NR0201 = "wakeband:Nordic_RESC0603X03L_C"
+NL1608 = "wakeband:Nordic_INDC1608X06L"
 
 
 def R(ref, val, lcsc, a, b, desc="", fp=R0402, mpn=""):
@@ -26,37 +31,40 @@ def TP(ref, val, net, fp=TP08, desc=""):
     return (ref, "Connector:TestPoint", val, fp, "", "", {"1": net}, [], desc)
 
 
-NRF_NC = ["3", "4", "5", "6", "7", "8", "9", "14", "17", "20", "21", "23", "24", "27", "28", "29"]
+NRF_NC = ["3", "4", "11", "12", "14", "15", "16", "17", "20", "21", "23", "28", "29", "40", "41", "42"]
 PARTS = [
     # ---------------- radio: nRF54L15 (Nordic QFN48 reference circuit, config 1) ----------------
-    ("U1", "wakeband:nRF54L10-QFAA", "nRF54L10-QFAA", "Package_DFN_QFN:QFN-48-1EP_6x6mm_P0.4mm_EP4.6x4.6mm", "C44800139", "Nordic NRF54L10-QFAA-R7",
+    ("U1", "wakeband:nRF54L10-QFAA", "nRF54L10-QFAA", "wakeband:Nordic_QFN40P600X600X90-48N", "C44800139", "Nordic NRF54L10-QFAA-R7",
      {"10": "VDD_1V8", "22": "VDD_1V8", "36": "VDD_1V8", "47": "VDD_1V8", "48": "VDD_1V8",
       "46": "DCC", "45": "DECD", "43": "DECA", "33": "DECA", "34": "XC1", "35": "XC2", "1": "XL1", "2": "XL2",
       "31": "ANT", "32": "GND", "30": "nRESET_IC", "25": "SWDIO", "26": "SWDCLK", "44": "GND", "49": "GND",
-      "37": "PMIC_INT", "38": "DOCK_PG", "39": "I2C_SDA", "40": "I2C_SCL", "41": "ACC_INT1", "42": "ACC_INT2",
-      "11": "HAPT_EN", "12": "CHG_CD", "13": "LS_CTRL", "15": "LED_DBG", "16": "LED_EN", "18": "UART_RX", "19": "UART_TX"},
-     NRF_NC, "BLE SoC (nRF54L05/L15-QFAA fit unchanged); I2C on clock pins P1.11/P1.12, interrupts on P1 (wake-capable), outputs on P2"),
-    L("L1", "4.7uH", "C114862", "DCC", "DECD", fp="Inductor_SMD:L_0603_1608Metric", mpn="Murata LQM18PN4R7MFRL", desc="DC/DC inductor"),
-    C("C1", "2.2uF", "C12530", "DECD", desc="DECD"),
-    ("FB1", "Device:FerriteBead_Small", "120R@100MHz", "Inductor_SMD:L_0402_1005Metric", "C107331", "TDK MPZ1005S121CT000",
+      "9": "I2C_SDA", "5": "I2C_SCL", "6": "PMIC_INT", "7": "DOCK_PG", "8": "HAPT_EN", "27": "ACC_INT1", "24": "ACC_INT2",
+      "38": "LED_EN", "39": "CHG_CD", "13": "LS_CTRL", "37": "LED_DBG", "18": "UART_RX", "19": "UART_TX"},
+     NRF_NC, "BLE SoC (nRF54L05/L15-QFAA fit unchanged); I2C on clock pins P1.08/P1.04, interrupts on P0/P1 (wake-capable); pins chosen for the fan-out"),
+    # Nordic QFN48 reference layout v0.8: same designators, footprints and pin order (copied layout)
+    L("L1", "4.7uH", "C76799", "DCC", "DECD", fp=NL1608, mpn="TDK MLZ1608M4R7WT000", desc="DC/DC inductor"),
+    C("C1", "2.2uF", "C335106", "GND", "DECD", fp=NC0201, mpn="Murata GRM033R61A225KE47D", desc="DECD"),
+    ("FB1", "Device:FerriteBead_Small", "120R@100MHz", NL0201, "C97850", "Murata BLM03AG121SN1D",
      {"1": "DECD", "2": "DECA"}, [], "DECD to DECA/DECRF"),
-    C("C2", "2.2uF", "C12530", "DECA", desc="DECA/DECRF"),
-    C("C5", "2.2nF", "C1531", "DECA", desc="DECRF (pin 33); 2.2 nF per datasheet v1.0"), C("C12", "10nF", "C15195", "DECA", desc="DECA (pin 43)"),
-    C("C3", "10uF", "C15525", "VDD_1V8", desc="VDD pins 47/48"), C("C10", "100nF", "C1525", "VDD_1V8", desc="VDD pins 47/48"),
-    C("C4", "100nF", "C1525", "VDD_1V8", desc="VDD pin 10"), C("C7", "100nF", "C1525", "VDD_1V8", desc="VDD pin 22"),
-    C("C8", "100nF", "C1525", "VDD_1V8", desc="VDD pin 36"),
-    R("R1", "1k", "C11702", "nRESET", "nRESET_IC", desc="nRESET series"), C("C13", "3.9pF", "C3907811", "nRESET_IC", desc="nRESET filter"),
-    ("X1", "Device:Crystal", "32.768kHz 9pF", "Crystal:Crystal_SMD_2012-2Pin_2.0x1.2mm", "C96341", "Epson FC-12M X1A0000610008",
-     {"1": "XL1", "2": "XL2"}, [], "LFXO (wake from System OFF on the GRTC); internal load caps"),
-    ("X2", "Device:Crystal_GND24", "32MHz 8pF", "Crystal:Crystal_SMD_2016-4Pin_2.0x1.6mm", "C2965582", "Yangxing XL7EL89CKI-111YLC-32M",
+    C("C2", "2.2uF", "C335106", "GND", "DECA", fp=NC0201, mpn="Murata GRM033R61A225KE47D", desc="DECA/DECRF"),
+    C("C5", "2.2nF", "C161479", "GND", "DECA", fp=NC0201, mpn="Murata GRM033R71A222KA01D", desc="DECRF (pin 33); 2.2 nF per datasheet v1.0"),
+    C("C12", "10nF", "C76941", "GND", "DECA", fp=NC0201, mpn="Murata GRM033R71A103KA01D", desc="DECA (pin 43)"),
+    C("C3", "10uF", "C15525", "GND", "VDD_1V8", fp=NC0402, desc="VDD bulk"),
+    C("C10", "100nF", "C307380", "VDD_1V8", "GND", fp=NC0201), C("C4", "100nF", "C307380", "VDD_1V8", "GND", fp=NC0201),
+    C("C7", "100nF", "C307380", "VDD_1V8", "GND", fp=NC0201), C("C8", "100nF", "C307380", "VDD_1V8", "GND", fp=NC0201),
+    R("R1", "1k", "C270365", "nRESET_IC", "nRESET", fp=NR0201, desc="nRESET series"),
+    C("C13", "3.9pF", "C76926", "GND", "nRESET_IC", fp=NC0201, mpn="Murata GRM0335C1H3R9CA01D", desc="nRESET filter"),
+    ("X1", "Device:Crystal", "32.768kHz 9pF", "wakeband:Nordic_XTAL_2012", "C96341", "Epson FC-12M X1A0000610008",
+     {"1": "XL2", "2": "XL1"}, [], "LFXO (wake from System OFF on the GRTC); internal load caps"),
+    ("X2", "Device:Crystal_GND24", "32MHz 8pF", "wakeband:Nordic_BT-XTAL_2016", "C2965582", "Yangxing XL7EL89CKI-111YLC-32M",
      {"1": "XC1", "3": "XC2", "2": "GND", "4": "GND"}, [], "HFXO; internal load caps"),
     # RF: Nordic low-pass ladder (exact reference parts, 0201), then a pi network for the antenna
-    L("L2", "2.7nH", "C7216765", "ANT", "RF1", mpn="Murata LQP03HQ2N7B02D"),
-    C("C6", "1.5pF", "C435397", "RF1", fp=C0201, mpn="Murata GJM0335C1E1R5WB01D", desc="ground only to VSS_PA (pin 32)"),
-    L("L3", "3.5nH", "C3911055", "RF1", "RF2", mpn="Murata LQP03HQ3N5B02D"),
-    C("C9", "2.0pF", "C668326", "RF2", fp=C0201, mpn="Murata GJM0335C1E2R0WB01D", desc="ground on the bottom layer only"),
-    L("L4", "3.5nH", "C3911055", "RF2", "RF_50", mpn="Murata LQP03HQ3N5B02D"),
-    C("C11", "0.3pF", "C76927", "RF_50", fp=C0201, mpn="Murata GRM0335C1HR30BA01D"),
+    L("L2", "2.7nH", "C7216765", "ANT", "RF1", fp=NL0201, mpn="Murata LQP03HQ2N7B02D"),
+    C("C6", "1.5pF", "C435397", "GND", "RF1", fp=NC0201, mpn="Murata GJM0335C1E1R5WB01D", desc="ground only to VSS_PA (pin 32)"),
+    L("L3", "3.5nH", "C3911055", "RF1", "RF2", fp=NL0201, mpn="Murata LQP03HQ3N5B02D"),
+    C("C9", "2.0pF", "C668326", "GND", "RF2", fp=NC0201, mpn="Murata GJM0335C1E2R0WB01D", desc="ground on the bottom layer only"),
+    L("L4", "3.5nH", "C3911055", "RF2", "RF_50", fp=NL0201, mpn="Murata LQP03HQ3N5B02D"),
+    C("C11", "0.3pF", "C76927", "GND", "RF_50", fp=NC0201, mpn="Murata GRM0335C1HR30BA01D"),
     C("C14", "DNP", "", "RF_50", desc="antenna match: shunt 1 (tune; fitted parts per README)"),
     R("R2", "0R", "C17168", "RF_50", "ANT_FEED", desc="antenna match: series (tune; 0R to start)"),
     C("C15", "DNP", "", "ANT_FEED", desc="antenna match: shunt 2 (tune)"),
@@ -92,7 +100,6 @@ PARTS = [
     R("R208", "14.3k", "C25855", "TS", "GND", desc="TS divider, low side"),
     ("TH201", "Device:Thermistor_NTC", "10k B3380", R0402, "C77131", "Murata NCP15XH103F03RC", {"1": "TS", "2": "GND"}, [], "NTC at the cell"),
     R("R209", "100k", "C25741", "VDD_1V8", "PMIC_INT", desc="/INT pull-up"),
-    R("R210", "100k", "C25741", "VDD_1V8", "DOCK_PG", desc="/PG pull-up (dock detect)"),
     ("JP201", "Jumper:SolderJumper_2_Bridged", "I_BAT", "Jumper:SolderJumper-2_P1.3mm_Bridged_RoundedPad1.0x1.5mm", "", "",
      {"1": "BATT_P", "2": "VBAT"}, [], "cut to measure battery current"),
     TP("TP201", "BAT+ pad", "BATT_P", "TestPoint:TestPoint_Pad_2.0x2.0mm", "cell +"),
@@ -100,8 +107,8 @@ PARTS = [
     TP("TP203", "MR", "CHG_MR", TP08, "BQ25120A /MR (short to GND: wake, ship-mode exit, reset)"),
     # ---------------- LED ----------------
     ("U202", "wakeband:IS31FL3193", "IS31FL3193", "Package_DFN_QFN:DFN-10-1EP_3x3mm_P0.5mm_EP1.65x2.38mm", "C2653363", "Lumissil IS31FL3193-DLS2-TR",
-     {"1": "LED_EN", "2": "VLED", "3": "LED_R", "4": "LED_G", "5": "LED_B", "6": "GND", "7": "GND", "8": "I2C_SCL", "9": "I2C_SDA", "11": "GND"},
-     ["10"], "RGB LED driver, I2C 0x68"),
+     {"1": "LED_EN", "2": "VLED", "3": "LED_G", "4": "LED_B", "5": "LED_R", "6": "GND", "7": "GND", "8": "I2C_SCL", "9": "I2C_SDA", "11": "GND"},
+     ["10"], "RGB LED driver, I2C 0x68; OUT1 green, OUT2 blue, OUT3 red (pins chosen for layout)"),
     C("C208", "1uF", "C52923", "VLED"), C("C209", "100nF", "C1525", "VLED"),
     R("R211", "100k", "C25741", "LED_EN", "GND", desc="SDB pull-down (LED driver off by default)"),
     ("D702", "Device:LED_ABGR", "TJ-S1615SW6TGLCCYRGB-A5", "wakeband:LED_TOGIALED_1615_RGB_CommonAnode", "C273610", "TOGIALED TJ-S1615SW6TGLCCYRGB-A5",
