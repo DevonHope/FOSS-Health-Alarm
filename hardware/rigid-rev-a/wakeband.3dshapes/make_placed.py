@@ -16,9 +16,9 @@ GAP = 0.2             # B.Cu has no parts: cell and LRA sit 0.2 mm off it
 Z0 = B_SURF - GAP     # their board-side face
 CELL_C = (115.5, -107.5)
 LRA_C = (128.75, -107.5)
-LRA_TAB = 60.0        # lead tab towards TP501 (KiCad (131.7, 101.5))
-TP201, TP202 = (129.0, -113.5), (125.3, -101.6)   # BAT+, BAT- (on B)
-TP501, TP502 = (131.7, -101.5), (131.9, -113.5)   # LRA+, LRA- (on B)
+LRA_TAB = 110.0       # lead tab towards TP501/TP502 (KiCad (127.0 / 125.5, 101.5))
+TP201, TP202 = (129.0, -113.5), (129.05, -101.6)  # BAT+, BAT- (on B)
+TP501, TP502 = (127.0, -101.5), (125.5, -101.5)   # LRA+, LRA- (on B)
 
 
 def flip_place(shape, c, turn=0.0):
@@ -55,7 +55,7 @@ zc = Z0 - mm.CELL_T / 2
 zw = B_SURF - mm.WIRE_D / 2          # wire centre when it lies on a B pad
 red = mm.wire([(123.6, -112.6, zc), (128.1, -112.6, zc), (TP201[0], TP201[1], zc),
                (TP201[0], TP201[1], zw)], mm.WIRE_D, "BAT+ lead to TP201 (red)", mm.RED)
-blk = mm.wire([(123.6, -102.3, zc), (TP202[0], -102.3, zc), (TP202[0], TP202[1], zc),
+blk = mm.wire([(123.6, -101.0, zc), (TP202[0], -101.0, zc), (TP202[0], TP202[1], zc),
                (TP202[0], TP202[1], zw)], mm.WIRE_D, "BAT- lead to TP202 (black)", mm.WIRE_BLACK)
 keep(cell + [red, blk], "LiPo 60 mAh (placed)", "wakeband-cell-60mah-placed.step")
 
@@ -68,11 +68,7 @@ tip_p = local_to_world((mm.LRA_D / 2 + 1.9, 0.5, 0.5), LRA_C, turn)
 tip_n = local_to_world((mm.LRA_D / 2 + 1.9, -0.5, 0.5), LRA_C, turn)
 pos = mm.wire([tip_p, (TP501[0], TP501[1], tip_p[2]), (TP501[0], TP501[1], B_SURF - r)],
               2 * r, "LRA+ lead to TP501 (red)", mm.RED)
-# LRA-: round the far side of the can at r = 4.15, mid height, to TP502
-zm = Z0 - mm.LRA_H / 2
-arc = [(LRA_C[0] + 4.15 * math.cos(math.radians(a)), LRA_C[1] + 4.15 * math.sin(math.radians(a)), zm)
-       for a in range(48, -62, -10)]
-neg = mm.wire([tip_n, (arc[0][0], arc[0][1], tip_n[2])] + arc +
-              [(TP502[0], TP502[1], zm), (TP502[0], TP502[1], B_SURF - r)],
+# LRA-: straight from its tab tip to TP502, beside LRA+
+neg = mm.wire([tip_n, (TP502[0], TP502[1], tip_n[2]), (TP502[0], TP502[1], B_SURF - r)],
               2 * r, "LRA- lead to TP502 (black)", mm.WIRE_BLACK)
 keep(lra + [pos, neg], "VG0832012 LRA (placed)", "wakeband-lra-vg0832012-placed.step")

@@ -1696,7 +1696,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "Dock pads"
+		(property "Value" "Dock landing pads"
 			(at 53.34 77.47 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1707,7 +1707,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "wakeband:DockPads_1x06_P2.0mm_D1.4mm"
+		(property "Footprint" "wakeband:DockLanding_4xB_D1.6mm_2xUART"
 			(at 53.34 80.01 0)
 			(hide yes)
 			(show_name no)
