@@ -1,76 +1,96 @@
 # WakeBand case rev A
 
-Two printed parts for the [rigid rev A board](../rigid-rev-a/README.md), held
-together by one M2 screw.
+Two printed parts for the [rigid rev A board](../rigid-rev-a/README.md),
+joined by a stepped ridge all round and held by one M2 screw. Since the
+2026-11-06 board rework the board mounts **parts side out**:
+
+- the **shell** covers F.Cu, with the parts and the six dock pads;
+- the **wrist cover** holds the cell and the LRA under B.Cu.
 
 | Part | File | Size (x, y, z) |
 | --- | --- | --- |
-| Outer shell (over B.Cu) | `wakeband-case-rev-a-shell.step` / `.stl` | 42.85 x 18.3 x 6.8 mm |
-| Wrist cover with strap loops | `wakeband-case-rev-a-cover.step` / `.stl` | 52.25 x 20.4 x 3.0 mm (inner features to 7.75) |
-| Assembled | | **42.85 x 18.3 x 9.8 mm** body, 52.25 x 20.4 mm with the strap loops |
+| Outer shell | `wakeband-case-rev-a-shell.step` / `.stl` | 44.8 x 19.3 x 4.0 mm, plus the screw boss down to z 3.5 |
+| Wrist cover with strap loops | `wakeband-case-rev-a-cover.step` / `.stl` | 54.2 x 20.4 x 6.7 mm |
+| Assembled | | **44.8 x 19.3 x 10.0 mm** body, 54.2 x 20.4 mm with the strap loops |
 
 ![iso](wakeband-case-rev-a-preview-iso.png)
+![outer face](wakeband-case-rev-a-preview-top.png)
 ![wrist face](wakeband-case-rev-a-preview-wrist.png)
 
 `case_rev_a.py` (build123d) makes both parts. From this folder:
 
     pip install build123d
-    python case_rev_a.py OUT_DIR ../../path/to/wakeband-rigid-rev-a-full.step \
-        wakeband-cell-60mah-placed.step wakeband-lra-vg0832012-placed.step
+    python case_rev_a.py OUT_DIR BOARD_STEP CELL_STEP LRA_STEP
 
-The board and part STEP files are optional. When given (see
-`../rigid-rev-a/wakeband.3dshapes/make_placed.py`), the script also checks
-the case against the board, cell and LRA for clashes.
+The three STEP files are optional. Pass them to also check the case for
+clashes against the board, the cell and the LRA. Use the board's KiCad STEP
+export, plus the cell and LRA files from
+`../rigid-rev-a/wakeband.3dshapes/make_placed.py`.
 
-## Orientation as worn
+The script designs in KiCad x/y with z = 0 at the wrist face. It then
+mirrors y, so the parts land on the board's STEP export lifted by
+z = 6.7 mm.
 
-Coordinates are KiCad board coordinates in x and y, z = 0 is the wrist face.
+## Stack as worn
 
 | Layer | z (mm) |
 | --- | --- |
-| shell roof, outer face (dock windows) | 9.8 |
-| B.Cu against the roof | 8.6 |
-| F.Cu, parts face down | 7.8 |
-| cell and LRA, 0.2 mm below the tallest F part | 6.5 |
-| room for a cell up to 5.0 mm plus 0.5 mm foam | 1.0 |
+| shell top, outer face (dock windows) | 10.0 |
+| inside of the shell top (F parts up to 1.1 mm, plus 0.2 mm) | 8.8 |
+| F.Cu, parts up | 7.5 |
+| B.Cu, the split between shell and cover | 6.7 |
+| cell and LRA, 0.2 mm below B.Cu | 6.5 |
+| room for a cell up to 5.0 mm, plus 0.5 mm foam | 1.0 |
 | wrist face | 0 |
 
-The cell and the LRA stay on the F side. The six dock pads (J601) are on B
-at y = 113, x 111.25-123.75, inside the cell's outline, so B must face out to
-the dock. The cell leads land on F pads, and the LRA sits next to the wrist.
+## Openings
 
-## Parts and features
+Only the necessary ones:
 
-- **Shell.** Covers B.Cu except six Ø1.6 mm windows over the dock pads, with
-  a 0.2 mm lead-in for the pogo pins. Round each window, a rim stands 0.1 mm
-  proud of the roof and presses on the solder mask. The board sits in a
-  pocket with 0.15 mm clearance, and eight small ribs (0.03 mm clear) stop it
-  rattling. The LRA end holds the M2 heat-set insert. The antenna end wall
-  (2.0 mm) has the pocket for the cover's hook. Roof edge: 1.0 mm chamfer at
-  45 deg with an R1.5 blend.
-- **Wrist cover.** 1.0 mm floor. Wrist edge: 0.8 mm chamfer at 45 deg with an
-  R2 blend, and an R0.5 round on the seam. It also carries:
-  - **Antenna end:** a tongue with a hook that drops into the shell's pocket,
-    and two posts that hold the board's F face in the keep-out strip
-    (x 100-101.15, which has no copper or parts).
-  - **LRA end:** a column and ledge that hold the board edge (x 132.3-133).
-  - **Screw:** an ISO 10642 countersink, with the head 0.2 mm below flush.
-  - **Cell:** side ribs and an end stop.
-  - **LRA:** a pedestal for its adhesive face, plus three locating arcs.
-  - **Strap:** loops at both ends, 16.6 x 2.2 mm slots for a **16 mm**
-    strap up to 2 mm thick (velcro or fabric). The slots are rounded on the
-    loop side and chamfered on the wrist side.
-- No metal near the antenna. The screw and insert sit at x = 137.2, past the
-  board's LRA end; the ISP2454 keep-out is x 100-105.
+1. **Six dock windows**, Ø1.2 mm, with a 0.2 mm lead-in, over the dock pads
+   J601 (pads Ø1.4 mm, 2.0 mm pitch, y = 101.6, x 121.75-131.75). Round the
+   row, the shell is solid all the way down onto the board (the dock land).
+   It presses 0.05 mm on the solder mask, so each window is closed off from
+   the parts. The pogo pins reach 2.5 mm down through the shell top.
+2. **The screw hole** in the wrist face. It is countersunk, and the head
+   sits 0.2 mm below flush.
+
+The strap slots go through the strap loops only, outside the closed body.
+
+## Joint (the ridge)
+
+All round the parting line, the inner 0.95 mm of the cover wall stands
+0.7 mm proud. It fits inside a 0.9 mm skirt on the shell with 0.15 mm
+clearance, so the two halves slot together and can't slide sideways.
+
+Below the ridge, a 0.5 mm ledge on the cover holds the board's B side at its
+edge. The dock land and two posts in the antenna keep-out strip press on the
+F side. Together they clamp the board.
+
+## Fixing
+
+- **One M2 x 6 countersunk screw** (ISO 10642 / DIN 7991, A2 stainless),
+  from the wrist face at the LRA end (x = 136.6).
+- It goes into a **brass M2 heat-set insert**, 3.0 mm long, in a Ø3.2 mm
+  hole (for example Ruthex RX-M2x3). The insert sits in a Ø5.6 mm boss that
+  hangs down from the shell into a pocket in the cover.
+- **Self-tapping option:** set `INSERT_D = 1.6` and use an M2 x 6
+  countersunk screw straight into the boss.
+- **Antenna end:** two printed **press-fit pins** (Ø1.4 x 2.0 mm, 0.05 mm
+  interference) go from the shell's skirt into the cover's end wall. This
+  is the only metal-free way to hold that end: the ISP2454 keep-out is
+  x 100-105, and the screw and insert sit 30 mm away from it.
+- **When worn,** the strap pulls the cover onto the wrist and the shell
+  presses down onto it, so the joint stays closed.
 
 ## Hardware
 
 | Item | Spec |
 | --- | --- |
 | Screw | M2 x 6 countersunk, ISO 10642 / DIN 7991, A2 stainless |
-| Insert | M2 brass heat-set insert, 3.0 mm long, for a Ø3.2 mm hole (e.g. Ruthex RX-M2x3) |
-| Self-tapping option | set `INSERT_D = 1.6` and use an M2 x 6 countersunk screw straight into the plastic (fine for a few openings) |
-| Foam | 1.5 mm foam tape under a 4 mm cell, 0.5 mm under a 5 mm cell |
+| Insert | M2 brass heat-set insert, 3.0 mm long, Ø3.2 mm hole |
+| Foam | foam tape under the cell: 1.5 mm for a 4 mm cell, 0.5 mm for a 5 mm cell |
+| Kapton | one layer over B.Cu under the cell and LRA (board README, compromise 6) |
 | Strap | 16 mm velcro or fabric strap, up to 2 mm thick |
 
 ## Printing
@@ -79,69 +99,69 @@ the dock. The cell leads land on F pads, and the LRA sits next to the wrist.
 | --- | --- |
 | Material | PETG (or ASA). PLA creeps at skin temperature |
 | Nozzle / layer | 0.4 mm / 0.12-0.16 mm |
-| Walls | 4 perimeters (all side walls are 1.5 mm, other walls at least 1.2 mm) |
-| Top / bottom | 6 layers |
-| Infill | 100 % (the parts are small) |
+| Walls | 4 perimeters (side walls 2.0 mm, top 1.2 mm, floor 1.0 mm) |
+| Infill | 100 % |
 | Supports | none |
-| Shell orientation | roof (outer face with the windows) down on the bed |
-| Cover orientation | wrist face down on the bed |
+| Shell | outer face (top) down on the bed |
+| Cover | wrist face down on the bed |
 
-Every bed-side edge is a 45 deg chamfer with the round above it, so no
-overhang is past 45 deg. The two overhangs that are left are the hook (45 deg
-underside) and the pocket it fits in (45 deg roof). The Ø1.6 mm dock windows
-print slightly small: open them with a 1.6 mm drill.
+Every edge that sits on the bed has a 45-degree chamfer with a round above
+it. Nothing overhangs more than 45 degrees, and nothing needs a bridge. The
+Ø1.2 mm dock windows print slightly small: open them with a 1.2 mm drill.
+The two pins print standing up on the shell, so print them at 100 % infill.
 
 ## Assembly
 
-1. Press the insert into the shell's boss from the open side with a
-   soldering iron at about 230 C, flush with the split face.
-2. Solder the cell to TP201 (+) and TP202 (-), and the LRA to TP501 / TP502.
-3. Drop the board into the shell, B side first, so the dock pads line up
-   with the windows. For a sweat seal, run a thin bead of silicone round the
-   window rims first, or conformal-coat B.Cu apart from the six pads (README
-   compromise 6).
-4. Stick the LRA's adhesive face onto the cover's pedestal, inside the three
-   arcs, with its lead tab towards TP501. Put the foam tape in the cell bay.
-5. Hold the cover at about 20-25 deg to the shell, touching at the antenna
-   end and open at the LRA end, so the hook enters its pocket. Close the LRA
-   end until the column slides into its slot and the cover sits flat. The
-   hook can't go in with a straight push.
-6. Fit the screw from the wrist side. Stop when it's snug.
+1. Press the insert into the shell's boss from below with a soldering
+   iron at about 230 C, flush with the end of the boss.
+2. Solder the cell to TP201 (+) and TP202 (-), and the LRA to TP501 (+) and
+   TP502 (-). All four pads are on B. Put kapton over B.Cu.
+3. Optional: run a thin bead of silicone round the six windows on the
+   inside of the shell top. Then lay the board in the shell, parts first.
+4. Stick the LRA's adhesive face onto the cover's pedestal between the two
+   arcs, lead tab towards TP501. Put foam tape in the cell bay.
+5. Lower the cover straight onto the shell. The ridge locates it, and the
+   two pins press into the cover's end wall.
+6. Fit the screw from the wrist side and stop when it's snug.
 7. Thread the strap through both loops.
 
 ## Checks (2026-11-06)
 
-- **Clash check:** against the board STEP (all 35 part models), the cell,
-  the LRA and their leads. No overlaps, except the intended 0.1 mm press of
-  the six window rims into the board. The shell and the cover don't overlap.
-- **Fitting the cover:** a sweep from 25 deg to closed, in 0.5 deg steps
-  about the antenna-end seam edge, finds no contact between the cover (with
-  the LRA and cell) and the shell or the board.
-- **Wall thickness:** sampled by rays from about 6000 surface points per
-  part. Structural walls are 1.2 mm or more, the floor 1.0 mm, the roof
-  1.2 mm. Thinner, on purpose: the webs between dock windows (0.9 mm), the
-  window rims, the hook tip, the LRA arcs (0.8 mm), the cell side ribs
-  (0.7 mm) and the board ledge.
+- **Clash check** against the board STEP (all part models except SW201,
+  which is DNP), the cell, the LRA and their leads: no overlaps.
+- **Shell against cover:** the only overlap is the intended 0.05 mm press
+  fit of the two pins (0.77 mm³).
+- **Wall thickness**, sampled by rays from several thousand surface points
+  per part:
+  - shell: top and land at least 1.0 mm; the ridge skirt 0.9 mm (0.6 mm at
+    its edge chamfer); window webs 0.8 mm; boss wall 1.2 mm;
+  - cover: floor 1.0 mm; the ridge lip and the board ledge 0.5 mm; about
+    0.6 mm round the pin holes (0.33 mm at the seam chamfer); 0.5 mm web
+    between the LRA bay and the screw-boss pocket; LRA arcs 0.5-0.8 mm.
+- **Assembly path:** the cover lowered straight onto the shell touches
+  nothing but the two pins, over their last 1.9 mm.
+- Both parts are single, valid solids, and SolidCraft imports them as
+  closed bodies.
 
 ## Compromises
 
-1. **Bigger than the README budget** (about 35 x 17 x 8-9 mm). The body is
-   42.85 x 18.3 x 9.8 mm because of:
-   - walls of 1.5 mm and roof/floor of 1.2/1.0 mm, instead of 0.8 mm;
-   - room for a 5 mm cell plus foam (`CELL_MAX = 4.0` makes it 8.8 mm tall);
-   - the screw block and board column past the LRA end (+7.7 mm);
-   - the 2.0 mm antenna end wall that holds the hook pocket.
-2. **The strap loops** add 4.6 mm at each end, and are 20.4 mm wide (the body
-   is 18.3) because a 16 mm strap needs a 16.6 mm slot. Each loop hangs on two
-   short necks (about 0.85 mm plus the corner rounds, 3 mm tall). That is fine
-   for a velcro strap. Pull-test a print.
-3. **A printed case is not waterproof.** The window rims only press on the
-   solder mask. Seal with silicone or conformal coat (step 3).
-4. **The hook tilts in and holds on a 45 deg face.** Seated, there is
-   0.1 mm of play between the hook's underside and its ramp. Strap tension
-   pulls the antenna end of the cover towards the wrist, and the 45 deg faces
-   push the tongue inwards a little. The tongue is short and stiff (1.2 mm,
-   fused to the rim up to z = 3). Check the fit on the first print; the hook
-   depth (0.7 mm) is a parameter.
-5. **The LRA end support is small** (1.0 mm column, 0.6 mm ledge), because
-   the LRA reaches x = 132.75 and the board ends at 133.
+1. **Bigger than the README budget** of about 35 x 17 x 9 mm. The body is
+   44.8 x 19.3 x 10.0 mm because of:
+   - 2.0 mm side walls, which carry the ridge;
+   - room for a 5 mm cell plus foam (`CELL_MAX = 4.0` makes it 9.0 mm tall);
+   - 0.2 mm clearances over the F parts and under B;
+   - the screw boss past the LRA end;
+   - the 3.6 mm antenna end wall that holds the pins.
+2. **The pogo pins reach through 2.5 mm** of shell to the dock pads.
+   Making that shallower needs a pocket in the outer face, which prints as
+   a bridge.
+3. **The antenna end is held by friction pins.** A tilt-in hook, as in the
+   first version of this case, doesn't fit now that the board sits right at
+   the joint. If the end gaps when the band is off the wrist, the next step
+   is a second screw or a snap arm.
+4. **A printed case is not waterproof.** Seal the windows with silicone or
+   conformal coat, as in assembly step 3.
+5. **SW201 (DNP) must not be fitted:** at 1.6 mm it is taller than the
+   1.1 mm the shell allows for.
+6. **The strap loops are wider than the body** (20.4 mm against 19.3 mm),
+   because a 16 mm strap needs a 16.6 mm slot.
