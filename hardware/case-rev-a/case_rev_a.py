@@ -36,7 +36,9 @@ LRA_C, LRA_R, LRA_H = (128.75, 107.5), 4.0, 3.25
 LRA_ENV_R = 4.25                      # Ø8.5 envelope incl. the lead round the can
 DOCK_X = [121.75 + 2.0 * i for i in range(6)]
 DOCK_Y = 101.6
-WIN_D = 1.2                           # dock windows (pads are Ø1.4)
+CONTACT_D = 1.0                       # gold dock contact pins, soldered on the Ø1.4 pads
+BORE_D = 1.05                         # bore in the case top: pin + epoxy/UV-resin seal
+CONTACT_TOP = None                    # set below: flush with the outer face
 
 WALL = 2.0          # side walls: lip 0.95 + 0.15 + skirt 0.9
 LIP_W = 0.95        # cover lip (inner part of the wall)
@@ -137,12 +139,12 @@ def make_shell():
     s = chamfer(s.edges().filter_by_position(Axis.Z, Z_SKIRT - 1e-3, Z_SKIRT + 1e-3), 0.3)
     s -= slab(SKIRT_IN, Z_SKIRT - 1, BOARD_B)             # room for the cover lip
     s -= slab(POCKET, BOARD_B - 1, ROOF_IN)               # board and parts
-    # dock land onto F.Cu (0.05 mm press) and the six windows
+    # dock land onto F.Cu (0.05 mm press); bores for the six embedded contacts,
+    # with a 0.3 mm relief at the board for the solder fillet round each pin
     s += box(*LAND, BOARD_F - 0.05, ROOF_IN + 0.1) & slab(POCKET, 0, TOP)
     for x in DOCK_X:
-        s -= cyl(x, DOCK_Y, WIN_D / 2, BOARD_F - 1, TOP + 1)
-        s -= Pos(x, DOCK_Y, TOP - 0.2) * Cone(WIN_D / 2, WIN_D / 2 + 0.2, 0.2,
-                                               align=(Align.CENTER, Align.CENTER, Align.MIN))
+        s -= cyl(x, DOCK_Y, BORE_D / 2, BOARD_F - 1, TOP + 1)
+        s -= cyl(x, DOCK_Y, 0.7, BOARD_F - 1, BOARD_F + 0.3)
     # posts onto F.Cu in the antenna keep-out strip (no copper or parts there)
     for y0, y1 in ((101.1, 103.2), (111.8, 113.9)):
         s += box(CAV[0] + 0.3, BOARD[0] + 0.95, y0, y1, BOARD_F, ROOF_IN + 0.1)
@@ -215,6 +217,15 @@ def make_cover():
     return c
 
 
+def make_contacts():
+    """Six gold Ø1.0 mm contact pins, from the pad (soldered) up to flush."""
+    pins = [cyl(x, DOCK_Y, CONTACT_D / 2, BOARD_F, TOP) for x in DOCK_X]
+    c = pins[0]
+    for p in pins[1:]:
+        c = c + p
+    return c
+
+
 def to_step_frame(shape):
     """Design frame (KiCad y) to the output frame (STEP y = -KiCad y)."""
     return mirror(shape, about=Plane.XZ)
@@ -265,8 +276,17 @@ if __name__ == "__main__":
         p.label, p.color = ("case shell" if name == "shell" else "case wrist cover"), col
         export_step(p, str(out / f"wakeband-case-rev-a-{name}.step"))
         export_stl(p, str(out / f"wakeband-case-rev-a-{name}.stl"), tolerance=0.01, angular_tolerance=0.1)
+    pins = make_contacts()
+    ov = shell & pins
+    print("contacts vs shell overlap:", round(ov.volume if ov is not None else 0, 4))
+    p = to_step_frame(pins)
+    p.label, p.color = "dock contacts (6x gold Ø1.0 pin)", Color(0.85, 0.68, 0.30)
+    export_step(p, str(out / "wakeband-case-rev-a-dock-contacts.step"))
     if len(sys.argv) > 4:
         asm = assembly_in_design_frame(sys.argv[2:5])
+        hits = clash((("contacts", pins),), [a for a in asm if a[1] != 'wakeband-rigid-rev-a-full' or True])
+        hits = [h for h in hits if not (h[1] == 'wakeband-rigid-rev-a-full' and h[2] < 0.01)]
+        print(f"contacts vs board/cell/LRA: {len(hits)} overlaps beyond touching", hits[:3])
         hits = clash((("shell", shell), ("cover", cover)), asm)
         print(f"clash check: {len(asm)} assembly solids (SW201 left out), {len(hits)} overlaps")
         for h in hits:

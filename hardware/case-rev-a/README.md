@@ -9,6 +9,7 @@ joined by a stepped ridge all round and held by one M2 screw. Since the
 
 | Part | File | Size (x, y, z) |
 | --- | --- | --- |
+| Dock contacts (6 pins, for the assembly) | `wakeband-case-rev-a-dock-contacts.step` | Ø1.0 x 2.5 mm each |
 | Outer shell | `wakeband-case-rev-a-shell.step` / `.stl` | 44.8 x 19.3 x 4.0 mm, plus the screw boss down to z 3.5 |
 | Wrist cover with strap loops | `wakeband-case-rev-a-cover.step` / `.stl` | 54.2 x 20.4 x 6.7 mm |
 | Assembled | | **44.8 x 19.3 x 10.0 mm** body, 54.2 x 20.4 mm with the strap loops |
@@ -35,7 +36,7 @@ z = 6.7 mm.
 
 | Layer | z (mm) |
 | --- | --- |
-| shell top, outer face (dock windows) | 10.0 |
+| shell top, outer face (dock contacts flush) | 10.0 |
 | inside of the shell top (F parts up to 1.1 mm, plus 0.2 mm) | 8.8 |
 | F.Cu, parts up | 7.5 |
 | B.Cu, the split between shell and cover | 6.7 |
@@ -45,15 +46,19 @@ z = 6.7 mm.
 
 ## Openings
 
-Only the necessary ones:
+None open:
 
-1. **Six dock windows**, Ø1.2 mm, with a 0.2 mm lead-in, over the dock pads
-   J601 (pads Ø1.4 mm, 2.0 mm pitch, y = 101.6, x 121.75-131.75). Round the
-   row, the shell is solid all the way down onto the board (the dock land).
-   It presses 0.05 mm on the solder mask, so each window is closed off from
-   the parts. The pogo pins reach 2.5 mm down through the shell top.
-2. **The screw hole** in the wrist face. It is countersunk, and the head
-   sits 0.2 mm below flush.
+1. **Six dock contacts set into the case top.** Each is a gold-plated
+   Ø1.0 mm pin, 2.5 mm long, soldered upright on its dock pad J601 (pads
+   Ø1.4 mm, 2.0 mm pitch, y = 101.6, x 121.75-131.75). The pin passes up
+   through a Ø1.05 mm bore in the case top and ends flush with the outer face.
+   - The bore is sealed with epoxy or UV resin, so no path is left for
+     sweat.
+   - Round the row, the case top (the dock land) sits right on the board.
+     A 0.3 mm relief at each bore leaves room for the solder fillet.
+   - The webs between bores are 0.95 mm.
+2. **The screw hole** in the wrist face is filled by the countersunk M2
+   screw, with the head 0.2 mm below flush.
 
 The strap slots go through the strap loops only, outside the closed body.
 
@@ -92,6 +97,25 @@ F side. Together they clamp the board.
 | Foam | foam tape under the cell: 1.5 mm for a 4 mm cell, 0.5 mm for a 5 mm cell |
 | Kapton | one layer over B.Cu under the cell and LRA (board README, compromise 6) |
 | Strap | 16 mm velcro or fabric strap, up to 2 mm thick |
+| Dock contacts | 6 x gold-plated brass pin, Ø1.0 mm x 2.5 mm (see below) |
+| Seal | low-viscosity epoxy or UV-curing resin |
+
+**Dock contact pins.** No catalogue pin is exactly Ø1.0 x 2.5 mm without a
+collar wider than the 2.0 mm pitch allows. Spring pins such as the Mill-Max
+0965 (Ø1.83 mm base) are too wide to sit side by side at that pitch. Use
+one of these:
+
+- Cut them from Ø1.02 mm gold-plated brass post pins, Mill-Max
+  3340-0-00-15-00-00-03-0 (Digi-Key ED1142-ND, about US$0.20 each at 10,
+  6.35 mm long). Check where its collar sits before cutting, and keep the
+  plated, uncut end facing outwards.
+- Or order gold-plated Ø1.0 mm brass pins cut to 2.5 mm from a pin maker.
+
+**Dock side.** The dock needs six spring pins at 2.0 mm pitch whose
+plungers touch these Ø1.0 mm contacts. Mill-Max 0965-0-15-20-80-14-11-0
+(SMT, Ø1.07 mm plunger, 0.3 mm working stroke; Digi-Key ED1649-ND, about
+CA$0.81 each at 10) fits on the dock board if its pads are kept small, or
+use any 2.0 mm pitch pogo strip.
 
 ## Printing
 
@@ -107,23 +131,33 @@ F side. Together they clamp the board.
 
 Every edge that sits on the bed has a 45-degree chamfer with a round above
 it. Nothing overhangs more than 45 degrees, and nothing needs a bridge. The
-Ø1.2 mm dock windows print slightly small: open them with a 1.2 mm drill.
+Ø1.05 mm contact bores print slightly small: open them with a 1.05 mm
+(#58) drill.
 The two pins print standing up on the shell, so print them at 100 % infill.
 
 ## Assembly
 
 1. Press the insert into the shell's boss from below with a soldering
    iron at about 230 C, flush with the end of the boss.
-2. Solder the cell to TP201 (+) and TP202 (-), and the LRA to TP501 (+) and
+2. **Dock contacts.**
+   - Put solder paste on the six dock pads.
+   - Stand the six pins upright on the pads, using a jig: a strip with six
+     Ø1.05 mm holes at 2.0 mm pitch, 2 mm thick, in FR4 or aluminium. Don't
+     use the printed shell, because it would melt.
+   - Reflow with hot air and check the pins stand square.
+3. Solder the cell to TP201 (+) and TP202 (-), and the LRA to TP501 (+) and
    TP502 (-). All four pads are on B. Put kapton over B.Cu.
-3. Optional: run a thin bead of silicone round the six windows on the
-   inside of the shell top. Then lay the board in the shell, parts first.
-4. Stick the LRA's adhesive face onto the cover's pedestal between the two
+4. Lay the board in the shell, parts first, with the pins going up into
+   their bores. Check that each pin end is flush with the outer face.
+5. From outside, put a drop of thin epoxy or UV resin on each pin so it
+   wicks into the bore, cure it, and wipe the face clean. Each contact is
+   now sealed into the case.
+6. Stick the LRA's adhesive face onto the cover's pedestal between the two
    arcs, lead tab towards TP501. Put foam tape in the cell bay.
-5. Lower the cover straight onto the shell. The ridge locates it, and the
-   two pins press into the cover's end wall.
-6. Fit the screw from the wrist side and stop when it's snug.
-7. Thread the strap through both loops.
+7. Lower the cover straight onto the shell. The ridge locates it, and the
+   two pins at the antenna end press into the cover's end wall.
+8. Fit the screw from the wrist side and stop when it's snug.
+9. Thread the strap through both loops.
 
 ## Checks (2026-11-06)
 
@@ -134,12 +168,15 @@ The two pins print standing up on the shell, so print them at 100 % infill.
 - **Wall thickness**, sampled by rays from several thousand surface points
   per part:
   - shell: top and land at least 1.0 mm; the ridge skirt 0.9 mm (0.6 mm at
-    its edge chamfer); window webs 0.8 mm; boss wall 1.2 mm;
+    its edge chamfer); webs between contact bores 0.95 mm; boss wall 1.2 mm;
   - cover: floor 1.0 mm; the ridge lip and the board ledge 0.5 mm; about
     0.6 mm round the pin holes (0.33 mm at the seam chamfer); 0.5 mm web
     between the LRA bay and the screw-boss pocket; LRA arcs 0.5-0.8 mm.
 - **Assembly path:** the cover lowered straight onto the shell touches
   nothing but the two pins, over their last 1.9 mm.
+- **Contact pins:** they clear their bores (0.025 mm a side for the
+  sealant) and don't touch the board, cell or LRA, other than resting on
+  their pads.
 - Both parts are single, valid solids, and SolidCraft imports them as
   closed bodies.
 
@@ -152,15 +189,15 @@ The two pins print standing up on the shell, so print them at 100 % infill.
    - 0.2 mm clearances over the F parts and under B;
    - the screw boss past the LRA end;
    - the 3.6 mm antenna end wall that holds the pins.
-2. **The pogo pins reach through 2.5 mm** of shell to the dock pads.
-   Making that shallower needs a pocket in the outer face, which prints as
-   a bridge.
+2. **The dock contacts need a small jig to solder upright**, and need
+   resin sealing at assembly. They aren't a stock part (see Hardware).
 3. **The antenna end is held by friction pins.** A tilt-in hook, as in the
    first version of this case, doesn't fit now that the board sits right at
    the joint. If the end gaps when the band is off the wrist, the next step
    is a second screw or a snap arm.
-4. **A printed case is not waterproof.** Seal the windows with silicone or
-   conformal coat, as in assembly step 3.
+4. **Sealing depends on the resin at the six contacts** and on the ridge
+   joint. For more than sweat resistance, add a thin gasket or a bead of
+   silicone in the ridge.
 5. **SW201 (DNP) must not be fitted:** at 1.6 mm it is taller than the
    1.1 mm the shell allows for.
 6. **The strap loops are wider than the body** (20.4 mm against 19.3 mm),
