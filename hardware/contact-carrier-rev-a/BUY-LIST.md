@@ -34,6 +34,7 @@ magnets. The rev B dock gets bigger magnets to hold against that (see below).
 | --- | --- | --- | --- |
 | N52 disc magnet Ø3 x 1 mm | 2 | — | dropped into the band's wrist cover during the print |
 | N52 disc magnet for the dock | — | 2 | see the dock README for the size (Ø4 x 1.5 mm on the rev B dock) |
+| Stick-on rubber feet Ø8 mm | — | 4 | fit the four recesses under the rev B dock |
 | Gel epoxy (5-minute or 30-minute) | a drop | — | seals the carrier and its joints inside the wrist cover |
 | Kapton tape, 10-13 mm wide | a strip | — | over B.Cu under the cell, landing pads left clear |
 
