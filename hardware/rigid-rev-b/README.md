@@ -20,7 +20,7 @@ STATUS_PLACEHOLDER
 | KTD2026 LED driver | **IS31FL3193** (C2653363) | Stocked; its I2C inputs work on the 2.0 V bus (VIH 1.4 V). |
 | 2.0 V rail (nPM1304 buck) | **2.0 V from a TPS7A0220 LDO** (U203, C2860934) on PMID | The BQ25125 buck is 1.8 V +/- 2.5 % (1.755 V worst case), too close to the nRF54L10's 1.75 V power-on-reset minimum, and a board that fails reset can't run firmware to fix it. The LDO is 2.0 V +/- 1.5 % (1.97 V minimum), draws 25 nA, and sits in a 1 x 1 mm X2SON. The buck stays fitted but unloaded (VSYS). A BQ2512x with a higher default (BQ25121A, 2.5 V) has 1 in stock. |
 | DRV2605L on VSYS | DRV2605L on **VBAT** | Straight from the cell (2.0-5.2 V). |
-| UART pads beside the dock landings | UART pads (J601 5/6) on F above the SWD landings | Freed room for the charger. |
+| UART pads beside the dock landings, debug LED D701 | **removed** (J601 has the 4 dock landings only) | No routing room at the dock end. Logs go over **SEGGER RTT through the SWD dock pins** (see Firmware setup). |
 | I2C/2.0 V test pads TP702-TP704 | removed | Probe R203/R204 and any 2.0 V capacitor instead. |
 | R209, R210 (/INT and /PG pull-ups) | removed | No routing room; use the nRF54L10's internal pull-ups on P1.05 and P1.06. |
 | KTD2026 on VSYS | IS31FL3193 VCC on **PMID** | Always powered on battery, so its I2C inputs (rated to VCC + 0.3 V) never clamp the shared bus. |
@@ -41,18 +41,24 @@ Unchanged: LIS2DW12, DRV2605L, ESD (TPD1E10B06 x4, SMF12A), the dock series resi
 | 38 | P1.10 | LED_EN | IS31FL3193 SDB (R211 pulls it low) |
 | 39 | P1.11 | CHG_CD | BQ25125 /CD |
 | 13 | P2.02 | LS_CTRL | BQ25125 LSCTRL (LED driver supply) |
-| 18 / 19 | P2.07 / P2.08 | UART_RX / UART_TX | UARTE21; J601 pads 5/6 (bench only) |
-| 37 | P1.09 | LED_DBG | debug LED D701 (not fitted) |
 | 25 / 26 / 30 | SWDIO / SWDCLK / nRESET | dock pins 3/4; TP701 |
 | 1 / 2 | XL1 / XL2 | 32.768 kHz crystal X1 |
 | 34 / 35 | XC1 / XC2 | 32 MHz crystal X2 |
 
 The pins were chosen for the layout: each signal leaves the QFN on the side facing where it goes.
-P1.02/P1.03 (NFC) and the other GPIOs are unconnected.
+P1.02/P1.03 (NFC), P2.07/P2.08 and P1.09 (rev A's UART and debug LED) and the other GPIOs are unconnected.
 
 I2C addresses: LIS2DW12 0x19, DRV2605L 0x5A, IS31FL3193 0x68, BQ25125 0x6A.
 
 ## Firmware setup
+
+### Logs: SEGGER RTT, no UART
+
+Rev B has no UART pads. Log over **RTT** through the SWD dock pins (J601 3/4) with any J-Link or
+the nRF54L DK's on-board debugger: in Zephyr set `CONFIG_USE_SEGGER_RTT=y`, `CONFIG_LOG_BACKEND_RTT=y`
+and `CONFIG_UART_CONSOLE=n` (or `CONFIG_RTT_CONSOLE=y`), then read with `JLinkRTTViewer` or
+`west rtt`. RTT works on the dock while the band charges. Disable it in release builds so the
+debug domain powers down.
 
 ### nRF54L10
 

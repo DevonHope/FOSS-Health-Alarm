@@ -57,7 +57,8 @@ seg('PMID', pcbnew.F_Cu, [pad('C210', '1'), l_in], 0.2)
 seg('VDD_2V0', pcbnew.F_Cu, [pad('C211', '1'), l_out], 0.2)
 # dock landings (B.Cu, J601 1/3/4): vias at the pads' outer edges (as rev A) so the corner nets can leave;
 # the pogo tips land on the flat ENIG at the pad centres (all vias are filled and capped)
-for num, net, p in (('1', 'VIN', (132.35, 114.0)), ('3', 'PAD_SWDCLK', (132.1, 101.4)), ('4', 'PAD_SWDIO', (132.1, 103.6))):
+# (J601.4 / PAD_SWDIO had one too; the routed board leaves that pad on B.Cu, so it was dropped)
+for num, net, p in (('1', 'VIN', (132.35, 114.0)), ('3', 'PAD_SWDCLK', (132.1, 101.4))):
     c = pad('J601', num)
     v = pcbnew.PCB_VIA(b); v.SetPosition(V(p)); v.SetWidth(F(0.45)); v.SetDrill(F(0.3))
     v.SetLayerPair(pcbnew.F_Cu, pcbnew.B_Cu); v.SetNet(b.FindNet('/' + net)); b.Add(v)
@@ -69,12 +70,17 @@ for num, net, p in (('1', 'VIN', (132.35, 114.0)), ('3', 'PAD_SWDCLK', (132.1, 1
         seg(net, pcbnew.B_Cu, [c, mid, p], 0.3)
 # LED driver VCC and SDB (U202 pins 2, 1): vias in the pads' outer ends, 0.25/0.15 (filled and capped)
 fp = b.FindFootprintByReference('U202')
-for num, net in (('2', 'PMID'), ('1', 'LED_EN')):        # VCC and SDB sit between the LED outputs and the board edge
+for num, net in (('2', 'PMID'),):                       # VCC sits between the LED outputs and the board edge (SDB/LED_EN leaves on F.Cu, no via)
     pp = pad('U202', num)
     outer = (round(pp[0] + (0.25 if pp[0] > pcbnew.ToMM(fp.GetPosition().x) else -0.25), 3), pp[1])
     v = pcbnew.PCB_VIA(b); v.SetPosition(V(outer)); v.SetWidth(F(0.25)); v.SetDrill(F(0.15))
     v.SetLayerPair(pcbnew.F_Cu, pcbnew.B_Cu); v.SetNet(b.FindNet('/' + net)); v.SetRemoveUnconnected(True); v.SetKeepStartEnd(True); b.Add(v)
     seg(net, pcbnew.F_Cu, [pp, outer], 0.15)
+# LRA lead pad TP502 (B.Cu, hand-soldered): via in the pad so the leads reach the driver on any layer (rev A had one in TP501)
+for ref, net in (('TP502', 'LRA_N'),):                   # TP501/LRA_P is routed on B.Cu from the pad, no via needed
+    c = pad(ref, '1')
+    v = pcbnew.PCB_VIA(b); v.SetPosition(V(c)); v.SetWidth(F(0.45)); v.SetDrill(F(0.3))
+    v.SetLayerPair(pcbnew.F_Cu, pcbnew.B_Cu); v.SetNet(b.FindNet('/' + net)); b.Add(v)
 pcbnew.SaveBoard(B, b)
 import subprocess; subprocess.run(['python3', os.path.join(HERE, 'mkpro.py')], capture_output=True)
 print('BQ fan-out laid', ball['C3'])

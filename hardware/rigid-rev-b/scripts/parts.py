@@ -31,7 +31,7 @@ def TP(ref, val, net, fp=TP08, desc=""):
     return (ref, "Connector:TestPoint", val, fp, "", "", {"1": net}, [], desc)
 
 
-NRF_NC = ["3", "4", "11", "12", "14", "15", "16", "17", "20", "21", "23", "28", "29", "40", "41", "42"]
+NRF_NC = ["3", "4", "11", "12", "14", "15", "16", "17", "18", "19", "20", "21", "23", "28", "29", "37", "40", "41", "42"]
 PARTS = [
     # ---------------- radio: nRF54L15 (Nordic QFN48 reference circuit, config 1) ----------------
     ("U1", "wakeband:nRF54L10-QFAA", "nRF54L10-QFAA", "wakeband:Nordic_QFN40P600X600X90-48N", "C44800139", "Nordic NRF54L10-QFAA-R7",
@@ -39,7 +39,7 @@ PARTS = [
       "46": "DCC", "45": "DECD", "43": "DECA", "33": "DECA", "34": "XC1", "35": "XC2", "1": "XL1", "2": "XL2",
       "31": "ANT", "32": "GND", "30": "nRESET_IC", "25": "SWDIO", "26": "SWDCLK", "44": "GND", "49": "GND",
       "9": "I2C_SDA", "5": "I2C_SCL", "6": "PMIC_INT", "7": "DOCK_PG", "8": "HAPT_EN", "27": "ACC_INT1", "24": "ACC_INT2",
-      "38": "LED_EN", "39": "CHG_CD", "13": "LS_CTRL", "37": "LED_DBG", "18": "UART_RX", "19": "UART_TX"},
+      "38": "LED_EN", "39": "CHG_CD", "13": "LS_CTRL", },
      NRF_NC, "BLE SoC (nRF54L05/L15-QFAA fit unchanged); I2C on clock pins P1.08/P1.04, interrupts on P0/P1 (wake-capable); pins chosen for the fan-out"),
     # Nordic QFN48 reference layout v0.8: same designators, footprints and pin order (copied layout)
     L("L1", "4.7uH", "C76799", "DCC", "DECD", fp=NL1608, mpn="TDK MLZ1608M4R7WT000", desc="DC/DC inductor"),
@@ -95,7 +95,7 @@ PARTS = [
     C("C206", "10uF", "C96446", "PMID", fp=C0603, desc="PMID and VINLS (>= 10x the LS cap)"),
     C("C205", "10uF", "C96446", "VSYS", fp=C0603, desc="SYS (buck output, unloaded)"),
     C("C202", "2.2uF", "C23630", "VBAT", fp=C0603, desc="BAT"),
-    ("U203", "wakeband:TPS7A0220", "TPS7A0220", "Package_SON:Texas_X2SON-4_1x1mm_P0.65mm", "C2860934", "TI TPS7A0220PDQNR",
+    ("U203", "wakeband:TPS7A0220", "TPS7A0220", "wakeband:Texas_X2SON-4_1x1mm_P0.65mm_SilkTrim", "C2860934", "TI TPS7A0220PDQNR",
      {"4": "PMID", "3": "PMID", "1": "VDD_2V0", "2": "GND", "5": "GND"}, [], "2.0 V logic rail (1.97 V min, clears the nRF54L power-on-reset minimum of 1.75 V)"),
     C("C210", "1uF", "C307385", "PMID", fp=NC0201, mpn="Samsung CL03A105MO3NRNH", desc="LDO input"), C("C211", "1uF", "C307385", "VDD_2V0", fp=NC0201, mpn="Samsung CL03A105MO3NRNH", desc="LDO output"),
     R("R202", "6.65k", "C45194", "ISET", "GND", desc="30 mA charge (200 AOhm / 6.65k)"),
@@ -116,19 +116,13 @@ PARTS = [
     ("D702", "Device:LED_ABGR", "TJ-S1615SW6TGLCCYRGB-A5", "wakeband:LED_TOGIALED_1615_RGB_CommonAnode", "C273610", "TOGIALED TJ-S1615SW6TGLCCYRGB-A5",
      {"1": "VLED", "2": "LED_B", "3": "LED_G", "4": "LED_R"}, [], "RGB status LED"),
     # ---------------- dock contacts and debug ----------------
-    ("J601", "Connector_Generic:Conn_01x06", "Dock landing pads", "wakeband:DockLanding_4xB_D1.6mm_2xUART", "", "",
-     {"1": "VIN", "2": "GND", "3": "PAD_SWDCLK", "4": "PAD_SWDIO", "5": "PAD_RX", "6": "PAD_TX"}, [], "4 B-side pogo landings + 2 UART pads"),
+    ("J601", "Connector_Generic:Conn_01x04", "Dock landing pads", "wakeband:DockLanding_4xB_D1.6mm", "", "",
+     {"1": "VIN", "2": "GND", "3": "PAD_SWDCLK", "4": "PAD_SWDIO"}, [], "4 B-side pogo landings (logs: SEGGER RTT over SWD)"),
     ("D601", "Device:D_Zener", "SMF12A", "Diode_SMD:D_SOD-123F", "C207255", "Littelfuse SMF12A", {"1": "VIN", "2": "GND"}, [], "VIN TVS"),
     ("D602", "Device:D_TVS", "TPD1E10B06", "Package_SON:Texas_DPY0002A_0.6x1mm_P0.65mm", "C48260", "TI TPD1E10B06DPYR", {"1": "PAD_SWDCLK", "2": "GND"}, [], "ESD"),
     ("D603", "Device:D_TVS", "TPD1E10B06", "Package_SON:Texas_DPY0002A_0.6x1mm_P0.65mm", "C48260", "TI TPD1E10B06DPYR", {"1": "PAD_SWDIO", "2": "GND"}, [], "ESD"),
-    ("D604", "Device:D_TVS", "TPD1E10B06", "Package_SON:Texas_DPY0002A_0.6x1mm_P0.65mm", "C48260", "TI TPD1E10B06DPYR", {"1": "PAD_RX", "2": "GND"}, [], "ESD"),
-    ("D605", "Device:D_TVS", "TPD1E10B06", "Package_SON:Texas_DPY0002A_0.6x1mm_P0.65mm", "C48260", "TI TPD1E10B06DPYR", {"1": "PAD_TX", "2": "GND"}, [], "ESD"),
     R("R601", "100", "C25076", "PAD_SWDCLK", "SWDCLK"), R("R602", "100", "C25076", "PAD_SWDIO", "SWDIO"),
-    R("R603", "100", "C25076", "PAD_RX", "UART_RX"), R("R604", "100", "C25076", "PAD_TX", "UART_TX"),
-    R("R605", "100k", "C25741", "UART_RX", "GND", desc="RX idle pull-down"),
-    ("D701", "Device:LED", "red DNP", "LED_SMD:LED_0402_1005Metric", "", "XINGLIGHT XL-1005SURC", {"1": "GND", "2": "LED_A"}, [], "debug LED (not fitted)"),
-    R("R701", "1k DNP", "", "LED_DBG", "LED_A", desc="debug LED (not fitted)"),
     TP("TP401", "ACC_INT2", "ACC_INT2"), TP("TP701", "nRESET", "nRESET"),  TP("TP705", "PMID", "PMID"), TP("TP706", "VBAT", "VBAT"), TP("TP707", "GND", "GND"),
 ]
 FLAGS = ["VIN", "GND", "VBAT", "DECD", "DECA", "REG", "VSYS"]
-DNP = {"C14", "C15", "D701", "R701"}
+DNP = {"C14", "C15"}

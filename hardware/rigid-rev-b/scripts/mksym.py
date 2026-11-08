@@ -75,7 +75,7 @@ def box(d, width=25.4):
 
 
 LDO = dict(
-    name='TPS7A0220', ref='U', fp='Package_SON:Texas_X2SON-4_1x1mm_P0.65mm',
+    name='TPS7A0220', ref='U', fp='wakeband:Texas_X2SON-4_1x1mm_P0.65mm_SilkTrim',
     desc='TI TPS7A0220 2.0 V LDO, 25 nA Iq, X2SON-4 (DQN)', ds='https://www.ti.com/lit/ds/symlink/tps7a02.pdf',
     left=[('4', 'IN', 'power_in'), ('3', 'EN', 'input'), None, ('2', 'GND', 'power_in'), ('5', 'EP', 'passive')],
     right=[('1', 'OUT', 'power_out')])

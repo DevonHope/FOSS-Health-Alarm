@@ -2104,7 +2104,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_SON:Texas_X2SON-4_1x1mm_P0.65mm"
+		(property "Footprint" "wakeband:Texas_X2SON-4_1x1mm_P0.65mm_SilkTrim"
 			(at 0 0 0)
 			(hide yes)
 			(show_name no)

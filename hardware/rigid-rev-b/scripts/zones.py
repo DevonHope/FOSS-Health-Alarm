@@ -9,7 +9,7 @@ b = pcbnew.LoadBoard(B)
 F = pcbnew.FromMM
 POCKET = (100.0, 109.1, 104.2, 115.0)
 for z in list(b.Zones()):
-    if z.GetZoneName() in ('GND pour', 'Antenna keep-out', 'VDD_1V8 plane'): b.Remove(z)
+    if z.GetZoneName() in ('GND pour', 'Antenna keep-out', 'VDD_1V8 plane', 'RF sliver no-pour'): b.Remove(z)
 def outline(z, x0, y0, x1, y1):
     o = z.Outline(); o.NewOutline()
     for x, y in ((x0, y0), (x1, y0), (x1, y1), (x0, y1)): o.Append(F(x), F(y))
@@ -30,6 +30,12 @@ k.SetDoNotAllowZoneFills(True); k.SetDoNotAllowVias(True); k.SetDoNotAllowTracks
 k.SetDoNotAllowPads(False); k.SetDoNotAllowFootprints(False)
 outline(k, POCKET[0] - 0.5, POCKET[1], POCKET[2], POCKET[3] + 0.5)
 b.Add(k)
+# top-layer pour leaves a 0.3 mm spike between L3, C9 and a ground via in the RF match: keep pour out of it
+s_ = pcbnew.ZONE(b); s_.SetIsRuleArea(True); s_.SetZoneName('RF sliver no-pour'); s_.SetLayer(pcbnew.F_Cu)
+s_.SetDoNotAllowZoneFills(True); s_.SetDoNotAllowVias(False); s_.SetDoNotAllowTracks(False)
+s_.SetDoNotAllowPads(False); s_.SetDoNotAllowFootprints(False)
+outline(s_, 105.2, 104.86, 105.75, 105.0)
+b.Add(s_)
 # hand-soldered lead pads: thermal relief so an iron can heat them
 for ref in ('TP201', 'TP202', 'TP501', 'TP502'):
     fp = b.FindFootprintByReference(ref)
