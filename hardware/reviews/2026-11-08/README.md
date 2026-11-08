@@ -53,15 +53,26 @@ DRC with parity 0/0/0/0 and ERC 0 on all three boards.
 - **Dock rev B** (`a2adee6`): USBLC6-2SC6 ESD clamp (U9) on SWCLK/SWDIO, SMF6.0A TVS (D3) on VIN, SWD series resistors 22 -> 100 ohm,
   100 k pull-down (R15) on the SWCLK translator input, current limit R6 33 k (0.21 A), U3.5 via moved and RP2040 thermal-pad paste
   split into 16 windows clear of its vias (no open via under paste, so no filled vias needed), SWDIO out from between the crystal
-  pads, VBUS_F 0.45 mm, silkscreen added. Two new extended parts (SMF6.0A, 0201 100 k). Check D3 and U9 rotation in the preview.
+  pads, VBUS_F 0.45 mm, silkscreen added. New extended parts: SMF6.0A, 0201 100 k and 0201 100 nF (dock), ESD5681N07 (band rev B). Check D3 and U9 rotation in the preview.
 - **Band rev B** (`3bfb257`): In1-only ground void under the RF filter (Nordic's, clipped at x 103.5) with I2C_SDA/SCL rerouted out
   from under it; B-L4 via clearances, C6 back to Nordic's spacing, BQ25125 mask dams 0.11 mm, 8 more GND vias on the 50 ohm feed,
   README text fixes. Fab regenerated (pos.csv: C6 only).
 - **Band rev A** (`d5355a6`): C203 pad 2 solid to GND, U202 EP 1.2 x 0.65 mm with 55 % paste, off-board silkscreen text fixed,
   SWDCLK pad via moved to the pad edge, fab regenerated.
 - **Dock case** (`c4aaf5b`): band recess clearance 0.15 mm (was 0.3).
-- **Still open, needs a re-layout:** dock RP2040 core-cap placement and 3 extra 100 nF (no room beside the USB/QSPI routing), dock
-  XOUT on an inner layer, and band rev B B-L3 (ESD parts next to the dock contacts; that area is under the case land and LED window).
+- **Re-layout** (user: "continue with the relayout"):
+  - Dock rev B (`eefb655`): flash U2 turned 180 deg and moved, QSPI 4-16 mm (was up to 27); C15 (1 uF VREG_VOUT) 1.0 mm from
+    pin 45; new 100 nF at ADC_AVDD (C22), USB_VDD/IOVDD (C23) and DVDD (C24). XOUT stays on In2: the 3225 crystal's diagonal
+    pads can't reach the top layer, and every stocked 12 MHz 2520 crystal is 120-150 ohm ESR (target <= 50).
+  - Band rev B (`c4c6c1e`): D602/D603 within 1.4-2.1 mm of the contacts (were 22-23 mm); D601 is now an ESD5681N07 (7 V
+    standoff, 16 V clamp, C240204) 3.4 mm from VIN (was ~14 mm, SMF12A). The dock's SMF6.0A and 0.21 A limit cover surges.
+- **Verification** ([`verification/`](verification)): three fresh reviewers re-checked every fix by parsing the files, and
+  KiCad 10 DRC (with parity, saved fill and fresh refill) / ERC is 0 on all boards. Case clash checks with the moved parts:
+  band rev B 0 overlaps, dock 0 overlaps. All items PASS; follow-ups being fixed: dock U2 pin-1 dot left at the old spot,
+  VBUS_F 0.31 mm from J1's shield slot, stale dock README text, band rev B title block still says rev A, D601 GND via
+  near the GND landing centre.
+- **Still open:** dock XOUT on an inner layer (above), and band rev B CPL rotations / panel tabs, which stay a JLC preview
+  and handling step.
 
 ## Band rev B
 
