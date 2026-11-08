@@ -1,5 +1,8 @@
 # WakeBand dock rev A
 
+> **Superseded for printing by [dock rev B](../dock-rev-b)** (sleeker shell, strap saddles, Ø4 x 1.5 mm
+> magnets). The dock PCB in `pcb/` is used by both.
+
 Charges the band and programs it from a computer over one USB-C cable.
 
 You set the band **wrist side down** in the dock's recess. Two magnets pull
@@ -46,8 +49,10 @@ band's charge LED faces up while it sits in the dock.
 | -6.34 | dock PCB bottom |
 | -8.24 | bottom of the tray |
 
-- **Spring pins:** 4 x Mill-Max **0906-4-15-20-72-14-11-0** (through-hole, low-force spring 72,
-  1.40 mm stroke) on the dock PCB at the band's contact positions
+- **Spring pins:** 4 x Mill-Max **0906-4-15-20-75-14-11-0** (through-hole, 1.40 mm stroke; changed
+  2026-11-08 from the low-force -72 spring, which is a factory special order with no stock or price at
+  Mouser; the -75 is stocked, same size, about 60 g each at mid-stroke instead of 45 g, 240 g for four.
+  Use the **rev B dock** (`../dock-rev-b`), whose Ø4 x 1.5 mm magnets hold the band against that) on the dock PCB at the band's contact positions
   (x 131.5, y 101.1 / 103.3 / 111.7 / 113.9). Their plungers rise through
   Ø1.5 mm guide bores in the top plate; when the band is down they are at
   mid-stroke (0.70 mm).
@@ -82,7 +87,7 @@ assembly; the four spring pins are hand-soldered.
 | Rails | XC6206P332MR 3.3 V (C2897477), XC6206P182MR 1.8 V (C21659) | |
 | SWD level shift | 74LVC1T45 (C168856) for SWCLK, TXS0101 (C132604) for SWDIO, 22 R series | band side at 1.8 V, so 3.3 V never reaches the band |
 | Band power | SY6280AAC (C55136), Rset 15 k (C25756) | current-limited switch, about 0.45 A (the part's minimum is 0.4 A), behind the PTC |
-| Pins | 4 x Mill-Max 0906-4-15-20-72-14-11-0 | hand-soldered; the GND pin (P3) has a thermal relief so it solders by hand |
+| Pins | 4 x Mill-Max 0906-4-15-20-75-14-11-0 (stocked; was -72, special order) | hand-soldered; the GND pin (P3) has a thermal relief so it solders by hand |
 
 **Why these translators.** The stock firmware has no direction pin for
 SWDIO (GPIO14 drives, GPIO13 reads the same line), so SWDIO needs an
