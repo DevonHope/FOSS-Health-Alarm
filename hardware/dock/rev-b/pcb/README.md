@@ -5,10 +5,12 @@ The board inside the charging dock: USB-C in, an RP2040 running Raspberry Pi's `
 current-limited 5 V feed to the band's VIN pin. Four Mill-Max spring pins on top touch the band's four
 contacts (VIN, GND, SWDCLK, SWDIO).
 
-For the rev B dock housing ([`../case`](../case)). **Same circuit and layout as dock PCB rev A**
-([`../../rev-a/pcb`](../../rev-a/pcb)); the differences are the stocked spring pins
-(Mill-Max **0906-4-15-20-75-14-11-0**, already the part number here), the rev B title block, and its own
-fab files with the merged-LED BOM. Order this one with the rev B dock.
+For the rev B dock housing ([`../case`](../case)). It started as dock PCB rev A
+([`../../rev-a/pcb`](../../rev-a/pcb), now superseded) with the stocked spring pins
+(Mill-Max **0906-4-15-20-75-14-11-0**); the 2026-11-08 review then changed both circuit and layout:
+ESD/TVS on the four pins, a SWCLK pull-down, the band current limit down to 0.21 A, the RP2040
+decoupling at its supply pins, the flash turned, no open vias under paste, and a silkscreen legend (see
+"Review fixes" below). Order this one with the rev B dock.
 
 | File | What |
 | --- | --- |
@@ -59,8 +61,8 @@ a fixed-direction 74LVC1T45.
 fan-out, and ground-stitched to the solid In1 plane.
 
 **Trace audit (2026-11-07, same checks as the band board):** every segment
-at 0, 45 or 90 degrees, every bend 45 degrees, no stair-steps (no segment
-under 0.3 mm between bends), no overlapping same-net tracks, every track end
+at 0, 45 or 90 degrees, every bend 45 degrees, no stair-steps (no short segment
+between two bends; short pad-entry stubs from a bend into a pad centre are allowed), no overlapping same-net tracks, every track end
 on its pad or via centre, no dangling ends. The router's leftovers were
 re-laid by hand (QSPI fan-out, the RP2040 inner +1V1/+3V3 links, SWD and
 power stubs; C3, C6, C10, C19, R4, R10, R11 and R13 nudged so their pad
@@ -78,7 +80,7 @@ centres line up with 45-degree runs). DRC with parity 0 / 0 / 0, with
 - ESD/TVS on the pins (U9, D3, R11/R12 at 100 R), SWCLK pull-down (R15), band current limit 0.21 A (R6
   33 k): see the table above.
 - SWDIO_DRV no longer runs between the crystal's pads: it drops to B.Cu at RP2040 pin 17. XOUT still
-  runs on In2 (about 7 mm, two vias) under the solid In1 ground. A top-layer XOUT does not fit: the 3225
+  runs on In2 (9.2 mm, two vias) under the solid In1 ground. A top-layer XOUT does not fit: the 3225
   crystal's XIN/XOUT pads are diagonal, so with the RP2040's pin order every rotation either crosses
   XIN and XOUT or sends XIN about 10 mm round the crystal; the one clean option (crystal turned 180
   degrees, XIN up the channel between its pads) puts R1 on top of pin 23's +1V1 stub and C16, and R1
@@ -121,8 +123,9 @@ the RP2040, SOT-23 parts and USB-C rotations in the JLCPCB preview.
 1. Download `debugprobe.uf2` from the latest release of
    https://github.com/raspberrypi/debugprobe (the build for the Raspberry Pi
    Debug Probe; this board copies its pin map, so no rebuild is needed).
-2. Hold **BOOTSEL** (a pin through the poke hole) and plug in USB-C. The
-   dock appears as a drive called `RPI-RP2`.
+2. Plug in USB-C. A blank RP2040 (no firmware in the flash yet) comes up as a drive called `RPI-RP2`
+   on its own. To get back to the bootloader later, run `picotool reboot -u -f`, or take the top plate
+   off and hold **BOOTSEL** (SW1) while plugging in: the rev B case has no poke hole.
 3. Copy `debugprobe.uf2` onto it. The dock restarts as "Debug Probe
    (CMSIS-DAP)", and the USB LED (D1) lights.
 4. **Recovery:** if the RP2040 won't show the drive, the pads on the
