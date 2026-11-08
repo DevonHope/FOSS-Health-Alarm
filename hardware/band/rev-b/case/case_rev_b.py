@@ -6,7 +6,8 @@
 2. Dock land: rev A pressed a solid land onto F.Cu from x 119.8 to the board end over the top pin pair;
    rev B has the charger's inductor and capacitors under the start of it, so the land starts at x 127.6
    (still over the whole top spring-pin pair at x 131.5, on pads and solder mask only).
-The cover, contact carrier, spring pins, magnets, dock and strap are unchanged from rev A.
+The cover, contact carrier, spring pins, magnets, dock and strap are unchanged from rev A; the cover is
+exported here as wakeband-case-rev-b-cover.{step,stl} so this folder holds both printed parts.
 usage (needs build123d): python case_rev_b.py OUT_DIR [board.step cell.step lra.step]
 """
 import sys
@@ -43,6 +44,10 @@ if __name__ == "__main__":
     p = A.to_step_frame(shell); p.label, p.color = "case shell", Color(0.20, 0.22, 0.25)
     export_step(p, str(out / "wakeband-case-rev-b-shell.step"))
     export_stl(p, str(out / "wakeband-case-rev-b-shell.stl"), tolerance=0.01, angular_tolerance=0.1)
+    # the wrist cover is rev A's, unchanged; exported here too so this folder holds every printed part
+    c = A.to_step_frame(cover); c.label, c.color = "case wrist cover", Color(0.85, 0.85, 0.82)
+    export_step(c, str(out / "wakeband-case-rev-b-cover.step"))
+    export_stl(c, str(out / "wakeband-case-rev-b-cover.stl"), tolerance=0.01, angular_tolerance=0.1)
     if len(sys.argv) > 4:
         asm = A.assembly_in_design_frame(sys.argv[2:5])
         hits = A.clash((("shell", shell), ("cover", cover)), asm)

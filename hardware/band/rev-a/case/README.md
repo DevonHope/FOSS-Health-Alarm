@@ -180,7 +180,7 @@ the four spring pins can't push it off the ledge.
 | Shell | outer face (top) down on the bed |
 | Cover | wrist face down on the bed; **pause at the first layer above z 1.25 mm** to drop in the magnets |
 
-**Print check (2026-11-08, `../tools/printcheck.py`):** shell and cover are single solids with no
+**Print check (2026-11-08, `../../../tools/printcheck.py`):** shell and cover are single solids with no
 fragments, no overhang past 45 degrees, no bridges and no knife edges. Two fixes on 2026-11-08 (fit
 unchanged): the antenna-end press-fit pins (shell) and their holes (cover) moved 0.2 mm inward so the
 cover keeps 0.8 mm outside the holes, and the 0.5 mm web between the cover's screw-boss pocket and the

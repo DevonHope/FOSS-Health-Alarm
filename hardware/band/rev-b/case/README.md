@@ -17,8 +17,8 @@ opening, so the case stays sealed. Checked on the built rev B shell: solid from 
 LED, against 8.8 to 10.0 beside it. Print in a light or translucent colour; through dark filament the
 LED is hard to see (see `../../rev-a/case/README.md`, Charge LED).
 
-**Printing:** shell **top face down** (as rev A's), no supports; print the rev A cover
-(`../../rev-a/case`), wrist face down. **Print check (2026-11-08, `../tools/printcheck.py`):** one solid, no
+**Printing:** shell **top face down** (as rev A's), no supports; print the cover from this folder
+(`wakeband-case-rev-b-cover.stl`, the same part as rev A's), wrist face down, pausing at z 1.25 mm for the magnets. **Print check (2026-11-08, `../../../tools/printcheck.py`):** one solid, no
 overhang past 45 degrees, no bridges, no knife edges; the only wall under 0.8 mm besides the 0.4 mm LED
 skin is 0.75 mm, for 0.7 mm of height, between the M2 heat-set insert hole and the shell's inside face
 below the board (both fit-critical; the insert melts into it anyway).
@@ -26,6 +26,7 @@ below the board (both fit-critical; the insert melts into it anyway).
 | File | What |
 | --- | --- |
 | `wakeband-case-rev-b-shell.step` / `.stl` | outer shell (print this) |
+| `wakeband-case-rev-b-cover.step` / `.stl` | wrist cover (print this; identical to rev A's cover) |
 | `case_rev_b.py` | builds the shell from `../../rev-a/case/case_rev_a.py` |
 
     python case_rev_b.py OUT_DIR BOARD_STEP CELL_STEP LRA_STEP

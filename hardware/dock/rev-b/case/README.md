@@ -63,7 +63,7 @@ PETG (or PLA: the dock is not worn), no supports.
 | Top plate | underside (flat, z -2.05) down | magnet pockets, LED windows and locating holes open downward; the only bridge is the 0.6 mm-high pocket over the USB-C shell (about 8 mm span), easy in PETG |
 | Tray | floor down | no bridges; locating pins chamfered; foot rings are 0.5 mm grooves |
 
-**Print check (2026-11-08, `../tools/printcheck.py`):** both parts are one solid with no fragments;
+**Print check (2026-11-08, `../../../tools/printcheck.py`):** both parts are one solid with no fragments;
 no face overhangs more than 45 degrees; no knife edges; no wall under 0.8 mm except the intended
 0.2 mm magnet skins and 0.4 mm LED skins; the USB-C pocket is the only bridge over 5 mm.
 - Print the top plate in a light or translucent colour so the LEDs show through the 0.4 mm skin.
