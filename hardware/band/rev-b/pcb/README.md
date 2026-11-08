@@ -14,8 +14,8 @@ experiments only; don't sell or distribute it as a product.
 0.2 mm jog (see Routing). Not built or tested yet.
 Review fixes of 2026-11-08 applied (`scripts/review_fixes_2026_11_08.py`): In1-only RF filter void with
 I2C_SDA/I2C_SCL moved out from under the filter (B-L1), courtyard via rules (B-L4), C6 at Nordic's
-position (B-L5), U201 mask dams (B-L6), feed stitching vias (B-L7). Not done: B-L3 (ESD parts next to the
-dock contacts), see Routing.
+position (B-L5), U201 mask dams (B-L6), feed stitching vias (B-L7). B-L3 (ESD clamps next to the dock
+contacts) done in a second pass (`scripts/relayout_esd_2026_11_08.py`, run after the first), see Routing.
 
 ## What changed from rev A
 
@@ -31,7 +31,8 @@ dock contacts), see Routing.
 | R209, R210 (/INT and /PG pull-ups) | removed | No routing room; use the nRF54L10's internal pull-ups on P1.05 and P1.06. |
 | KTD2026 on VSYS | IS31FL3193 VCC on **PMID** | Always powered on battery, so its I2C inputs (rated to VCC + 0.3 V) never clamp the shared bus. |
 
-Unchanged: LIS2DW12, DRV2605L, ESD (TPD1E10B06 x4, SMF12A), the dock series resistors.
+Unchanged: LIS2DW12, DRV2605L, SWD ESD (TPD1E10B06), the dock series resistors. The VIN TVS is now an
+ESD5681N07 (DFN1006, C240204) instead of rev A's SMF12A (SOD-123F), so it fits next to the dock contacts (review B-L3).
 
 ## nRF54L10 pin map
 
@@ -236,22 +237,37 @@ reference). The shunt caps' other GND vias reach In2 and B.Cu, and C6 is back at
   0.11 mm, above JLCPCB's 0.10 mm minimum (B-L6).
 - **Trace audit** (`scripts/route/audit.py`): 0/45/90-degree segments only; no bend sharper
   than 45 degrees; no step shorter than 0.3 mm between bends; every track end on a pad or via
-  centre; no overlapping or dangling copper. 513 segments and 168 vias pass. One exception: PMID
+  centre; no overlapping or dangling copper. 517 segments and 172 vias pass. One exception: PMID
   jogs 0.2 mm between test pads TP203 and TP707 (131.7, 107.25). The pads are 1.6 mm apart with
   CHG_MR beside them, and any single 45-degree line comes within 0.06 mm of one pad.
-- **Ground stitching:** In1 is one GND fill with no tracks on it (only the RF filter void above). 85 GND
+- **Ground stitching:** In1 is one GND fill with no tracks on it (only the RF filter void above). 87 GND
   vias. Every In2 fill island has at least 2. The 0.36 mm feed (RF_50/ANT_FEED, C11 to the antenna
   keep-out) has 9 GND vias within 1 mm of its centre line (0.57-0.79 mm; 8 of them 0.4/0.2 mm, added in
   the 2026-11-08 review, B-L7), on both sides where R2 and the C14/C15 pads leave room; none fit inside
   the keep-out or between the feed and the C14/C15 pads. There are 4 along the antenna keep-out's inner
-  edges. Top and bottom pours: 16 of 38 islands have 2 or more vias.
+  edges. Top and bottom pours: 18 of 39 islands have 2 or more vias.
   The rest are small fragments between routes, held by one via plus their parts' GND pads; there is
   no room left for a second via that clears every layer (`scripts/route/stitch.py` tries).
-- **ESD parts (review B-L3, not changed):** D601-D603 and R601/R602 sit 12-30 mm of trace from the dock
-  contacts. They can't move next to J601 without a re-layout: the case's dock land covers the top side
-  over the SWD pin pair (x >= 127.6, y < 103.2), the space beside it holds U501, C502 and TP203, and at the
-  VIN contact the LED D702 (fixed under the case window), TP705 and U202 fill the top side; parts can't go
-  on the bottom (top-side assembly only). Next spin.
+- **ESD clamps at the dock contacts (review B-L3, `scripts/relayout_esd_2026_11_08.py`):** each J601 landing
+  (B.Cu circles at x 131.5) goes through one via that touches the landing and a short F.Cu run straight into
+  its clamp pad; the rest of the net leaves from the clamp pad, so a hit on a contact is clamped before it
+  reaches anything else. Copper path, landing centre to clamp pad: SWDCLK 2.7 mm (was 22.1), SWDIO 2.0 mm
+  (was 23.3), VIN 4.2 mm (was 14.1, mostly In2). Each clamp has its own GND via beside its GND pad.
+  - D602 (SWDCLK, at 130.9, 104.0) and D603 (SWDIO, at 132.1, 103.85) sit right of U501, just below the
+    case's dock land (x >= 127.6, y < 103.2, which only touches pads and mask). SWDCLK continues on F.Cu
+    to the In2 via at 129.05, 103.65, SWDIO through a via at 131.5, 104.6 to B.Cu; both then follow the old
+    routes to R601/R602 (the series resistors stay by U1: no room beside the clamps). C502 (U501 REG) moved
+    0.3 mm down and turned horizontal (131.5, 105.38).
+  - PMID used to run down F.Cu at x 132.6 past the clamps; it now hops to B.Cu between the two SWD landings
+    (via 132.45, 102.2) and back to F.Cu beside TP203 (via 132.45, 106.6).
+  - D601 is now an ESD5681N07 (Will Semi, DFN1006, C240204): 7 V standoff, 8 V minimum breakdown, 11 V
+    clamp at 8 kV ESD and 16 V at 27 A 8/20 us, against the BQ25125 IN rating of 20 V (the SMF12A's rated
+    clamp was 19.9 V). The dock already clamps its own VIN (SMF6.0A) and limits it to 0.21 A, so the band only
+    has to take ESD and hot-plug spikes. It sits at 131.25, 110.8 (where TP705 was), above the GND landing:
+    VIN via 132.0, 113.3 in the landing, F.Cu under the case post (mask only) to D601.1, then a via at
+    131.25, 109.8 to the old In2 route to the charger; D601.2's GND via drops into the GND landing. The old
+    13 mm In2 run to D601's old place is gone. TP705 (PMID) moved to 127.1, 101.6 on the PMID run along the
+    top edge.
 - The grid router and clean-up tools are in `scripts/route/`; `audit_ops/` holds the point edits
   from the final audit pass.
 
@@ -290,7 +306,7 @@ below sits where the table says (board view, from the part centre). Fix any that
 | X2 32 MHz crystal | top-left (XC1) | 180 is harmless, 90 kills the radio clock |
 | X1 32.768 kHz crystal | non-polar | only check it isn't turned 90 |
 | AE1 chip antenna | feed pad at the top (y 111.1) | 180 swaps feed and NC: no radio |
-| D601 SMF12A TVS | cathode band on the left (VIN) | |
+| D601 ESD5681N07 TVS (DFN1006) | cathode bar at the top (towards y 100, VIN) | unidirectional; reversed it shorts the dock supply |
 
 Not placed: test pads, dock landings, JP201 (solder jumper), C14/C15 (DNP). Solder the cell and LRA
 leads by hand. Sand the tab nubs flush (top edge near x = 122.6; bottom edge near x = 108.5 and
