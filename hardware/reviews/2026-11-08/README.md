@@ -31,6 +31,20 @@ ESD).
 | 4 | Dock | **Top plate rests on the spring-pin barrels** (barrel top = plate underside exactly, bores = barrel diameter). (D-L2) | Any tolerance lifts the plate. | Ø2.1 x 0.5 mm counterbore per pin in the case script. |
 | 5 | Band rev A only | KiCad DRC error: **C203 pad 2 has 1 GND thermal spoke** (needs 2), present in the saved fill and the Gerbers. Also U202 (KTD2026) custom footprint: EP 1.45 x 0.8 mm leaves 0.125 mm to the pins, KiCad's own footprint uses 0.7 x 1.2 mm, and paste is 100 %. Both advisors flagged U202 independently (A-E1, A-L3). | Only if rev A is ever ordered. | Fix spoke, swap U202 footprint, re-plot. |
 
+## What was done with the fix list (2026-11-08)
+
+A separate advisor weighed each proposed fix ([`fix-advisor.md`](fix-advisor.md)); only the ones it backed were applied.
+
+| Fix | Verdict | Result |
+| --- | --- | --- |
+| 1 Dock vias in pads | apply (move vias in the board file) | **Done** on dock rev B (`abf7bc7`, `scripts/dogbone_vias.py`): 27 vias moved, DRC + parity 0/0/0/0, trace audit clean, fab zip re-plotted (CPL/BOM unchanged). Still in a pasted pad: U3 pin 5 (VBUS, boxed in by USB_DP) and the four RP2040 thermal-pad vias, which do sit under paste windows (D-L8). Either accept those 5 or order with filled+capped vias. Dock rev A marked superseded. |
+| 2 Rev B RF ground cut-out | **skip** | Copying Nordic's void would leave the filter over B.Cu I2C_SDA; the solid In1 shields it and costs only ~0.05 pF per node. Documented in the rev B README; `transplant.py` now prints zones it skips. |
+| 3 Rev B rotations | apply, modified | `pos.csv` stays raw (guessed corrections are worse than none); the rev B README now has a pin-1 table for every orientation-critical part to check in JLC's preview, on all four panel copies. |
+| 4 Dock plate on pin barrels | apply, modified | **Done**: 1.9 x 0.6 mm slot over each pin pair (Ø2.1 holes would leave a 0.1 mm web). |
+| D-L3 Dock PCB slides back | apply | **Done**: two rear stops in the tray, 0.2 mm play. Case regenerated: one valid solid each, 0 clashes, print check unchanged. |
+| 5 Rev A C203 / U202 | document only | "Before ordering rev A" note in the rev A README. |
+| Carrier: plunger on solder tail | docs now, geometry after a test print | Home build now reflows the pins into the carrier on a hotplate before it goes into the cover, checks the tails are bare, and tests docking with a 0.3 mm side push. Tightening the recess waits for a test print. |
+
 ## Band rev B
 
 **Major**

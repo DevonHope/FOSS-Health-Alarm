@@ -1,5 +1,8 @@
 # WakeBand dock PCB rev A
 
+> **Superseded by [`../../rev-b/pcb`](../../rev-b/pcb).** The 2026-11-08 review fixes (27 vias moved out of
+> SMD pads) were applied to rev B only. Order rev B.
+
 The board inside the charging dock: USB-C in, an RP2040 running Raspberry Pi's `debugprobe` firmware
 (a USB CMSIS-DAP probe, so the computer can flash the band and read its log over SEGGER RTT), and a
 current-limited 5 V feed to the band's VIN pin. Four Mill-Max spring pins on top touch the band's four

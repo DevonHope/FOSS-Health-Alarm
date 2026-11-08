@@ -64,7 +64,7 @@ on its pad or via centre, no dangling ends. The router's leftovers were
 re-laid by hand (QSPI fan-out, the RP2040 inner +1V1/+3V3 links, SWD and
 power stubs; C3, C6, C10, C19, R4, R10, R11 and R13 nudged so their pad
 centres line up with 45-degree runs). DRC with parity 0 / 0 / 0, with
-`track_not_centered_on_via` as an error; ERC 0. Segments 352, vias 88.
+`track_not_centered_on_via` as an error; ERC 0. Segments 376, vias 88 (after the 2026-11-08 review fix that moved 27 vias out of SMD pads, `scripts/dogbone_vias.py`; still in a pasted pad: U3 pin 5 (VBUS, boxed in by USB_DP) and the four RP2040 thermal-pad vias).
 
 **Cost (rough, JLCPCB, 5 boards):** board about US$10 for a small 4-layer
 order; parts about US$4 a board (RP2040 0.90, flash 1.00, crystal 0.09, the
