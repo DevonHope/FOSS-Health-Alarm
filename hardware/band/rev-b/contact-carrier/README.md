@@ -1,3 +1,5 @@
+> **Superseded by rev C** (2026-11-08 review fixes): [`../../rev-c/contact-carrier`](../../rev-c/contact-carrier)
+
 # WakeBand contact carrier (for band rev B)
 
 > **Identical to the rev A carrier** ([`../../rev-a/contact-carrier`](../../rev-a/contact-carrier)): same
@@ -51,7 +53,4 @@ longer 0906 (-3, -4) would run the spring close to full stroke.
 - Pins: Mill-Max 0906-2-15-20-75-14-11-0 (bulk) from Mill-Max, Digi-Key or
   Mouser; buy a few spares.
 
-Assembly is in the case README ("Home build"). Since the 2026-11-08 review the pins are
-soldered into the carrier with paste on a hotplate **before** it goes into the cover, so no solder
-can reach the tails (the tails are what the dock's pins touch). Cut the panel tabs rather than
-snapping them, and sand the ends so the carrier drops into its pocket.
+Assembly is in the case README ("Home build").

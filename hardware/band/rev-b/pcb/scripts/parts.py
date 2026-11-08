@@ -90,7 +90,7 @@ PARTS = [
       "C1": "ISET", "C2": "GND", "C3": "TS", "D1": "GND",
       "E4": "I2C_SDA", "E5": "I2C_SCL", "D2": "PMIC_INT", "D4": "DOCK_PG", "E2": "CHG_CD", "E3": "LS_CTRL", "E1": "CHG_MR"},
      ["D3"], "charger 4.2 V, buck 1.8 V (default, unused), LS/LDO for the LED driver (firmware sets LS mode), I2C 0x6A; BQ25120A fits unchanged"),
-    ("L201", "Device:L", "2.2uH", "Inductor_SMD:L_Murata_DFE201610P", "C337891", "Murata DFE201610E-2R2M", {"1": "SW", "2": "VSYS"}, [], "buck inductor (SYS buck must stay enabled: the BQ25125's /CD and LSCTRL thresholds are referenced to VSYS; output unloaded)"),
+    ("L201", "Device:L", "2.2uH", "Inductor_SMD:L_Murata_DFE201610P", "C337891", "Murata DFE201610E-2R2M", {"1": "SW", "2": "VSYS"}, [], "buck inductor (buck output unused; firmware may turn it off)"),
     C("C201", "1uF", "C52923", "VIN", desc="IN (25 V)"),
     C("C206", "10uF", "C96446", "PMID", fp=C0603, desc="PMID and VINLS (>= 10x the LS cap)"),
     C("C205", "10uF", "C96446", "VSYS", fp=C0603, desc="SYS (buck output, unloaded)"),
@@ -118,7 +118,7 @@ PARTS = [
     # ---------------- dock contacts and debug ----------------
     ("J601", "Connector_Generic:Conn_01x04", "Dock landing pads", "wakeband:DockLanding_4xB_D1.6mm", "", "",
      {"1": "VIN", "2": "GND", "3": "PAD_SWDCLK", "4": "PAD_SWDIO"}, [], "4 B-side pogo landings (logs: SEGGER RTT over SWD)"),
-    ("D601", "Device:D_Zener", "ESD5681N07", "Diode_SMD:D_SOD-882", "C240204", "Will Semi ESD5681N07-2/TR", {"1": "VIN", "2": "GND"}, [], "VIN TVS"),
+    ("D601", "Device:D_Zener", "SMF12A", "Diode_SMD:D_SOD-123F", "C207255", "Littelfuse SMF12A", {"1": "VIN", "2": "GND"}, [], "VIN TVS"),
     ("D602", "Device:D_TVS", "TPD1E10B06", "Package_SON:Texas_DPY0002A_0.6x1mm_P0.65mm", "C48260", "TI TPD1E10B06DPYR", {"1": "PAD_SWDCLK", "2": "GND"}, [], "ESD"),
     ("D603", "Device:D_TVS", "TPD1E10B06", "Package_SON:Texas_DPY0002A_0.6x1mm_P0.65mm", "C48260", "TI TPD1E10B06DPYR", {"1": "PAD_SWDIO", "2": "GND"}, [], "ESD"),
     R("R601", "100", "C25076", "PAD_SWDCLK", "SWDCLK"), R("R602", "100", "C25076", "PAD_SWDIO", "SWDIO"),

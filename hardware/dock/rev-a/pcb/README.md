@@ -1,15 +1,15 @@
 # WakeBand dock PCB rev A
 
-> **Superseded by [`../../rev-b/pcb`](../../rev-b/pcb).** The 2026-11-08 review fixes (27 vias moved out of
-> SMD pads) were applied to rev B only. Order rev B.
+> **Superseded by [`../../rev-c/pcb`](../../rev-c/pcb).** The 2026-11-08 review fixes (27 vias moved out of
+> SMD pads and the rest) are in dock PCB rev C. Order rev C.
 
 The board inside the charging dock: USB-C in, an RP2040 running Raspberry Pi's `debugprobe` firmware
 (a USB CMSIS-DAP probe, so the computer can flash the band and read its log over SEGGER RTT), and a
 current-limited 5 V feed to the band's VIN pin. Four Mill-Max spring pins on top touch the band's four
 contacts (VIN, GND, SWDCLK, SWDIO).
 
-For the rev A dock housing ([`../case`](../case)). The rev B dock has its own copy of this circuit in
-[`../../rev-b/pcb`](../../rev-b/pcb); order that one for new builds.
+For the rev A dock housing ([`../case`](../case)). The current dock board (rev C, from this circuit) is in
+[`../../rev-c/pcb`](../../rev-c/pcb); order that one for new builds.
 
 | File | What |
 | --- | --- |

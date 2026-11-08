@@ -349,7 +349,7 @@ def fix_silkscreen(e):
     text("P2 DIO", 131.5, 104.75)
     text("GND P3", 130.3, 111.7, just=1)
     text("VIN P4", 130.3, 113.9, just=1)
-    text("WakeBand dock rev B", 139.0, 111.0, angle=90)
+    text("WakeBand dock rev C", 139.0, 111.0, angle=90)
 
 
 def strip_new_silk(dst):

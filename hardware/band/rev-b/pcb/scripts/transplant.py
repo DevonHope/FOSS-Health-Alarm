@@ -61,12 +61,7 @@ nz = 0
 for z in ref.Zones():
     o = z.Outline().Outline(0)
     pts = [rel(o.CPoint(i)) for i in range(o.PointCount())]
-    if not all(inside(p) for p in pts):                   # skips Nordic's board-edge keepouts and full pours
-        print('skipped zone', z.GetZoneName() or '(unnamed)', 'keepout' if z.GetIsRuleArea() else 'copper',
-              [ref.GetLayerName(l) for l in z.GetLayerSet().Seq()],
-              'x %.2f..%.2f y %.2f..%.2f (rel. U1)' % (min(q[0] for q in pts), max(q[0] for q in pts),
-                                                    min(q[1] for q in pts), max(q[1] for q in pts)))
-        continue
+    if not all(inside(p) for p in pts): continue          # skips Nordic's board-edge keepouts and full pours
     layers = [ref.GetLayerName(l) for l in z.GetLayerSet().Seq()]
     nz_ = pcbnew.ZONE(b)
     ls = pcbnew.LSET()

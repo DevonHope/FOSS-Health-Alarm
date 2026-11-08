@@ -1,3 +1,5 @@
+> **Superseded by rev C** (2026-11-08 review fixes): [`../../rev-c/pcb`](../../rev-c/pcb)
+
 # WakeBand rigid rev B (KiCad 10 project)
 
 Rev B is rev A rebuilt so that **JLCPCB assembles every part** (no consigned module). It keeps rev
@@ -12,13 +14,6 @@ experiments only; don't sell or distribute it as a product.
 **Status (2026-11-08):** schematic, placement and routing done. ERC 0; DRC 0 at every severity
 (errors and warnings), 0 unconnected, schematic parity 0. Trace audit clean except one forced
 0.2 mm jog (see Routing). Not built or tested yet.
-Review fixes of 2026-11-08 applied (`scripts/review_fixes_2026_11_08.py`): In1-only RF filter void with
-I2C_SDA/I2C_SCL moved out from under the filter (B-L1), courtyard via rules (B-L4), C6 at Nordic's
-position (B-L5), U201 mask dams (B-L6), feed stitching vias (B-L7). B-L3 (ESD clamps next to the dock
-contacts) done in a second pass (`scripts/relayout_esd_2026_11_08.py`, run after the first), see Routing.
-Verification follow-ups (`scripts/followups_2026_11_08.py`, run last): the board title block is now rev B
-(it still carried rev A's title, revision and "mounts parts-side down", and so did the Gerber headers and job
-file; B-L10), and D601's GND via sits at the GND landing's edge instead of under the spring-pin plunger.
 
 ## What changed from rev A
 
@@ -34,8 +29,7 @@ file; B-L10), and D601's GND via sits at the GND landing's edge instead of under
 | R209, R210 (/INT and /PG pull-ups) | removed | No routing room; use the nRF54L10's internal pull-ups on P1.05 and P1.06. |
 | KTD2026 on VSYS | IS31FL3193 VCC on **PMID** | Always powered on battery, so its I2C inputs (rated to VCC + 0.3 V) never clamp the shared bus. |
 
-Unchanged: LIS2DW12, DRV2605L, SWD ESD (TPD1E10B06), the dock series resistors. The VIN TVS is now an
-ESD5681N07 (DFN1006, C240204) instead of rev A's SMF12A (SOD-123F), so it fits next to the dock contacts (review B-L3).
+Unchanged: LIS2DW12, DRV2605L, ESD (TPD1E10B06 x4, SMF12A), the dock series resistors.
 
 ## nRF54L10 pin map
 
@@ -113,7 +107,7 @@ debug domain powers down.
   then raise LS_CTRL. The watchdog undoes this after 50 s without I2C in host mode: the LED just
   goes dark, nothing is damaged.
 - **Battery level:** read VBMON (reg 0x0A): the battery voltage as a percentage of VBATREG, in 2 % steps.
-- **Ship mode:** with VIN absent, /CD high and /MR high, write EN_SHIPMODE. The cell then sees about 2 nA (the DRV2605L on VBAT adds its 4-7 uA shutdown current; see Power budget). The dock (VIN) or shorting TP203 (/MR) to GND wakes it; the nRF54L10 then starts from reset.
+- **Ship mode:** with VIN absent, /CD high and /MR high, write EN_SHIPMODE. The cell then sees about 2 nA (the DRV2605L on VBAT adds its shutdown current). The dock (VIN) or shorting TP203 (/MR) to GND wakes it; the nRF54L10 then starts from reset.
 
 ### IS31FL3193
 
@@ -174,7 +168,7 @@ at night, one wake buzz). Datasheet typicals; the stage 0 bench measurement repl
 | TPS7A0220 LDO (2.0 V rail) | 0.025 uA | plus the rail's own loads at the cell's current (no buck gain) |
 | nRF54L10 System ON idle, LFXO + GRTC running | about 2 uA | DC/DC on |
 | LIS2DW12 low-power mode, 12.5-25 Hz | about 1-2 uA | |
-| DRV2605L shut down (EN low), on VBAT | 4 uA typical, up to 7 uA | TI datasheet (EN = 0, VDD = 3.6 V); straight from the cell, see below |
+| DRV2605L shut down (EN low), on VBAT | up to 4 uA | datasheet max; typical is lower |
 | IS31FL3193 hardware shutdown (SDB low), on PMID | up to 2.5 uA | datasheet max |
 | Waking once a minute to read the accelerometer FIFO | a few uA | |
 | BLE: an occasional sync or advertising burst | a few uA | |
@@ -184,13 +178,9 @@ at night, one wake buzz). Datasheet typicals; the stage 0 bench measurement repl
 
 A 60 mAh cell lasts about two months between charges. The charge LED is off when the band
 is off the dock. The LS/LDO output (VLED) is switched off, so neither the LED nor its driver's
-outputs draw anything; the driver itself sits in hardware shutdown on PMID. Ship mode is for
-storage: the BQ25125 then draws about 2 nA and the IS31FL3193 loses its supply with PMID, but the
-DRV2605L runs from raw VBAT (before the BQ's battery FET), so neither ship mode nor the 3.0 V BUVLO
-cut-off disconnects it: it keeps drawing its 4-7 uA shutdown current. That would drain a flat cell to
-0 V in a few weeks; the 60 mAh cell (X2 Robotics) is a protected cell, and its own protection
-circuit stops the deep discharge. Keep this in mind if the cell changes (use a protected cell, or move
-the DRV2605L supply to PMID).
+outputs draw anything; the driver itself sits in hardware shutdown on PMID. Ship mode (about
+2 nA plus the DRV2605L and IS31 shutdown currents, which then have no supply because PMID
+drops) is for storage.
 
 **PMID and the LDO:** off the dock the BQ25125 runs PMID from the cell through its battery FET (at
 most 160 mV drop at 400 mA; microvolts at our currents), in active and Hi-Z modes alike. The BQ cuts
@@ -210,68 +200,24 @@ default). Every I2C part reads 2.0 V as high: BQ25125 (thresholds 0.75 x its 1.8
 ## Routing
 
 4-layer, 0.8 mm: F.Cu signals and parts, In1.Cu solid ground, In2.Cu signals plus ground pour,
-B.Cu signals plus ground pour and the dock landings. Ground pours on all four layers. In1 is solid
-under the radio and the 50 ohm feed, with one void under the RF filter (below); In2 is solid GND
-under the filter and is its reference plane.
-
-**RF filter void (review 2026-11-08, B-L1):** Nordic's layout voids In1 and In2 under the RF filter
-(L2/L3/L4, C6/C9/C11) out to the board edge; that void belongs to Nordic's 1.6 mm board, where the
-0.76 mm RF line is referenced to the bottom layer, and `scripts/transplant.py` skipped it (it lies past
-the copy box). Rev B copies it on **In1 only** (rule area "Nordic ref (In1 only): RF filter void":
-no pour or tracks, vias allowed), clipped at x >= 103.5 so the 50 ohm feed keeps its In1 reference:
-(106.832,105.961) (106.832,104.793) (104.495,104.793) (104.114,104.412) (103.5,104.412) (103.5,105.986)
-(103.809,105.986) (104.19,105.605) (106.197,105.605) (106.197,105.961). In2 GND (0.47 mm down) is
-the filter's reference instead, so no signal runs on In2 or B.Cu inside x 102.5-106.9, y 103.8-106.6:
-I2C_SDA (B.Cu) used to run straight under the ladder at y 105.2 and now passes above it (y 102.6-103.6,
-round the ACC_INT1 via, which moved 0.57 mm up its own diagonal to (105.95, 103.2)); I2C_SCL drops to
-B.Cu at (101.3, 104.6), left of the feed, and crosses under the feed at y 108.7. Nordic's small void
-under the C9 ground island stays on In1 (it overlaps the new one) and was removed from In2, so the
-island's vias tie it to In2 and B.Cu, the planes under the filter (Nordic ties it to their bottom
-reference). The shunt caps' other GND vias reach In2 and B.Cu, and C6 is back at Nordic's position
-(B-L5).
+B.Cu signals plus ground pour and the dock landings. Ground pours on all four layers; In1 is unbroken
+under the radio and the RF line.
 
 - **Radio corner:** Nordic's QFN48 reference placement and vias, with the copper redrawn to the
   house rules. The antenna corner is a keep-out on every layer (no pour, no vias).
 - **Charger:** the BQ25125's 0.4 mm ball grid fans out with 0.25/0.15 mm vias in the balls,
   which must be **filled and capped (POFV)**. So must the LED driver's VCC pin via (U202.2) and the
-  via in TP502. Only these 0.15 mm-hole vias get the relaxed POFV clearances (`.kicad_dru`, hole < 0.16 mm);
-  ordinary vias inside the U201/U202 courtyards keep 0.2 mm hole-to-copper (B-L4). The ball mask openings
-  are 0.29 mm (0.03 mm margin on the 0.23 mm pads, not the datasheet's 0.31 mm) so the mask dams are
-  0.11 mm, above JLCPCB's 0.10 mm minimum (B-L6).
+  via in TP502.
 - **Trace audit** (`scripts/route/audit.py`): 0/45/90-degree segments only; no bend sharper
   than 45 degrees; no step shorter than 0.3 mm between bends; every track end on a pad or via
-  centre; no overlapping or dangling copper. 518 segments and 172 vias pass. One exception: PMID
+  centre; no overlapping or dangling copper. 510 segments and 158 vias pass. One exception: PMID
   jogs 0.2 mm between test pads TP203 and TP707 (131.7, 107.25). The pads are 1.6 mm apart with
   CHG_MR beside them, and any single 45-degree line comes within 0.06 mm of one pad.
-- **Ground stitching:** In1 is one GND fill with no tracks on it (only the RF filter void above). 87 GND
-  vias. Every In2 fill island has at least 2. The 0.36 mm feed (RF_50/ANT_FEED, C11 to the antenna
-  keep-out) has 9 GND vias within 1 mm of its centre line (0.57-0.79 mm; 8 of them 0.4/0.2 mm, added in
-  the 2026-11-08 review, B-L7), on both sides where R2 and the C14/C15 pads leave room; none fit inside
-  the keep-out or between the feed and the C14/C15 pads. There are 4 along the antenna keep-out's inner
-  edges. Top and bottom pours: 18 of 39 islands have 2 or more vias.
+- **Ground stitching:** In1 is one unbroken GND fill with no tracks on it. 77 GND vias. Every In2
+  fill island has at least 2. The RF feed has 12 GND vias within 1 mm of it, and there are 4 along
+  the antenna keep-out's inner edges. Top and bottom pours: 15 of 37 islands have 2 or more vias.
   The rest are small fragments between routes, held by one via plus their parts' GND pads; there is
   no room left for a second via that clears every layer (`scripts/route/stitch.py` tries).
-- **ESD clamps at the dock contacts (review B-L3, `scripts/relayout_esd_2026_11_08.py`):** each J601 landing
-  (B.Cu circles at x 131.5) goes through one via that touches the landing and a short F.Cu run straight into
-  its clamp pad; the rest of the net leaves from the clamp pad, so a hit on a contact is clamped before it
-  reaches anything else. Copper path, landing centre to clamp pad: SWDCLK 2.7 mm (was 22.1), SWDIO 2.0 mm
-  (was 23.3), VIN 4.2 mm (was 14.1, mostly In2). Each clamp has its own GND via beside its GND pad.
-  - D602 (SWDCLK, at 130.9, 104.0) and D603 (SWDIO, at 132.1, 103.85) sit right of U501, just below the
-    case's dock land (x >= 127.6, y < 103.2, which only touches pads and mask). SWDCLK continues on F.Cu
-    to the In2 via at 129.05, 103.65, SWDIO through a via at 131.5, 104.6 to B.Cu; both then follow the old
-    routes to R601/R602 (the series resistors stay by U1: no room beside the clamps). C502 (U501 REG) moved
-    0.3 mm down and turned horizontal (131.5, 105.38).
-  - PMID used to run down F.Cu at x 132.6 past the clamps; it now hops to B.Cu between the two SWD landings
-    (via 132.45, 102.2) and back to F.Cu beside TP203 (via 132.45, 106.6).
-  - D601 is now an ESD5681N07 (Will Semi, DFN1006, C240204): 7 V standoff, 8 V minimum breakdown, 11 V
-    clamp at 8 kV ESD and 16 V at 27 A 8/20 us, against the BQ25125 IN rating of 20 V (the SMF12A's rated
-    clamp was 19.9 V). The dock already clamps its own VIN (SMF6.0A) and limits it to 0.21 A, so the band only
-    has to take ESD and hot-plug spikes. It sits at 131.25, 110.8 (where TP705 was), above the GND landing:
-    VIN via 132.0, 113.3 in the landing, F.Cu under the case post (mask only) to D601.1, then a via at
-    131.25, 109.8 to the old In2 route to the charger; D601.2's GND via drops into the GND landing at its edge (130.85, 111.7), 0.65 mm from the centre like the
-    other landing vias. The old
-    13 mm In2 run to D601's old place is gone. TP705 (PMID) moved to 127.1, 101.6 on the PMID run along the
-    top edge.
 - The grid router and clean-up tools are in `scripts/route/`; `audit_ops/` holds the point edits
   from the final audit pass.
 
@@ -290,27 +236,6 @@ PCB options: 4 layers, 0.8 mm, JLC04081H-7628 stackup, **ENIG**, **via-in-pad fi
 (POFV)**, 2 panels, "panel by customer". Assembly: Standard, top side, 2 panels. In the placement
 preview, check the rotation of U1, U201, U202, U203, U401, U501, D702, X1, X2 and AE1 (JLC's library
 footprints don't always use KiCad's zero orientation).
-
-**Placement preview is a required step.** `pos.csv` keeps KiCad's raw rotations on purpose: the usual
-KiCad-to-JLC correction tables don't match these footprints (no SOT-23/SOIC parts; the Nordic QFN name isn't
-`QFN-...`), and a guessed correction is worse than none. In JLC's preview, check that pin 1 of each part
-below sits where the table says (board view, from the part centre). Fix any that don't in JLC's interface,
-**separately on all four panel copies** (`_0` to `_3`), then write the confirmed corrections into
-`scripts/panelfab.py` so re-orders keep them.
-
-| Part | Pin 1 should be | Note |
-| --- | --- | --- |
-| U1 nRF54L10 QFN48 | bottom-right (XL1) | usual QFN fix is +270, unconfirmed for this part |
-| U201 BQ25125 DSBGA | top-left (A1, GND) | probably no correction |
-| U202 IS31FL3193 DFN-10 | bottom-right (LED_EN) | DFN +270 is likely |
-| U203 TPS7A02 X2SON-4 | bottom-left (VDD_2V0) | |
-| U401 LIS2DW12 LGA-12 | top-left (I2C_SCL) | |
-| U501 DRV2605L MSOP-10 | top-right (REG) | MSOP/TSSOP +270 is the best-established fix |
-| D702 RGB LED | top-right (VLED, anode) | |
-| X2 32 MHz crystal | top-left (XC1) | 180 is harmless, 90 kills the radio clock |
-| X1 32.768 kHz crystal | non-polar | only check it isn't turned 90 |
-| AE1 chip antenna | feed pad at the top (y 111.1) | 180 swaps feed and NC: no radio |
-| D601 ESD5681N07 TVS (DFN1006) | cathode bar at the top (towards y 100, VIN) | unidirectional; reversed it shorts the dock supply |
 
 Not placed: test pads, dock landings, JP201 (solder jumper), C14/C15 (DNP). Solder the cell and LRA
 leads by hand. Sand the tab nubs flush (top edge near x = 122.6; bottom edge near x = 108.5 and

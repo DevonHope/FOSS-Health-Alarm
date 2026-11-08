@@ -1,7 +1,5 @@
 """Write the DSBGA-25 footprint for the BQ25120A (TI YFP, 5x5 balls, 0.4 mm pitch) to ../wakeband.pretty.
-Land pattern per the datasheet: 0.23 mm round NSMD copper; paste 0.25 mm square (R0.05). Mask opening 0.29 mm
-(margin 0.03) instead of the datasheet's 0.31 mm, so the mask dams between balls are 0.11 mm (JLCPCB's minimum is
-0.10 mm; 0.31 mm openings leave 0.09 mm, review 2026-11-08 B-L6). The opening still clears the 0.25 mm capped via in each ball."""
+Land pattern per the datasheet: 0.23 mm round NSMD copper, mask opening 0.31 mm; paste 0.25 mm square (R0.05)."""
 import os, uuid
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, '..', 'wakeband.pretty', 'TI_DSBGA-25_2.5x2.5mm_Layout5x5_P0.4mm.kicad_mod')
@@ -25,7 +23,7 @@ for r, row in enumerate('ABCDE'):
     for c in range(5):
         x, y = round((c - 2) * P, 3), round((r - 2) * P, 3)
         s += (f'\t(pad "{row}{c + 1}" smd circle\n\t\t(at {x:g} {y:g})\n\t\t(size 0.23 0.23)\n\t\t(layers "F.Cu" "F.Mask")\n'
-              f'\t\t(solder_mask_margin 0.03)\n\t\t(uuid "{U()}")\n\t)\n')
+              f'\t\t(solder_mask_margin 0.04)\n\t\t(uuid "{U()}")\n\t)\n')
         s += (f'\t(pad "" smd roundrect\n\t\t(at {x:g} {y:g})\n\t\t(size 0.25 0.25)\n\t\t(layers "F.Paste")\n'
               f'\t\t(roundrect_rratio 0.2)\n\t\t(uuid "{U()}")\n\t)\n')
 s += '\t(embedded_fonts no)\n)\n'

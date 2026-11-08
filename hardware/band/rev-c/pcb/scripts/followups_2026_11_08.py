@@ -13,7 +13,7 @@ import pcbnew
 
 MM = pcbnew.FromMM
 V = lambda x, y: pcbnew.VECTOR2I(MM(x), MM(y))
-path = sys.argv[1] if len(sys.argv) > 1 else "rigid-rev-b.kicad_pcb"
+path = sys.argv[1] if len(sys.argv) > 1 else "rigid-rev-c.kicad_pcb"
 b = pcbnew.LoadBoard(path)
 keep = []
 near = lambda p, q: abs(p.x - q.x) <= 1000 and abs(p.y - q.y) <= 1000

@@ -14,11 +14,11 @@
   B-E8  L201 Description field: the SYS buck must stay on (matches parts.py and the schematic).
 
 Asserts the starting geometry, so a second run fails. Save keeps the project settings (SaveBoard(..., True)).
-Refill afterwards: kicad-cli pcb drc --refill-zones --save-board rigid-rev-b.kicad_pcb
+Refill afterwards: kicad-cli pcb drc --refill-zones --save-board rigid-rev-c.kicad_pcb
 usage (KiCad python): review_fixes_2026_11_08.py [BOARD]"""
 import os, sys, pcbnew
 HERE = os.path.dirname(os.path.abspath(__file__))
-B = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, '..', 'rigid-rev-b.kicad_pcb')
+B = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, '..', 'rigid-rev-c.kicad_pcb')
 b = pcbnew.LoadBoard(B); F, mm = pcbnew.FromMM, pcbnew.ToMM
 P = lambda x, y: pcbnew.VECTOR2I(F(x), F(y))
 L = {n: b.GetLayerID(n) for n in ('F.Cu', 'In1.Cu', 'In2.Cu', 'B.Cu')}

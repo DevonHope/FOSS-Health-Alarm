@@ -10962,7 +10962,7 @@
 				)
 			)
 		)
-		(property "Description" "buck inductor (SYS buck must stay enabled: the BQ25125's /CD and LSCTRL thresholds are referenced to VSYS; output unloaded)"
+		(property "Description" "buck inductor (buck output unused; firmware may turn it off)"
 			(at 513.08 172.72 0)
 			(hide yes)
 			(show_name no)
@@ -13535,7 +13535,7 @@
 				)
 			)
 		)
-		(property "Value" "ESD5681N07"
+		(property "Value" "SMF12A"
 			(at 327.66 252.38 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13545,7 +13545,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Diode_SMD:D_SOD-882"
+		(property "Footprint" "Diode_SMD:D_SOD-123F"
 			(at 325.12 246.38 0)
 			(hide yes)
 			(show_name no)
@@ -13578,7 +13578,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C240204"
+		(property "LCSC" "C207255"
 			(at 325.12 246.38 0)
 			(hide yes)
 			(show_name no)
@@ -13589,7 +13589,7 @@
 				)
 			)
 		)
-		(property "MPN" "Will Semi ESD5681N07-2/TR"
+		(property "MPN" "Littelfuse SMF12A"
 			(at 325.12 246.38 0)
 			(hide yes)
 			(show_name no)

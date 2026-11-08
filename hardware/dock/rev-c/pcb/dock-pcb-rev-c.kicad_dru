@@ -1,0 +1,7 @@
+(version 1)
+
+# JLCPCB 4-layer: inner-layer via-to-copper clearance 0.2 mm (other nets).
+(rule "inner_via_clearance"
+	(layer inner)
+	(condition "A.Type == 'Via' && A.Net != B.Net")
+	(constraint clearance (min 0.2mm)))

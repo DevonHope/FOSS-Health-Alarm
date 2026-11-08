@@ -8,6 +8,10 @@ were spot-checked again by hand. Nothing in the designs was changed by this revi
 Reviewed at commit `25262a1` (branch `claude/project-thread-vvhma7`). The eight advisor reports are in
 [`advisors/`](advisors).
 
+**The fixed boards now live in [`band/rev-c`](../../band/rev-c) and [`dock/rev-c`](../../dock/rev-c).** Rev B is kept as
+reviewed (restored to `25262a1`); paths below that say `rev-b` describe the reviewed boards, and every fix listed
+here was applied to the rev C copies.
+
 | Board | Files | KiCad 10 ERC / DRC | Blockers | Major (after merging) | Advisor findings (raw) |
 | --- | --- | --- | --- | --- | --- |
 | Band rev B (the one to build) | `band/rev-b/pcb` | 0 / 0, parity 0 | 0 | 3 | 4 Major, 12 Minor, 10 Notes |

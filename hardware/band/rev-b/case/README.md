@@ -1,3 +1,5 @@
+> **Superseded by rev C** (2026-11-08 review fixes): [`../../rev-c/case`](../../rev-c/case)
+
 # WakeBand case rev B (for the rigid rev B board)
 
 Rev A's case (`../../rev-a/case`) with two shell changes. The cover, contact carrier, spring pins,
@@ -35,9 +37,6 @@ below the board (both fit-critical; the insert melts into it anyway).
 and the LRA (the placed models from rev A's `make_placed.py`; rev B keeps the lead pads where they
 were) against the shell and cover: 469 solids, **0 overlaps**. Shell against cover: 0.77 mm3, the
 same intended 0.05 mm press fit as rev A.
-
-Re-checked after the review re-layout (board at c4c6c1e, ESD parts moved next to the dock contacts): 128
-solids (KiCad 10.0.3 packs the models into fewer solids), **0 overlaps**; shell against cover unchanged.
 
 Two parts have no 3D model in KiCad's library: the TPD1E10B06 ESD diodes (D602, D603; 0.6 x 1.0 x
 0.4 mm) and the TPS7A0220 LDO (U203; 1 x 1 x 0.4 mm). At 0.4 mm tall they sit well under the 1.1 mm

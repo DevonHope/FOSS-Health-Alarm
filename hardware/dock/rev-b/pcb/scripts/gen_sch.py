@@ -83,9 +83,9 @@ for k, net in enumerate(parts.FLAGS):
     body += symbol('power:PWR_FLAG', f'#FLG{k+1:02d}', 'PWR_FLAG', '', X, Y, ['1'])
     body += label(net, X, Y, 0)
 head = (f'(kicad_sch\n\t(version 20260306)\n\t(generator "eeschema")\n\t(generator_version "10.0")\n\t(uuid "{ROOT}")\n\t(paper "A3")\n'
-        '\t(title_block\n\t\t(title "WakeBand dock rev B - USB-C charger and SWD probe")\n\t\t(date "2026-11-08")\n\t\t(rev "B")\n'
+        '\t(title_block\n\t\t(title "WakeBand dock rev A - USB-C charger and SWD probe")\n\t\t(date "2026-11-07")\n\t\t(rev "A")\n'
         '\t\t(company "FOSS Health Alarm")\n\t\t(comment 1 "RP2040 running Raspberry Pi debugprobe (Debug Probe pin map: SWCLK GPIO12, SWDI GPIO13, SWDIO GPIO14, LEDs GPIO2/16)")\n'
-        '\t\t(comment 2 "Band side of SWD at 1.8 V (no VTref on the 4 dock pins); VIN 5 V through a 0.21 A switch; ESD/TVS on the 4 pins")\n\t)\n\t(lib_symbols\n')
+        '\t\t(comment 2 "Band side of SWD at 1.8 V (no VTref on the 4 dock pins); VIN 5 V through a 0.45 A switch")\n\t)\n\t(lib_symbols\n')
 txt = head + ''.join(embed(k, v) for k, v in lib_blocks.items()) + '\t)\n' + body
 txt += f'\t(sheet_instances\n\t\t(path "/"\n\t\t\t(page "1")\n\t\t)\n\t)\n\t(embedded_fonts no)\n)\n'
 open(OUT, 'w').write(txt)

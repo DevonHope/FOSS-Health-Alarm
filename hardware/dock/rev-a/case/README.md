@@ -1,6 +1,6 @@
 # WakeBand dock rev A
 
-> **Superseded for printing by [dock rev B](../../rev-b/case)** (sleeker shell, strap saddles, Ø4 x 1.5 mm
+> **Superseded for printing by [dock rev C](../../rev-c/case)** (sleeker shell, strap saddles, Ø4 x 1.5 mm
 > magnets). The dock PCB is in [`../pcb`](../pcb), used by both.
 
 Charges the band and programs it from a computer over one USB-C cable.
@@ -52,7 +52,7 @@ band's charge LED faces up while it sits in the dock.
 - **Spring pins:** 4 x Mill-Max **0906-4-15-20-75-14-11-0** (through-hole, 1.40 mm stroke; changed
   2026-11-08 from the low-force -72 spring, which is a factory special order with no stock or price at
   Mouser; the -75 is stocked, same size, about 60 g each at mid-stroke instead of 45 g, 240 g for four.
-  Use the **rev B dock** (`../../rev-b/case`), whose Ø4 x 1.5 mm magnets hold the band against that) on the dock PCB at the band's contact positions
+  Use the **rev C dock** (`../../rev-c/case`), whose Ø4 x 1.5 mm magnets hold the band against that) on the dock PCB at the band's contact positions
   (x 131.5, y 101.1 / 103.3 / 111.7 / 113.9). Their plungers rise through
   Ø1.5 mm guide bores in the top plate; when the band is down they are at
   mid-stroke (0.70 mm).
