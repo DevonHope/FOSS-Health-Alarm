@@ -67,7 +67,9 @@ PETG (or PLA: the dock is not worn), no supports.
 
 **Review fixes (2026-11-08, `../../../reviews/2026-11-08`):** the plate underside now has a 1.9 x 0.6 mm
 slot over each spring-pin pair, so the pin barrels can't hold the plate up, and the tray has two rear stops
-(x 102-106 and 134-138) so plugging in USB-C can't push the PCB back. STL/STEP regenerated; both parts still one
+(x 102-106 and 134-138) so plugging in USB-C can't push the PCB back. The band recess clearance is now
+0.15 mm all round (was 0.3) so the dock pins stay centred on the band's contact tails; if your printer runs
+fat and the band won't drop in, set `REC_CLR` back to 0.2 in `dock_rev_b.py` and reprint the top plate. STL/STEP regenerated; both parts still one
 valid solid, 0 overlaps with the PCB envelope, pins, magnets and band cover, and the print check is unchanged
 (the only bridge over 5 mm is still the USB-C pocket). Preview PNGs are from before this change.
 

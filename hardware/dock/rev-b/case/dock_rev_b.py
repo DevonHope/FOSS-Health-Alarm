@@ -17,7 +17,8 @@ What changed from rev A:
     bottom edge against elephant's foot.
   - recess: 0.3 mm shallower (1.2 mm) with a 0.4 mm lead-in chamfer.
   - review fixes 2026-11-08: a 1.9 x 0.6 mm slot over each spring-pin pair in the plate underside (the barrels
-    no longer touch the plate), and two rear stops in the tray so the PCB can't slide back when USB-C is plugged in.
+    no longer touch the plate), and two rear stops in the tray so the PCB can't slide back when USB-C is plugged in;
+    band recess clearance 0.15 mm (was 0.3) so the dock pins stay centred on the band's contact tails.
 Both parts print flat on their underside with no supports (top plate: underside down; tray: floor down).
 Design frame as rev A (band worn frame, z = 0 at the wrist face, the dock below).
 usage (needs build123d): python dock_rev_b.py OUT_DIR [DOCK_PCB_STEP]"""
@@ -43,6 +44,7 @@ LOC_D, LOC_H, LOC_HOLE_D, LOC_HOLE_H = 2.0, 1.2, 2.05, 1.4
 TRAY_Z0, PCB, PCB_TOP, PCB_BOT = A.TRAY_Z0, A.PCB, A.PCB_TOP, A.PCB_BOT
 PLATE_Z0 = -2.05                             # flat underside, low enough to hold the Ø4 x 1.5 magnets (rev A -1.3)
 SP_CB_W, SP_CB_D = 1.9, 0.6                  # slot over each spring-pin pair: barrel Ø1.50 + 0.2 mm, 0.6 mm rise allowed
+REC_CLR = 0.15                               # recess clearance round the band (rev A 0.3): keeps the dock plunger on the band's pin tail (review 2026-11-08); test-fit the first print
 FLOOR_T, WALL = A.FLOOR_T, A.WALL
 STRAP_W, STRAP_D = 18.6, 2.6
 CH_IN = (97.6, 140.4)                        # inner ends of the channels (under the strap loops), as rev A
@@ -106,7 +108,7 @@ def make_top():
     t = chamfer(t.edges().group_by(Axis.Z)[0], SEAM_CH)
     for x, y in LOC_PINS:                                                                # locating holes (snug)
         t -= case.cyl(x, y, LOC_HOLE_D / 2, PLATE_Z0 - 1, PLATE_Z0 + LOC_HOLE_H)
-    rec = offset(A.BAND, A.REC_CLR, kind=Kind.ARC)
+    rec = offset(A.BAND, REC_CLR, kind=Kind.ARC)
     t -= case.slab(rec, 0, TOP + 1)                                                      # recess
     t -= loft([Pos(0, 0, TOP - 0.4) * rec, Pos(0, 0, TOP + 0.01) * offset(rec, 0.41, kind=Kind.ARC)])  # lead-in
     t -= strap_cutters()
