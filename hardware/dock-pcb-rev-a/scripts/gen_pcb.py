@@ -1,8 +1,9 @@
 """Build dock-pcb-rev-a.kicad_pcb: 4-layer 1.6 mm, footprints from the libraries with the nets in parts.py."""
 import sys, os
-sys.path.insert(0, '/tmp/wbdockpcb')
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
 import pcbnew, parts
-D = '/Users/devonhope/Library/CloudStorage/SynologyDrive-WakeBand/foss-health-alarm-git/hardware/dock-rev-a/pcb'
+D = os.path.normpath(os.path.join(HERE, '..'))
 FPL = '/Applications/KiCad/KiCad.app/Contents/SharedSupport/footprints/'
 OUT = sys.argv[1]
 POS = {  # ref: (x, y, rot, side)

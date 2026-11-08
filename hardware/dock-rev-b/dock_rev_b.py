@@ -3,17 +3,17 @@ pin and magnet positions, USB-C opening, keyed magnets.
 
 What changed from rev A:
   - outside: one smooth shape. Larger plan radius (7 mm), 1.2 mm round on the top edge, 2.2 mm
-    shorter; the top plate now covers the whole outline and meets the tray on a hidden lip, so the only
-    joint is a small shadow line on the side, 2.5 mm below the top; nothing on the top face.
+    shorter; the top plate now covers the whole outline and sits flush on the tray, located by two
+    pins on the tray's solid ends, so the only joint is a small shadow line on the side; nothing on top.
   - strap: wider (18.6 mm) channels with rounded floors, rounded top lips, and a 3.5 mm rounded saddle at
     each end so the strap drapes down and out over the end instead of over a sharp edge. The channel
     floors are solid (end blocks in the tray), not open into the cavity as on rev A.
   - LEDs: shine through a 0.4 mm skin (no holes). BOOTSEL: no hole. The button faces up on the PCB,
     so it can't be reached from underneath, and a press-through skin would need ~1 mm of travel; flash
     the dock before fitting the top plate, and lift the plate (held by the lip, not glued) to re-flash.
-  - magnets: Ø4 x 1.5 mm N52 (pockets Ø4.1 x 1.55, same 0.2 mm skin, same positions and polarity), to
+  - magnets: Ø4 x 1.5 mm N42 or N52 (pockets Ø4.1 x 1.55, same 0.2 mm skin, same positions and polarity), to
     hold the band against the stocked 0906-4-...-75 spring pins (60 g each at mid-stroke).
-  - underneath: four Ø8.2 x 0.6 mm recesses for Ø8 mm self-adhesive rubber feet; 0.5 mm chamfer on the
+  - underneath: four Ø8.2 mm locating rings (0.5 x 0.4 mm grooves) for Ø8 mm self-adhesive rubber feet; 0.5 mm chamfer on the
     bottom edge against elephant's foot.
   - recess: 0.3 mm shallower (1.2 mm) with a 0.4 mm lead-in chamfer.
 Both parts print flat on their underside with no supports (top plate: underside down; tray: floor down).
@@ -36,19 +36,21 @@ DOCK = (89.35, 147.95, 94.5, 125.6)         # 58.6 x 31.1 (rev A 60.3 x 31.1)
 DOCK_R = 7.0
 TOP_ROUND = 1.2
 SEAM_CH = 0.35                               # shadow-line chamfer each side of the joint
-LIP = (0.85, 1.65, 0.8)                      # tray locating lip: inset from, inset to, height
-GROOVE = (0.7, 1.8, 0.9)                     # matching groove in the top plate
+LOC_PINS = ((94.5, 120.5), (142.8, 120.5))   # tray locating pins (on the solid end blocks) into the top plate
+LOC_D, LOC_H, LOC_HOLE_D, LOC_HOLE_H = 2.0, 1.2, 2.05, 1.4
 TRAY_Z0, PCB, PCB_TOP, PCB_BOT = A.TRAY_Z0, A.PCB, A.PCB_TOP, A.PCB_BOT
 PLATE_Z0 = -2.05                             # flat underside, low enough to hold the Ø4 x 1.5 magnets (rev A -1.3)
 FLOOR_T, WALL = A.FLOOR_T, A.WALL
 STRAP_W, STRAP_D = 18.6, 2.6
 CH_IN = (97.6, 140.4)                        # inner ends of the channels (under the strap loops), as rev A
-SADDLE_R, CH_R, LIP_R = 3.5, 2.0, 1.0
+SADDLE_R, CH_R, LIP_R = 3.5, 0.5, 1.0         # CH_R < (channel floor to joint plane) so no feather edges
 END_BLOCK = (98.4, 141.6)                    # tray cavity filled outside these x (under the channels)
 MAG_D, MAG_T, MAG_POCKET_D, MAG_POCKET_T, MAG_SKIN = 4.0, 1.5, 4.1, 1.55, 0.2
 LED_SKIN, LED_POCKET_R = 0.4, 1.3
+USB_BODY = (103.53, 112.47, 116.1, -1.49)       # J1 shell (dock PCB STEP, LCSC model): x0, x1, back y, top z
+USB_CLR = 0.25
 FEET = [(x, y) for x in (DOCK[0] + 7.0, DOCK[1] - 7.0) for y in (DOCK[2] + 6.0, DOCK[3] - 6.0)]
-FOOT_D, FOOT_DEPTH = 8.2, 0.6
+FOOT_D, FOOT_RING, FOOT_DEPTH = 8.2, 0.5, 0.4    # locating ring groove (a full recess would bridge 8 mm)
 YC = case.YC
 
 
@@ -88,7 +90,7 @@ def strap_cutters():
         # end saddle: convex round where the channel floor meets the end face
         sx = 1 if side == 0 else -1
         c0 = xe + sx * SADDLE_R
-        cut = case.box(min(xe - sx * 1, c0), max(xe - sx * 1, c0), y0, y1, zf - SADDLE_R, zf + 0.01)
+        cut = case.box(min(xe - sx * 1, c0), max(xe - sx * 1, c0), y0, y1, zf - SADDLE_R, zf + CH_R + 0.01)
         cut -= ycyl(c0, zf - SADDLE_R, SADDLE_R, y0 - 1, y1 + 1)
         ch += cut
         cuts.append(ch)
@@ -99,7 +101,8 @@ def make_top():
     t = case.slab(outline(0), PLATE_Z0, TOP)
     t = fillet(t.edges().group_by(Axis.Z)[-1], TOP_ROUND)
     t = chamfer(t.edges().group_by(Axis.Z)[0], SEAM_CH)
-    t -= ring(GROOVE[0], GROOVE[1], PLATE_Z0 - 1, PLATE_Z0 + GROOVE[2])                  # hidden joint
+    for x, y in LOC_PINS:                                                                # locating holes (snug)
+        t -= case.cyl(x, y, LOC_HOLE_D / 2, PLATE_Z0 - 1, PLATE_Z0 + LOC_HOLE_H)
     rec = offset(A.BAND, A.REC_CLR, kind=Kind.ARC)
     t -= case.slab(rec, 0, TOP + 1)                                                      # recess
     t -= loft([Pos(0, 0, TOP - 0.4) * rec, Pos(0, 0, TOP + 0.01) * offset(rec, 0.41, kind=Kind.ARC)])  # lead-in
@@ -112,6 +115,10 @@ def make_top():
         t -= case.cyl(x, y, LED_POCKET_R, PLATE_Z0 - 1, TOP - LED_SKIN)
     ux, uw, uy = A.USB                                                                   # USB-C notch
     t -= case.box(ux - uw / 2, ux + uw / 2, uy, DOCK[3] + 1, PLATE_Z0 - 1, TOP + 1)
+    # pocket over the USB-C shell (its top is 0.56 mm above the plate underside); printed underside down,
+    # its roof is a 9.4 mm bridge, the only one on the part
+    x0, x1, y0, zt = USB_BODY
+    t -= case.box(x0 - USB_CLR, x1 + USB_CLR, y0 - USB_CLR, DOCK[3] + 1, PLATE_Z0 - 1, zt + USB_CLR)
     return t
 
 
@@ -120,20 +127,22 @@ def make_tray():
     t = chamfer(t.edges().group_by(Axis.Z)[0], 0.5)
     t = chamfer(t.edges().group_by(Axis.Z)[-1], SEAM_CH)
     t -= case.slab(outline(WALL), TRAY_Z0 + FLOOR_T, PLATE_Z0 + 1)                       # cavity
-    t += ring(LIP[0], LIP[1], PLATE_Z0 - 0.01, PLATE_Z0 + LIP[2])                        # locating lip
-    cav = case.slab(outline(WALL + 0.01), TRAY_Z0 + FLOOR_T - 0.01, PLATE_Z0)
+    cav = case.slab(outline(WALL - 0.01), TRAY_Z0 + FLOOR_T - 0.01, PLATE_Z0)        # overlaps the wall
     t += cav & (case.box(DOCK[0] - 1, END_BLOCK[0], DOCK[2] - 1, DOCK[3] + 1, TRAY_Z0, PLATE_Z0)
                 + case.box(END_BLOCK[1], DOCK[1] + 1, DOCK[2] - 1, DOCK[3] + 1, TRAY_Z0, PLATE_Z0))  # solid ends
+    for x, y in LOC_PINS:                                                                # locating pins
+        t += case.cyl(x, y, LOC_D / 2, PLATE_Z0 - 0.01, PLATE_Z0 + LOC_H)
+        t = chamfer(t.edges().filter_by_position(Axis.Z, PLATE_Z0 + LOC_H - 1e-3, PLATE_Z0 + LOC_H + 1e-3), 0.3)
     for x, y in ((PCB[0] + 2, PCB[2] + 2), (PCB[1] - 2, PCB[2] + 2), (PCB[0] + 2, PCB[3] - 2), (PCB[1] - 2, PCB[3] - 2)):
         t += case.cyl(x, y, 1.2, TRAY_Z0 + FLOOR_T - 0.01, PCB_BOT)                       # PCB support pads
     for x0, x1, y0, y1 in ((PCB[0] - 1.4, PCB[0] - 0.2, PCB[2] - 1.4, PCB[2] + 3), (PCB[1] + 0.2, PCB[1] + 1.4, PCB[2] - 1.4, PCB[2] + 3),
                            (PCB[0] - 1.4, PCB[0] - 0.2, PCB[3] - 3, PCB[3] + 0.2), (PCB[1] + 0.2, PCB[1] + 1.4, PCB[3] - 3, PCB[3] + 0.2)):
         t += case.box(x0, x1, y0, y1, TRAY_Z0 + FLOOR_T - 0.01, PCB_TOP + 0.6)          # PCB corner stops
     ux, uw, uy = A.USB
-    t -= case.box(ux - uw / 2, ux + uw / 2, uy, DOCK[3] + 1, TRAY_Z0 + FLOOR_T, PLATE_Z0 + LIP[2] + 1)
+    t -= case.box(ux - uw / 2, ux + uw / 2, uy, DOCK[3] + 1, TRAY_Z0 + FLOOR_T, PLATE_Z0 + 1)
     t -= strap_cutters()
-    for x, y in FEET:                                                                    # rubber-foot recesses
-        t -= case.cyl(x, y, FOOT_D / 2, TRAY_Z0 - 1, TRAY_Z0 + FOOT_DEPTH)
+    for x, y in FEET:                                                                    # rubber-foot locating rings
+        t -= case.cyl(x, y, FOOT_D / 2, TRAY_Z0 - 1, TRAY_Z0 + FOOT_DEPTH) - case.cyl(x, y, FOOT_D / 2 - FOOT_RING, TRAY_Z0 - 2, TRAY_Z0 + 1)
     return t
 
 

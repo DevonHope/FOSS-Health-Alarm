@@ -95,7 +95,7 @@ of silicone between charges, or move to a contact design with a switch.
 The dock (`../dock-rev-a`) holds the band **wrist side down**; its four
 spring pins reach up into the cone windows.
 
-- **Magnets:** two **Ø3 x 1 mm N52 disc magnets** in the cover floor under
+- **Magnets:** two **Ø3 x 1 mm N42 or N52 disc magnets** (the buy list has N42) in the cover floor under
   the cell, on the centre line at x 112.5 and x 120.5 (y 107.5). Each sits
   in a Ø3.1 x 1.05 mm pocket under a 0.2 mm skin, in a 0.25 mm dome on the
   inside of the floor (the cell's foam takes it).
@@ -160,7 +160,7 @@ the four spring pins can't push it off the ledge.
 | --- | --- |
 | Spring pins | 4 x Mill-Max **0906-2-15-20-75-14-11-0** (through-hole, gold, 1.40 mm stroke, standard-force spring 75; spring 72 is the low-force option). Check stock at Mill-Max, Digi-Key or Mouser |
 | Contact carrier | `../contact-carrier-rev-a` (JLCPCB, 1.6 mm, ENIG) |
-| Magnets | 2 x Ø3 x 1 mm N52 disc, axially magnetized (K&J, JC Magnetics, Magnet Baron) |
+| Magnets | 2 x Ø3 x 1 mm N42 or N52 disc, axially magnetized (see `../contact-carrier-rev-a/BUY-LIST.md`) |
 | Screw | M2 x 6 countersunk, ISO 10642 / DIN 7991, A2 stainless |
 | Insert | M2 brass heat-set insert, 3.0 mm long, Ø3.2 mm hole |
 | Foam | foam tape under the cell: 1.5 mm for a 4 mm cell, 0.5 mm for a 5 mm cell (0.25 mm less over the magnet domes) |
@@ -179,6 +179,14 @@ the four spring pins can't push it off the ledge.
 | Supports | none |
 | Shell | outer face (top) down on the bed |
 | Cover | wrist face down on the bed; **pause at the first layer above z 1.25 mm** to drop in the magnets |
+
+**Print check (2026-11-08, `../tools/printcheck.py`):** shell and cover are single solids with no
+fragments, no overhang past 45 degrees, no bridges and no knife edges. Two fixes on 2026-11-08 (fit
+unchanged): the antenna-end press-fit pins (shell) and their holes (cover) moved 0.2 mm inward so the
+cover keeps 0.8 mm outside the holes, and the 0.5 mm web between the cover's screw-boss pocket and the
+LRA cavity was opened into a slot. Intentional thin parts: the 0.2 mm skin under each magnet, the
+0.25 mm cap printed over each magnet after the pause, the 0.7 mm floor under the contact carrier, the
+0.4 mm LED skin, and 0.75 mm (for 0.7 mm of height) beside the heat-set insert hole.
 
 Every edge that sits on the bed has a 45-degree chamfer with a round above
 it. Nothing overhangs more than 45 degrees and nothing needs a bridge: the

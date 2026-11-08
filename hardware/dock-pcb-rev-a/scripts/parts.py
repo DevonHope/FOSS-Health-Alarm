@@ -24,7 +24,7 @@ PARTS = [
      {"1": "XIN", "3": "XOUT_X", "2": "GND", "4": "GND"}, [], "RP2040 USB clock, 12 MHz"),
     C("C1", "15pF", "C1548", "XIN"), C("C2", "15pF", "C1548", "XOUT_X"),
     R("R1", "1k", "C11702", "XOUT", "XOUT_X", "crystal drive limit (as on the Pico)"),
-    ("J1", "Connector:USB_C_Receptacle_USB2.0_16P", "USB-C", "Connector_USB:USB_C_Receptacle_HRO_TYPE-C-31-M-12", "C165948", "HRO TYPE-C-31-M-12",
+    ("J1", "Connector:USB_C_Receptacle_USB2.0_16P", "USB-C", "dock:USB_C_Receptacle_HRO_TYPE-C-31-M-12", "C165948", "HRO TYPE-C-31-M-12",
      {"A4": "VBUS", "A9": "VBUS", "B4": "VBUS", "B9": "VBUS", "A1": "GND", "A12": "GND", "B1": "GND", "B12": "GND", "SH": "GND",
       "A5": "CC1", "B5": "CC2", "A6": "USB_DP", "B6": "USB_DP", "A7": "USB_DM", "B7": "USB_DM"}, ["A8", "B8"], "USB 2.0 device, 5 V sink"),
     R("R2", "5.1k", "C25905", "CC1", "GND", "CC1 sink pull-down"), R("R3", "5.1k", "C25905", "CC2", "GND", "CC2 sink pull-down"),

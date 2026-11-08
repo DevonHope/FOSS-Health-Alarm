@@ -1,6 +1,6 @@
 """WakeBand dock rev A: a printed puck the band sits on wrist side down.
 
-Four Mill-Max 0906-4 spring pins on the dock PCB (./pcb) press on the tails
+Four Mill-Max 0906-4 spring pins on the dock PCB (../dock-pcb-rev-a) press on the tails
 of the band's four contact pins (seen through cone windows in the wrist
 cover); two Ø3 x 1 mm N52 magnets under a 0.2 mm skin pull the band's two
 cover magnets in, with opposite poles so the band only seats one way round.
@@ -34,7 +34,7 @@ TOP = REC_D                        # top of the dock (recess rim)
 DOCK = (88.5, 148.8, 94.5, 125.6)  # dock outline (x0, x1, y0, y1)
 DOCK_R = 4.0
 RIM, RIM_H, RIM_CLR = 0.8, 0.8, 0.15
-PCB = (100.0, 140.0, 97.5, 124.0)  # dock PCB (pcb/dock-pcb-rev-a.kicad_pcb), same x/y as the band
+PCB = (100.0, 140.0, 97.5, 124.0)  # dock PCB (../dock-pcb-rev-a/dock-pcb-rev-a.kicad_pcb), same x/y as the band
 PCB_T = 1.6
 # Mill-Max 0906-4: A = 5.99 mm flange underside to free tip, stroke 1.40 (mid 0.70),
 # barrel top 2.69 mm above the flange underside; plunger Ø1.07, body Ø1.50, flange Ø1.83, tail 1.75

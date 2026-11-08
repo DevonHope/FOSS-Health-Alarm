@@ -1,13 +1,15 @@
 """Generate dock-pcb-rev-a.kicad_sch from parts.py: every symbol placed on a grid,
 each connected pin gets a net label at its end, unused pins a no-connect flag."""
 import sys, uuid, re
-sys.path.insert(0, '/tmp/wbdockpcb')
+import os
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
 import symlib, parts
 OUT = sys.argv[1]
 PROJ = "dock-pcb-rev-a"
 ROOT = str(uuid.uuid4())
 U = lambda: str(uuid.uuid4())
-LOCAL = '/Users/devonhope/Library/CloudStorage/SynologyDrive-WakeBand/foss-health-alarm-git/hardware/dock-rev-a/pcb/dock.kicad_sym'
+LOCAL = os.path.join(HERE, '..', 'dock.kicad_sym')
 
 def load(libid):
     lib, name = libid.split(':')

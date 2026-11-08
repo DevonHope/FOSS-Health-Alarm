@@ -4515,7 +4515,7 @@
 			)
 		)
 	)
-	(footprint "Connector_USB:USB_C_Receptacle_HRO_TYPE-C-31-M-12"
+	(footprint "dock:USB_C_Receptacle_HRO_TYPE-C-31-M-12"
 		(layer "F.Cu")
 		(uuid "610f53c2-8b4e-487e-acd6-cb2240133cf0")
 		(at 108 120.3)
@@ -4869,9 +4869,9 @@
 			(uuid "36eceed6-4e7f-460a-9020-a747061e8975")
 		)
 		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Connector_USB.3dshapes/USB_C_Receptacle_HRO_TYPE-C-31-M-12.step"
+		(model "${KIPRJMOD}/dock.3dshapes/HRO_TYPE-C-31-M-12_C165948.step"
 			(offset
-				(xyz 0 0 0)
+				(xyz 0 1.6 0)
 			)
 			(scale
 				(xyz 1 1 1)

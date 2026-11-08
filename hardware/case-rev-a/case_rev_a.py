@@ -98,7 +98,8 @@ LUG_H = 3.0
 LAND = (119.8, CAV[1], CAV[2], 103.2)
 # antenna end: two press-fit pins from the shell skirt into the cover's end wall
 PIN_D, PIN_L = 1.4, 2.0
-PIN_X = X_A + 1.25                               # middle of the skirt (X_A .. X_A + 2.5)
+PIN_X = X_A + 1.45                               # in the skirt (X_A .. X_A + 2.5), 0.2 mm in from its middle
+                                                 # so the cover keeps 0.8 mm outside the pin holes
 PIN_Y = (102.5, 112.5)
 
 
@@ -253,6 +254,8 @@ def make_cover():
         c -= cyl(PIN_X, y, PIN_D / 2 - 0.05, Z_SKIRT - PIN_L - 0.3, Z_SKIRT + 1)
     # screw: pocket for the shell boss, clearance hole, countersink 0.2 mm below flush
     c -= cyl(*SCREW, BOSS_R + CLR, BOSS_Z0 - 0.15, Z_SKIRT + 1)
+    # the boss pocket and the LRA cavity come within 0.5 mm of each other: open that sliver of wall
+    c -= box(LRA_C[0] + LRA_ENV_R + CLR - 1.15, SCREW[0] - 2.0, SCREW[1] - 1.15, SCREW[1] + 1.15, BOSS_Z0 - 0.15, Z_SKIRT + 1)  # ends inside both
     c -= cyl(*SCREW, 1.2, -1, BOSS_Z0)
     c -= cyl(*SCREW, 2.2, -1, 0.2)
     c -= Pos(*SCREW, 0.2) * Cone(2.2, 1.2, 1.0, align=(Align.CENTER, Align.CENTER, Align.MIN))
