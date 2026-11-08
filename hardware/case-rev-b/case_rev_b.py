@@ -17,7 +17,7 @@ import case_rev_a as A  # noqa: E402
 from build123d import Color, export_step, export_stl  # noqa: E402
 
 A.LAND = (127.6, A.CAV[1], A.CAV[2], 103.2)
-ANT = (102.2, 112.55)                 # AE1 centre (board coordinates), long axis along y
+ANT = (102.15, 112.55)                # AE1 centre (board coordinates), long axis along y
 ANT_POCKET = (1.6 + 0.6, 3.2 + 0.6)   # body + 0.3 mm a side
 ANT_H = 1.3 + 0.1                      # height + tolerance
 POCKET_TOP = A.BOARD_F + ANT_H + 0.15  # 0.15 mm air over the antenna
