@@ -45,6 +45,24 @@ A separate advisor weighed each proposed fix ([`fix-advisor.md`](fix-advisor.md)
 | 5 Rev A C203 / U202 | document only | "Before ordering rev A" note in the rev A README. |
 | Carrier: plunger on solder tail | docs now, geometry after a test print | Home build now reflows the pins into the carrier on a hotplate before it goes into the cover, checks the tails are bare, and tests docking with a 0.3 mm side push. Tightening the recess waits for a test print. |
 
+### Second pass: "make all fixes" (2026-11-08)
+
+The user then asked for every fix, so the skipped and document-only items were done too, plus the review's other findings.
+DRC with parity 0/0/0/0 and ERC 0 on all three boards.
+
+- **Dock rev B** (`a2adee6`): USBLC6-2SC6 ESD clamp (U9) on SWCLK/SWDIO, SMF6.0A TVS (D3) on VIN, SWD series resistors 22 -> 100 ohm,
+  100 k pull-down (R15) on the SWCLK translator input, current limit R6 33 k (0.21 A), U3.5 via moved and RP2040 thermal-pad paste
+  split into 16 windows clear of its vias (no open via under paste, so no filled vias needed), SWDIO out from between the crystal
+  pads, VBUS_F 0.45 mm, silkscreen added. Two new extended parts (SMF6.0A, 0201 100 k). Check D3 and U9 rotation in the preview.
+- **Band rev B** (`3bfb257`): In1-only ground void under the RF filter (Nordic's, clipped at x 103.5) with I2C_SDA/SCL rerouted out
+  from under it; B-L4 via clearances, C6 back to Nordic's spacing, BQ25125 mask dams 0.11 mm, 8 more GND vias on the 50 ohm feed,
+  README text fixes. Fab regenerated (pos.csv: C6 only).
+- **Band rev A** (`d5355a6`): C203 pad 2 solid to GND, U202 EP 1.2 x 0.65 mm with 55 % paste, off-board silkscreen text fixed,
+  SWDCLK pad via moved to the pad edge, fab regenerated.
+- **Dock case** (`c4aaf5b`): band recess clearance 0.15 mm (was 0.3).
+- **Still open, needs a re-layout:** dock RP2040 core-cap placement and 3 extra 100 nF (no room beside the USB/QSPI routing), dock
+  XOUT on an inner layer, and band rev B B-L3 (ESD parts next to the dock contacts; that area is under the case land and LED window).
+
 ## Band rev B
 
 **Major**
