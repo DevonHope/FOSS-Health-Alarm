@@ -8,10 +8,10 @@
 	)
 	(paper "A4")
 	(title_block
-		(title "WakeBand rigid rev A")
-		(date "2026-11-03")
-		(rev "A")
-		(comment 1 "4-layer 0.8 mm FR4, ENIG, 15 x 33 mm; mounts parts-side down")
+		(title "WakeBand rigid rev B")
+		(date "2026-11-08")
+		(rev "B")
+		(comment 1 "4-layer 0.8 mm FR4 (JLC04081H-7628), ENIG, 15 x 33 mm; parts on F.Cu towards the shell roof, dock contacts on B.Cu at the wrist")
 	)
 	(layers
 		(0 "F.Cu" signal)
@@ -17616,6 +17616,14 @@
 		(uuid "1cfba6d6-52b4-472f-8b93-82544b657e54")
 	)
 	(segment
+		(start 131.25 111.3)
+		(end 130.85 111.7)
+		(width 0.25)
+		(layer "F.Cu")
+		(net "/GND")
+		(uuid "207a7556-df89-4fd0-b1d0-0b2aa8aa650d")
+	)
+	(segment
 		(start 132.45 103.85)
 		(end 132.449999 104.25)
 		(width 0.2)
@@ -17840,6 +17848,14 @@
 		(uuid "a1b53c1f-1df6-4f21-bb50-84a701ff3bc1")
 	)
 	(segment
+		(start 131.25 111.15)
+		(end 131.25 111.3)
+		(width 0.25)
+		(layer "F.Cu")
+		(net "/GND")
+		(uuid "a54e4959-f5c8-40d8-ab8a-b664ef55efa6")
+	)
+	(segment
 		(start 124.51 108)
 		(end 125.06 108)
 		(width 0.2)
@@ -17910,14 +17926,6 @@
 		(layer "F.Cu")
 		(net "/GND")
 		(uuid "dc4ffebe-34c1-4f9e-a5b1-06af7e133e31")
-	)
-	(segment
-		(start 131.25 111.15)
-		(end 131.25 111.75)
-		(width 0.25)
-		(layer "F.Cu")
-		(net "/GND")
-		(uuid "e5e943d8-7084-4f9c-8c12-f766a113a87d")
 	)
 	(segment
 		(start 105.04 109.43)
@@ -18728,7 +18736,7 @@
 		(uuid "e568ed94-a987-4001-a138-3c5e025e09fc")
 	)
 	(via
-		(at 131.25 111.75)
+		(at 130.85 111.7)
 		(size 0.4)
 		(drill 0.2)
 		(layers "F.Cu" "B.Cu")

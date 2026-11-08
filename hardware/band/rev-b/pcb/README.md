@@ -16,6 +16,9 @@ Review fixes of 2026-11-08 applied (`scripts/review_fixes_2026_11_08.py`): In1-o
 I2C_SDA/I2C_SCL moved out from under the filter (B-L1), courtyard via rules (B-L4), C6 at Nordic's
 position (B-L5), U201 mask dams (B-L6), feed stitching vias (B-L7). B-L3 (ESD clamps next to the dock
 contacts) done in a second pass (`scripts/relayout_esd_2026_11_08.py`, run after the first), see Routing.
+Verification follow-ups (`scripts/followups_2026_11_08.py`, run last): the board title block is now rev B
+(it still carried rev A's title, revision and "mounts parts-side down", and so did the Gerber headers and job
+file; B-L10), and D601's GND via sits at the GND landing's edge instead of under the spring-pin plunger.
 
 ## What changed from rev A
 
@@ -237,7 +240,7 @@ reference). The shunt caps' other GND vias reach In2 and B.Cu, and C6 is back at
   0.11 mm, above JLCPCB's 0.10 mm minimum (B-L6).
 - **Trace audit** (`scripts/route/audit.py`): 0/45/90-degree segments only; no bend sharper
   than 45 degrees; no step shorter than 0.3 mm between bends; every track end on a pad or via
-  centre; no overlapping or dangling copper. 517 segments and 172 vias pass. One exception: PMID
+  centre; no overlapping or dangling copper. 518 segments and 172 vias pass. One exception: PMID
   jogs 0.2 mm between test pads TP203 and TP707 (131.7, 107.25). The pads are 1.6 mm apart with
   CHG_MR beside them, and any single 45-degree line comes within 0.06 mm of one pad.
 - **Ground stitching:** In1 is one GND fill with no tracks on it (only the RF filter void above). 87 GND
@@ -265,7 +268,8 @@ reference). The shunt caps' other GND vias reach In2 and B.Cu, and C6 is back at
     clamp was 19.9 V). The dock already clamps its own VIN (SMF6.0A) and limits it to 0.21 A, so the band only
     has to take ESD and hot-plug spikes. It sits at 131.25, 110.8 (where TP705 was), above the GND landing:
     VIN via 132.0, 113.3 in the landing, F.Cu under the case post (mask only) to D601.1, then a via at
-    131.25, 109.8 to the old In2 route to the charger; D601.2's GND via drops into the GND landing. The old
+    131.25, 109.8 to the old In2 route to the charger; D601.2's GND via drops into the GND landing at its edge (130.85, 111.7), 0.65 mm from the centre like the
+    other landing vias. The old
     13 mm In2 run to D601's old place is gone. TP705 (PMID) moved to 127.1, 101.6 on the PMID run along the
     top edge.
 - The grid router and clean-up tools are in `scripts/route/`; `audit_ops/` holds the point edits
