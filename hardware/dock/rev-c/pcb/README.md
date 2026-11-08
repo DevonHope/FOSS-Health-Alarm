@@ -34,7 +34,13 @@ over the pad row; KiCad's own library has no model for this part.
 
 
 **Placement file (`fab/cpl_jlcpcb.csv`):** written by `scripts/gen_cpl.py` (run from this folder) with
-JLCPCB's rotation conventions (SOT-23 +180, SOIC +270, QFN +270) and a per-part offset for J1: JLC's
+per-part JLC corrections from `scripts/jlc_cpl_fix.json`. `scripts/jlc_cpl_fix.py` fetched JLC's own (EasyEDA)
+footprint for every placed part and matched its pads to KiCad's by number: U1 (RP2040) needs 0 (the generic
+"QFN +270" put it 6 mm off and turned), U3/U9 (USBLC6) and U6 (SY6280) +270, U4/U5/U7/U8 +180, U2 +270,
+D1/D2 +180 (the generic table had the LEDs reversed), the rest 0. `scripts/jlc_cpl_check.py` lays JLC's pads at
+the written values on the board's pads: worst pad-centre error 0.25 mm (land-pattern size), pin 1 right on
+every part. Two parts could not be fitted: Y1 (EasyEDA has no footprint data; left at 0, a 3225 crystal is
+the same at 0 and 180, check it is not turned 90) and J1, which keeps a measured offset: JLC's
 EasyEDA footprint for the HRO USB-C has its origin 1.42 mm behind KiCad's, so J1's point is moved
 1.42 mm back (to y 118.88) or its legs miss their holes in JLC's preview. In the preview, also check the
 cathode mark of D1/D2. The spring pins (P1-P4) and test pads are left out: they are hand-soldered.
@@ -112,7 +118,7 @@ spring pins a few US$ each from distributors (4 a dock).
 
 **Fab:** `fab/dock-pcb-rev-c-fab.zip` (Gerbers, drill, `bom_jlcpcb.csv`,
 `cpl_jlcpcb.csv`). The CPL leaves out the spring pins and test pads. Check
-the RP2040, SOT-23 parts and USB-C rotations in the JLCPCB preview.
+Y1 and J1 in the JLCPCB preview (the rest are computed, see above).
 
 ## Power notes
 

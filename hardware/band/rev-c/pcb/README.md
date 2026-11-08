@@ -294,30 +294,29 @@ rows, 15 mm rails with fiducials and tooling holes, "JLCJLCJLCJLC" on the top ra
 number. Panel DRC is 0 at every severity.
 
 PCB options: 4 layers, 0.8 mm, JLC04081H-7628 stackup, **ENIG**, **via-in-pad filled and capped
-(POFV)**, 2 panels, "panel by customer". Assembly: Standard, top side, 2 panels. In the placement
-preview, check the rotation of U1, U201, U202, U203, U401, U501, D702, X1, X2 and AE1 (JLC's library
-footprints don't always use KiCad's zero orientation).
+(POFV)**, 2 panels, "panel by customer". Assembly: Standard, top side, 2 panels.
 
-**Placement preview is a required step.** `pos.csv` keeps KiCad's raw rotations on purpose: the usual
-KiCad-to-JLC correction tables don't match these footprints (no SOT-23/SOIC parts; the Nordic QFN name isn't
-`QFN-...`), and a guessed correction is worse than none. In JLC's preview, check that pin 1 of each part
-below sits where the table says (board view, from the part centre). Fix any that don't in JLC's interface,
-**separately on all four panel copies** (`_0` to `_3`), then write the confirmed corrections into
-`scripts/panelfab.py` so re-orders keep them.
+**Placement (`pos.csv`) carries per-part JLC corrections** (2026-11-08). JLC places the origin of its own
+(EasyEDA) footprint for each LCSC part at the CPL point, turned by the CPL rotation. `scripts/jlc_cpl_fix.py`
+fetched that footprint for every placed part, matched its pads to the KiCad footprint's pads by number, and
+stored the rotation step and offset that lay one on the other in `scripts/jlc_cpl_fix.json`;
+`scripts/panelfab.py` applies them to all four panel copies. `scripts/jlc_cpl_check.py` then lays JLC's pads
+at the written CPL values on the panel's pads (the Gerber frame):
 
-| Part | Pin 1 should be | Note |
-| --- | --- | --- |
-| U1 nRF54L10 QFN48 | bottom-right (XL1) | usual QFN fix is +270, unconfirmed for this part |
-| U201 BQ25125 DSBGA | top-left (A1, GND) | probably no correction |
-| U202 IS31FL3193 DFN-10 | bottom-right (LED_EN) | DFN +270 is likely |
-| U203 TPS7A02 X2SON-4 | bottom-left (VDD_2V0) | |
-| U401 LIS2DW12 LGA-12 | top-left (I2C_SCL) | |
-| U501 DRV2605L MSOP-10 | top-right (REG) | MSOP/TSSOP +270 is the best-established fix |
-| D702 RGB LED | top-right (VLED, anode) | |
-| X2 32 MHz crystal | top-left (XC1) | 180 is harmless, 90 kills the radio clock |
-| X1 32.768 kHz crystal | non-polar | only check it isn't turned 90 |
-| AE1 chip antenna | feed pad at the top (y 111.1) | 180 swaps feed and NC: no radio |
-| D601 ESD5681N07 TVS (DFN1006) | cathode bar at the top (towards y 100, VIN) | unidirectional; reversed it shorts the dock supply |
+| Part | JLC correction | Worst pad-centre error | Pin 1 |
+| --- | --- | --- | --- |
+| U201 BQ25125 DSBGA | +270 | 0.00 mm | A1 on A1 |
+| U202 IS31FL3193 DFN-10 | +270 | 0.04 mm | ok |
+| U401 LIS2DW12 LGA-12 | +270 | 0.11 mm | ok |
+| U501 DRV2605L MSOP-10 | +270 | 0.20 mm | ok |
+| U1 nRF54L10 QFN48 | none (JLC's footprint matches KiCad's) | 0.01 mm | ok |
+| U203, D601, D602, D603, D702, X1, X2, AE1 | none | 0.00-0.15 mm | ok |
+| all passives, L201 | none | 0.01-0.28 mm (JLC's land patterns are a little larger) | non-polar |
+
+All offsets are zero: every JLC footprint here is centred like KiCad's. Before the correction, U201, U202,
+U401 and U501 sat turned on their pads in JLC's preview (1.6-3.5 mm pad errors, pin 1 wrong). Still glance
+at the preview; if an LCSC number changes, re-run `jlc_kicad_pads.py` and `jlc_cpl_fix.py` (EasyEDA
+rate-limits; the script caches and backs off).
 
 Not placed: test pads, dock landings, JP201 (solder jumper), C14/C15 (DNP). Solder the cell and LRA
 leads by hand. Sand the tab nubs flush (top edge near x = 122.6; bottom edge near x = 108.5 and

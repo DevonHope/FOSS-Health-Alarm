@@ -1,6 +1,7 @@
 """JLCPCB files for the 2 x 2 panel (fab/panel/rigid-rev-c-panel.kicad_pcb, from mkpanel.sh):
 Gerbers + Excellon drill zipped (kicad-cli), BOM grouped by LCSC number and top-side CPL, both from the
-panel's footprints (references are <ref>_<board>, so BOM and CPL rows match one to one).
+panel's footprints (references are <ref>_<board>, so BOM and CPL rows match one to one). CPL rotations
+and positions carry the per-part JLC corrections in jlc_cpl_fix.json, so JLC's footprints land on the pads.
 Not assembled: test/landing pads (TP*, J6*), the solder jumper (JP*) and DNP parts.
 usage (KiCad python): panelfab.py"""
 import csv, os, re, subprocess, sys, zipfile, tempfile
@@ -29,6 +30,10 @@ SKIP = tuple(('TP', 'J6', 'JP'))
 def base(r): return r.rsplit('_', 1)[0]
 b = pcbnew.LoadBoard(PAN); mm = pcbnew.ToMM
 info = {p[0]: p for p in parts.PARTS}
+# Per-LCSC JLC corrections (rotation step, offset), derived from JLC's own EasyEDA footprints by
+# scripts/jlc_cpl_fix.py (see its docstring); re-run it if a part's LCSC number changes.
+import json, math
+FIX = json.load(open(os.path.join(HERE, 'jlc_cpl_fix.json')))
 groups = OrderedDict(); cpl = []
 for f in b.GetFootprints():
     r = f.GetReference(); br = base(r)
@@ -38,7 +43,12 @@ for f in b.GetFootprints():
     if f.GetLayer() != pcbnew.F_Cu: raise SystemExit(f'{r} is not on the top side')
     groups.setdefault((info[br][2], info[br][3].split(':')[1], lcsc), []).append(r)
     p = f.GetPosition()
-    cpl.append((r, mm(p.x), -mm(p.y), f.GetOrientationDegrees()))
+    x, y, th = mm(p.x), -mm(p.y), f.GetOrientationDegrees()
+    fx = FIX.get(lcsc)
+    if not fx or 'drot' not in fx: raise SystemExit(f'{r}: no JLC correction for {lcsc} in scripts/jlc_cpl_fix.json')
+    a = math.radians(th)                    # offset is in the footprint's own frame (y up): turn it with the part
+    x += fx['dx'] * math.cos(a) - fx['dy'] * math.sin(a); y += fx['dx'] * math.sin(a) + fx['dy'] * math.cos(a)
+    cpl.append((r, x, y, th + fx['drot']))
 def key(r):
     m = re.match(r'([A-Z]+)(\d+)_(\d+)', r); return (m.group(1), int(m.group(2)), int(m.group(3)))
 with open(os.path.join(OUT, 'bom.csv'), 'w', newline='') as fh:
