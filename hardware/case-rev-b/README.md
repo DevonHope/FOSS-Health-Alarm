@@ -10,6 +10,13 @@ magnets, dock and strap are unchanged; print or reuse the rev A cover.
    charger parts sit under the start of it, so it now starts at x 127.6 and covers only the pin pair
    at x 131.5 (pads and solder mask).
 
+**Charge LED window (from rev A, unchanged):** rev B's LED D702 is at (130.225, 113.2), where rev A's
+was. The shell keeps rev A's blind pocket over it: 2.4 x 2.3 mm, cut from inside, leaving a **0.4 mm
+skin** on the outer face (the roof is 1.2 mm elsewhere). The LED shines through that thin spot with no
+opening, so the case stays sealed. Checked on the built rev B shell: solid from z 9.6 to 10.0 over the
+LED, against 8.8 to 10.0 beside it. Print in a light or translucent colour; through dark filament the
+LED is hard to see (see `../case-rev-a/README.md`, Charge LED).
+
 | File | What |
 | --- | --- |
 | `wakeband-case-rev-b-shell.step` / `.stl` | outer shell (print this) |
