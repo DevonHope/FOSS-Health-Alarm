@@ -1968,7 +1968,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "wakeband:Kinetic_UTDFN-8_1.5x1.5mm_P0.4mm_EP1.45x0.8mm"
+		(property "Footprint" "wakeband:Kinetic_UTDFN-8_1.5x1.5mm_P0.4mm_EP1.2x0.65mm"
 			(at 0 0 0)
 			(hide yes)
 			(effects

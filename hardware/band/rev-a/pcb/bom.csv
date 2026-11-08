@@ -18,7 +18,7 @@
 "10k B3380","TH201","Resistor_SMD:R_0402_1005Metric","C77131","Murata NCP15XH103F03RC","1",""
 "ISP2454-LX","U1","wakeband:InsightSiP_ISP2454_LGA-62_8x8mm","","","1",""
 "nPM1304-QEAA","U201","Package_DFN_QFN:QFN-32-1EP_5x5mm_P0.5mm_EP3.45x3.45mm","","","1",""
-"KTD2026EWE-TR (I2C RGB LED driver; Digi-Key, no LCSC listing)","U202","wakeband:Kinetic_UTDFN-8_1.5x1.5mm_P0.4mm_EP1.45x0.8mm","","Kinetic KTD2026EWE-TR","1",""
+"KTD2026EWE-TR (I2C RGB LED driver; Digi-Key, no LCSC listing)","U202","wakeband:Kinetic_UTDFN-8_1.5x1.5mm_P0.4mm_EP1.2x0.65mm","","Kinetic KTD2026EWE-TR","1",""
 "LIS2DW12TR","U401","Package_LGA:LGA-12_2x2mm_P0.5mm","C189624","","1",""
 "DRV2605LDGSR","U501","Package_SO:TSSOP-10_3x3mm_P0.5mm","C527464","","1",""
 "60mAh 3.7V protected LiPo, ~16x13x4-5 mm, wire leads (hand-soldered to TP201/TP202, not assembled; alt. Ampul 401215)","BT1 (off-board)","","","X2 Robotics 3.7V 60mAh LiPo","1","not assembled"

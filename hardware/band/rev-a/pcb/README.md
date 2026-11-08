@@ -4,14 +4,21 @@
 `../../archive/flex-rev-a`). Routed, DRC clean, fab package in `fab/`. Last edited with
 KiCad 10.0.3 (earlier revisions used 10.0.5; the file format is the same).
 
-> **Before ordering rev A** (review 2026-11-08, `../../../reviews/2026-11-08`; rev A is kept as a reference
-> and these were documented, not fixed):
-> - KiCad 10 DRC now reports 1 error: C203 pad 2 (GND, F.Cu, 116.12, 111.22) has one thermal spoke into
->   GND_L1, which needs two. It is in the saved fill, so the Gerbers have it too.
-> - U202 (KTD2026) custom footprint: the exposed pad is 1.45 x 0.8 mm with 0.125 mm to the pins and 100 %
->   paste. Use KiCad's DFN pad (0.7 x 1.2 mm) or shrink it, with 50-60 % paste.
-> - The reference text of C208, U202 and D702 is plotted 110-230 mm off the board in the top silkscreen.
-> - The via sits in the centre of the SWDCLK dock pad, where the spring pin lands; move it to the pad edge.
+> **Before ordering rev A** (review 2026-11-08, `../../../reviews/2026-11-08`): the four layout items the
+> review found were **fixed on 2026-11-08** by `scripts/review_fixes_2026_11_08.py`, and `fab/` was re-plotted
+> (`scripts/mkfab.py`):
+> - C203 pad 2 (GND, 116.12, 111.22) had one thermal spoke into GND_L1 (KiCad 10 `starved_thermal`): the
+>   pad is boxed in by the PMIC_INT track, the SWDIO and VDD_2V0 vias and C203 pad 1, so it now has a solid
+>   zone connection. Like R202.2, C401.2, R605.2 and C403.2 (review A-L2), that is a small tombstoning risk.
+> - U202 (KTD2026): exposed pad 1.45 x 0.8 -> 1.2 x 0.65 mm, footprint renamed
+>   `Kinetic_UTDFN-8_1.5x1.5mm_P0.4mm_EP1.2x0.65mm`. KiCad's DFN-8 pad is 0.7 x 1.2; 0.65 across the pin rows
+>   keeps 0.2 mm to these 0.45 mm pins (0.7 would leave 0.175). Paste on the EP is two 0.45 x 0.48 mm
+>   windows, 55 %. The pins, their tracks and the EP's GND link are unchanged.
+> - The reference text of C208, U202 and D702, which was plotted 110-230 mm off the board in the top
+>   silkscreen, is now on F.Fab next to each part, like the other references. No Gerber has anything outside
+>   the outline.
+> - The SWDCLK dock pad's via moved from the pad centre, where the spring pin lands, to the pad's left edge
+>   (130.65, 101.1), on its F.Cu track, like the VIN and GND pads' edge vias.
 
 | Item | Value |
 | --- | --- |
@@ -93,7 +100,7 @@ with `pip install build123d`, then from this folder
 | `LiPo_3.7V_60mAh_401215_PCM.step` | cell (off board) | 17 x 13 x 4.0 mm pouch with folded PCM at +X, lead stubs |
 | `Vybronics_VG0832012_LRA_D8x3.25mm.step` | LRA (off board) | Ø8.0 x 3.25 mm can, lead tab at +X |
 | `LED_TOGIALED_1615_RGB_CommonAnode.step` | D702 | 1.6 x 1.5 x 0.6 mm body and lens, pin-1 (anode) mark |
-| `Kinetic_UTDFN-8_1.5x1.5mm_P0.4mm_EP1.45x0.8mm.step` | U202 | 1.5 x 1.5 x 0.5 mm UTDFN-8, pin-1 dot, terminals |
+| `Kinetic_UTDFN-8_1.5x1.5mm_P0.4mm_EP1.45x0.8mm.step` | U202 (footprint now `..._EP1.2x0.65mm`; the package is the same) | 1.5 x 1.5 x 0.5 mm UTDFN-8, pin-1 dot, terminals |
 
 The paths use `${KIPRJMOD}`. D602-D605 use the KiCad library footprint
 `Package_SON:Texas_DPY0002A_0.6x1mm_P0.65mm`; "Update footprint from library"
@@ -251,23 +258,32 @@ track on F.Cu. Their outcome:
 
 Other vias in pads: nine in the nPM1304 exposed pad, TP701 (nRESET), C201.1
 (VIN), C205.1 (VSYS), TP704 (VDD_2V0), TP501 (LRA+), D601.1 (VIN), the
-SWDCLK landing pad (J601.3, centre) and the edges of the VIN and GND landing
-pads (J601.1, J601.2). All of these need JLCPCB's
+edges of the SWDCLK, VIN and GND landing
+pads (J601.3, J601.1, J601.2). All of these need JLCPCB's
 **epoxy-filled and capped (POFV)** option, which fills every via on the
 board.
 
 ## DRC and ERC
 
 `kicad-cli pcb drc --schematic-parity --severity-all` (KiCad 10.0.3,
-2026-11-07, after the charge LED was added and the zones refilled): 0 errors, 0
-warnings, 0 unconnected items, 0 parity issues, no isolated copper or
-starved thermals. One warning is excluded in `rigid-rev-a.kicad_pro` with a
+2026-11-08, after the review fixes, with the saved fill and again with
+`--refill-zones`): 0 errors, 0 warnings, 0 unconnected items, 0 parity
+issues, no isolated copper or starved thermals (on 2026-11-07 a refill showed
+one starved thermal at C203 pad 2, now fixed). The zones are filled with
+pcbnew's ZONE_FILLER from Python, not with `kicad-cli pcb drc --refill-zones
+--save-board`, which on this board also adds teardrops it never had. One warning is excluded in `rigid-rev-a.kicad_pro` with a
 comment: D701 differs from its library copy because its silk dot (clipped by
 the board edge) was removed on purpose. `track_not_centered_on_via` is now
 an error (it was set to ignore, which is how off-centre via ends passed DRC
 before). ERC: 0 errors, 0 warnings.
 
 ## Trace audit (2026-11-06)
+
+**Review fixes (2026-11-08).** C203 pad 2 solid to the GND pour, U202 exposed pad 1.2 x 0.65 mm with split
+paste, three reference texts moved to F.Fab, SWDCLK landing-pad via moved to the pad edge (its F.Cu track
+shortened by 0.85 mm). Same audit, whole board: output identical to before (only the eight nPM1304
+exposed-pad stubs and the accepted bends and in-pad vias). DRC with parity: 0 / 0 / 0. ERC: 0. Segments
+466, vias 140.
 
 **Wrist-side dock contacts (2026-11-07).** J601 1-4 moved to B at x 131.5;
 TP501/TP502/TP202 moved left along the top edge; the SWD lines keep their

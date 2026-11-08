@@ -1,7 +1,8 @@
 # WakeBand rigid rev A fab package
 
-Generated 2026-11-07 from `../rigid-rev-a.kicad_pcb` with kicad-cli 10.0.3
-(Gerbers exported with `--check-zones`; the previous package used 10.0.5). See `../README.md` for the stackup,
+Generated 2026-11-08 from `../rigid-rev-a.kicad_pcb` with kicad-cli 10.0.3 by `../scripts/mkfab.py`
+(Gerbers exported with `--check-zones`; the 2026-11-02 package used 10.0.5), after the review fixes
+(see "Before ordering rev A" in `../README.md`). See `../README.md` for the stackup,
 orientation, placement and the list of compromises.
 
 `rigid-rev-a-fab.zip` holds every file in `gerbers/` plus `bom_jlcpcb.csv` and
@@ -29,7 +30,7 @@ consigned ISP2454 (F.Fab outline with pin-1 mark, pads numbered, board edge).
 nPM1304 exposed pad; the nRESET via in test pad TP701; the VIN via in C201.1,
 the VSYS via in C205.1, the VDD_2V0 via in test pad TP704, the VIN via in
 D601 pad 1, the VBAT via in JP201 pad 2, the LRA+ via in TP501 and the vias
-in and at the edge of the B-side dock landing pads (J601 1-3). Without filling
+at the edge of the B-side dock landing pads (J601 1-3). Without filling
 and capping, solder wicks down these vias and the module and PMIC joints
 starve. With POFV every via on the board is filled and plated over.
 
