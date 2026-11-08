@@ -9,7 +9,9 @@ LRA lead pads (TP201/TP202, TP501/TP502, JP201) are where rev A had them.
 so the module certification rev A could lean on does not apply. Build it for personal use and
 experiments only; don't sell or distribute it as a product.
 
-STATUS_PLACEHOLDER
+**Status (2026-11-08):** schematic, placement and routing done. ERC 0; DRC 0 at every severity
+(errors and warnings), 0 unconnected, schematic parity 0. Trace audit clean except one forced
+0.2 mm jog (see Routing). Not built or tested yet.
 
 ## What changed from rev A
 
@@ -192,6 +194,25 @@ section 11.14.1; brown-out 1.56-1.64 V). The LDO needs about 0.3 V of headroom, 
 down to a cell at about 2.3 V; the BQ25125 cuts the battery off well above that (BUVLO 3.0 V
 default). Every I2C part reads 2.0 V as high: BQ25125 (thresholds 0.75 x its 1.8 V SYS), IS31FL3193
 (VIH 1.4 V), DRV2605L (1.3 V), LIS2DW12 (0.8 x its own 2.0 V supply).
+
+## Routing
+
+4-layer, 0.8 mm: F.Cu signals and parts, In1.Cu solid ground, In2.Cu signals plus ground pour,
+B.Cu signals plus ground pour and the dock landings. Ground pours on all four layers; In1 is unbroken
+under the radio and the RF line.
+
+- **Radio corner:** Nordic's QFN48 reference placement and vias, with the copper redrawn to the
+  house rules. The antenna corner is a keep-out on every layer (no pour, no vias).
+- **Charger:** the BQ25125's 0.4 mm ball grid fans out with 0.25/0.15 mm vias in the balls,
+  which must be **filled and capped (POFV)**. So must the LED driver's two pin vias and the via in
+  TP502.
+- **Trace audit** (`scripts/route/audit.py`): 0/45/90-degree segments only; no bend sharper
+  than 45 degrees; no step shorter than 0.3 mm between bends; every track end on a pad or via
+  centre; no overlapping or dangling copper. 510 segments and 158 vias pass. One exception: PMID
+  jogs 0.2 mm between test pads TP203 and TP707 (131.7, 107.25). The pads are 1.6 mm apart with
+  CHG_MR beside them, and any single 45-degree line comes within 0.06 mm of one pad.
+- The grid router and clean-up tools are in `scripts/route/`; `audit_ops/` holds the point edits
+  from the final audit pass.
 
 ## Source
 
