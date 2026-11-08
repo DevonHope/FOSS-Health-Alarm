@@ -23,6 +23,7 @@ hardware/
 │   └── rev-b/
 │       ├── pcb/             dock PCB, same circuit, stocked pins (dock-pcb-rev-b.kicad_pro)
 │       └── case/            dock housing rev B (print)
+├── reviews/                 design reviews (latest: 2026-11-08, two advisors per board)
 ├── strap/                   strap sewing patterns
 └── tools/                   printcheck.py (printability check for the printed parts)
 ```
