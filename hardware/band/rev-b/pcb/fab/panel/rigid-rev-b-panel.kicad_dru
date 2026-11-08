@@ -8,7 +8,7 @@
 
 # Via-in-pad under the BQ25125 (DSBGA-25, 0.4 mm pitch): 0.25/0.15 mm, epoxy filled and copper capped (POFV).
 (rule "bga_via_in_pad"
-	(condition "A.Type == 'Via' && A.insideCourtyard('U201_*')")
+	(condition "A.Type == 'Via' && A.insideCourtyard('U201_*') && A.Hole < 0.16mm")
 	(constraint via_diameter (min 0.25mm))
 	(constraint hole_size (min 0.15mm))
 	(constraint annular_width (min 0.05mm)))
@@ -18,15 +18,17 @@
 	(condition "(A.Parent == 'TP201_*' || A.Parent == 'TP202_*' || A.Parent == 'TP501_*' || A.Parent == 'TP502_*') && A.Net != B.Net")
 	(constraint clearance (min 0.5mm)))
 
-# Inside the BQ25125 footprint every via is filled and capped (POFV), so hole-to-copper can be 0.15 mm.
+# The BQ25125 via-in-pad vias (0.15 mm holes) are filled and capped (POFV), so hole-to-copper can be 0.15 mm.
+# These courtyard rules only match holes under 0.16 mm: ordinary vias inside the U201/U202 courtyards keep
+# the 0.2 mm hole and inner-layer clearances (review 2026-11-08, B-L4).
 (rule "bga_hole_clearance"
-	(condition "A.Type == 'Via' && A.insideCourtyard('U201_*')")
+	(condition "A.Type == 'Via' && A.insideCourtyard('U201_*') && A.Hole < 0.16mm")
 	(constraint hole_clearance (min 0.15mm))
 	(constraint clearance (min 0.1mm)))
 
 # U202 (IS31FL3193, DFN-10 0.5 mm): via in the outer end of pin 2 (VCC), 0.25/0.15 mm, filled and capped (POFV).
 (rule "dfn_via_in_pad"
-	(condition "A.Type == 'Via' && A.insideCourtyard('U202_*')")
+	(condition "A.Type == 'Via' && A.insideCourtyard('U202_*') && A.Hole < 0.16mm")
 	(constraint via_diameter (min 0.25mm))
 	(constraint hole_size (min 0.15mm))
 	(constraint annular_width (min 0.05mm))

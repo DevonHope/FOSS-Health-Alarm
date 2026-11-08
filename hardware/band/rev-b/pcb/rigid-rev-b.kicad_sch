@@ -10962,7 +10962,7 @@
 				)
 			)
 		)
-		(property "Description" "buck inductor (buck output unused; firmware may turn it off)"
+		(property "Description" "buck inductor (SYS buck must stay enabled: the BQ25125's /CD and LSCTRL thresholds are referenced to VSYS; output unloaded)"
 			(at 513.08 172.72 0)
 			(hide yes)
 			(show_name no)

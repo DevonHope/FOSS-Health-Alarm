@@ -12,6 +12,10 @@ experiments only; don't sell or distribute it as a product.
 **Status (2026-11-08):** schematic, placement and routing done. ERC 0; DRC 0 at every severity
 (errors and warnings), 0 unconnected, schematic parity 0. Trace audit clean except one forced
 0.2 mm jog (see Routing). Not built or tested yet.
+Review fixes of 2026-11-08 applied (`scripts/review_fixes_2026_11_08.py`): In1-only RF filter void with
+I2C_SDA/I2C_SCL moved out from under the filter (B-L1), courtyard via rules (B-L4), C6 at Nordic's
+position (B-L5), U201 mask dams (B-L6), feed stitching vias (B-L7). Not done: B-L3 (ESD parts next to the
+dock contacts), see Routing.
 
 ## What changed from rev A
 
@@ -105,7 +109,7 @@ debug domain powers down.
   then raise LS_CTRL. The watchdog undoes this after 50 s without I2C in host mode: the LED just
   goes dark, nothing is damaged.
 - **Battery level:** read VBMON (reg 0x0A): the battery voltage as a percentage of VBATREG, in 2 % steps.
-- **Ship mode:** with VIN absent, /CD high and /MR high, write EN_SHIPMODE. The cell then sees about 2 nA (the DRV2605L on VBAT adds its shutdown current). The dock (VIN) or shorting TP203 (/MR) to GND wakes it; the nRF54L10 then starts from reset.
+- **Ship mode:** with VIN absent, /CD high and /MR high, write EN_SHIPMODE. The cell then sees about 2 nA (the DRV2605L on VBAT adds its 4-7 uA shutdown current; see Power budget). The dock (VIN) or shorting TP203 (/MR) to GND wakes it; the nRF54L10 then starts from reset.
 
 ### IS31FL3193
 
@@ -166,7 +170,7 @@ at night, one wake buzz). Datasheet typicals; the stage 0 bench measurement repl
 | TPS7A0220 LDO (2.0 V rail) | 0.025 uA | plus the rail's own loads at the cell's current (no buck gain) |
 | nRF54L10 System ON idle, LFXO + GRTC running | about 2 uA | DC/DC on |
 | LIS2DW12 low-power mode, 12.5-25 Hz | about 1-2 uA | |
-| DRV2605L shut down (EN low), on VBAT | up to 4 uA | datasheet max; typical is lower |
+| DRV2605L shut down (EN low), on VBAT | 4 uA typical, up to 7 uA | TI datasheet (EN = 0, VDD = 3.6 V); straight from the cell, see below |
 | IS31FL3193 hardware shutdown (SDB low), on PMID | up to 2.5 uA | datasheet max |
 | Waking once a minute to read the accelerometer FIFO | a few uA | |
 | BLE: an occasional sync or advertising burst | a few uA | |
@@ -176,9 +180,13 @@ at night, one wake buzz). Datasheet typicals; the stage 0 bench measurement repl
 
 A 60 mAh cell lasts about two months between charges. The charge LED is off when the band
 is off the dock. The LS/LDO output (VLED) is switched off, so neither the LED nor its driver's
-outputs draw anything; the driver itself sits in hardware shutdown on PMID. Ship mode (about
-2 nA plus the DRV2605L and IS31 shutdown currents, which then have no supply because PMID
-drops) is for storage.
+outputs draw anything; the driver itself sits in hardware shutdown on PMID. Ship mode is for
+storage: the BQ25125 then draws about 2 nA and the IS31FL3193 loses its supply with PMID, but the
+DRV2605L runs from raw VBAT (before the BQ's battery FET), so neither ship mode nor the 3.0 V BUVLO
+cut-off disconnects it: it keeps drawing its 4-7 uA shutdown current. That would drain a flat cell to
+0 V in a few weeks; the 60 mAh cell (X2 Robotics) is a protected cell, and its own protection
+circuit stops the deep discharge. Keep this in mind if the cell changes (use a protected cell, or move
+the DRV2605L supply to PMID).
 
 **PMID and the LDO:** off the dock the BQ25125 runs PMID from the cell through its battery FET (at
 most 160 mV drop at 400 mA; microvolts at our currents), in active and Hi-Z modes alike. The BQ cuts
@@ -198,33 +206,52 @@ default). Every I2C part reads 2.0 V as high: BQ25125 (thresholds 0.75 x its 1.8
 ## Routing
 
 4-layer, 0.8 mm: F.Cu signals and parts, In1.Cu solid ground, In2.Cu signals plus ground pour,
-B.Cu signals plus ground pour and the dock landings. Ground pours on all four layers; In1 is unbroken
-under the radio and the RF line.
+B.Cu signals plus ground pour and the dock landings. Ground pours on all four layers. In1 is solid
+under the radio and the 50 ohm feed, with one void under the RF filter (below); In2 is solid GND
+under the filter and is its reference plane.
 
-**Departure from Nordic's reference (kept on purpose, review 2026-11-08):** Nordic's layout voids In1 and
-In2 under the RF filter (L2/L3/L4, C6/C9/C11) out to the board edge (rev B x 102.5-106.8, y 104.4-106.0).
-That void belongs to Nordic's 1.6 mm board, where the 0.76 mm RF line is referenced to the bottom layer.
-`scripts/transplant.py` skipped it (it lies past the copy box), and copying it now would put the filter
-directly over B.Cu I2C_SDA (y 105.2) with In2 SWDCLK alongside, so rev B keeps In1 solid as a shield. The
-cost is about +0.04-0.08 pF per filter node, a few tenths of a dB at most, small next to the antenna
-tuning the first spin needs anyway. Next spin, only if bring-up shows weak TX power or harmonics: void In1
-only (ending at x >= 103.5 so the 50 ohm feed keeps its reference) and move I2C_SDA out from under the filter.
+**RF filter void (review 2026-11-08, B-L1):** Nordic's layout voids In1 and In2 under the RF filter
+(L2/L3/L4, C6/C9/C11) out to the board edge; that void belongs to Nordic's 1.6 mm board, where the
+0.76 mm RF line is referenced to the bottom layer, and `scripts/transplant.py` skipped it (it lies past
+the copy box). Rev B copies it on **In1 only** (rule area "Nordic ref (In1 only): RF filter void":
+no pour or tracks, vias allowed), clipped at x >= 103.5 so the 50 ohm feed keeps its In1 reference:
+(106.832,105.961) (106.832,104.793) (104.495,104.793) (104.114,104.412) (103.5,104.412) (103.5,105.986)
+(103.809,105.986) (104.19,105.605) (106.197,105.605) (106.197,105.961). In2 GND (0.47 mm down) is
+the filter's reference instead, so no signal runs on In2 or B.Cu inside x 102.5-106.9, y 103.8-106.6:
+I2C_SDA (B.Cu) used to run straight under the ladder at y 105.2 and now passes above it (y 102.6-103.6,
+round the ACC_INT1 via, which moved 0.57 mm up its own diagonal to (105.95, 103.2)); I2C_SCL drops to
+B.Cu at (101.3, 104.6), left of the feed, and crosses under the feed at y 108.7. Nordic's small void
+under the C9 ground island stays on In1 (it overlaps the new one) and was removed from In2, so the
+island's vias tie it to In2 and B.Cu, the planes under the filter (Nordic ties it to their bottom
+reference). The shunt caps' other GND vias reach In2 and B.Cu, and C6 is back at Nordic's position
+(B-L5).
 
 - **Radio corner:** Nordic's QFN48 reference placement and vias, with the copper redrawn to the
   house rules. The antenna corner is a keep-out on every layer (no pour, no vias).
 - **Charger:** the BQ25125's 0.4 mm ball grid fans out with 0.25/0.15 mm vias in the balls,
   which must be **filled and capped (POFV)**. So must the LED driver's VCC pin via (U202.2) and the
-  via in TP502.
+  via in TP502. Only these 0.15 mm-hole vias get the relaxed POFV clearances (`.kicad_dru`, hole < 0.16 mm);
+  ordinary vias inside the U201/U202 courtyards keep 0.2 mm hole-to-copper (B-L4). The ball mask openings
+  are 0.29 mm (0.03 mm margin on the 0.23 mm pads, not the datasheet's 0.31 mm) so the mask dams are
+  0.11 mm, above JLCPCB's 0.10 mm minimum (B-L6).
 - **Trace audit** (`scripts/route/audit.py`): 0/45/90-degree segments only; no bend sharper
   than 45 degrees; no step shorter than 0.3 mm between bends; every track end on a pad or via
-  centre; no overlapping or dangling copper. 510 segments and 158 vias pass. One exception: PMID
+  centre; no overlapping or dangling copper. 513 segments and 168 vias pass. One exception: PMID
   jogs 0.2 mm between test pads TP203 and TP707 (131.7, 107.25). The pads are 1.6 mm apart with
   CHG_MR beside them, and any single 45-degree line comes within 0.06 mm of one pad.
-- **Ground stitching:** In1 is one unbroken GND fill with no tracks on it. 77 GND vias. Every In2
-  fill island has at least 2. The RF feed has 12 GND vias within 1 mm of it, and there are 4 along
-  the antenna keep-out's inner edges. Top and bottom pours: 15 of 37 islands have 2 or more vias.
+- **Ground stitching:** In1 is one GND fill with no tracks on it (only the RF filter void above). 85 GND
+  vias. Every In2 fill island has at least 2. The 0.36 mm feed (RF_50/ANT_FEED, C11 to the antenna
+  keep-out) has 9 GND vias within 1 mm of its centre line (0.57-0.79 mm; 8 of them 0.4/0.2 mm, added in
+  the 2026-11-08 review, B-L7), on both sides where R2 and the C14/C15 pads leave room; none fit inside
+  the keep-out or between the feed and the C14/C15 pads. There are 4 along the antenna keep-out's inner
+  edges. Top and bottom pours: 16 of 38 islands have 2 or more vias.
   The rest are small fragments between routes, held by one via plus their parts' GND pads; there is
   no room left for a second via that clears every layer (`scripts/route/stitch.py` tries).
+- **ESD parts (review B-L3, not changed):** D601-D603 and R601/R602 sit 12-30 mm of trace from the dock
+  contacts. They can't move next to J601 without a re-layout: the case's dock land covers the top side
+  over the SWD pin pair (x >= 127.6, y < 103.2), the space beside it holds U501, C502 and TP203, and at the
+  VIN contact the LED D702 (fixed under the case window), TP705 and U202 fill the top side; parts can't go
+  on the bottom (top-side assembly only). Next spin.
 - The grid router and clean-up tools are in `scripts/route/`; `audit_ops/` holds the point edits
   from the final audit pass.
 

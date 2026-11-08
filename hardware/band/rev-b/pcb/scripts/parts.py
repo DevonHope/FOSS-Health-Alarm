@@ -90,7 +90,7 @@ PARTS = [
       "C1": "ISET", "C2": "GND", "C3": "TS", "D1": "GND",
       "E4": "I2C_SDA", "E5": "I2C_SCL", "D2": "PMIC_INT", "D4": "DOCK_PG", "E2": "CHG_CD", "E3": "LS_CTRL", "E1": "CHG_MR"},
      ["D3"], "charger 4.2 V, buck 1.8 V (default, unused), LS/LDO for the LED driver (firmware sets LS mode), I2C 0x6A; BQ25120A fits unchanged"),
-    ("L201", "Device:L", "2.2uH", "Inductor_SMD:L_Murata_DFE201610P", "C337891", "Murata DFE201610E-2R2M", {"1": "SW", "2": "VSYS"}, [], "buck inductor (buck output unused; firmware may turn it off)"),
+    ("L201", "Device:L", "2.2uH", "Inductor_SMD:L_Murata_DFE201610P", "C337891", "Murata DFE201610E-2R2M", {"1": "SW", "2": "VSYS"}, [], "buck inductor (SYS buck must stay enabled: the BQ25125's /CD and LSCTRL thresholds are referenced to VSYS; output unloaded)"),
     C("C201", "1uF", "C52923", "VIN", desc="IN (25 V)"),
     C("C206", "10uF", "C96446", "PMID", fp=C0603, desc="PMID and VINLS (>= 10x the LS cap)"),
     C("C205", "10uF", "C96446", "VSYS", fp=C0603, desc="SYS (buck output, unloaded)"),
