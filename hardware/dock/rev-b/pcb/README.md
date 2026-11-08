@@ -41,9 +41,10 @@ assembly; the four spring pins are hand-soldered.
 | Input | 500 mA PTC FSMD050-0805 (C181350), 10 uF (C19702) | |
 | Probe | RP2040 (C2040), W25Q16JVSNIQ 2 MB flash (C2456211), 12 MHz crystal (C2981639) + 2 x 15 pF, BOOTSEL TS-1088 (C720477) | Raspberry Pi Debug Probe pin map: SWCLK GPIO12, SWDI GPIO13, SWDIO GPIO14, LEDs GPIO2 (USB) and GPIO16 (DAP running) |
 | Rails | XC6206P332MR 3.3 V (C2897477), XC6206P182MR 1.8 V (C21659) | |
-| SWD level shift | 74LVC1T45 (C168856) for SWCLK, TXS0101 (C132604) for SWDIO, 22 R series | band side at 1.8 V, so 3.3 V never reaches the band |
-| Band power | SY6280AAC (C55136), Rset 15 k (C25756) | current-limited switch, about 0.45 A (the part's minimum is 0.4 A), behind the PTC |
+| SWD level shift | 74LVC1T45 (C168856) for SWCLK, TXS0101 (C132604) for SWDIO, 22 R on the SWDIO drive (C25092), 100 k pull-down on the 74LVC1T45 input (R15, 0201, C106224) | band side at 1.8 V, so 3.3 V never reaches the band; R15 holds SWCLK low when debugprobe releases GPIO12 after a session |
+| Band power | SY6280AAC (C55136), Rset 33 k (C25779) | current-limited switch: 6800 / 33 k = 0.21 A (0.16-0.26 A at the part's +-25 %); the band draws at most 0.1 A |
 | Pins | 4 x Mill-Max 0906-4-15-20-75-14-11-0 (stocked; was -72, special order) | hand-soldered; the GND pin (P3) has a thermal relief so it solders by hand |
+| Pin protection | USBLC6-2SC6 (U9, C7519) on SWCLK/SWDIO, SMF6.0A TVS (D3, C123790) on VIN, 100 R in series with both SWD pins (R11, R12, C25076) | the pins are bare contacts people touch; U9's clamp rail is VIN, so a coin across VIN and an SWD pin draws nothing through it, and 100 R limits what reaches the translators |
 
 **Why these translators.** The stock firmware has no direction pin for
 SWDIO (GPIO14 drives, GPIO13 reads the same line), so SWDIO needs an
@@ -64,11 +65,32 @@ on its pad or via centre, no dangling ends. The router's leftovers were
 re-laid by hand (QSPI fan-out, the RP2040 inner +1V1/+3V3 links, SWD and
 power stubs; C3, C6, C10, C19, R4, R10, R11 and R13 nudged so their pad
 centres line up with 45-degree runs). DRC with parity 0 / 0 / 0, with
-`track_not_centered_on_via` as an error; ERC 0. Segments 376, vias 88 (after the 2026-11-08 review fix that moved 27 vias out of SMD pads, `scripts/dogbone_vias.py`; still in a pasted pad: U3 pin 5 (VBUS, boxed in by USB_DP) and the four RP2040 thermal-pad vias).
+`track_not_centered_on_via` as an error; ERC 0. Segments 392, vias 90.
+
+**Review fixes (2026-11-08).** `scripts/dogbone_vias.py` moved 27 vias out of SMD pads;
+`scripts/review_fixes.py` (run after it) does the rest of the layout side, and `parts.py` /
+`gen_sch.py` the schematic side:
+
+- No open via sits under paste any more. U3 pin 5's VBUS via moved between U3's pin columns (its
+  GND via moved west), and the RP2040 thermal pad's four paste squares became 16 windows that keep
+  0.1 mm off each via drill (0.2 mm stencil webs, no islands, 57 % paste coverage). So no filled or
+  capped vias are needed.
+- ESD/TVS on the pins (U9, D3, R11/R12 at 100 R), SWCLK pull-down (R15), band current limit 0.21 A (R6
+  33 k): see the table above.
+- SWDIO_DRV no longer runs between the crystal's pads: it drops to B.Cu at RP2040 pin 17. XOUT still
+  runs on In2 under the solid In1 ground (a top-layer XOUT would need the crystal turned, and then the SWD
+  pins block XIN).
+- VBUS_F's 21 mm inner-layer run is 0.45 mm wide (was 0.3).
+- Silkscreen: pin-1 dots, LED and TVS cathode bars, P1-P4 labels and "WakeBand dock rev B" (the board
+  had no legend).
+- Not done: moving C15 (VREG_VOUT 1 uF) next to RP2040 pins 45/50 and extra 100 nF on USB_VDD/ADC_AVDD.
+  The space under those pins is taken by R4/R5 and the USB and QSPI tracks; it needs a re-placement.
+
+`fab/bom_jlcpcb.csv` is written by `scripts/gen_bom.py` from `parts.py`.
 
 **Cost (rough, JLCPCB, 5 boards):** board about US$10 for a small 4-layer
 order; parts about US$4 a board (RP2040 0.90, flash 1.00, crystal 0.09, the
-rest cents each) plus about US$3 setup per extended part type (about 12);
+rest cents each) plus about US$3 setup per extended part type (about 14);
 spring pins a few US$ each from distributors (4 a dock).
 
 **Fab:** `fab/dock-pcb-rev-b-fab.zip` (Gerbers, drill, `bom_jlcpcb.csv`,
@@ -80,8 +102,8 @@ the RP2040, SOT-23 parts and USB-C rotations in the JLCPCB preview.
 - USB 5 V goes through the PTC to the SY6280 switch and out to the band's
   VIN pin; the band's nPM1304 does the charging (firmware sets the charge
   current, see the board README).
-- If the band's pins short, the switch limits at about 0.45 A and the PTC
-  backs it up.
+- If the band's pins short, the switch limits at about 0.21 A. The PTC (1 A trip) will not trip at
+  that current; the switch's own thermal shutdown is the backstop.
 - The probe side draws about 30-40 mA from USB.
 - The band's SWD lines see 1.8 V from the dock. The band's I/O runs at
   2.0 V, which reads 1.8 V as high, and the TXS0101 accepts the band's 2.0 V.

@@ -2,7 +2,7 @@
 	(version 20260306)
 	(generator "eeschema")
 	(generator_version "10.0")
-	(uuid "59fd5807-8c65-436f-bcba-6f0ad1d1546e")
+	(uuid "4f3a93aa-219d-45f0-881f-37ddbfa6a5ff")
 	(paper "A3")
 	(title_block
 		(title "WakeBand dock rev B - USB-C charger and SWD probe")
@@ -10,7 +10,7 @@
 		(rev "B")
 		(company "FOSS Health Alarm")
 		(comment 1 "RP2040 running Raspberry Pi debugprobe (Debug Probe pin map: SWCLK GPIO12, SWDI GPIO13, SWDIO GPIO14, LEDs GPIO2/16)")
-		(comment 2 "Band side of SWD at 1.8 V (no VTref on the 4 dock pins); VIN 5 V through a 0.45 A switch")
+		(comment 2 "Band side of SWD at 1.8 V (no VTref on the 4 dock pins); VIN 5 V through a 0.21 A switch; ESD/TVS on the 4 pins")
 	)
 	(lib_symbols
 		(symbol "MCU_RaspberryPi:RP2040"
@@ -4377,6 +4377,172 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:D_Zener"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "D"
+				(at 0 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "D_Zener"
+				(at 0 -2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Zener diode"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "diode"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "TO-???* *_Diode_* *SingleDiode* D_*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "D_Zener_0_1"
+				(polyline
+					(pts
+						(xy -1.27 -1.27) (xy -1.27 1.27) (xy -0.762 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 0) (xy -1.27 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -1.27) (xy 1.27 1.27) (xy -1.27 0) (xy 1.27 -1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "D_Zener_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 2.54)
+					(name "K"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:LED"
 			(pin_numbers
 				(hide yes)
@@ -4833,7 +4999,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "fee102d4-e7e6-44fd-a516-ab5c63fc98a1")
+		(uuid "e6fb8320-b835-49a2-b066-d726860e017b")
 		(property "Reference" "U1"
 			(at 81.28 95.60 0)
 			(show_name no)
@@ -4910,179 +5076,179 @@
 			)
 		)
 		(pin "1"
-			(uuid "4b5430b4-3970-4020-9feb-3c8c76b90d6b")
+			(uuid "9b165c31-44c4-4bb2-ab41-2c4dee0d55c9")
 		)
 		(pin "2"
-			(uuid "09b03f68-1d5d-46dc-8a63-570d894eb7a4")
+			(uuid "e5c585d1-b9f3-45d9-a76a-360bd88d0c28")
 		)
 		(pin "3"
-			(uuid "5a94fc73-5f37-43b0-b8ef-2c33c593fd11")
+			(uuid "e179aa25-5ecb-493d-bd17-7dd2b0fe8f4d")
 		)
 		(pin "4"
-			(uuid "1008498a-88e4-4d14-92a5-1ed8d33af666")
+			(uuid "35fca023-742a-46e1-b33f-d06e450971db")
 		)
 		(pin "5"
-			(uuid "3412c691-6c0e-43e4-9e31-53c8874300ec")
+			(uuid "b48bdc85-fb6c-49ff-8e86-085d74bcedde")
 		)
 		(pin "6"
-			(uuid "fb6bd9c9-6742-4f86-96e2-4d65fdd5053f")
+			(uuid "5e91be9f-67f8-4b77-8ef2-f71dccdf8b6f")
 		)
 		(pin "7"
-			(uuid "c119b092-2798-42ce-abe8-8076b0e7edc4")
+			(uuid "199f055e-7e8f-45ef-ab57-60bfc10ff684")
 		)
 		(pin "8"
-			(uuid "49f7ebd3-410b-4582-aef1-669f5c167f50")
+			(uuid "44bce25e-5068-46e7-829b-4e96a5f3066a")
 		)
 		(pin "9"
-			(uuid "5e386d61-259b-40ce-9d2f-1b7e97c2ec8c")
+			(uuid "1f688704-b929-4d07-a769-b5d47861b718")
 		)
 		(pin "10"
-			(uuid "48eeb4b6-9121-46e5-af0a-630961739eee")
+			(uuid "1854a52c-a745-482b-8223-b87977e5a34e")
 		)
 		(pin "11"
-			(uuid "dba2d1bc-5b44-4f78-bb3c-4d3425881d5b")
+			(uuid "79fff814-63a1-4328-8e6a-b6431b09803d")
 		)
 		(pin "12"
-			(uuid "b1a31923-8a98-4658-9dce-4c5acaf35e64")
+			(uuid "a5a28082-9aa8-4739-8894-6ae6c95a3ecd")
 		)
 		(pin "13"
-			(uuid "f6547e02-f9b3-4782-8a45-4e387e441125")
+			(uuid "e7b6d08b-2e2b-4e7e-ae8c-a3d87eaa8382")
 		)
 		(pin "14"
-			(uuid "59faaf9f-2e6c-4f3b-a8cc-fe7521a2a2a4")
+			(uuid "50596a44-9ecf-40cf-bae4-0f66a34a7e80")
 		)
 		(pin "15"
-			(uuid "49e4d76b-d3f9-41a6-b80c-df6c01755081")
+			(uuid "0377d369-42af-47b3-954e-60b8abb272cd")
 		)
 		(pin "16"
-			(uuid "4b79ec23-bfad-4154-a862-c1446aaa65b4")
+			(uuid "37b103d2-099d-4c8f-9a78-857addf337dd")
 		)
 		(pin "17"
-			(uuid "040e53be-79cb-4af9-b3aa-9c2e8cc26332")
+			(uuid "74050809-350d-48ef-9100-5cdc9e96482d")
 		)
 		(pin "18"
-			(uuid "637ce122-1218-4b17-90fa-ad98c6e80e1c")
+			(uuid "5be354c9-b489-4f4b-a798-1bb4060f7806")
 		)
 		(pin "19"
-			(uuid "94d86f9a-2e6d-4aac-bee2-2b9331b038c7")
+			(uuid "e9adf48b-b98c-432c-8514-b5e58dc17c8c")
 		)
 		(pin "20"
-			(uuid "f03fe36b-a30d-4590-8008-cb96b852b5b1")
+			(uuid "3a12d9f3-e4d7-4c62-9e04-8bfe22b67f52")
 		)
 		(pin "21"
-			(uuid "9ae7320b-4b1a-4537-abb9-28d54017ebe0")
+			(uuid "5740d952-f962-462e-9302-bb642ca879f6")
 		)
 		(pin "22"
-			(uuid "572dd7a1-b955-4cf6-864d-def0ca05eff7")
+			(uuid "05344d6f-a867-4ca4-b53d-3dad014714bd")
 		)
 		(pin "23"
-			(uuid "30908bec-e8a4-48d6-b8e3-423689f3ecec")
+			(uuid "d08fc4fc-e0fe-4634-a48c-f462c4e754aa")
 		)
 		(pin "24"
-			(uuid "eb2b8a89-0cdc-4897-ba1b-e002584e16fb")
+			(uuid "f542d56e-23aa-4a7c-98ff-af7f4642459b")
 		)
 		(pin "25"
-			(uuid "102d955a-3c84-41b8-b9cb-aa9790219642")
+			(uuid "aa84cd19-a794-4d53-960c-82e644c6ad28")
 		)
 		(pin "26"
-			(uuid "2730a859-1273-4820-885e-b4f3c617d765")
+			(uuid "b1c8ab16-67fa-46a3-b598-3907a1e8f08f")
 		)
 		(pin "27"
-			(uuid "f7514934-c6b3-4749-9731-0e3ff11d0d47")
+			(uuid "e364a4eb-9ae7-4f91-8550-7d7fd16f251b")
 		)
 		(pin "28"
-			(uuid "bcf8bf54-f639-4b86-bdb3-49f5027ac58b")
+			(uuid "93452e23-df61-4f9d-825a-058fa5f461ea")
 		)
 		(pin "29"
-			(uuid "66f0c0fc-ae1a-4894-aea0-695453c3c537")
+			(uuid "5e8e475c-7c51-4566-9855-e80ef84db8d4")
 		)
 		(pin "30"
-			(uuid "1be228a2-e01e-4928-9962-52c3bc823f42")
+			(uuid "8ee79b13-17c5-468e-92bd-ab00a84ebca0")
 		)
 		(pin "31"
-			(uuid "4d918013-d07c-4378-a50c-84a1e507bc01")
+			(uuid "2f4851fb-a5d3-422a-ad3d-c6d69ea16df9")
 		)
 		(pin "32"
-			(uuid "bb585fb9-9bf7-4300-bfc8-07713657fcc4")
+			(uuid "3c86346d-58b4-4a61-8b3c-489c82dff8e5")
 		)
 		(pin "33"
-			(uuid "cbdb5635-7894-49be-9629-7efff451e93b")
+			(uuid "f544abbd-4caa-457b-bec1-1c12ee93f625")
 		)
 		(pin "34"
-			(uuid "6569eb2d-f48b-4b55-b18f-ece692d168c2")
+			(uuid "d0131049-8f8c-403c-b84f-534b6ace30e5")
 		)
 		(pin "35"
-			(uuid "2818f991-1640-4f57-97a3-80dd18e773c1")
+			(uuid "a0b73365-1050-4ea6-b0a6-560309a839e0")
 		)
 		(pin "36"
-			(uuid "66cfd111-5b94-4c1b-bb92-19514607a9d6")
+			(uuid "7e0f3fd1-c59e-4e10-997b-25acf096aba7")
 		)
 		(pin "37"
-			(uuid "1ec0ac7b-3730-4cf5-911f-2ec71d0ba6e5")
+			(uuid "12d24d76-02f7-45c4-9157-a15d357666b7")
 		)
 		(pin "38"
-			(uuid "47260393-d897-4783-aed3-cc17aa61e1e5")
+			(uuid "b48428b7-10d8-426f-a1d7-c05a88e115b2")
 		)
 		(pin "39"
-			(uuid "ee942b09-d085-40cd-a74e-533de0431268")
+			(uuid "3f294a76-7542-48da-b427-9cd023d7a558")
 		)
 		(pin "40"
-			(uuid "a41f7572-63ed-42da-8447-61ddba340f63")
+			(uuid "e90420aa-c876-418a-b388-4d4a8ddb5f82")
 		)
 		(pin "41"
-			(uuid "80b84101-9ef2-4cb8-8fb6-ba250e44d828")
+			(uuid "19b59d7f-ae39-4bfc-a3bf-afa37bf29533")
 		)
 		(pin "42"
-			(uuid "1f0c6307-cd1a-4deb-b8f9-a7c2cc2d9363")
+			(uuid "a3cacbea-432c-43bc-af17-acbdc968fa77")
 		)
 		(pin "43"
-			(uuid "d73a1077-1746-4310-a098-561da3a6d871")
+			(uuid "32e91ce6-75e9-4915-b03b-c9570ce68db3")
 		)
 		(pin "44"
-			(uuid "288b5999-9c3d-47af-9a50-da4f663d9c96")
+			(uuid "d7fc6453-b677-4305-8eff-4a3318785198")
 		)
 		(pin "45"
-			(uuid "ebb62b26-b7af-4b9d-9d16-12fabdf5c55d")
+			(uuid "e89730e2-974d-4da3-939d-428228fd6d0e")
 		)
 		(pin "46"
-			(uuid "e094a3ca-41fa-45f8-8288-6b69d967b707")
+			(uuid "d36ed22f-20dd-4945-8912-0243620d7c86")
 		)
 		(pin "47"
-			(uuid "c76541ab-8238-4917-b564-ef1650dc2321")
+			(uuid "5a6b45c7-5ae4-49a1-ae8c-32a04dfaa407")
 		)
 		(pin "48"
-			(uuid "474f2545-3efe-4b78-b01c-5deffdd26736")
+			(uuid "8f2568ae-b100-47db-9905-91f81ad36a0d")
 		)
 		(pin "49"
-			(uuid "f19236c7-dd47-488b-98bb-d2724e706fb7")
+			(uuid "0720429d-bfa1-4ecf-b8e4-be49b3ce82c4")
 		)
 		(pin "50"
-			(uuid "77ba2a8c-6630-4c03-be13-b061ea6cf1c8")
+			(uuid "c06a4479-919b-465a-81f2-4824f51649fc")
 		)
 		(pin "51"
-			(uuid "47657595-fd32-4f85-ad58-8d51751c95da")
+			(uuid "c76f4902-fcb4-4957-89af-4eee2d74cbc5")
 		)
 		(pin "52"
-			(uuid "aef1c26d-7e67-4e19-8bb6-9d1b0669a0d2")
+			(uuid "538289b2-1b1d-4b8b-bab4-15d034fc3c33")
 		)
 		(pin "53"
-			(uuid "a6a1769d-49cc-41f9-99b3-2b12e0ca8051")
+			(uuid "46cd15fe-7260-4c0f-8fad-a4ef96ac288d")
 		)
 		(pin "54"
-			(uuid "6d5b0815-85f5-42bc-95c5-4f19b3456c92")
+			(uuid "35133419-3f30-4a97-b032-7c60402315b8")
 		)
 		(pin "55"
-			(uuid "67d24795-7a25-4e4b-a725-ebd867a35802")
+			(uuid "b3ba12c9-3898-4bf1-927f-28a01683393a")
 		)
 		(pin "56"
-			(uuid "c748c262-c0f3-4136-a603-c5e08cb703f9")
+			(uuid "e2975345-0c14-4f3a-8531-36e285e5d5b1")
 		)
 		(pin "57"
-			(uuid "f71949d7-206f-4283-864c-35904d8916a2")
+			(uuid "15a3d753-a5e6-49a1-9205-9149078f012a")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "U1")
 					(unit 1)
 				)
@@ -5097,15 +5263,15 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "f707d7c2-b3e9-49ff-b068-3fab68912f8e")
+		(uuid "dbb2a206-7d76-4276-b7cc-040bd8a5cc10")
 	)
 	(no_connect
 		(at 104.14 63.50)
-		(uuid "2194ea9b-11b2-4b62-a05d-a6012be44acb")
+		(uuid "4621369a-9361-494a-8150-b25a5a6e3a1f")
 	)
 	(no_connect
 		(at 104.14 66.04)
-		(uuid "ee5a2191-4a8c-45c2-8402-cdc5ba104be8")
+		(uuid "4790b34d-e0da-4239-a6b7-82dc363b2659")
 	)
 	(label "LED_USB"
 		(at 104.14 68.58 0)
@@ -5115,27 +5281,27 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "581d52cd-1336-46a6-a0ae-ccc5420cdce4")
+		(uuid "a45628f9-156f-42d8-a0de-8c1c9d799649")
 	)
 	(no_connect
 		(at 104.14 71.12)
-		(uuid "9da31998-c36c-490c-93da-7bf9b3e9ec93")
+		(uuid "508571f6-ce0e-4124-a6e7-c4dc1e1957bf")
 	)
 	(no_connect
 		(at 104.14 73.66)
-		(uuid "2765d6f3-7a64-41c5-869a-3bf52bb55e98")
+		(uuid "390e444d-f508-4ff4-97d0-dc01673777b0")
 	)
 	(no_connect
 		(at 104.14 76.20)
-		(uuid "73c92c75-d008-47ac-a24c-a70a01ee7112")
+		(uuid "b934a6e5-e7f6-4d9d-8a90-bd7d8a2b362b")
 	)
 	(no_connect
 		(at 104.14 78.74)
-		(uuid "55a174d1-739b-424e-9738-7e5396e7d743")
+		(uuid "401ed06b-938d-4a46-972d-4aecbc7d18f1")
 	)
 	(no_connect
 		(at 104.14 81.28)
-		(uuid "cf221a0e-d283-42b9-b1de-ddedfa38f4c7")
+		(uuid "ea37c777-df20-4220-96f7-d59bc5cab61a")
 	)
 	(label "+3V3"
 		(at 76.20 55.88 90)
@@ -5145,23 +5311,23 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "fef3ffe9-80da-4283-8c9c-e74657d03f70")
+		(uuid "cab3ccb0-db7a-4390-8201-d56a299491c1")
 	)
 	(no_connect
 		(at 104.14 83.82)
-		(uuid "423e9014-e23c-440e-a6ed-7e501b337486")
+		(uuid "2eb81f03-0048-4631-91aa-f1353fc4f105")
 	)
 	(no_connect
 		(at 104.14 86.36)
-		(uuid "18b63604-3113-47c5-a9d6-6c15051eee20")
+		(uuid "79a543eb-31a3-4122-af88-fe6f4b79fbe9")
 	)
 	(no_connect
 		(at 104.14 88.90)
-		(uuid "58d05fc5-1bff-4d7d-84f2-6595e03da3ee")
+		(uuid "7a6f0664-5a77-4f07-a9d3-f2fb7348123f")
 	)
 	(no_connect
 		(at 104.14 91.44)
-		(uuid "39f743e8-cd91-4c6f-bb0b-f57e5d227205")
+		(uuid "2c64362e-f94a-420a-a4bc-89ead00c8568")
 	)
 	(label "SWCLK_3V3"
 		(at 104.14 93.98 0)
@@ -5171,7 +5337,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "e646a756-8b26-44de-b699-cca012c8b1ae")
+		(uuid "680e9200-91d2-4013-a453-9d76d95b848e")
 	)
 	(label "SWDIO_3V3"
 		(at 104.14 96.52 0)
@@ -5181,7 +5347,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "d046a579-613a-40b6-b688-648ebb587761")
+		(uuid "48d40e93-1a6c-4919-ae4b-5d820218dc37")
 	)
 	(label "SWDIO_DRV"
 		(at 104.14 99.06 0)
@@ -5191,11 +5357,11 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "1f5995c2-1dc9-43a7-a4b1-43aa167dd9e8")
+		(uuid "3faca766-ba7e-4599-9da2-58089cf905c9")
 	)
 	(no_connect
 		(at 104.14 101.60)
-		(uuid "97a8d0b2-c7ff-4fb8-b045-a0e2156d0bae")
+		(uuid "a8e9aeaf-3fd3-44b7-943a-aad042771ffa")
 	)
 	(label "GND"
 		(at 53.34 71.12 180)
@@ -5205,7 +5371,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "3ea47a4d-57e1-4cfa-a614-ed2ae87478e0")
+		(uuid "b3a69ab1-405a-4223-ab81-2e75b51465b5")
 	)
 	(label "XIN"
 		(at 53.34 116.84 180)
@@ -5215,7 +5381,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "62a62e65-fd4b-4e0e-83dc-61dc3a0249ca")
+		(uuid "de856934-67b6-4e23-be1b-8284fd61a28e")
 	)
 	(label "XOUT"
 		(at 53.34 127.00 180)
@@ -5225,7 +5391,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "5ff206dd-98ed-4390-9a1d-9d899ec2bdc0")
+		(uuid "55e13814-c643-4d8c-8645-9839935640fe")
 	)
 	(label "+3V3"
 		(at 76.20 55.88 90)
@@ -5235,7 +5401,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "186b0135-2ff0-4f0b-9bc7-045fa3b19ad9")
+		(uuid "e8fa9ac4-bdaf-4c76-abc2-1cb8a06b507d")
 	)
 	(label "+1V1"
 		(at 91.44 55.88 90)
@@ -5245,7 +5411,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "8e9f6e80-7e66-457e-961f-aed022e21461")
+		(uuid "ff6a1433-fd02-429d-b466-738f279890c0")
 	)
 	(label "RP_SWCLK"
 		(at 53.34 134.62 180)
@@ -5255,7 +5421,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "925fd975-d3ff-49fa-a05e-1c01bdd74fda")
+		(uuid "d53e07e0-215c-4cf5-b10f-d25a28e9f476")
 	)
 	(label "RP_SWDIO"
 		(at 53.34 137.16 180)
@@ -5265,7 +5431,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "a5068e4d-7ea0-4d37-a460-63a619a6a4af")
+		(uuid "f4ca90ba-517b-428b-8072-caa6f3017eee")
 	)
 	(label "RUN"
 		(at 53.34 78.74 180)
@@ -5275,7 +5441,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "02033b86-5327-42d0-8b88-09724a010e78")
+		(uuid "27ce7d02-bf26-490d-a0c3-c51c785cb149")
 	)
 	(label "LED_ACT"
 		(at 104.14 104.14 0)
@@ -5285,27 +5451,27 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "ebc688dd-c643-4535-9e53-5e2afb56089d")
+		(uuid "fe16921b-3e3c-4052-804b-a412e66b472c")
 	)
 	(no_connect
 		(at 104.14 106.68)
-		(uuid "564461fb-3d51-474a-b169-f0c9a0f18582")
+		(uuid "4c2ff182-196b-49b8-ba46-b2497ffef477")
 	)
 	(no_connect
 		(at 104.14 109.22)
-		(uuid "4bba7fe0-cce2-40ae-a619-962de430678a")
+		(uuid "d51a8623-4fa3-4ad3-90c2-cdb63657e46b")
 	)
 	(no_connect
 		(at 104.14 111.76)
-		(uuid "3ebd7fe8-570a-4e1d-b928-c4bdc8d3fa84")
+		(uuid "1679a6ac-457c-4e04-8d05-7b8d654b44f0")
 	)
 	(no_connect
 		(at 104.14 114.30)
-		(uuid "9df844b7-18ff-45b1-8950-8bf168cfe1d8")
+		(uuid "f805a72c-bca1-468c-bc07-c8200911628f")
 	)
 	(no_connect
 		(at 104.14 116.84)
-		(uuid "977ed1f6-6c3b-425e-86a5-1dbd0b4e656c")
+		(uuid "31bb4040-c36e-4db4-8c23-915712ba246d")
 	)
 	(label "+3V3"
 		(at 76.20 55.88 90)
@@ -5315,39 +5481,39 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "63c6ec81-0049-4ac3-88f3-1ec8bbae5733")
+		(uuid "a1d07ab0-9b6d-42a3-9a9d-9f18eaea50cb")
 	)
 	(no_connect
 		(at 104.14 119.38)
-		(uuid "644a0128-0dec-4d72-a6ea-e82271a320f2")
+		(uuid "f2221479-76b3-4106-a6d9-4e2d083dced7")
 	)
 	(no_connect
 		(at 104.14 121.92)
-		(uuid "75429fe8-ffce-40cf-8a47-5bed17c184c8")
+		(uuid "b497f582-b6a2-4c0c-a966-c417e8bfc56e")
 	)
 	(no_connect
 		(at 104.14 124.46)
-		(uuid "043d46f9-f914-47a5-b4f3-c85060617c42")
+		(uuid "37086626-8d29-4f44-9d2e-ebb9cd9a5b55")
 	)
 	(no_connect
 		(at 104.14 127.00)
-		(uuid "67b2fcab-58a2-45c1-98eb-526d39d348d7")
+		(uuid "96a16d6f-7685-4222-8444-9250619d0748")
 	)
 	(no_connect
 		(at 104.14 132.08)
-		(uuid "0c29b563-74f3-4bfe-a725-16e0093dda04")
+		(uuid "35d984bf-f055-41ba-8472-5b7c59b18e4e")
 	)
 	(no_connect
 		(at 104.14 134.62)
-		(uuid "fb39ba9d-879f-4378-8d63-bb6f6aba0b43")
+		(uuid "6e44eea4-0248-418f-b95e-dfaa3f0588bd")
 	)
 	(no_connect
 		(at 104.14 137.16)
-		(uuid "28c6bbbd-6f39-48f7-a1ad-e948f8f5f1c5")
+		(uuid "b06b240c-5304-4b92-9a19-cbea8d11dbcd")
 	)
 	(no_connect
 		(at 104.14 139.70)
-		(uuid "ae7798e2-d757-44db-964c-d56fd3cf1a7b")
+		(uuid "a53412ce-3b4f-424d-856a-407245e7853e")
 	)
 	(label "+3V3"
 		(at 76.20 55.88 90)
@@ -5357,7 +5523,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "08e33522-e6e8-42c6-aacd-a85b1162b4ad")
+		(uuid "16ba7968-3a1b-4197-b2d0-1591a46ee128")
 	)
 	(label "+3V3"
 		(at 68.58 55.88 90)
@@ -5367,7 +5533,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "a5bf431b-9443-436f-b35f-696163acef9e")
+		(uuid "44350c14-2ed3-4af1-a1f8-c96b21f97ab4")
 	)
 	(label "+3V3"
 		(at 81.28 55.88 90)
@@ -5377,7 +5543,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "7601940b-659d-4cdf-8176-93688847e362")
+		(uuid "914b5f98-1b1e-46be-9441-8227d534b52b")
 	)
 	(label "+1V1"
 		(at 86.36 55.88 90)
@@ -5387,7 +5553,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "da48edb2-d2a3-4ec2-ae84-ba14c5899a99")
+		(uuid "da24584c-22f2-4119-af4a-3ca2d0aa563b")
 	)
 	(label "USB_DM_MCU"
 		(at 53.34 86.36 180)
@@ -5397,7 +5563,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "bd748fdd-c91a-4146-986d-f06916c2a765")
+		(uuid "56de9f83-48e3-4131-a6e2-cdccedd5d39a")
 	)
 	(label "USB_DP_MCU"
 		(at 53.34 88.90 180)
@@ -5407,7 +5573,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "b47de2ce-5b50-4000-9e62-563de425ecd7")
+		(uuid "22b8854d-55cf-463f-b87a-da7da49e6583")
 	)
 	(label "+3V3"
 		(at 66.04 55.88 90)
@@ -5417,7 +5583,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "f447b332-d118-4bb5-ac7a-570f5e2a894d")
+		(uuid "16247a60-23d4-479b-9e5c-4a5e0b9698d6")
 	)
 	(label "+3V3"
 		(at 76.20 55.88 90)
@@ -5427,7 +5593,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "c2bc3775-7185-40e4-b975-6f08e079d755")
+		(uuid "e6eca7be-57c0-4299-8a9d-0a4ec5aa42dc")
 	)
 	(label "+1V1"
 		(at 91.44 55.88 90)
@@ -5437,7 +5603,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "3212f02b-e8f4-42b1-bed3-43956b905ff0")
+		(uuid "7d6758e8-9cdb-4bbb-9f98-56e1b18ecd7d")
 	)
 	(label "QSPI_SD3"
 		(at 53.34 109.22 180)
@@ -5447,7 +5613,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "bdd8ac87-8c3c-4a5b-8888-ea2932bebc49")
+		(uuid "2fab446c-91b4-4f15-86d9-12ab28e5be72")
 	)
 	(label "QSPI_SCLK"
 		(at 53.34 99.06 180)
@@ -5457,7 +5623,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "a6a163a3-3b4b-4f53-8ac8-00f1e5deb3c6")
+		(uuid "257a5ba2-d2fb-4567-bb51-d9af8fbf3377")
 	)
 	(label "QSPI_SD0"
 		(at 53.34 101.60 180)
@@ -5467,7 +5633,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "701e6d93-a488-4a7a-9a3b-cd32e0caf7a2")
+		(uuid "0e2c944a-4e1b-4b2f-b9ef-703c116c8056")
 	)
 	(label "QSPI_SD2"
 		(at 53.34 106.68 180)
@@ -5477,7 +5643,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "9036bee4-d2ef-4adb-b815-5648296c8b85")
+		(uuid "03ad1bd4-b8f0-4b71-978d-53310ed3ccc8")
 	)
 	(label "QSPI_SD1"
 		(at 53.34 104.14 180)
@@ -5487,7 +5653,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "0e9ca75e-b940-44ee-901d-4453b141804d")
+		(uuid "6e7b2f31-7a4d-4bca-9232-a53dce1d247c")
 	)
 	(label "QSPI_SS"
 		(at 53.34 96.52 180)
@@ -5497,7 +5663,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "b1012de1-d886-4fa9-b5e4-ce2a0f99cf53")
+		(uuid "65517e72-ebda-4a1d-9820-f14904cd4e1f")
 	)
 	(label "GND"
 		(at 78.74 147.32 270)
@@ -5507,7 +5673,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "d4c31c9a-e86c-4ed2-8e20-6c5e11ec463e")
+		(uuid "63e205f9-23db-449b-b86d-6033ae23c737")
 	)
 	(symbol
 		(lib_id "Memory_Flash:W25Q16JVSS")
@@ -5519,7 +5685,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "878eba00-307d-45b1-b655-abc19a7bac8c")
+		(uuid "a2614228-0d91-432b-881e-3bf1913d5b8c")
 		(property "Reference" "U2"
 			(at 147.32 62.58 0)
 			(show_name no)
@@ -5596,32 +5762,32 @@
 			)
 		)
 		(pin "1"
-			(uuid "0a914212-d524-460a-86ab-0970649884f7")
+			(uuid "be91e366-0f9c-4518-8147-ecdd019666bc")
 		)
 		(pin "2"
-			(uuid "115d3c4c-a8ce-4ccd-a8b7-5bb3d8004ac6")
+			(uuid "9be6bc8d-6c80-497b-98de-74b90557c8e7")
 		)
 		(pin "3"
-			(uuid "82841f50-b14f-401a-a904-640ca629e96e")
+			(uuid "f2f434df-8be6-4d74-b19e-9fc7d0cde11b")
 		)
 		(pin "4"
-			(uuid "564af556-33e1-45b5-97b2-508ad6830ffb")
+			(uuid "cd22d3b2-07a8-44cc-a514-ed8010532b44")
 		)
 		(pin "5"
-			(uuid "1d42ef04-1dac-43ef-9ffb-1b3858f8c27d")
+			(uuid "a16ca9bf-9a3c-4e50-8722-bc00c9cf382c")
 		)
 		(pin "6"
-			(uuid "5762389b-45f6-43c0-8e03-a8b3aea849b5")
+			(uuid "975f5e3d-dbeb-4426-80f6-95d58144f8ae")
 		)
 		(pin "7"
-			(uuid "2aa74aa2-7242-449d-b043-15effc7c4df6")
+			(uuid "cbe36f30-705b-4654-acad-5781a1708dbc")
 		)
 		(pin "8"
-			(uuid "132d1072-c35e-4d25-ab01-fef4bd1833fd")
+			(uuid "98afc6c5-5e5f-4a53-b241-32e1f5db160c")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "U2")
 					(unit 1)
 				)
@@ -5636,7 +5802,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "ba337f4d-8b6b-4141-868e-0ba19061c107")
+		(uuid "f977f64b-0029-4b4d-b8f0-d35027eab66b")
 	)
 	(label "QSPI_SD1"
 		(at 134.62 68.58 180)
@@ -5646,7 +5812,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "68a8ad09-a4e1-45fc-bf71-68272233d178")
+		(uuid "7933b981-ed96-4da8-8980-e424bcff220e")
 	)
 	(label "QSPI_SD2"
 		(at 134.62 71.12 180)
@@ -5656,7 +5822,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "16198c42-f103-449e-98af-84676e20048a")
+		(uuid "639f8649-3c0e-44bf-80ea-4539bfdcf33b")
 	)
 	(label "GND"
 		(at 144.78 81.28 270)
@@ -5666,7 +5832,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "05f3aec1-4e0d-4326-92bd-57340b8f333e")
+		(uuid "592abc24-8711-48e6-9eec-74ae145c4042")
 	)
 	(label "QSPI_SD0"
 		(at 134.62 66.04 180)
@@ -5676,7 +5842,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "22dcf7bf-8165-424a-b425-7fc360881a20")
+		(uuid "c6ea22ab-ebbb-4393-a35b-a2ec5996b79b")
 	)
 	(label "QSPI_SCLK"
 		(at 134.62 63.50 180)
@@ -5686,7 +5852,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "2a893486-8943-4350-8443-6a0664f7134e")
+		(uuid "d33c4e5f-a4d6-4592-99bb-57f67a72f271")
 	)
 	(label "QSPI_SD3"
 		(at 134.62 73.66 180)
@@ -5696,7 +5862,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "4a384d95-0a50-45a7-be5d-286d27680ca3")
+		(uuid "d973ae7d-6917-4ce6-b37f-098f0540a479")
 	)
 	(label "+3V3"
 		(at 144.78 55.88 90)
@@ -5706,7 +5872,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "bb4af12f-2566-4cc5-9332-725a9d9356a7")
+		(uuid "bb4fde22-13f1-4ba3-857d-6fba2667ea51")
 	)
 	(symbol
 		(lib_id "Device:Crystal_GND24")
@@ -5718,7 +5884,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "9b43f0c3-8e1b-41b8-baa9-f24e0ab78a3a")
+		(uuid "ea8403d2-71f8-457b-9976-652e3dfff28d")
 		(property "Reference" "Y1"
 			(at 180.34 49.88 0)
 			(show_name no)
@@ -5795,20 +5961,20 @@
 			)
 		)
 		(pin "1"
-			(uuid "fe468510-9c3b-4cb0-bcb9-6b8e391776eb")
+			(uuid "445c21cc-be3c-4868-88c7-6d7bb078d3aa")
 		)
 		(pin "2"
-			(uuid "2decd7d9-5d57-4969-994b-9238ae1d7029")
+			(uuid "05eac70b-af49-49f8-a783-3aaa90420d60")
 		)
 		(pin "3"
-			(uuid "c996430a-5413-4fcb-8dbe-b5b382d6a270")
+			(uuid "97555a44-c878-47f9-ab45-21ffbc2ef967")
 		)
 		(pin "4"
-			(uuid "7d8b980f-bf0e-40db-9d7b-d20a08b19449")
+			(uuid "092a5ac6-4126-4eb3-862f-243f68fd627c")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "Y1")
 					(unit 1)
 				)
@@ -5823,7 +5989,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "80ec7cf0-e442-463c-992c-c679554a079a")
+		(uuid "5066ffef-4599-45f7-bd7a-ed17aeddd155")
 	)
 	(label "GND"
 		(at 177.80 60.96 270)
@@ -5833,7 +5999,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "2cbc36af-788f-4b02-8034-4e72d799d06a")
+		(uuid "962d11d9-b5ab-4bb1-9aad-192e9f8d9204")
 	)
 	(label "XOUT_X"
 		(at 181.61 55.88 0)
@@ -5843,7 +6009,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "f6f21a15-5dc0-4acd-b56e-0048ca3240ec")
+		(uuid "b825266b-b050-4f58-a954-1cac527e2adc")
 	)
 	(label "GND"
 		(at 177.80 60.96 270)
@@ -5853,7 +6019,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "e1bfe76b-561a-4d07-b6c6-65c44bb059c4")
+		(uuid "536f57c5-dfaf-49b9-952f-b4b85aaae2f7")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -5865,7 +6031,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "18709fec-d42c-4740-bae4-d5bcd5a60b53")
+		(uuid "e098a4d6-0206-4664-9a15-620527343a12")
 		(property "Reference" "C1"
 			(at 213.36 52.42 0)
 			(show_name no)
@@ -5931,14 +6097,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "1e1d775b-5ae1-482e-82b8-3802e04cdf44")
+			(uuid "061540da-4354-4172-8237-155a21463799")
 		)
 		(pin "2"
-			(uuid "a8250e53-8b6c-4d98-9809-5fe0c3d364c7")
+			(uuid "2e412ff2-da2b-4a5a-b7b5-59bd264a7bc8")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C1")
 					(unit 1)
 				)
@@ -5953,7 +6119,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "ad57af5b-ad78-4503-a2a7-153a06270513")
+		(uuid "5f0769e1-3046-444d-9603-6763e54a9b7a")
 	)
 	(label "GND"
 		(at 210.82 62.23 270)
@@ -5963,7 +6129,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "904120e0-7a54-436c-a985-9d1aef13d937")
+		(uuid "7ff50a15-7de1-4a2c-b54c-d1a53dcb02f2")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -5975,7 +6141,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "05233e8e-510a-40d4-94cd-839194871767")
+		(uuid "0d7470bb-15fd-4d96-99df-b46245e46058")
 		(property "Reference" "C2"
 			(at 248.92 52.42 0)
 			(show_name no)
@@ -6041,14 +6207,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "3cee6e94-dd2f-4e8c-8073-189921166f91")
+			(uuid "b6e1a9a6-942c-40c4-8706-e99523fdac81")
 		)
 		(pin "2"
-			(uuid "0879ac19-9b5a-496b-be93-e76db1981b72")
+			(uuid "1df92687-8833-4de9-8965-74cc2f07249e")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C2")
 					(unit 1)
 				)
@@ -6063,7 +6229,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "de88a245-2088-41de-8f29-5da07966cf06")
+		(uuid "402756c0-ae8b-48d6-8801-70d84443bcfc")
 	)
 	(label "GND"
 		(at 246.38 62.23 270)
@@ -6073,7 +6239,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "ae69be09-151c-48a5-9c7a-8e00daf225a2")
+		(uuid "b8214df2-e809-46ce-9b49-3ff44d2e729d")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -6085,7 +6251,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "5cce98ca-a36e-48ec-a22b-39c5de43443e")
+		(uuid "15884373-2420-4013-8c8b-945d5f345ca6")
 		(property "Reference" "R1"
 			(at 284.48 52.42 0)
 			(show_name no)
@@ -6151,14 +6317,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "d757dd39-bf39-4e44-8955-f9348c2ab261")
+			(uuid "24c6dd97-3f21-4bdc-a83c-8b53e7b8fc2c")
 		)
 		(pin "2"
-			(uuid "e49b8dfa-5a1e-46b0-8610-0c907626da58")
+			(uuid "00f62a7b-75f7-488c-80f4-edbfd07bf46e")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "R1")
 					(unit 1)
 				)
@@ -6173,7 +6339,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "f9e5ec12-67b3-4833-958c-ac4fdde3da74")
+		(uuid "87ab76d3-ff76-4dd6-b314-9ac6490adcd2")
 	)
 	(label "XOUT_X"
 		(at 281.94 62.23 270)
@@ -6183,7 +6349,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "dcc767ce-4826-4ee2-a8b9-cc92855b9baf")
+		(uuid "c7ff5183-31e0-42f8-90c2-2c5ad1382deb")
 	)
 	(symbol
 		(lib_id "Connector:USB_C_Receptacle_USB2.0_16P")
@@ -6195,7 +6361,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "1ca1d7ab-e500-4108-988d-07ae81f8b614")
+		(uuid "e4361fdd-c716-4ae6-b265-8f30c30cb65d")
 		(property "Reference" "J1"
 			(at 327.66 65.12 0)
 			(show_name no)
@@ -6272,59 +6438,59 @@
 			)
 		)
 		(pin "A1"
-			(uuid "54132e75-62d8-426f-bf6c-d83f556ae3ae")
+			(uuid "2fc64646-8f6f-4ea2-b9a2-ef7fcfd48bb0")
 		)
 		(pin "A4"
-			(uuid "4b4f1615-088e-4b54-a375-e0589aa78066")
+			(uuid "a30fa6a3-4c76-4be5-9962-ed7e3433aba8")
 		)
 		(pin "A5"
-			(uuid "dcf719a7-e1b9-47cf-8d25-0afdc31c2291")
+			(uuid "7d46240e-5167-4e7c-bec2-039535da944d")
 		)
 		(pin "A6"
-			(uuid "6ede6b97-9c90-4101-a967-86c2abbcd880")
+			(uuid "5a978823-03b5-4645-9e1e-7b8eca1aa2d5")
 		)
 		(pin "A7"
-			(uuid "786670b6-0811-480c-ba93-73912f4dda6e")
+			(uuid "a971b3b3-2597-4a9e-9af7-8221488eebe1")
 		)
 		(pin "A8"
-			(uuid "771174be-0545-446b-bd09-d1b362169001")
+			(uuid "dfcc4da0-58b5-4efa-b7eb-af996a09b6f3")
 		)
 		(pin "A9"
-			(uuid "86590465-555c-493a-aa78-57d506caf1b6")
+			(uuid "46b89ac6-f660-43e4-9d36-71cc0ba81380")
 		)
 		(pin "B1"
-			(uuid "0d02efac-47ba-4400-9283-9a49a3d394bb")
+			(uuid "a3343bf8-e8d1-49e2-b74e-d3cfb422367a")
 		)
 		(pin "B4"
-			(uuid "7e61fd41-b99c-4a0c-91a9-98500fefd69c")
+			(uuid "6249c4d4-f954-4dfa-85f1-fcf5492f3a4b")
 		)
 		(pin "B5"
-			(uuid "2185454a-735c-4bc3-9bcb-5665d90fe9ff")
+			(uuid "14a3414f-f9fd-4700-b8df-bc8870ce6777")
 		)
 		(pin "B6"
-			(uuid "58b91bea-31bc-4bb0-b0ff-c83b3c97a746")
+			(uuid "471d2bc7-0cfb-49e9-884e-b96e8b6bbb4a")
 		)
 		(pin "B7"
-			(uuid "ff8d08d0-c99f-478c-8273-eb2ee803b34f")
+			(uuid "64d27489-3229-4a41-ad63-1139171bb6e6")
 		)
 		(pin "B8"
-			(uuid "ab93e114-b9b4-4102-ae8a-93d1a3c544cd")
+			(uuid "de097569-2342-4b9d-9b86-f2ffe9835720")
 		)
 		(pin "B9"
-			(uuid "d608577d-12a2-4791-ac70-2aadd1d2173d")
+			(uuid "2a4637a2-5d10-4640-872b-2f7cc17fc5d7")
 		)
 		(pin "SH"
-			(uuid "be297040-acaa-4b17-a5a3-1ce93f7ae9dc")
+			(uuid "e6e6a06e-a161-47c8-a2bc-f0bbef473748")
 		)
 		(pin "A12"
-			(uuid "ae374863-3334-4ec7-9d46-7ab0cdcdd473")
+			(uuid "c3240980-6d47-4818-9419-2f9463e7a3af")
 		)
 		(pin "B12"
-			(uuid "c0eeaf5a-9632-4c1c-915c-87b64c20ba70")
+			(uuid "1bb05a08-31c2-4276-8de4-fdd4ddad31e8")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "J1")
 					(unit 1)
 				)
@@ -6339,7 +6505,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "7d780104-747d-46e8-be0e-143124846b5a")
+		(uuid "0d38a3a1-cbab-4ffa-83fa-37961a0e3a08")
 	)
 	(label "VBUS"
 		(at 340.36 55.88 0)
@@ -6349,7 +6515,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "13f09020-d679-4be2-9d00-4a8542435daa")
+		(uuid "d0204982-f329-4a88-866b-c7792e362c2c")
 	)
 	(label "CC1"
 		(at 340.36 60.96 0)
@@ -6359,7 +6525,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "a2123990-1d86-4c56-a6c7-c706bbb67c41")
+		(uuid "6cd64676-edea-4e2a-b0ed-54c07311685e")
 	)
 	(label "USB_DP"
 		(at 340.36 73.66 0)
@@ -6369,7 +6535,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "cd07c322-7e99-4764-932e-f62da53e53fc")
+		(uuid "00305876-5d21-41c0-8a4b-5463e75f3c8c")
 	)
 	(label "USB_DM"
 		(at 340.36 68.58 0)
@@ -6379,11 +6545,11 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "823b1483-29b3-43e8-b3d6-4e06a9f5b12c")
+		(uuid "2830ad7b-d970-4a95-b518-449c7b13b93d")
 	)
 	(no_connect
 		(at 340.36 83.82)
-		(uuid "3518944d-f344-4cdc-bca3-e2416268d5a2")
+		(uuid "5048d95d-9142-42ac-afcf-8d3f02e6ee9c")
 	)
 	(label "VBUS"
 		(at 340.36 55.88 0)
@@ -6393,7 +6559,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "2f499d36-5052-4baf-b101-1b5fa79ca6ff")
+		(uuid "d2f7dff0-8ee9-41cc-82a3-dea0d2297346")
 	)
 	(label "GND"
 		(at 325.12 93.98 270)
@@ -6403,7 +6569,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "cd0030b4-a876-4c27-b798-f77e2616ab9c")
+		(uuid "ba081076-d8df-42ea-b0f3-57c35bf3d439")
 	)
 	(label "GND"
 		(at 325.12 93.98 270)
@@ -6413,7 +6579,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "4695f988-e15f-42b4-924e-af500ebe0349")
+		(uuid "d3fdbf74-1882-45f9-a4cb-a0b8fbff04c9")
 	)
 	(label "VBUS"
 		(at 340.36 55.88 0)
@@ -6423,7 +6589,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "543a0c8c-3259-4895-bc92-9d36725e30e7")
+		(uuid "08a71d23-fe5a-4b59-8e2f-062e71bd844b")
 	)
 	(label "CC2"
 		(at 340.36 63.50 0)
@@ -6433,7 +6599,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "c2233638-9b17-498b-a51f-6ff3e823fbbe")
+		(uuid "4d64dff2-b9f8-4cb5-b6a2-54e29580ee89")
 	)
 	(label "USB_DP"
 		(at 340.36 76.20 0)
@@ -6443,7 +6609,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "18d3878a-8d56-4085-8572-a6ac0bd73b7e")
+		(uuid "448b3dc3-9d55-422d-be7a-95ad9d349715")
 	)
 	(label "USB_DM"
 		(at 340.36 71.12 0)
@@ -6453,11 +6619,11 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "db5d1628-18d1-4ef0-92c9-158dcec487f9")
+		(uuid "bcff64ee-dd29-4b0a-8488-dc61e7ce30d3")
 	)
 	(no_connect
 		(at 340.36 86.36)
-		(uuid "6154c777-30d2-4bd5-99b7-22d0ca4e37ef")
+		(uuid "c7de2df2-2841-4080-b63b-d122cd229128")
 	)
 	(label "VBUS"
 		(at 340.36 55.88 0)
@@ -6467,7 +6633,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "94c71772-309a-408c-8cfb-78a2a497cf75")
+		(uuid "2963743f-fcb5-4bce-ae54-6700c784c414")
 	)
 	(label "GND"
 		(at 325.12 93.98 270)
@@ -6477,7 +6643,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "53aea5ab-9338-4d9c-b0d1-38b3c47ea0f6")
+		(uuid "7743778f-b59f-45c5-a4a7-e70f371d6f20")
 	)
 	(label "GND"
 		(at 317.50 93.98 270)
@@ -6487,7 +6653,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "90ec36d7-5f0d-46f3-86a3-d01ecbadfbd4")
+		(uuid "340fddec-fc84-4b76-a9de-689f603eb6fb")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -6499,7 +6665,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "1c1794ee-b6fa-4d1c-b490-de8235ea30a4")
+		(uuid "92a0f360-a40e-48c4-9e76-a99055d38536")
 		(property "Reference" "R2"
 			(at 55.88 159.10 0)
 			(show_name no)
@@ -6565,14 +6731,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "15ecc61e-7618-4e8f-a3ed-868804bc8d7c")
+			(uuid "d25c7048-58ac-4a17-9cd7-b225bcee6079")
 		)
 		(pin "2"
-			(uuid "545bc4df-37da-4e63-90bb-d3f1b2288d3d")
+			(uuid "dd6da90b-6b11-4f03-84b5-4fb7037fe29d")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "R2")
 					(unit 1)
 				)
@@ -6587,7 +6753,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "78d1c516-794a-4f01-9cff-8c2e87c2c8e7")
+		(uuid "3c5b0e78-1b84-4b1f-8110-84ad5ca68b62")
 	)
 	(label "GND"
 		(at 53.34 168.91 270)
@@ -6597,7 +6763,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "2e1ac673-9fab-4782-8e7d-578bcb012e87")
+		(uuid "e9950c73-b843-4316-bdf9-83a6e03c8d0a")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -6609,7 +6775,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "164b7605-c422-4153-bd19-e3e89685076a")
+		(uuid "30e801d8-cba5-4a5b-803d-6def3e0fea10")
 		(property "Reference" "R3"
 			(at 91.44 159.10 0)
 			(show_name no)
@@ -6675,14 +6841,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "47ebcbd6-bb9e-49f5-a9e8-954f49b20944")
+			(uuid "4c33c4dd-e021-4621-b3b2-ba62c4a1ad16")
 		)
 		(pin "2"
-			(uuid "d82902d8-e37f-468f-a778-a70712d9bbc9")
+			(uuid "ce9f8391-e62f-4ba2-951a-5167c932476c")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "R3")
 					(unit 1)
 				)
@@ -6697,7 +6863,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "d2f4945e-bf76-4824-b2bd-10b746e3ab4e")
+		(uuid "d0ee7f0b-a6a3-4db6-beac-f55c0b881ecb")
 	)
 	(label "GND"
 		(at 88.90 168.91 270)
@@ -6707,7 +6873,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "c430e7a3-fa74-49ff-aeec-6000c59efc90")
+		(uuid "9c847dc4-39f5-4c8a-a0ff-ba5e0575757c")
 	)
 	(symbol
 		(lib_id "Power_Protection:USBLC6-2SC6")
@@ -6719,7 +6885,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "f2f755bb-ad38-48c6-881f-2a77a82522f0")
+		(uuid "65cb32c3-b3ea-440e-9a6c-3789c83a8117")
 		(property "Reference" "U3"
 			(at 132.08 161.64 0)
 			(show_name no)
@@ -6796,26 +6962,26 @@
 			)
 		)
 		(pin "1"
-			(uuid "01a3e2e6-1f2a-4389-bf10-56bdff019fc3")
+			(uuid "48e6b38c-2172-41e7-adfb-1ed407acb1da")
 		)
 		(pin "2"
-			(uuid "17ec6ae8-dbef-4402-af19-a429aac79665")
+			(uuid "53d8c27c-6758-4022-8500-11870f556b92")
 		)
 		(pin "3"
-			(uuid "33991590-c8a9-4b7a-b18f-1b9067c9a07f")
+			(uuid "f6117951-872f-4e30-b9fa-7287438539a0")
 		)
 		(pin "4"
-			(uuid "0cf63bad-e104-404f-a3d9-96cd6d645df6")
+			(uuid "74c2b213-43c9-426f-bfc6-12b772f1ad3e")
 		)
 		(pin "5"
-			(uuid "b33afc40-61ca-4f59-ae78-8fe832409127")
+			(uuid "6cca747a-afca-4f59-829e-b73acf5c2a95")
 		)
 		(pin "6"
-			(uuid "18789118-de49-4665-a9d9-08b85ab0d7c8")
+			(uuid "a4fce615-06c1-43dc-8eb4-963c86cee5be")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "U3")
 					(unit 1)
 				)
@@ -6830,7 +6996,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "2453240e-3836-452d-9c89-fc706bd6e70a")
+		(uuid "63913efe-fd43-4cb6-876d-1a275491633f")
 	)
 	(label "GND"
 		(at 129.54 175.26 270)
@@ -6840,7 +7006,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "96ea40fc-35c2-4198-bb32-fe714a80adf6")
+		(uuid "884f52f5-456a-4038-85fd-b9372babf44c")
 	)
 	(label "USB_DM"
 		(at 124.46 170.18 180)
@@ -6850,7 +7016,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "f4af6310-3415-4315-a282-d9b905f7747f")
+		(uuid "568bbe26-86f1-4c99-920f-81b96f0b8860")
 	)
 	(label "USB_DM"
 		(at 134.62 170.18 0)
@@ -6860,7 +7026,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "6facf2c1-80a7-4b63-9bca-92bb5c300c4d")
+		(uuid "9f987b4e-3970-4164-bb67-afa6aab12139")
 	)
 	(label "VBUS"
 		(at 129.54 162.56 90)
@@ -6870,7 +7036,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "374fdbb5-f8cf-4224-99a3-7cf66889b3ad")
+		(uuid "02dab0fd-b2f9-47e0-9928-7e6e88c76353")
 	)
 	(label "USB_DP"
 		(at 134.62 167.64 0)
@@ -6880,7 +7046,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "6704d55a-56f7-4fba-849c-ef6b59e98125")
+		(uuid "d81b41f8-78d4-4c15-96af-bb7c96145b31")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -6892,7 +7058,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "370cfc1f-63b1-4cef-8aa5-8007d5b711d0")
+		(uuid "8c5f65e9-5b89-414e-b943-a229c746da77")
 		(property "Reference" "R4"
 			(at 165.10 159.10 0)
 			(show_name no)
@@ -6958,14 +7124,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "ad8fdb46-8822-41f9-9de9-5bd47d64d549")
+			(uuid "dbbe00d6-28af-4dd8-85dc-1bad08f4bfd3")
 		)
 		(pin "2"
-			(uuid "f5e86cd9-d3e0-4e2c-872e-a6dc1422fa93")
+			(uuid "f4a5c305-38b4-48a4-880e-ae166e7ec070")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "R4")
 					(unit 1)
 				)
@@ -6980,7 +7146,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "ce11b6c9-d986-4d25-8296-5b3073f0bb63")
+		(uuid "0db79329-5a7d-441d-ab7b-230ef1004786")
 	)
 	(label "USB_DP_MCU"
 		(at 162.56 168.91 270)
@@ -6990,7 +7156,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "ef8ef063-e2c8-4453-8bf7-612ee535d59e")
+		(uuid "682e4ab4-5707-459e-b996-3703b62d23a4")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -7002,7 +7168,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "5e9351ca-1b1f-467e-8b7e-5cd78468ebc5")
+		(uuid "8994ac08-8156-47ea-8be1-9d53499ff197")
 		(property "Reference" "R5"
 			(at 200.66 159.10 0)
 			(show_name no)
@@ -7068,14 +7234,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "e4634af7-7780-4cfb-984f-2caee92135ad")
+			(uuid "ee1e99e2-7029-4634-99f6-af69009b0e7f")
 		)
 		(pin "2"
-			(uuid "550cdffe-ece8-4963-a228-cbc4334af196")
+			(uuid "abbece55-a3ce-4ebb-95be-5b96f138b993")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "R5")
 					(unit 1)
 				)
@@ -7090,7 +7256,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "607ad277-c602-4f16-8d54-66931f0834b9")
+		(uuid "29a63913-2c9d-4341-af92-50bbbf7c9f1b")
 	)
 	(label "USB_DM_MCU"
 		(at 198.12 168.91 270)
@@ -7100,7 +7266,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "1a5bffe0-bb87-4656-8542-9bf06450ba3b")
+		(uuid "6b115b69-8fa4-49b9-b3ab-ded6e44bfbc1")
 	)
 	(symbol
 		(lib_id "Device:Polyfuse")
@@ -7112,7 +7278,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "f01e1e0e-0bee-4e99-8dfd-405eff3f304a")
+		(uuid "dbb7943d-a4e5-4aad-ac14-637d093f2a16")
 		(property "Reference" "F1"
 			(at 236.22 159.10 0)
 			(show_name no)
@@ -7189,14 +7355,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "fb62ff76-5378-40dd-b255-e24340cba30a")
+			(uuid "11cab437-0082-4779-8d5e-6de46ed7b622")
 		)
 		(pin "2"
-			(uuid "fed8a444-43a7-4a58-a20a-74e429cfef61")
+			(uuid "9b11a148-badf-4704-985e-24172483cb83")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "F1")
 					(unit 1)
 				)
@@ -7211,7 +7377,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "b772e371-8aa9-4a94-9ef6-385f4f2dfa14")
+		(uuid "01d2cf94-5874-457a-a090-27d9cc61176a")
 	)
 	(label "VBUS_F"
 		(at 233.68 168.91 270)
@@ -7221,7 +7387,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "9eca44bf-be80-4251-9faf-05fd4c4ef656")
+		(uuid "e0221bc6-ca68-47a1-8db8-d4c2e40b5a29")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -7233,7 +7399,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "ea27bf37-8194-43c8-bd41-d584e48e74b3")
+		(uuid "d814c90b-0703-4119-973e-5f4fe285193d")
 		(property "Reference" "C3"
 			(at 271.78 159.10 0)
 			(show_name no)
@@ -7299,14 +7465,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "07a42791-d5ff-47cd-b9cc-f8562fbd8139")
+			(uuid "d259a8d2-d5a5-426b-aa1f-0682a5d769df")
 		)
 		(pin "2"
-			(uuid "c2584167-84a9-492d-bb8b-672f8acb7ba5")
+			(uuid "f6bf7f4f-d674-4711-b4e7-b71601f896b5")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C3")
 					(unit 1)
 				)
@@ -7321,7 +7487,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "81e9f517-9158-4713-9ad4-5b00b11112b3")
+		(uuid "1e6ffe83-ffca-45f3-90a7-0616285ddea4")
 	)
 	(label "GND"
 		(at 269.24 168.91 270)
@@ -7331,7 +7497,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "f8778603-1338-4284-abf7-db6d0edfa93c")
+		(uuid "af265f68-a919-4ba4-abf0-3e93137f415a")
 	)
 	(symbol
 		(lib_id "Regulator_Linear:XC6206PxxxMR")
@@ -7343,7 +7509,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "16a4bcf7-40d6-4f39-954c-02e8a067373d")
+		(uuid "964af1dc-086b-4db3-a40f-4dc10b6dcf80")
 		(property "Reference" "U4"
 			(at 312.42 156.56 0)
 			(show_name no)
@@ -7420,17 +7586,17 @@
 			)
 		)
 		(pin "1"
-			(uuid "257d673e-1bc0-4128-a4bc-6778b81be137")
+			(uuid "1f75afd1-8d6f-4e0b-a9c1-1bac7b727a0d")
 		)
 		(pin "2"
-			(uuid "740441eb-2d10-4eeb-a95f-b19839624b3b")
+			(uuid "34f1d82a-94d8-4e4e-98fd-a26941e4c52b")
 		)
 		(pin "3"
-			(uuid "3eb3be69-5a19-4f32-8f6f-8f2109c53993")
+			(uuid "ea99bc18-dfe5-4b1d-ac94-1203da5e76ab")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "U4")
 					(unit 1)
 				)
@@ -7445,7 +7611,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "6fc6b465-80b0-4189-a108-3cc138c01edc")
+		(uuid "171faa57-fc0e-4456-a6e0-71d338100078")
 	)
 	(label "+3V3"
 		(at 317.50 162.56 0)
@@ -7455,7 +7621,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "61008c3a-1e2e-40c2-883a-aa97900f44fa")
+		(uuid "d27ed20a-208a-4329-91e0-873a187602e6")
 	)
 	(label "VBUS_F"
 		(at 302.26 162.56 180)
@@ -7465,7 +7631,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "bc8b9b60-e40f-42f6-aa2f-f985b995c4b8")
+		(uuid "5927ddd8-5bca-43ff-87bd-cfb49842a4ca")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -7477,7 +7643,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "53ccc212-9629-4876-9b32-c5835f9ef32c")
+		(uuid "2fbfff20-19f0-4cf4-bd65-dd05ee60a488")
 		(property "Reference" "C4"
 			(at 350.52 159.10 0)
 			(show_name no)
@@ -7543,14 +7709,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "b805c562-ae41-4718-997f-9136638de6be")
+			(uuid "700b0f84-35cf-46d5-af66-1cec2f24ed93")
 		)
 		(pin "2"
-			(uuid "b5dadeb7-ab74-493e-93ba-92bb4ba764ba")
+			(uuid "a8c02593-1551-4a35-b2bf-e67a59acb93e")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C4")
 					(unit 1)
 				)
@@ -7565,7 +7731,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "a9f55ea9-c94e-4304-b47f-20e434b15af4")
+		(uuid "c38c848c-5e58-462b-aa23-283bd7ccf674")
 	)
 	(label "GND"
 		(at 347.98 168.91 270)
@@ -7575,7 +7741,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "eb7a9545-c25c-4141-bc10-204cb930868f")
+		(uuid "d9c2187d-176c-4dd9-b77f-a061f6431220")
 	)
 	(symbol
 		(lib_id "Regulator_Linear:XC6206PxxxMR")
@@ -7587,7 +7753,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "6d872ac1-3472-407f-99d8-e7a7af09f591")
+		(uuid "facc4a8a-75f5-4148-afbe-e20e88f6ac89")
 		(property "Reference" "U5"
 			(at 63.50 184.50 0)
 			(show_name no)
@@ -7664,17 +7830,17 @@
 			)
 		)
 		(pin "1"
-			(uuid "5bf71968-c3c4-404d-b6f8-0ba63d956219")
+			(uuid "aa2c6e18-71c8-4f8b-a984-559ff786dfa0")
 		)
 		(pin "2"
-			(uuid "54528907-29eb-412d-ba64-1652863605b4")
+			(uuid "5c682292-1e8b-4eb0-9d7a-222489afe42b")
 		)
 		(pin "3"
-			(uuid "9649d286-efc9-4fa8-a904-0727b0232034")
+			(uuid "efec08ef-1cfa-4560-9f0f-3479126201a7")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "U5")
 					(unit 1)
 				)
@@ -7689,7 +7855,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "0edc5925-f1ed-4f3d-938d-0ef37c420fc6")
+		(uuid "c48242ba-d750-486d-aa0a-9b1874db6e32")
 	)
 	(label "+1V8"
 		(at 68.58 190.50 0)
@@ -7699,7 +7865,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "bc5e116c-761d-4df0-aa5e-790ead4bc927")
+		(uuid "6fcd3624-daca-49fd-aa1f-edabd1eb7887")
 	)
 	(label "+3V3"
 		(at 53.34 190.50 180)
@@ -7709,7 +7875,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "0112230e-8c16-454b-b12a-48e53edf6090")
+		(uuid "44aa9952-fbb5-4517-b6db-3fa916265487")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -7721,7 +7887,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "f8b7a081-3f64-4c73-ab93-0d3a24a09b08")
+		(uuid "3ad510fa-f593-47ea-b49d-d3b5a57b00ce")
 		(property "Reference" "C5"
 			(at 101.60 187.04 0)
 			(show_name no)
@@ -7787,14 +7953,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "7b62e18e-c55c-4304-aab6-7821adc1275c")
+			(uuid "4d0072cd-5676-46e9-9d72-f4b58fef7b73")
 		)
 		(pin "2"
-			(uuid "adfab8af-ea27-47b4-9cca-fcf6f9794b73")
+			(uuid "18639bc6-9ec1-4a87-8f02-5cd9f9f62509")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C5")
 					(unit 1)
 				)
@@ -7809,7 +7975,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "41fd7a35-c605-4791-8a2e-faef2c809cde")
+		(uuid "82788830-71f6-4ff3-a959-3a55d5e43ea8")
 	)
 	(label "GND"
 		(at 99.06 196.85 270)
@@ -7819,7 +7985,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "52701031-5024-4466-839f-954290b7aa37")
+		(uuid "b075d35b-0f58-492f-9814-2db9ba426dd4")
 	)
 	(symbol
 		(lib_id "dock:SY6280AAC")
@@ -7831,7 +7997,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "bf079fa5-2fa2-486f-a9ee-7e73dbe7e3b8")
+		(uuid "342f16ce-67f5-4d40-9c7b-1b98729bcc67")
 		(property "Reference" "U6"
 			(at 144.78 187.04 0)
 			(show_name no)
@@ -7908,23 +8074,23 @@
 			)
 		)
 		(pin "1"
-			(uuid "0bbb231b-2839-4c03-9962-b25d78cfc661")
+			(uuid "e3e02909-904d-47f5-b858-19acf5073d0e")
 		)
 		(pin "2"
-			(uuid "6d6edc46-b60e-4a22-8978-f58d8c004da0")
+			(uuid "46e31ab0-0142-4a9d-a039-af0232a4f02e")
 		)
 		(pin "3"
-			(uuid "eeae0043-6957-4bdf-81e9-3c6ba6b4567b")
+			(uuid "e15d6f5f-e914-4d15-9170-8c94c4bcabdf")
 		)
 		(pin "4"
-			(uuid "a552a275-d1bd-42c9-b029-e6390b167c66")
+			(uuid "febb4ea5-389a-4b59-a0e2-64655b33987c")
 		)
 		(pin "5"
-			(uuid "413bfd65-4cbb-4367-ad0f-13cfe411c8e2")
+			(uuid "2826d63b-6471-4cea-a664-c0e132cba4cf")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "U6")
 					(unit 1)
 				)
@@ -7939,7 +8105,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "78a98723-be8a-459c-bbe9-2dc200cb661f")
+		(uuid "d7a3ef01-b540-483a-96b9-b658ec72c840")
 	)
 	(label "GND"
 		(at 142.24 200.66 270)
@@ -7949,7 +8115,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "7731372f-fe7d-45b1-b2ab-09993abcb46f")
+		(uuid "6e17f7f6-6b12-4616-9054-3636cb02856b")
 	)
 	(label "ISET"
 		(at 149.86 195.58 0)
@@ -7959,7 +8125,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "9912ece7-aa73-4380-abd2-28e435d61d5b")
+		(uuid "8542ac8f-a021-4874-8c3d-842259d44b6f")
 	)
 	(label "VBUS_F"
 		(at 134.62 195.58 180)
@@ -7969,7 +8135,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "275a3a00-d34f-43be-b4db-66531b522d5a")
+		(uuid "e133c294-90e8-469d-9364-d32d9572dc64")
 	)
 	(label "VBUS_F"
 		(at 134.62 190.50 180)
@@ -7979,7 +8145,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "af15ef8d-36aa-4e45-9d58-e346cb1ca8f4")
+		(uuid "f12887b3-5505-4b0e-8450-fd93e1906415")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -7991,7 +8157,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "f7b66add-b34b-499b-b176-6154bd19aee4")
+		(uuid "85b66b5e-8b53-4099-9354-8bb4469fe12d")
 		(property "Reference" "R6"
 			(at 180.34 187.04 0)
 			(show_name no)
@@ -8002,7 +8168,7 @@
 				)
 			)
 		)
-		(property "Value" "15k"
+		(property "Value" "33k"
 			(at 180.34 199.04 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8034,7 +8200,7 @@
 				)
 			)
 		)
-		(property "Description" "limit = 6800 / 15k = 0.45 A (SY6280 minimum 0.4 A)"
+		(property "Description" "limit = 6800 / 33k = 0.21 A (+-25 %; SY6280 range 0.13-2 A); the band draws <= 0.1 A"
 			(at 177.80 193.04 0)
 			(hide yes)
 			(show_name no)
@@ -8045,7 +8211,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C25756"
+		(property "LCSC" "C25779"
 			(at 177.80 193.04 0)
 			(hide yes)
 			(show_name no)
@@ -8057,14 +8223,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "1ad7fabc-9719-44e2-bdc2-b45e09aa3993")
+			(uuid "b558a536-c963-42ea-8e60-e4827b0d8843")
 		)
 		(pin "2"
-			(uuid "70794ae7-f72e-49d9-823a-c12f4a36fd16")
+			(uuid "cee38de7-2082-4213-a20a-788a21093458")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "R6")
 					(unit 1)
 				)
@@ -8079,7 +8245,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "88c5e9d8-1acc-4925-83b3-18fe35995219")
+		(uuid "e8c5ac14-1924-4bcf-b036-2dd17e3e8bf0")
 	)
 	(label "GND"
 		(at 177.80 196.85 270)
@@ -8089,7 +8255,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "31654158-b448-4df3-8d2b-684a7cc7cc98")
+		(uuid "bc1ce54c-a8ad-48ad-8d2a-41551b39ac94")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -8101,7 +8267,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "c01feb55-b05d-4c5a-87cd-ff70e88a7224")
+		(uuid "9c00b9fe-0227-4da5-9b0c-f588704ab863")
 		(property "Reference" "C6"
 			(at 215.90 187.04 0)
 			(show_name no)
@@ -8167,14 +8333,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "6275c778-ccc9-4686-a349-af309716c063")
+			(uuid "234a4f3b-86fe-46b7-9cee-5c1536f0da39")
 		)
 		(pin "2"
-			(uuid "cc557785-11e4-467c-a938-f2af8e12e0d6")
+			(uuid "fe5696c3-cf21-44d3-8606-a5b61762adab")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C6")
 					(unit 1)
 				)
@@ -8189,7 +8355,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "e444a726-39d9-4800-b0d2-a902ff7de487")
+		(uuid "1c770edb-0009-444e-b733-04b80dc70b7d")
 	)
 	(label "GND"
 		(at 213.36 196.85 270)
@@ -8199,7 +8365,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "090095f0-88ee-4d40-a4c8-d64ae3b0901c")
+		(uuid "e5cc9e5e-6037-4185-92f9-5da8dc73ac8c")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -8211,7 +8377,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "e35a076c-13d4-4922-bdcb-16236fa46b95")
+		(uuid "f522ccb0-3b60-4c8e-94ed-df4abe7e2739")
 		(property "Reference" "C7"
 			(at 251.46 187.04 0)
 			(show_name no)
@@ -8277,14 +8443,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "118b87d5-d2ec-4605-a1ca-238873088599")
+			(uuid "289d16c2-ec56-4664-8814-3d54b0725f73")
 		)
 		(pin "2"
-			(uuid "5444a474-e7cc-4a8a-ba7d-b760e1a01b8a")
+			(uuid "bbfa3b57-dd43-44bd-b22e-fc1733b57069")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C7")
 					(unit 1)
 				)
@@ -8299,7 +8465,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "1bd4985d-115e-45d2-ad37-97a0f6346fd3")
+		(uuid "a222133e-66e9-47d8-abb9-df73feb350f5")
 	)
 	(label "GND"
 		(at 248.92 196.85 270)
@@ -8309,7 +8475,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "007a518d-fb96-4feb-98e5-19e4382fa990")
+		(uuid "84e75c5e-71a4-4b41-8486-bfcca9a73dd9")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -8321,7 +8487,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "ff043bcb-252e-4f57-8b32-3f770a6def90")
+		(uuid "9ff27fb0-0239-45d4-968e-da723effb711")
 		(property "Reference" "C8"
 			(at 287.02 187.04 0)
 			(show_name no)
@@ -8387,14 +8553,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "580ad232-5bef-47ba-8643-23e984df388b")
+			(uuid "4fb5c26c-3ae4-4a7b-b992-e24e254c9450")
 		)
 		(pin "2"
-			(uuid "65588482-e1ae-4fbb-9297-0f89845b9e7d")
+			(uuid "32b0dd0e-a772-4c7f-bd71-e5fa3504e712")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C8")
 					(unit 1)
 				)
@@ -8409,7 +8575,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "011cf9b7-7935-4c9d-a4bb-5d600d3600d0")
+		(uuid "a16b6eb0-a1b0-4ee7-9d22-cc73cebc055e")
 	)
 	(label "GND"
 		(at 284.48 196.85 270)
@@ -8419,7 +8585,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "f9064343-3abd-4605-b30f-8a2758d9dd8f")
+		(uuid "30db58d0-8d76-419f-8fcc-e0fa05e837bf")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -8431,7 +8597,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "93b70c04-11a4-4224-9e72-a8fe686c0101")
+		(uuid "fb0fad92-273b-4bc2-988c-cc5cd1a66fc0")
 		(property "Reference" "C9"
 			(at 322.58 187.04 0)
 			(show_name no)
@@ -8497,14 +8663,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "2b399192-7662-466d-9161-1a9a9a08ce8f")
+			(uuid "60076251-abf1-4740-9dc2-f3927a175129")
 		)
 		(pin "2"
-			(uuid "ec4cad34-72a5-464d-b71f-707cb11f2e33")
+			(uuid "dcd8b14f-c4ec-4b62-9c17-a720e99a2567")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C9")
 					(unit 1)
 				)
@@ -8519,7 +8685,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "f5060b59-9cf5-473e-bf6c-843449c8c08d")
+		(uuid "1dbe2939-5b4e-41f4-8631-964d688c3364")
 	)
 	(label "GND"
 		(at 320.04 196.85 270)
@@ -8529,7 +8695,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "8d7d564f-c1e1-4bd4-84eb-95fa545c40ab")
+		(uuid "0fefcb9f-8633-4212-817c-deb36350aa8a")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -8541,7 +8707,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "b132ef93-a0b5-4e49-b184-151169e6a3f6")
+		(uuid "530ad25e-8a5c-4830-94d7-b90908c804a8")
 		(property "Reference" "C10"
 			(at 355.60 187.04 0)
 			(show_name no)
@@ -8607,14 +8773,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "428a6efa-308b-4730-880e-fb8bc0e551bb")
+			(uuid "63577adb-9d4d-4e60-9b84-8874a2499018")
 		)
 		(pin "2"
-			(uuid "57e28c66-1a45-461a-98c6-ba4608d5e648")
+			(uuid "242b0ab3-5c65-46c2-880e-07b9c7ad117e")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C10")
 					(unit 1)
 				)
@@ -8629,7 +8795,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "1df77f86-5d49-432d-94fc-2b1c8fa9c9d3")
+		(uuid "4daf0a76-8064-4e27-a41e-cc2120dcfdcb")
 	)
 	(label "GND"
 		(at 353.06 196.85 270)
@@ -8639,7 +8805,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "af2d7403-ac00-4621-843a-4e9d6c3b153c")
+		(uuid "7d5574c5-6e1a-4c3d-b63e-9ce099c7dd76")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -8651,7 +8817,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "113fd7ef-1b6a-4923-9344-fbe2ce3c279e")
+		(uuid "85e5255c-eefc-463f-849f-d648de4ad185")
 		(property "Reference" "C11"
 			(at 55.88 212.44 0)
 			(show_name no)
@@ -8717,14 +8883,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "8d407ae1-5240-401c-a861-6246e606fbb0")
+			(uuid "a84bf776-26b0-4265-8158-88f012dce9b2")
 		)
 		(pin "2"
-			(uuid "6eccd8f4-596d-4bf6-88f9-65365b92840a")
+			(uuid "50ef31d2-1154-4a9a-ba98-a0d7b9a24e95")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C11")
 					(unit 1)
 				)
@@ -8739,7 +8905,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "ae28186c-78b8-41a9-b1a7-1840035ec690")
+		(uuid "9166f586-1715-464a-8457-cd03b6efe663")
 	)
 	(label "GND"
 		(at 53.34 222.25 270)
@@ -8749,7 +8915,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "e3ad3b84-1cff-4d7e-b222-cbe956a12fd6")
+		(uuid "ce8ee0c4-5799-459f-bec7-0915874a27f1")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -8761,7 +8927,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "7e5645ba-7269-4235-86bc-d5298d5f1090")
+		(uuid "dd568499-5483-4c30-a20f-62bdf013dd3f")
 		(property "Reference" "C12"
 			(at 91.44 212.44 0)
 			(show_name no)
@@ -8827,14 +8993,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "7e7283f4-b81f-46c3-80cb-107410168fa5")
+			(uuid "bd4cafdf-b500-4411-acbd-b5e4753f9502")
 		)
 		(pin "2"
-			(uuid "01e2839f-776b-40fb-956b-f5386fb8cd56")
+			(uuid "9698b4c0-41e3-4b68-b1dc-b046f9f51369")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C12")
 					(unit 1)
 				)
@@ -8849,7 +9015,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "5fdf5258-0413-4a77-990c-ae4f721e5d19")
+		(uuid "b34f4fd4-7094-4f36-90c8-461d2e6222a6")
 	)
 	(label "GND"
 		(at 88.90 222.25 270)
@@ -8859,7 +9025,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "15ea9fa7-00c7-482e-985c-d95c34a80c2d")
+		(uuid "58d33bea-d907-44bb-a993-77eef070f75a")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -8871,7 +9037,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "97620368-0c17-4afd-98bd-03041c934fe0")
+		(uuid "e1a88608-fefd-4bc8-9f39-4851e0a092b2")
 		(property "Reference" "C13"
 			(at 127.00 212.44 0)
 			(show_name no)
@@ -8937,14 +9103,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "38ef5318-ef10-466b-ba86-4ce1bddf8266")
+			(uuid "4a8cb697-c0fa-4397-b17a-ca855ac52d39")
 		)
 		(pin "2"
-			(uuid "0ed75e1a-e3fb-452d-aa2b-3ba860516b4c")
+			(uuid "2fd5e12e-e85d-4496-be57-e00b40978c7d")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C13")
 					(unit 1)
 				)
@@ -8959,7 +9125,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "5832c546-eae3-4e7f-938f-24f8bec8eee3")
+		(uuid "c376a686-fbd0-46c3-913e-555031a22ce1")
 	)
 	(label "GND"
 		(at 124.46 222.25 270)
@@ -8969,7 +9135,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "db9b2ba8-e533-41e2-b95a-49c9e86c5e22")
+		(uuid "3fabfa15-310c-4d50-8d43-2252a6608efb")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -8981,7 +9147,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "bf70da01-d249-4364-aa86-72ad4b499153")
+		(uuid "ee7edfbb-a31f-478e-93ee-6bc8e038d738")
 		(property "Reference" "C14"
 			(at 160.02 212.44 0)
 			(show_name no)
@@ -9047,14 +9213,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "7616ce7f-b39a-4a62-a02b-e53c84a03ba9")
+			(uuid "06cb7410-6ae7-400b-b47f-f6c5da899f8f")
 		)
 		(pin "2"
-			(uuid "bac5443c-85e4-4141-8e89-4a0d4bb7fd85")
+			(uuid "c166b010-7136-4ead-9a59-04d2b647e189")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C14")
 					(unit 1)
 				)
@@ -9069,7 +9235,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "b8beca3e-62de-4ba1-b3b2-ae46c7944117")
+		(uuid "a5b11c91-df72-4586-8da9-96982a71636d")
 	)
 	(label "GND"
 		(at 157.48 222.25 270)
@@ -9079,7 +9245,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "a80ccf6b-4271-4fcb-92af-50aa68547f5e")
+		(uuid "1db11504-7558-401f-9ed7-8bbcd20090dc")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -9091,7 +9257,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "9e7fb26a-51b4-4b15-9b89-6e7f450fdb67")
+		(uuid "f6839d53-d449-46d1-8b80-b5a5d66a8b8d")
 		(property "Reference" "C15"
 			(at 195.58 212.44 0)
 			(show_name no)
@@ -9157,14 +9323,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "e0d3e09f-e907-4535-8678-9a037f876783")
+			(uuid "8ccc2daa-d666-460b-9b6b-cf79f58af638")
 		)
 		(pin "2"
-			(uuid "013170a0-90a6-4eb6-8a16-a5f38d205467")
+			(uuid "62c9556b-a147-4271-8388-0f2224f42795")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C15")
 					(unit 1)
 				)
@@ -9179,7 +9345,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "4d5d442b-246f-4d65-969b-f7bf2fa07af5")
+		(uuid "69c71574-72de-495f-bb8b-670f0db44fef")
 	)
 	(label "GND"
 		(at 193.04 222.25 270)
@@ -9189,7 +9355,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "60abfe77-8375-4a9f-b923-6b0a6f87adf1")
+		(uuid "9d7cc2af-962f-44f3-b8c8-07a7ab6b95c4")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -9201,7 +9367,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "dde98134-da04-4b6f-a9cb-485200d262a7")
+		(uuid "2e4be361-edc2-49b7-869b-396fd5d7f169")
 		(property "Reference" "C16"
 			(at 231.14 212.44 0)
 			(show_name no)
@@ -9267,14 +9433,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "9c17b7ae-9cd4-4d0a-8f17-891482b92a28")
+			(uuid "26946fdf-8538-40a0-9dc4-b2d9422b38b6")
 		)
 		(pin "2"
-			(uuid "9ad4f2cc-1881-4db4-add7-01b74d1846f3")
+			(uuid "31a45192-e134-4483-b3f0-3023012b8a68")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C16")
 					(unit 1)
 				)
@@ -9289,7 +9455,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "5a1d1a68-5dd4-4923-90dc-d1ce367242b5")
+		(uuid "564a6858-8a14-43db-873d-74fe9e2dc3f9")
 	)
 	(label "GND"
 		(at 228.60 222.25 270)
@@ -9299,7 +9465,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "28307eed-a990-4a24-8a62-f1e7f88efe3e")
+		(uuid "1294141b-573e-488b-9c2f-4238745eeb11")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -9311,7 +9477,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "8b4cec28-9480-4d49-9394-dc47bb4d09f1")
+		(uuid "55f4081b-ae1a-4d1e-b953-6ba5ce436f69")
 		(property "Reference" "C17"
 			(at 266.70 212.44 0)
 			(show_name no)
@@ -9377,14 +9543,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "4b7947ee-bb67-46bb-a7f0-52e6d61f7fe5")
+			(uuid "44d2426d-7b7d-4ad0-97e8-6e14c9ce360d")
 		)
 		(pin "2"
-			(uuid "36f04063-0768-44f4-a467-c440342b434a")
+			(uuid "1e8024c9-b1d7-49ef-a575-5f2d7374bc61")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C17")
 					(unit 1)
 				)
@@ -9399,7 +9565,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "3ed685a0-d902-4b29-bb73-56e51a13486e")
+		(uuid "5d598f2b-d5a0-466a-b681-de0a58941917")
 	)
 	(label "GND"
 		(at 264.16 222.25 270)
@@ -9409,7 +9575,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "ab64ff96-2bf1-4851-872f-c420a7104122")
+		(uuid "0c9b1cb2-cbf5-402b-947a-3213b4d463e4")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -9421,7 +9587,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "e7cdf932-91f9-409f-8b12-cbc199f812aa")
+		(uuid "4075cd04-07ed-420d-bd6f-f20c49c0fb4f")
 		(property "Reference" "R7"
 			(at 299.72 212.44 0)
 			(show_name no)
@@ -9487,14 +9653,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "0237f4b2-8d41-4cc9-adcf-f524c34c0585")
+			(uuid "6b009fb7-d5ef-4f21-a882-ea7023078b9f")
 		)
 		(pin "2"
-			(uuid "5ac2af62-46d7-41ac-9368-08f7c584bdd4")
+			(uuid "b44821ff-b0c9-4432-ae37-0ea6b39000af")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "R7")
 					(unit 1)
 				)
@@ -9509,7 +9675,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "66a53d02-4ad5-4c65-8347-b1cca052ebe6")
+		(uuid "715fc1ce-c1af-4b7e-aad7-0dcaa976a80d")
 	)
 	(label "RUN"
 		(at 297.18 222.25 270)
@@ -9519,7 +9685,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "7ceba6c7-b2ff-4c46-b9ae-398c8d9384f1")
+		(uuid "b3c58cf3-960f-4912-ad9c-5b7ea27ce2c3")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -9531,7 +9697,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "d883b006-1581-46d4-ae81-e9a6dcd10879")
+		(uuid "f4f968e0-6f17-40fb-a98d-4c4f81002fc5")
 		(property "Reference" "R8"
 			(at 335.28 212.44 0)
 			(show_name no)
@@ -9597,14 +9763,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "c8b1a867-d233-4b74-b7d9-35bc894d367c")
+			(uuid "cf9074bb-0c70-4cba-afc7-8e71e8d5d189")
 		)
 		(pin "2"
-			(uuid "2ca9f37c-13d8-4a32-837c-69f5bd51ce8e")
+			(uuid "0510f1ad-cb05-4d74-b976-22904d824e10")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "R8")
 					(unit 1)
 				)
@@ -9619,7 +9785,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "c975bb72-b47d-4f9e-8c35-f81a33b5cf0c")
+		(uuid "4cd46985-16dd-437a-94cf-e4112662de2d")
 	)
 	(label "QSPI_SS"
 		(at 332.74 222.25 270)
@@ -9629,7 +9795,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "e1715861-8c8e-402e-8423-f1564594744f")
+		(uuid "bf7c6edb-e0e3-4428-aec9-463a246c292f")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -9641,7 +9807,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "ed44d2b7-58a2-4cb6-862e-3c795420126b")
+		(uuid "292fcc67-0549-4cf6-b80d-11f0f8a6a23f")
 		(property "Reference" "R9"
 			(at 55.88 235.30 0)
 			(show_name no)
@@ -9707,14 +9873,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "c1e23f67-4ae5-4f2b-9982-2f3ee8087264")
+			(uuid "e376b707-ec2b-460e-846c-d0343322f11b")
 		)
 		(pin "2"
-			(uuid "da20e0fa-669e-496d-bd28-1b9041588b56")
+			(uuid "99c7dae6-7fe2-41bf-a519-503888fb8218")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "R9")
 					(unit 1)
 				)
@@ -9729,7 +9895,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "347ce6e3-637a-444a-a920-9898d2455f63")
+		(uuid "17b5d654-68d4-46be-9ffe-8b2b0ed85f26")
 	)
 	(label "BOOT"
 		(at 53.34 245.11 270)
@@ -9739,7 +9905,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "fd0a466f-2453-4e36-b64a-2e1863b195ed")
+		(uuid "a5bb4273-5650-4e67-b11c-850f46da5cca")
 	)
 	(symbol
 		(lib_id "Switch:SW_Push")
@@ -9751,7 +9917,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "8a0e85c4-db55-4ab5-a38b-2d3eaf583521")
+		(uuid "58005d4c-e3e3-4961-8727-b0d76e4cb994")
 		(property "Reference" "SW1"
 			(at 96.52 232.76 0)
 			(show_name no)
@@ -9828,14 +9994,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "8a90af3d-9b26-4cdc-8e2f-d4404682cd9d")
+			(uuid "58774965-aaf1-4895-ad75-b5a2b8c1050a")
 		)
 		(pin "2"
-			(uuid "857871ee-4292-4f5e-9e84-82765804bc81")
+			(uuid "204949ac-9991-405b-8ae3-ad75d9eb3c16")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "SW1")
 					(unit 1)
 				)
@@ -9850,7 +10016,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "a9a81254-641c-42f0-9b3e-ef8cc535bd8f")
+		(uuid "33b22e3d-3009-4b07-a245-1ad1d4a6830b")
 	)
 	(label "GND"
 		(at 99.06 238.76 0)
@@ -9860,7 +10026,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "ec8f0fba-5e69-49e2-a776-80c982dba0f9")
+		(uuid "f156a80f-786b-402d-9f56-bf065dab8d82")
 	)
 	(symbol
 		(lib_id "Logic_LevelTranslator:SN74LVC1T45DBV")
@@ -9872,7 +10038,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "d37ddf9c-5db2-4056-b14e-9d1b143780cb")
+		(uuid "afb161c4-35bf-48a2-84ad-cbd3a602b2f2")
 		(property "Reference" "U7"
 			(at 142.24 242.92 0)
 			(show_name no)
@@ -9949,26 +10115,26 @@
 			)
 		)
 		(pin "1"
-			(uuid "31bb32e6-bdb6-4e6c-b73e-019bb4e97cc9")
+			(uuid "c0fd2f26-df35-47aa-80f6-097a70e3c84c")
 		)
 		(pin "2"
-			(uuid "a3fb18f8-d05a-40c2-859a-8e8e7b4e0edf")
+			(uuid "0006f44c-2fd8-42e6-b72e-0b34e7b79b38")
 		)
 		(pin "3"
-			(uuid "98226638-7745-44be-8ad2-fee5ec241e59")
+			(uuid "a011d661-958d-41b8-9e21-9d6cbbcb40ba")
 		)
 		(pin "4"
-			(uuid "ed45effe-926e-435b-84ee-e92dbc1a986e")
+			(uuid "89f854fd-dd00-4dad-ae92-dd1c11901084")
 		)
 		(pin "5"
-			(uuid "d6aac04a-cb05-4bb9-982d-e105c567c966")
+			(uuid "71c9ee00-e3b4-4401-ad21-baa91249a8b1")
 		)
 		(pin "6"
-			(uuid "688ed3a7-ac6a-403c-a2a4-7ef82e259c82")
+			(uuid "db1741e8-87f8-4226-85c4-ecf345922bdd")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "U7")
 					(unit 1)
 				)
@@ -9983,7 +10149,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "a535b0b2-bd95-4159-ad90-c2ca1a58a5a8")
+		(uuid "e58bf9b6-232d-4aa1-9a5e-e0e9ea7bf304")
 	)
 	(label "GND"
 		(at 139.70 259.08 270)
@@ -9993,7 +10159,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "23d68798-85be-4923-849d-87c2915ae0ee")
+		(uuid "e6619eff-7fe4-4964-8ffd-8babe85a0218")
 	)
 	(label "SWCLK_3V3"
 		(at 129.54 248.92 180)
@@ -10003,7 +10169,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "36331c24-c3a9-4901-9913-6fba0d505e2a")
+		(uuid "d5e8027a-18db-46fe-958a-046e9e896e75")
 	)
 	(label "SWCLK_1V8"
 		(at 149.86 248.92 0)
@@ -10013,7 +10179,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "435e16f6-9c01-4e5b-bd9e-3cea212eee54")
+		(uuid "8fe745ac-274f-4437-bc6f-d481150de315")
 	)
 	(label "+3V3"
 		(at 129.54 254.00 180)
@@ -10023,7 +10189,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "28b57c1b-da88-4dcb-aeb6-799d1b505fdc")
+		(uuid "e9af98bb-4039-4be3-a9d4-87853bf8f5d5")
 	)
 	(label "+1V8"
 		(at 142.24 238.76 90)
@@ -10033,7 +10199,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "437d0433-bf84-4c6c-b4ab-96832cf38d83")
+		(uuid "173e48ed-dcb4-475b-b36e-16f992820dbd")
 	)
 	(symbol
 		(lib_id "Logic_LevelTranslator:TXS0101DBV")
@@ -10045,7 +10211,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "9129f628-8fda-4393-8d3e-71e460053f82")
+		(uuid "439514c7-6dff-415c-9f60-b313a73b7804")
 		(property "Reference" "U8"
 			(at 190.50 245.46 0)
 			(show_name no)
@@ -10122,26 +10288,26 @@
 			)
 		)
 		(pin "1"
-			(uuid "c94353ce-3ee7-4889-a9bc-fd652da730c1")
+			(uuid "843bf889-a3dd-40fd-b05c-dc3c6876976b")
 		)
 		(pin "2"
-			(uuid "32748477-4607-417b-87c6-c72a18dbeae2")
+			(uuid "35a00a7d-38ea-4fa8-b321-f0f29e4a0bb6")
 		)
 		(pin "3"
-			(uuid "b428481e-a762-4f55-9de6-b63ac6379e0f")
+			(uuid "000f1187-099d-4e11-bc2a-6705047f5364")
 		)
 		(pin "4"
-			(uuid "6f25b6f5-93c6-4496-a313-bde3f16f91b3")
+			(uuid "d8f74955-1f0d-472b-a08f-5e7be48baebc")
 		)
 		(pin "5"
-			(uuid "4b98ca83-f4a0-4d39-81a6-b91d2dded964")
+			(uuid "eba4b96c-fb9f-44bc-aea7-a00011e8da4b")
 		)
 		(pin "6"
-			(uuid "ee79d548-cca7-4b23-accf-50cb7da29574")
+			(uuid "ce488802-1893-4f06-80d3-cd63685fea8e")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "U8")
 					(unit 1)
 				)
@@ -10156,7 +10322,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "858af6cd-e9e5-415e-9b5c-ddd2b36f7f4c")
+		(uuid "db87b2b4-0a23-4895-a7f4-8aee5fede13a")
 	)
 	(label "GND"
 		(at 187.96 264.16 270)
@@ -10166,7 +10332,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "c59d4c21-706d-40aa-9156-ef0de462fcba")
+		(uuid "eb2c5f9e-033e-4e8d-b927-a28dee428fae")
 	)
 	(label "SWDIO_1V8"
 		(at 177.80 248.92 180)
@@ -10176,7 +10342,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "25b36254-a2fc-464b-afab-311f817a38a5")
+		(uuid "b74459ae-7ecb-4093-9f33-1d08e84a62c0")
 	)
 	(label "SWDIO_3V3"
 		(at 198.12 248.92 0)
@@ -10186,7 +10352,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "935903ea-2220-466d-80c9-45dede5845c5")
+		(uuid "9accbc05-2c3a-4035-810c-86f959fac0d6")
 	)
 	(label "+1V8"
 		(at 177.80 243.84 180)
@@ -10196,7 +10362,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "beebf363-4a72-4169-8546-58095f375530")
+		(uuid "c2c50e53-31c4-499d-a1d1-c58a0de2826e")
 	)
 	(label "+3V3"
 		(at 190.50 238.76 90)
@@ -10206,7 +10372,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "9aedb6eb-646e-464d-8381-5e28b7874211")
+		(uuid "2b0955c2-0c5c-4c73-a69c-205fea79f9df")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -10218,7 +10384,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "916b33fa-c961-42fe-b0f0-ee4a4469e1c4")
+		(uuid "4d3761d7-e11d-474a-a95f-a56608e0ee7d")
 		(property "Reference" "C18"
 			(at 231.14 235.30 0)
 			(show_name no)
@@ -10284,14 +10450,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "53501811-f640-44e0-9aea-f31831ce366a")
+			(uuid "dd0fe084-9454-49f8-88ec-be71d100f85f")
 		)
 		(pin "2"
-			(uuid "bf9238da-108a-48ef-9f4d-0f72ab45747b")
+			(uuid "308b974d-e90b-4f66-8df7-b5e73df33945")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C18")
 					(unit 1)
 				)
@@ -10306,7 +10472,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "0e9b2cba-1682-4f5b-adc2-98343d7a5384")
+		(uuid "85422214-fdc9-4e7d-9dc4-92791758532f")
 	)
 	(label "GND"
 		(at 228.60 245.11 270)
@@ -10316,7 +10482,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "7351fb86-8e30-4c42-8e76-105bdc251812")
+		(uuid "5ae75485-acbc-4bd4-9dec-c2b5bc851872")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -10328,7 +10494,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "bc845c69-47ae-4c15-91c6-437aeab80369")
+		(uuid "53800681-8883-44cc-b176-044d970b8bc3")
 		(property "Reference" "C19"
 			(at 266.70 235.30 0)
 			(show_name no)
@@ -10394,14 +10560,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "4522de33-45d2-4c5a-a04b-5d7ae362b20a")
+			(uuid "b38e4fb6-888a-4a5f-9df9-305c00f078c8")
 		)
 		(pin "2"
-			(uuid "e635105b-25b5-44d2-810f-57495f664338")
+			(uuid "7c4cf959-a532-40e7-8c5a-a19e5cef3398")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C19")
 					(unit 1)
 				)
@@ -10416,7 +10582,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "049b29fb-ae3b-4fff-a3b8-68d869655f67")
+		(uuid "351051d5-3bf0-4374-b6b6-845053dd1dc7")
 	)
 	(label "GND"
 		(at 264.16 245.11 270)
@@ -10426,7 +10592,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "fca9e108-7a54-4588-b139-757818b03971")
+		(uuid "e34dbe57-a21f-4f73-888d-b57d895ccc92")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -10438,7 +10604,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "b839d7fa-8bf0-4b1c-a16d-4afa76115b1e")
+		(uuid "30521196-0c79-4c84-9f96-bb8cfe98e5ee")
 		(property "Reference" "C20"
 			(at 302.26 235.30 0)
 			(show_name no)
@@ -10504,14 +10670,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "c1730568-65a0-437a-a0ee-1ee960c3ea08")
+			(uuid "f4f02329-ae5e-4c2f-9ddc-dc3e12ae3ab5")
 		)
 		(pin "2"
-			(uuid "a73dd8ac-5404-4b9b-89f3-a37d0671afa2")
+			(uuid "107d55d4-9782-4a6c-9020-603d76ffdc08")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C20")
 					(unit 1)
 				)
@@ -10526,7 +10692,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "0b5fef75-d8ea-48ba-9d3f-01fd758a8914")
+		(uuid "d054c5ed-504f-4771-9bb7-a5adcbf19bea")
 	)
 	(label "GND"
 		(at 299.72 245.11 270)
@@ -10536,7 +10702,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "89ef436b-6419-4e8e-be1a-7a6cc7c92202")
+		(uuid "050492a1-b971-48fc-a261-9c754c467c57")
 	)
 	(symbol
 		(lib_id "Device:C")
@@ -10548,7 +10714,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "edc08be1-3b08-4e38-91e8-daa7325c5354")
+		(uuid "0f95a6ae-7c2f-48da-8441-16f91ad2e743")
 		(property "Reference" "C21"
 			(at 337.82 235.30 0)
 			(show_name no)
@@ -10614,14 +10780,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "9af6bcc7-e566-4321-aea7-d5de84866b71")
+			(uuid "6a75b31f-d02d-46fe-a2f7-f0c8e1e44358")
 		)
 		(pin "2"
-			(uuid "d9705f73-1cc2-467d-8f44-4809f6d70493")
+			(uuid "a652e066-327a-48d4-be9e-0b41cf912df9")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "C21")
 					(unit 1)
 				)
@@ -10636,7 +10802,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "91346b24-5a62-4279-b05b-036a98f16b93")
+		(uuid "e900a782-4ae1-43d0-8f29-aed2f7cbbf1e")
 	)
 	(label "GND"
 		(at 335.28 245.11 270)
@@ -10646,7 +10812,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "3652b5fc-242f-4f54-ba71-e48526353037")
+		(uuid "d261e2c7-6bb6-4154-bf08-bb564da9aaaa")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -10658,7 +10824,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "c857dd40-2412-4e33-887b-be0af286be9b")
+		(uuid "f7234197-4f7e-42d7-80b0-26c4385f3e77")
 		(property "Reference" "R10"
 			(at 55.88 275.94 0)
 			(show_name no)
@@ -10724,14 +10890,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "9f297fa8-29e6-4513-b97b-c2ed96f86740")
+			(uuid "08fd2163-b036-433e-8c8a-20a2920215ee")
 		)
 		(pin "2"
-			(uuid "74e9d6b1-139c-42bd-8432-d11e17e42770")
+			(uuid "c3e0747e-c4be-41d8-9037-fc6942d67a5b")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "R10")
 					(unit 1)
 				)
@@ -10746,7 +10912,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "792e01df-4c5f-436e-a9eb-f97de7edb5fb")
+		(uuid "423ca979-a5a0-4bdd-a3e5-26c6f5b87cca")
 	)
 	(label "SWDIO_3V3"
 		(at 53.34 285.75 270)
@@ -10756,7 +10922,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "d4e8eee8-6319-4cce-936e-e41849a4e3ac")
+		(uuid "5aaa6452-3334-408c-8dc2-ef4d8b22495b")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -10768,7 +10934,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "c013ea86-30a8-478b-8496-c04422e61088")
+		(uuid "ba461255-c6a7-4897-b39c-f77918463a69")
 		(property "Reference" "R11"
 			(at 91.44 275.94 0)
 			(show_name no)
@@ -10779,7 +10945,7 @@
 				)
 			)
 		)
-		(property "Value" "22"
+		(property "Value" "100"
 			(at 91.44 287.94 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10811,7 +10977,7 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "limits current into the translator from a 5 V short on the bare pin"
 			(at 88.90 281.94 0)
 			(hide yes)
 			(show_name no)
@@ -10822,7 +10988,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C25092"
+		(property "LCSC" "C25076"
 			(at 88.90 281.94 0)
 			(hide yes)
 			(show_name no)
@@ -10834,14 +11000,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "ef142116-77d5-4c69-8e92-407a87614f3b")
+			(uuid "48d4fee3-6402-4052-b728-d5b59843aa2e")
 		)
 		(pin "2"
-			(uuid "b88c99da-ac8a-4baf-8a07-7898ff701940")
+			(uuid "e0a50421-c41a-4cb4-baed-431b37236dd9")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "R11")
 					(unit 1)
 				)
@@ -10856,7 +11022,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "24af3c11-ee57-45e1-ac7a-ad0344169381")
+		(uuid "afc260b9-bf09-4b2f-b13d-6ddfce80510e")
 	)
 	(label "P_SWCLK"
 		(at 88.90 285.75 270)
@@ -10866,7 +11032,7 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "e2e3eed8-9959-4de5-830f-4949ed54dabe")
+		(uuid "9362cd36-b040-48de-88e8-b0b673ebc612")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -10878,7 +11044,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "e2ca998c-18f8-4184-8b65-62d1afbbdada")
+		(uuid "ef038169-8f09-4c61-b06c-771138e1976a")
 		(property "Reference" "R12"
 			(at 127.00 275.94 0)
 			(show_name no)
@@ -10889,7 +11055,7 @@
 				)
 			)
 		)
-		(property "Value" "22"
+		(property "Value" "100"
 			(at 127.00 287.94 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10921,7 +11087,7 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "limits current into the translator from a 5 V short on the bare pin"
 			(at 124.46 281.94 0)
 			(hide yes)
 			(show_name no)
@@ -10932,7 +11098,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C25092"
+		(property "LCSC" "C25076"
 			(at 124.46 281.94 0)
 			(hide yes)
 			(show_name no)
@@ -10944,14 +11110,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "53e029c1-4ce4-4b99-a7a7-c2933e4f252d")
+			(uuid "345de410-ac0d-4f51-b68e-3acebfdf5ff5")
 		)
 		(pin "2"
-			(uuid "a7392d2b-7788-4a96-bae4-600e4b5d1505")
+			(uuid "71b1ab7f-c3a0-4e38-aac0-841746ab2164")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "R12")
 					(unit 1)
 				)
@@ -10966,7 +11132,7 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "5dc42fa3-b794-4def-87bd-59e437d9b98a")
+		(uuid "99da9b7e-0d87-4d05-a710-3f661f7b93cd")
 	)
 	(label "P_SWDIO"
 		(at 124.46 285.75 270)
@@ -10976,11 +11142,11 @@
 			)
 			(justify right bottom)
 		)
-		(uuid "958b1874-5734-4cbf-b2b2-4ba1fd5bb90b")
+		(uuid "74a8cc74-6ce4-4abd-9643-b28678ed5859")
 	)
 	(symbol
-		(lib_id "Device:LED")
-		(at 162.56 276.86 0)
+		(lib_id "Device:R")
+		(at 157.48 281.94 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -10988,9 +11154,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "3507947c-1c24-4583-8bbb-950b8ec7eb20")
-		(property "Reference" "D1"
-			(at 165.10 270.86 0)
+		(uuid "8feddb8a-7a40-4374-9a40-c404d565047d")
+		(property "Reference" "R15"
+			(at 160.02 275.94 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10999,8 +11165,8 @@
 				)
 			)
 		)
-		(property "Value" "red USB"
-			(at 165.10 282.86 0)
+		(property "Value" "100k"
+			(at 160.02 287.94 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11009,8 +11175,8 @@
 				)
 			)
 		)
-		(property "Footprint" "LED_SMD:LED_0603_1608Metric"
-			(at 162.56 276.86 0)
+		(property "Footprint" "Resistor_SMD:R_0201_0603Metric"
+			(at 157.48 281.94 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11021,7 +11187,422 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 162.56 276.86 0)
+			(at 157.48 281.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "holds the 74LVC1T45 input low when debugprobe releases GPIO12 (0201: the only size that fits beside U7)"
+			(at 157.48 281.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C106224"
+			(at 157.48 281.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "Yageo RC0201FR-07100KL"
+			(at 157.48 281.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "5dd44d64-f15c-449f-a124-78677e418a86")
+		)
+		(pin "2"
+			(uuid "cd63610b-1ec8-4081-9702-d9b9c8c7ce47")
+		)
+		(instances
+			(project "dock-pcb-rev-b"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
+					(reference "R15")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(label "SWCLK_3V3"
+		(at 157.48 278.13 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "4492eaf7-9169-4cad-9f1d-94fe31b6cca7")
+	)
+	(label "GND"
+		(at 157.48 285.75 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "ad0ff697-87ef-4cd4-b2bb-e5b4016c1525")
+	)
+	(symbol
+		(lib_id "Power_Protection:USBLC6-2SC6")
+		(at 198.12 281.94 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "72de2038-4c8f-4e41-a92d-ea87e317f097")
+		(property "Reference" "U9"
+			(at 200.66 275.94 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "USBLC6-2SC6"
+			(at 200.66 287.94 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
+			(at 198.12 281.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 198.12 281.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "ESD clamp on the bare SWCLK/SWDIO spring pins"
+			(at 198.12 281.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C7519"
+			(at 198.12 281.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "ST USBLC6-2SC6"
+			(at 198.12 281.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "fd332712-06dd-42e7-9f72-a933bd34a69e")
+		)
+		(pin "2"
+			(uuid "ddc35b5f-d610-459f-8c4d-ed798e0f0534")
+		)
+		(pin "3"
+			(uuid "a0e46365-31ad-4651-bc46-ca57f804e1d6")
+		)
+		(pin "4"
+			(uuid "dc2dab4c-cac4-4734-8da0-ae6557b61deb")
+		)
+		(pin "5"
+			(uuid "6ae5ce93-e3d2-47e6-bfeb-df2d62c14537")
+		)
+		(pin "6"
+			(uuid "1ae55c15-90bb-4d4c-a539-f0bc1eedbe96")
+		)
+		(instances
+			(project "dock-pcb-rev-b"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
+					(reference "U9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(label "P_SWCLK"
+		(at 193.04 281.94 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "bbb5f31a-25e4-49dc-a96a-2c1d214105cd")
+	)
+	(label "GND"
+		(at 198.12 289.56 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "77ce46a3-10d4-47ac-bea8-ec930546fd30")
+	)
+	(label "P_SWDIO"
+		(at 193.04 284.48 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "fbd77ccc-dc3c-4a1e-a8e5-f184e01ca923")
+	)
+	(label "P_SWDIO"
+		(at 203.20 284.48 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "a21dd8ce-7e4d-4f1e-abf0-dda0d8037e93")
+	)
+	(label "VIN_BAND"
+		(at 198.12 276.86 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "cedf6ab3-f521-4e86-afdc-463c02767753")
+	)
+	(label "P_SWCLK"
+		(at 203.20 281.94 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d6ddba6c-acfa-4f30-bc72-0d68ad186d41")
+	)
+	(symbol
+		(lib_id "Device:D_Zener")
+		(at 236.22 276.86 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "12c1cfef-ec1f-41a3-8f53-f66a769491c7")
+		(property "Reference" "D3"
+			(at 238.76 270.86 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "SMF6.0A"
+			(at 238.76 282.86 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-123F"
+			(at 236.22 276.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 236.22 276.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "TVS on the bare VIN spring pin"
+			(at 236.22 276.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C123790"
+			(at 236.22 276.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "SMF6.0A"
+			(at 236.22 276.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "d45a6263-e1e5-44e3-b20a-def9279493a1")
+		)
+		(pin "2"
+			(uuid "717a5203-16d6-4eda-a43f-05e316469214")
+		)
+		(instances
+			(project "dock-pcb-rev-b"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
+					(reference "D3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(label "VIN_BAND"
+		(at 232.41 276.86 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "a132d0fd-c981-49f3-bc7f-a604c7a1044f")
+	)
+	(label "GND"
+		(at 240.03 276.86 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "403b8ef4-88ee-4b07-80b0-b1e088c5da5d")
+	)
+	(symbol
+		(lib_id "Device:LED")
+		(at 274.32 276.86 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "331ec47c-bf0c-43e1-8789-546ababb76a2")
+		(property "Reference" "D1"
+			(at 276.86 270.86 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "red USB"
+			(at 276.86 282.86 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "LED_SMD:LED_0603_1608Metric"
+			(at 274.32 276.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 274.32 276.86 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11032,7 +11613,7 @@
 			)
 		)
 		(property "Description" "USB connected (GPIO2)"
-			(at 162.56 276.86 0)
+			(at 274.32 276.86 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11043,7 +11624,7 @@
 			)
 		)
 		(property "LCSC" "C2286"
-			(at 162.56 276.86 0)
+			(at 274.32 276.86 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11054,7 +11635,7 @@
 			)
 		)
 		(property "MPN" "KENTO KT-0603R"
-			(at 162.56 276.86 0)
+			(at 274.32 276.86 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11065,14 +11646,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "001fbf2c-84e0-4782-9025-ea326877001e")
+			(uuid "d3385866-dfbb-4bc1-bc58-c57d712a38b9")
 		)
 		(pin "2"
-			(uuid "7c48fef2-f768-4f9a-ae6f-96b9e35bd059")
+			(uuid "919017b6-ed86-4732-8bf3-c11ef247bc84")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "D1")
 					(unit 1)
 				)
@@ -11080,28 +11661,28 @@
 		)
 	)
 	(label "LED_USB_K"
-		(at 158.75 276.86 180)
+		(at 270.51 276.86 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "2505250c-a1ab-49d1-904e-6baa0901dd09")
+		(uuid "106ca482-fe5d-4d8b-9474-7d66d7b5719f")
 	)
 	(label "LED_USB"
-		(at 166.37 276.86 0)
+		(at 278.13 276.86 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "8a624bb6-4d61-4582-85dc-a8fd83fdabf0")
+		(uuid "8c2e91e4-1c41-4f56-b8b2-ddaedef80950")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 195.58 281.94 0)
+		(at 309.88 281.94 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11109,9 +11690,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "41986bbe-c538-4427-870c-e609f35da9f6")
+		(uuid "fdc297f9-1ca8-42db-b24e-b8f1469f83bd")
 		(property "Reference" "R13"
-			(at 198.12 275.94 0)
+			(at 312.42 275.94 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11121,7 +11702,7 @@
 			)
 		)
 		(property "Value" "1k"
-			(at 198.12 287.94 0)
+			(at 312.42 287.94 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11131,7 +11712,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 195.58 281.94 0)
+			(at 309.88 281.94 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11142,7 +11723,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 195.58 281.94 0)
+			(at 309.88 281.94 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11153,7 +11734,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 195.58 281.94 0)
+			(at 309.88 281.94 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11164,7 +11745,7 @@
 			)
 		)
 		(property "LCSC" "C11702"
-			(at 195.58 281.94 0)
+			(at 309.88 281.94 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11175,14 +11756,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "2e285226-a090-4a7e-830f-4c467a1bca2b")
+			(uuid "588237df-32b3-4232-8eec-e731220f0fb1")
 		)
 		(pin "2"
-			(uuid "47fd34d6-d91e-446d-ae1e-ad3f07b8fd88")
+			(uuid "514e099b-8996-42b9-8ae9-e78fb1cbc93e")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "R13")
 					(unit 1)
 				)
@@ -11190,28 +11771,28 @@
 		)
 	)
 	(label "LED_USB_K"
-		(at 195.58 278.13 90)
+		(at 309.88 278.13 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "addea7c0-1cf8-4bc7-a7bd-8dde45d54b8d")
+		(uuid "0ad7524e-0cae-42b7-b1e0-312d117deb69")
 	)
 	(label "GND"
-		(at 195.58 285.75 270)
+		(at 309.88 285.75 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "e3dd8195-d783-47df-a4ee-4869b347df58")
+		(uuid "6e77d858-7e0d-4946-b02e-212771f7dcc8")
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 233.68 276.86 0)
+		(at 347.98 276.86 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11219,9 +11800,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "2007124b-2faf-46f2-b4e2-8700adf74ac1")
+		(uuid "5b64b6c7-7222-4f49-bfb4-782766da2deb")
 		(property "Reference" "D2"
-			(at 236.22 270.86 0)
+			(at 350.52 270.86 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11231,7 +11812,7 @@
 			)
 		)
 		(property "Value" "red ACT"
-			(at 236.22 282.86 0)
+			(at 350.52 282.86 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11241,7 +11822,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_0603_1608Metric"
-			(at 233.68 276.86 0)
+			(at 347.98 276.86 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11252,7 +11833,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 233.68 276.86 0)
+			(at 347.98 276.86 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11263,7 +11844,7 @@
 			)
 		)
 		(property "Description" "DAP running (GPIO16)"
-			(at 233.68 276.86 0)
+			(at 347.98 276.86 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11274,7 +11855,7 @@
 			)
 		)
 		(property "LCSC" "C2286"
-			(at 233.68 276.86 0)
+			(at 347.98 276.86 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11285,7 +11866,7 @@
 			)
 		)
 		(property "MPN" "KENTO KT-0603R"
-			(at 233.68 276.86 0)
+			(at 347.98 276.86 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11296,14 +11877,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "b561b915-ed75-416f-992d-b4cc26451956")
+			(uuid "f8db37f1-b83a-4cfe-84bc-d3a440be0039")
 		)
 		(pin "2"
-			(uuid "5cb4a122-7da5-4bc2-b1b5-9d2b018d5c9e")
+			(uuid "4aa0eb32-1d8d-49a2-af43-f808a466239f")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "D2")
 					(unit 1)
 				)
@@ -11311,28 +11892,28 @@
 		)
 	)
 	(label "LED_ACT_K"
-		(at 229.87 276.86 180)
+		(at 344.17 276.86 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "ec745afd-b91b-401b-9d51-3c754edaff4a")
+		(uuid "61a3e3bc-d4fd-4c35-9214-c04529e78b62")
 	)
 	(label "LED_ACT"
-		(at 237.49 276.86 0)
+		(at 351.79 276.86 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "a6d69d4a-8940-4f37-ae77-281795644005")
+		(uuid "be33344f-3ce2-404f-902f-1244857f06f2")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 269.24 281.94 0)
+		(at 53.34 309.88 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11340,9 +11921,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "048bb909-a6f6-46b2-94f0-9629a33beab8")
+		(uuid "432387a8-c514-450a-bca2-735d704b08b1")
 		(property "Reference" "R14"
-			(at 271.78 275.94 0)
+			(at 55.88 303.88 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11352,7 +11933,7 @@
 			)
 		)
 		(property "Value" "1k"
-			(at 271.78 287.94 0)
+			(at 55.88 315.88 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11362,7 +11943,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 269.24 281.94 0)
+			(at 53.34 309.88 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11373,7 +11954,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 269.24 281.94 0)
+			(at 53.34 309.88 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11384,7 +11965,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 269.24 281.94 0)
+			(at 53.34 309.88 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11395,7 +11976,7 @@
 			)
 		)
 		(property "LCSC" "C11702"
-			(at 269.24 281.94 0)
+			(at 53.34 309.88 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11406,14 +11987,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "a78eacc0-c385-4d7d-a87a-9a6f121ae24e")
+			(uuid "41f79333-7f12-4e06-9404-ce39e590e016")
 		)
 		(pin "2"
-			(uuid "220dd3b5-8263-4419-9ba8-6461d0ee07c4")
+			(uuid "812c61c0-3130-49e4-8266-956065c57cba")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "R14")
 					(unit 1)
 				)
@@ -11421,28 +12002,28 @@
 		)
 	)
 	(label "LED_ACT_K"
-		(at 269.24 278.13 90)
+		(at 53.34 306.07 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "5d8fda07-a146-4879-a1aa-b214227e21c0")
+		(uuid "a8f8ec04-0949-40e2-ae00-e691e334d84d")
 	)
 	(label "GND"
-		(at 269.24 285.75 270)
+		(at 53.34 313.69 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "1d7a7a74-1843-4e70-93a5-44e103fa45c4")
+		(uuid "277df3ba-e256-49ba-9f3d-50d55f02ee95")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x01")
-		(at 309.88 276.86 0)
+		(at 93.98 304.80 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11450,9 +12031,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "8c17530a-525d-48ae-ac4c-e64c353fc076")
+		(uuid "d71a531b-d03c-46a9-9de7-e572eae0d191")
 		(property "Reference" "P1"
-			(at 312.42 270.86 0)
+			(at 96.52 298.80 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11462,7 +12043,7 @@
 			)
 		)
 		(property "Value" "SWCLK"
-			(at 312.42 282.86 0)
+			(at 96.52 310.80 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11472,7 +12053,7 @@
 			)
 		)
 		(property "Footprint" "dock:SpringPin_Mill-Max_0906_PTH_D1.4mm_Drill0.6mm"
-			(at 309.88 276.86 0)
+			(at 93.98 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11483,7 +12064,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 309.88 276.86 0)
+			(at 93.98 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11494,7 +12075,7 @@
 			)
 		)
 		(property "Description" "spring pin to the band's SWDCLK contact"
-			(at 309.88 276.86 0)
+			(at 93.98 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11505,7 +12086,7 @@
 			)
 		)
 		(property "MPN" "Mill-Max 0906-4-15-20-75-14-11-0"
-			(at 309.88 276.86 0)
+			(at 93.98 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11516,11 +12097,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "644dc494-f7f6-4cea-9599-cbc58f5eb560")
+			(uuid "780c880f-c6aa-40d1-8b6c-dd12916adfb9")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "P1")
 					(unit 1)
 				)
@@ -11528,18 +12109,18 @@
 		)
 	)
 	(label "P_SWCLK"
-		(at 304.80 276.86 180)
+		(at 88.90 304.80 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "1fdd9193-a383-41b1-a335-a19d43cdce43")
+		(uuid "0bf4ebfc-d51c-48a6-be26-d1176c75efdb")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x01")
-		(at 342.90 276.86 0)
+		(at 129.54 304.80 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11547,9 +12128,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "7b045d33-07c3-4789-972f-db75e5226cb1")
+		(uuid "94406eb5-cd3f-4394-97a8-9023023a83ab")
 		(property "Reference" "P2"
-			(at 345.44 270.86 0)
+			(at 132.08 298.80 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11559,7 +12140,7 @@
 			)
 		)
 		(property "Value" "SWDIO"
-			(at 345.44 282.86 0)
+			(at 132.08 310.80 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11569,7 +12150,7 @@
 			)
 		)
 		(property "Footprint" "dock:SpringPin_Mill-Max_0906_PTH_D1.4mm_Drill0.6mm"
-			(at 342.90 276.86 0)
+			(at 129.54 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11580,7 +12161,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 342.90 276.86 0)
+			(at 129.54 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11591,7 +12172,7 @@
 			)
 		)
 		(property "Description" "spring pin to SWDIO"
-			(at 342.90 276.86 0)
+			(at 129.54 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11602,7 +12183,7 @@
 			)
 		)
 		(property "MPN" "Mill-Max 0906-4-15-20-75-14-11-0"
-			(at 342.90 276.86 0)
+			(at 129.54 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11613,11 +12194,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "88383900-5970-43a3-aed3-5b9476d1f22a")
+			(uuid "507f7cf0-5254-4355-b763-bbea5a873f1f")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "P2")
 					(unit 1)
 				)
@@ -11625,18 +12206,18 @@
 		)
 	)
 	(label "P_SWDIO"
-		(at 337.82 276.86 180)
+		(at 124.46 304.80 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "1025d350-d9a1-4670-82e4-03a315e00bb9")
+		(uuid "3aa846f8-ea0c-4528-bc68-d0ece904ef32")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x01")
-		(at 58.42 299.72 0)
+		(at 162.56 304.80 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11644,9 +12225,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "8f6c840b-9e9b-4121-9a36-67bf9581b52f")
+		(uuid "a4677b04-8733-415b-a136-0ef0b9bf9302")
 		(property "Reference" "P3"
-			(at 60.96 293.72 0)
+			(at 165.10 298.80 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11656,7 +12237,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 60.96 305.72 0)
+			(at 165.10 310.80 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11666,7 +12247,7 @@
 			)
 		)
 		(property "Footprint" "dock:SpringPin_Mill-Max_0906_PTH_D1.4mm_Drill0.6mm"
-			(at 58.42 299.72 0)
+			(at 162.56 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11677,7 +12258,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 58.42 299.72 0)
+			(at 162.56 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11688,7 +12269,7 @@
 			)
 		)
 		(property "Description" "spring pin to GND"
-			(at 58.42 299.72 0)
+			(at 162.56 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11699,7 +12280,7 @@
 			)
 		)
 		(property "MPN" "Mill-Max 0906-4-15-20-75-14-11-0"
-			(at 58.42 299.72 0)
+			(at 162.56 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11710,11 +12291,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "f1e60a5a-b9a2-4960-9497-8b9a76b2b5a0")
+			(uuid "542ca8ac-6d64-4545-81c7-cc748a25288e")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "P3")
 					(unit 1)
 				)
@@ -11722,18 +12303,18 @@
 		)
 	)
 	(label "GND"
-		(at 53.34 299.72 180)
+		(at 157.48 304.80 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "74206313-3f0b-439d-9350-697e98d3bdb6")
+		(uuid "30ec4b02-22c2-4c58-acdb-26bff3aa0e2b")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x01")
-		(at 93.98 299.72 0)
+		(at 198.12 304.80 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11741,9 +12322,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "030ced08-1e4a-4e55-94de-6bfeca447321")
+		(uuid "8599543a-a6d5-438e-82fa-bf542832b09a")
 		(property "Reference" "P4"
-			(at 96.52 293.72 0)
+			(at 200.66 298.80 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11753,7 +12334,7 @@
 			)
 		)
 		(property "Value" "VIN"
-			(at 96.52 305.72 0)
+			(at 200.66 310.80 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11763,7 +12344,7 @@
 			)
 		)
 		(property "Footprint" "dock:SpringPin_Mill-Max_0906_PTH_D1.4mm_Drill0.6mm"
-			(at 93.98 299.72 0)
+			(at 198.12 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11774,7 +12355,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 93.98 299.72 0)
+			(at 198.12 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11785,7 +12366,7 @@
 			)
 		)
 		(property "Description" "spring pin to VIN (5 V, 0.45 A limit)"
-			(at 93.98 299.72 0)
+			(at 198.12 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11796,7 +12377,7 @@
 			)
 		)
 		(property "MPN" "Mill-Max 0906-4-15-20-75-14-11-0"
-			(at 93.98 299.72 0)
+			(at 198.12 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11807,11 +12388,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "e1cb656c-ac00-470c-ad6b-8dc7950fc2c4")
+			(uuid "565f4ee2-a2f2-41dd-b647-e3f49ab1befe")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "P4")
 					(unit 1)
 				)
@@ -11819,18 +12400,18 @@
 		)
 	)
 	(label "VIN_BAND"
-		(at 88.90 299.72 180)
+		(at 193.04 304.80 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "5585b5f8-8fda-49d2-b75c-d183295681fb")
+		(uuid "df2716ca-fc09-483c-b536-f12b5b193f6f")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x01")
-		(at 129.54 299.72 0)
+		(at 233.68 304.80 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11838,9 +12419,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "c34b8a43-5a70-4c05-b37c-65f2ac7e53a4")
+		(uuid "3a19b83a-68ec-4926-9bd4-9723743034e2")
 		(property "Reference" "TP1"
-			(at 132.08 293.72 0)
+			(at 236.22 298.80 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11850,7 +12431,7 @@
 			)
 		)
 		(property "Value" "RP_SWCLK"
-			(at 132.08 305.72 0)
+			(at 236.22 310.80 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11860,7 +12441,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 129.54 299.72 0)
+			(at 233.68 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11871,7 +12452,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 129.54 299.72 0)
+			(at 233.68 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11882,7 +12463,7 @@
 			)
 		)
 		(property "Description" "RP2040 SWD (recovery)"
-			(at 129.54 299.72 0)
+			(at 233.68 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11893,11 +12474,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "3ffcf8e1-2f2e-4b9e-8dd2-9e287f02e676")
+			(uuid "4dbc6978-4fc3-440e-98f4-bed671c801af")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "TP1")
 					(unit 1)
 				)
@@ -11905,18 +12486,18 @@
 		)
 	)
 	(label "RP_SWCLK"
-		(at 124.46 299.72 180)
+		(at 228.60 304.80 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "b50dd326-1973-4b24-997b-6a1a7ef1bc30")
+		(uuid "0d0cb70d-e698-4c6b-8b29-fc0913139ba1")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x01")
-		(at 162.56 299.72 0)
+		(at 269.24 304.80 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11924,9 +12505,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "aeeb303a-eaf9-4d03-8687-79eac631f61d")
+		(uuid "c2c00efe-6fd9-4266-903e-e093090ebc55")
 		(property "Reference" "TP2"
-			(at 165.10 293.72 0)
+			(at 271.78 298.80 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11936,7 +12517,7 @@
 			)
 		)
 		(property "Value" "RP_SWDIO"
-			(at 165.10 305.72 0)
+			(at 271.78 310.80 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11946,7 +12527,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 162.56 299.72 0)
+			(at 269.24 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11957,7 +12538,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 162.56 299.72 0)
+			(at 269.24 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11968,7 +12549,7 @@
 			)
 		)
 		(property "Description" "RP2040 SWD (recovery)"
-			(at 162.56 299.72 0)
+			(at 269.24 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11979,11 +12560,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "bede185c-ec79-4111-93e1-b9951409d110")
+			(uuid "e0d17008-00f9-4c18-9934-6b1a3a94ef67")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "TP2")
 					(unit 1)
 				)
@@ -11991,18 +12572,18 @@
 		)
 	)
 	(label "RP_SWDIO"
-		(at 157.48 299.72 180)
+		(at 264.16 304.80 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "e7cd936f-49c7-46f7-8dbf-d9111ae4ad1b")
+		(uuid "ddb6b424-e5ba-49c3-92bb-ffed4dd453f9")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x01")
-		(at 198.12 299.72 0)
+		(at 302.26 304.80 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -12010,9 +12591,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "4bcc5b81-87ee-4f82-a4b5-77123e8ba1e0")
+		(uuid "788a9aa7-1c1c-4b0a-8e92-bad03262a2ad")
 		(property "Reference" "TP3"
-			(at 200.66 293.72 0)
+			(at 304.80 298.80 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12022,7 +12603,7 @@
 			)
 		)
 		(property "Value" "RUN"
-			(at 200.66 305.72 0)
+			(at 304.80 310.80 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12032,7 +12613,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 198.12 299.72 0)
+			(at 302.26 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12043,7 +12624,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 198.12 299.72 0)
+			(at 302.26 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12054,7 +12635,7 @@
 			)
 		)
 		(property "Description" "RP2040 reset"
-			(at 198.12 299.72 0)
+			(at 302.26 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12065,11 +12646,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "807d07a3-16c4-4f4a-a48a-df2463e07eb2")
+			(uuid "e7e58657-74c6-45c5-8882-a0e41bf78e8f")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "TP3")
 					(unit 1)
 				)
@@ -12077,18 +12658,18 @@
 		)
 	)
 	(label "RUN"
-		(at 193.04 299.72 180)
+		(at 297.18 304.80 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "aed2fa94-f4f8-4b79-b925-33452fb20585")
+		(uuid "f9260b31-e7d7-46bf-9c89-e55c25354258")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x01")
-		(at 233.68 299.72 0)
+		(at 337.82 304.80 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -12096,9 +12677,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "1a9e20ba-768c-46ba-a647-505da8ee7fd1")
+		(uuid "cdb9160b-50df-493c-8d7d-503b1e80baa1")
 		(property "Reference" "TP4"
-			(at 236.22 293.72 0)
+			(at 340.36 298.80 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12108,7 +12689,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 236.22 305.72 0)
+			(at 340.36 310.80 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12118,7 +12699,7 @@
 			)
 		)
 		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
-			(at 233.68 299.72 0)
+			(at 337.82 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12129,7 +12710,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 233.68 299.72 0)
+			(at 337.82 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12140,7 +12721,7 @@
 			)
 		)
 		(property "Description" "ground"
-			(at 233.68 299.72 0)
+			(at 337.82 304.80 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12151,11 +12732,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "2e211653-93b6-4cfa-baca-74b503845cef")
+			(uuid "9f6676eb-1c29-4c5c-aa9c-2c142607fb1f")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "TP4")
 					(unit 1)
 				)
@@ -12163,18 +12744,18 @@
 		)
 	)
 	(label "GND"
-		(at 228.60 299.72 180)
+		(at 332.74 304.80 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
 		)
-		(uuid "09b809b5-5b3a-4681-b6f4-9e3daa39c98b")
+		(uuid "3131dff3-1939-4b64-b075-171a8399fe3f")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 40.64 335.28 0)
+		(at 40.64 342.90 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -12182,9 +12763,9 @@
 		(on_board no)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "bf0dd47b-4932-47b9-9a5a-393febcbe84d")
+		(uuid "171e6c94-dafa-4ce3-9002-f156b4362efe")
 		(property "Reference" "#FLG01"
-			(at 43.18 329.28 0)
+			(at 43.18 336.90 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12195,7 +12776,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 43.18 341.28 0)
+			(at 43.18 348.90 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12205,7 +12786,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 40.64 335.28 0)
+			(at 40.64 342.90 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12216,7 +12797,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 40.64 335.28 0)
+			(at 40.64 342.90 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12227,7 +12808,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 40.64 335.28 0)
+			(at 40.64 342.90 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12238,11 +12819,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "db778f12-9894-49d3-bb8f-ec012ebea5bc")
+			(uuid "36ea9575-6ea6-4c36-96d9-1b39ff0213c6")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "#FLG01")
 					(unit 1)
 				)
@@ -12250,18 +12831,18 @@
 		)
 	)
 	(label "VBUS"
-		(at 40.64 335.28 0)
+		(at 40.64 342.90 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "13519956-6a22-4909-8dab-362ecbed14e9")
+		(uuid "a1cbd986-b459-4633-a9c2-b402b36a8999")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 66.04 335.28 0)
+		(at 66.04 342.90 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -12269,9 +12850,9 @@
 		(on_board no)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "9d61bea2-6dea-45ea-b2f2-85d381cf040d")
+		(uuid "680fbea1-6ab1-4547-815d-4b64820055da")
 		(property "Reference" "#FLG02"
-			(at 68.58 329.28 0)
+			(at 68.58 336.90 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12282,7 +12863,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 68.58 341.28 0)
+			(at 68.58 348.90 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12292,7 +12873,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 66.04 335.28 0)
+			(at 66.04 342.90 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12303,7 +12884,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 66.04 335.28 0)
+			(at 66.04 342.90 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12314,7 +12895,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 66.04 335.28 0)
+			(at 66.04 342.90 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12325,11 +12906,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "61069010-cfbf-4107-ad03-71f751cffedf")
+			(uuid "5dad6c7a-35b7-4092-91d0-2f020ddadf3d")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "#FLG02")
 					(unit 1)
 				)
@@ -12337,18 +12918,18 @@
 		)
 	)
 	(label "VBUS_F"
-		(at 66.04 335.28 0)
+		(at 66.04 342.90 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "04026749-da3d-4f30-ae2d-82a44088a194")
+		(uuid "a59653b0-889a-4fd8-a488-efd1e4319b40")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 91.44 335.28 0)
+		(at 91.44 342.90 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -12356,9 +12937,9 @@
 		(on_board no)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "572ff947-df37-446e-a305-1f6e7a76ebef")
+		(uuid "8205affc-680b-4ff2-b5cd-8c1afb23b4c1")
 		(property "Reference" "#FLG03"
-			(at 93.98 329.28 0)
+			(at 93.98 336.90 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12369,7 +12950,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 93.98 341.28 0)
+			(at 93.98 348.90 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -12379,7 +12960,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 91.44 335.28 0)
+			(at 91.44 342.90 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12390,7 +12971,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 91.44 335.28 0)
+			(at 91.44 342.90 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12401,7 +12982,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 91.44 335.28 0)
+			(at 91.44 342.90 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12412,11 +12993,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "14289ad5-7bad-4ed9-a380-246150722b5f")
+			(uuid "69313c3f-a6ef-45a1-8c46-a793de02d304")
 		)
 		(instances
 			(project "dock-pcb-rev-b"
-				(path "/59fd5807-8c65-436f-bcba-6f0ad1d1546e"
+				(path "/4f3a93aa-219d-45f0-881f-37ddbfa6a5ff"
 					(reference "#FLG03")
 					(unit 1)
 				)
@@ -12424,14 +13005,14 @@
 		)
 	)
 	(label "GND"
-		(at 91.44 335.28 0)
+		(at 91.44 342.90 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "d8cade3a-580d-4e2c-a0d1-0142f0df421f")
+		(uuid "05655ecf-8847-43fd-81ec-cb79dc0d1daa")
 	)
 	(sheet_instances
 		(path "/"

@@ -1,4 +1,4 @@
-"""WakeBand dock rev A PCB: parts and netlist (single source for schematic and board)."""
+"""WakeBand dock rev B PCB: parts and netlist (single source for schematic and board)."""
 # (ref, lib:symbol, value, footprint, LCSC, MPN, {pin: net}, [nc pins], description)
 R0402 = "Resistor_SMD:R_0402_1005Metric"
 C0402 = "Capacitor_SMD:C_0402_1005Metric"
@@ -41,7 +41,7 @@ PARTS = [
     C("C5", "1uF", "C52923", "+1V8"),
     ("U6", "dock:SY6280AAC", "SY6280AAC", "Package_TO_SOT_SMD:SOT-23-5", "C55136", "Silergy SY6280AAC",
      {"5": "VBUS_F", "4": "VBUS_F", "3": "ISET", "2": "GND", "1": "VIN_BAND"}, [], "current-limited 5 V switch to the band's VIN pin"),
-    R("R6", "15k", "C25756", "ISET", "GND", "limit = 6800 / 15k = 0.45 A (SY6280 minimum 0.4 A)"),
+    R("R6", "33k", "C25779", "ISET", "GND", "limit = 6800 / 33k = 0.21 A (+-25 %; SY6280 range 0.13-2 A); the band draws <= 0.1 A"),
     C("C6", "1uF", "C52923", "VBUS_F"), C("C7", "1uF", "C52923", "VIN_BAND"),
     C("C8", "100nF", "C1525", "+3V3"), C("C9", "100nF", "C1525", "+3V3"), C("C10", "100nF", "C1525", "+3V3"),
     C("C11", "100nF", "C1525", "+3V3"), C("C12", "100nF", "C1525", "+3V3"), C("C13", "100nF", "C1525", "+3V3"),
@@ -57,7 +57,13 @@ PARTS = [
      {"1": "+1V8", "2": "GND", "3": "SWDIO_1V8", "4": "SWDIO_3V3", "5": "+1V8", "6": "+3V3"}, [], "SWDIO, auto-direction (debugprobe has no direction pin)"),
     C("C18", "100nF", "C1525", "+3V3"), C("C19", "100nF", "C1525", "+1V8"), C("C20", "100nF", "C1525", "+3V3"), C("C21", "100nF", "C1525", "+1V8"),
     R("R10", "22", "C25092", "SWDIO_DRV", "SWDIO_3V3", "GPIO14 drives, GPIO13 (SWDI) reads the same node"),
-    R("R11", "22", "C25092", "SWCLK_1V8", "P_SWCLK"), R("R12", "22", "C25092", "SWDIO_1V8", "P_SWDIO"),
+    R("R11", "100", "C25076", "SWCLK_1V8", "P_SWCLK", "limits current into the translator from a 5 V short on the bare pin"),
+    R("R12", "100", "C25076", "SWDIO_1V8", "P_SWDIO", "limits current into the translator from a 5 V short on the bare pin"),
+    ("R15", "Device:R", "100k", "Resistor_SMD:R_0201_0603Metric", "C106224", "Yageo RC0201FR-07100KL", {"1": "SWCLK_3V3", "2": "GND"}, [],
+     "holds the 74LVC1T45 input low when debugprobe releases GPIO12 (0201: the only size that fits beside U7)"),
+    ("U9", "Power_Protection:USBLC6-2SC6", "USBLC6-2SC6", SOT6, "C7519", "ST USBLC6-2SC6",
+     {"1": "P_SWCLK", "6": "P_SWCLK", "3": "P_SWDIO", "4": "P_SWDIO", "5": "VIN_BAND", "2": "GND"}, [], "ESD clamp on the bare SWCLK/SWDIO spring pins"),
+    ("D3", "Device:D_Zener", "SMF6.0A", "Diode_SMD:D_SOD-123F", "C123790", "SMF6.0A", {"1": "VIN_BAND", "2": "GND"}, [], "TVS on the bare VIN spring pin"),
     ("D1", "Device:LED", "red USB", "LED_SMD:LED_0603_1608Metric", "C2286", "KENTO KT-0603R", {"1": "LED_USB_K", "2": "LED_USB"}, [], "USB connected (GPIO2)"),
     R("R13", "1k", "C11702", "LED_USB_K", "GND"),
     ("D2", "Device:LED", "red ACT", "LED_SMD:LED_0603_1608Metric", "C2286", "KENTO KT-0603R", {"1": "LED_ACT_K", "2": "LED_ACT"}, [], "DAP running (GPIO16)"),
