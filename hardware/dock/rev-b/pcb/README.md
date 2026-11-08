@@ -65,7 +65,7 @@ on its pad or via centre, no dangling ends. The router's leftovers were
 re-laid by hand (QSPI fan-out, the RP2040 inner +1V1/+3V3 links, SWD and
 power stubs; C3, C6, C10, C19, R4, R10, R11 and R13 nudged so their pad
 centres line up with 45-degree runs). DRC with parity 0 / 0 / 0, with
-`track_not_centered_on_via` as an error; ERC 0. Segments 392, vias 90.
+`track_not_centered_on_via` as an error; ERC 0. Segments 390, vias 90.
 
 **Review fixes (2026-11-08).** `scripts/dogbone_vias.py` moved 27 vias out of SMD pads;
 `scripts/review_fixes.py` (run after it) does the rest of the layout side, and `parts.py` /
@@ -78,19 +78,27 @@ centres line up with 45-degree runs). DRC with parity 0 / 0 / 0, with
 - ESD/TVS on the pins (U9, D3, R11/R12 at 100 R), SWCLK pull-down (R15), band current limit 0.21 A (R6
   33 k): see the table above.
 - SWDIO_DRV no longer runs between the crystal's pads: it drops to B.Cu at RP2040 pin 17. XOUT still
-  runs on In2 under the solid In1 ground (a top-layer XOUT would need the crystal turned, and then the SWD
-  pins block XIN).
+  runs on In2 (about 7 mm, two vias) under the solid In1 ground. A top-layer XOUT does not fit: the 3225
+  crystal's XIN/XOUT pads are diagonal, so with the RP2040's pin order every rotation either crosses
+  XIN and XOUT or sends XIN about 10 mm round the crystal; the one clean option (crystal turned 180
+  degrees, XIN up the channel between its pads) puts R1 on top of pin 23's +1V1 stub and C16, and R1
+  does not fit under the board-edge clearance. It would take a 2520 crystal and re-routing pins 23-26.
 - VBUS_F's 21 mm inner-layer run is 0.45 mm wide (was 0.3).
 - Silkscreen: pin-1 dots, LED and TVS cathode bars, P1-P4 labels and "WakeBand dock rev B" (the board
   had no legend).
-- Not done: moving C15 (VREG_VOUT 1 uF) next to RP2040 pins 45/50 and extra 100 nF on USB_VDD/ADC_AVDD.
-  The space under those pins is taken by R4/R5 and the USB and QSPI tracks; it needs a re-placement.
+- RP2040 decoupling (`scripts/relayout.py`, run after `review_fixes.py`): the flash (U2) is turned 180
+  degrees and moved right, which frees the space under the RP2040's bottom-edge supply pins. C15
+  (VREG_VOUT 1 uF) now sits at pin 45 (1.3 mm of track), with new 100 nF caps at pin 43 (ADC_AVDD, C22,
+  0402), pins 48/49 (USB_VDD/IOVDD, C23, 0201) and pin 50 (DVDD, C24, 0201). R4/R5 (USB 27 R) sit under
+  them, C12 takes C15's old place, and R8/R9/C17 follow the flash. QSPI is now 4-16 mm per line (was up
+  to 27 mm; 56 mm in total, was 74), with no line between the two rows of flash pins. BOOT runs on In2
+  to SW1, and LED_USB's In2 run goes round the flash.
 
 `fab/bom_jlcpcb.csv` is written by `scripts/gen_bom.py` from `parts.py`.
 
 **Cost (rough, JLCPCB, 5 boards):** board about US$10 for a small 4-layer
 order; parts about US$4 a board (RP2040 0.90, flash 1.00, crystal 0.09, the
-rest cents each) plus about US$3 setup per extended part type (about 14);
+rest cents each) plus about US$3 setup per extended part type (about 15);
 spring pins a few US$ each from distributors (4 a dock).
 
 **Fab:** `fab/dock-pcb-rev-b-fab.zip` (Gerbers, drill, `bom_jlcpcb.csv`,

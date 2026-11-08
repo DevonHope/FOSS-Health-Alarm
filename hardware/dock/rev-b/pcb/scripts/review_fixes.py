@@ -28,6 +28,13 @@ def V(p):
 class Board:
     def __init__(self, path):
         self.b = pcbnew.LoadBoard(path)
+        self._removed = []
+
+    def remove(self, item):
+        """Remove from the board but keep a Python reference: letting pcbnew free removed items
+        corrupts its SWIG wrappers in KiCad 10.0.3 (later GetTracks() calls fail)."""
+        self.b.Remove(item)
+        self._removed.append(item)
 
     def net(self, name):
         n = self.b.FindNet("/" + name)
@@ -56,7 +63,7 @@ class Board:
         return hits[0]
 
     def del_seg(self, layer, a, c):
-        self.b.Remove(self.find_seg(layer, a, c))
+        self.remove(self.find_seg(layer, a, c))
 
     def seg(self, a, c, layer, width, net):
         a, c = V(a), V(c)
@@ -179,7 +186,7 @@ def fix_u3_vbus_via(e):
     """Last dock via in a pasted pad (U3 pin 5, VBUS): USB_DP blocks the pad's east side, so the via
     moves into the gap between U3's pin columns, and pin 2's GND via moves out to the west."""
     e.del_seg(F, (105.2625, 113.0), (106.3125, 113.0))
-    e.b.Remove(e.find_via((106.3125, 113.0)))
+    e.remove(e.find_via((106.3125, 113.0)))
     pin2 = e.pad("U3", 2)
     gv = e.via((104.25, 113.0), "GND")
     e.seg(pin2, gv.GetPosition(), F, 0.25, "GND")
@@ -202,7 +209,7 @@ def fix_swdio_drv(e):
         e.del_seg(F, a, c)
     for a, c in (((119.4, 101.6), (119.4, 100.1)), ((120.8, 103.0), (119.4, 101.6))):
         e.del_seg(B, a, c)
-    e.b.Remove(e.find_via((119.4, 100.1)))
+    e.remove(e.find_via((119.4, 100.1)))
     # XOUT's In2 run moves up from y 102.1 to 101.6 to clear the new via (still 45 degrees into R1)
     e.del_seg(IN2, (119.4, 102.1), (116.2, 102.1))
     e.del_seg(IN2, (121.95, 99.55), (119.4, 102.1))
@@ -345,19 +352,9 @@ def fix_silkscreen(e):
     text("WakeBand dock rev B", 139.0, 111.0, angle=90)
 
 
-def main(src, dst):
-    e = Board(src)
-    fix_values(e)
-    fix_pin_esd(e)
-    fix_swclk_pulldown(e)
-    fix_u3_vbus_via(e)
-    fix_swdio_drv(e)
-    fix_vbus_f_width(e)
-    fix_ep_paste(e)
-    fix_silkscreen(e)
-    pcbnew.SaveBoard(dst, e.b, True)   # True: leave the .kicad_pro alone
-    # footprint silk off the new parts, as gen_pcb.py does (removing items through pcbnew
-    # breaks its Python wrappers in KiCad 10.0.3, so it is done on the saved file)
+def strip_new_silk(dst):
+    """Footprint silk off the new parts, as gen_pcb.py does (removing items through pcbnew breaks
+    its Python wrappers in KiCad 10.0.3, so it is done on the saved file)."""
     import re
     t = open(dst).read()
     out, i = [], 0
@@ -385,6 +382,20 @@ def main(src, dst):
             out.append(t[m.start():j + 1])
         i = j + 1
     open(dst, "w").write("".join(out))
+
+
+def main(src, dst):
+    e = Board(src)
+    fix_values(e)
+    fix_pin_esd(e)
+    fix_swclk_pulldown(e)
+    fix_u3_vbus_via(e)
+    fix_swdio_drv(e)
+    fix_vbus_f_width(e)
+    fix_ep_paste(e)
+    fix_silkscreen(e)
+    pcbnew.SaveBoard(dst, e.b, True)   # True: leave the .kicad_pro alone
+    strip_new_silk(dst)
 
 
 if __name__ == "__main__":
