@@ -201,6 +201,15 @@ default). Every I2C part reads 2.0 V as high: BQ25125 (thresholds 0.75 x its 1.8
 B.Cu signals plus ground pour and the dock landings. Ground pours on all four layers; In1 is unbroken
 under the radio and the RF line.
 
+**Departure from Nordic's reference (kept on purpose, review 2026-11-08):** Nordic's layout voids In1 and
+In2 under the RF filter (L2/L3/L4, C6/C9/C11) out to the board edge (rev B x 102.5-106.8, y 104.4-106.0).
+That void belongs to Nordic's 1.6 mm board, where the 0.76 mm RF line is referenced to the bottom layer.
+`scripts/transplant.py` skipped it (it lies past the copy box), and copying it now would put the filter
+directly over B.Cu I2C_SDA (y 105.2) with In2 SWDCLK alongside, so rev B keeps In1 solid as a shield. The
+cost is about +0.04-0.08 pF per filter node, a few tenths of a dB at most, small next to the antenna
+tuning the first spin needs anyway. Next spin, only if bring-up shows weak TX power or harmonics: void In1
+only (ending at x >= 103.5 so the 50 ohm feed keeps its reference) and move I2C_SDA out from under the filter.
+
 - **Radio corner:** Nordic's QFN48 reference placement and vias, with the copper redrawn to the
   house rules. The antenna corner is a keep-out on every layer (no pour, no vias).
 - **Charger:** the BQ25125's 0.4 mm ball grid fans out with 0.25/0.15 mm vias in the balls,
@@ -234,6 +243,27 @@ PCB options: 4 layers, 0.8 mm, JLC04081H-7628 stackup, **ENIG**, **via-in-pad fi
 (POFV)**, 2 panels, "panel by customer". Assembly: Standard, top side, 2 panels. In the placement
 preview, check the rotation of U1, U201, U202, U203, U401, U501, D702, X1, X2 and AE1 (JLC's library
 footprints don't always use KiCad's zero orientation).
+
+**Placement preview is a required step.** `pos.csv` keeps KiCad's raw rotations on purpose: the usual
+KiCad-to-JLC correction tables don't match these footprints (no SOT-23/SOIC parts; the Nordic QFN name isn't
+`QFN-...`), and a guessed correction is worse than none. In JLC's preview, check that pin 1 of each part
+below sits where the table says (board view, from the part centre). Fix any that don't in JLC's interface,
+**separately on all four panel copies** (`_0` to `_3`), then write the confirmed corrections into
+`scripts/panelfab.py` so re-orders keep them.
+
+| Part | Pin 1 should be | Note |
+| --- | --- | --- |
+| U1 nRF54L10 QFN48 | bottom-right (XL1) | usual QFN fix is +270, unconfirmed for this part |
+| U201 BQ25125 DSBGA | top-left (A1, GND) | probably no correction |
+| U202 IS31FL3193 DFN-10 | bottom-right (LED_EN) | DFN +270 is likely |
+| U203 TPS7A02 X2SON-4 | bottom-left (VDD_2V0) | |
+| U401 LIS2DW12 LGA-12 | top-left (I2C_SCL) | |
+| U501 DRV2605L MSOP-10 | top-right (REG) | MSOP/TSSOP +270 is the best-established fix |
+| D702 RGB LED | top-right (VLED, anode) | |
+| X2 32 MHz crystal | top-left (XC1) | 180 is harmless, 90 kills the radio clock |
+| X1 32.768 kHz crystal | non-polar | only check it isn't turned 90 |
+| AE1 chip antenna | feed pad at the top (y 111.1) | 180 swaps feed and NC: no radio |
+| D601 SMF12A TVS | cathode band on the left (VIN) | |
 
 Not placed: test pads, dock landings, JP201 (solder jumper), C14/C15 (DNP). Solder the cell and LRA
 leads by hand. Sand the tab nubs flush (top edge near x = 122.6; bottom edge near x = 108.5 and

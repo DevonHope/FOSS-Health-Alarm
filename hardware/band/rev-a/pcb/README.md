@@ -4,6 +4,15 @@
 `../../archive/flex-rev-a`). Routed, DRC clean, fab package in `fab/`. Last edited with
 KiCad 10.0.3 (earlier revisions used 10.0.5; the file format is the same).
 
+> **Before ordering rev A** (review 2026-11-08, `../../../reviews/2026-11-08`; rev A is kept as a reference
+> and these were documented, not fixed):
+> - KiCad 10 DRC now reports 1 error: C203 pad 2 (GND, F.Cu, 116.12, 111.22) has one thermal spoke into
+>   GND_L1, which needs two. It is in the saved fill, so the Gerbers have it too.
+> - U202 (KTD2026) custom footprint: the exposed pad is 1.45 x 0.8 mm with 0.125 mm to the pins and 100 %
+>   paste. Use KiCad's DFN pad (0.7 x 1.2 mm) or shrink it, with 50-60 % paste.
+> - The reference text of C208, U202 and D702 is plotted 110-230 mm off the board in the top silkscreen.
+> - The via sits in the centre of the SWDCLK dock pad, where the spring pin lands; move it to the pad edge.
+
 | Item | Value |
 | --- | --- |
 | Board | 33 x 15 mm, 1 mm corner radius, 0.8 mm FR4, ENIG |

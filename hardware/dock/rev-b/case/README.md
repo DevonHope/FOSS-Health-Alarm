@@ -39,7 +39,9 @@ bring-up, tilt and tap the dock with the band in it: the band must stay seated a
 **BOOTSEL:** the button sits on top of the PCB, so it can't be reached from underneath without a PCB
 change. A press-through skin would need about 1 mm of flex, which a printed skin won't give reliably.
 So the top stays clean: flash the dock (dock PCB README, "Flashing the dock") **before** fitting the top
-plate. To re-flash, lift the top plate off; it is held by the lip, so don't glue it.
+plate. A blank RP2040 shows up as a USB drive on its own, so the first flash needs no button; later,
+`picotool reboot -u` puts it back in the bootloader. To re-flash otherwise, lift the top plate off; it is held
+by friction on the two locating pins, so don't glue it.
 
 ## Parts
 
@@ -60,8 +62,14 @@ PETG (or PLA: the dock is not worn), no supports.
 
 | Part | Orientation | Notes |
 | --- | --- | --- |
-| Top plate | underside (flat, z -2.05) down | magnet pockets, LED windows and locating holes open downward; the only bridge is the 0.6 mm-high pocket over the USB-C shell (about 8 mm span), easy in PETG |
+| Top plate | underside (flat, z -2.05) down | magnet pockets, LED windows and locating holes and the two 0.6 mm spring-pin slots open downward; bridges: the pocket over the USB-C shell (about 8 mm span) and the 1.9 mm slot roofs, easy in PETG |
 | Tray | floor down | no bridges; locating pins chamfered; foot rings are 0.5 mm grooves |
+
+**Review fixes (2026-11-08, `../../../reviews/2026-11-08`):** the plate underside now has a 1.9 x 0.6 mm
+slot over each spring-pin pair, so the pin barrels can't hold the plate up, and the tray has two rear stops
+(x 102-106 and 134-138) so plugging in USB-C can't push the PCB back. STL/STEP regenerated; both parts still one
+valid solid, 0 overlaps with the PCB envelope, pins, magnets and band cover, and the print check is unchanged
+(the only bridge over 5 mm is still the USB-C pocket). Preview PNGs are from before this change.
 
 **Print check (2026-11-08, `../../../tools/printcheck.py`):** both parts are one solid with no fragments;
 no face overhangs more than 45 degrees; no knife edges; no wall under 0.8 mm except the intended

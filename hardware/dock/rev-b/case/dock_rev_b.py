@@ -16,6 +16,8 @@ What changed from rev A:
   - underneath: four Ø8.2 mm locating rings (0.5 x 0.4 mm grooves) for Ø8 mm self-adhesive rubber feet; 0.5 mm chamfer on the
     bottom edge against elephant's foot.
   - recess: 0.3 mm shallower (1.2 mm) with a 0.4 mm lead-in chamfer.
+  - review fixes 2026-11-08: a 1.9 x 0.6 mm slot over each spring-pin pair in the plate underside (the barrels
+    no longer touch the plate), and two rear stops in the tray so the PCB can't slide back when USB-C is plugged in.
 Both parts print flat on their underside with no supports (top plate: underside down; tray: floor down).
 Design frame as rev A (band worn frame, z = 0 at the wrist face, the dock below).
 usage (needs build123d): python dock_rev_b.py OUT_DIR [DOCK_PCB_STEP]"""
@@ -40,6 +42,7 @@ LOC_PINS = ((94.5, 120.5), (142.8, 120.5))   # tray locating pins (on the solid 
 LOC_D, LOC_H, LOC_HOLE_D, LOC_HOLE_H = 2.0, 1.2, 2.05, 1.4
 TRAY_Z0, PCB, PCB_TOP, PCB_BOT = A.TRAY_Z0, A.PCB, A.PCB_TOP, A.PCB_BOT
 PLATE_Z0 = -2.05                             # flat underside, low enough to hold the Ø4 x 1.5 magnets (rev A -1.3)
+SP_CB_W, SP_CB_D = 1.9, 0.6                  # slot over each spring-pin pair: barrel Ø1.50 + 0.2 mm, 0.6 mm rise allowed
 FLOOR_T, WALL = A.FLOOR_T, A.WALL
 STRAP_W, STRAP_D = 18.6, 2.6
 CH_IN = (97.6, 140.4)                        # inner ends of the channels (under the strap loops), as rev A
@@ -109,6 +112,13 @@ def make_top():
     t -= strap_cutters()
     for y in case.SP_Y:                                                                  # plunger guide bores
         t -= case.cyl(case.SP_X, y, 0.75, PLATE_Z0 - 1, TOP + 1)
+    # clearance over the spring-pin barrels (their tops sit at PLATE_Z0 nominal; PCB, pin-length, solder and print
+    # tolerances can lift them ~0.45 mm): one 1.9 mm wide x 0.6 mm deep stadium slot per pin pair (2.2 mm pitch is
+    # too tight for separate counterbores)
+    for ya, yb in ((case.SP_Y[0], case.SP_Y[1]), (case.SP_Y[2], case.SP_Y[3])):
+        t -= case.box(case.SP_X - SP_CB_W / 2, case.SP_X + SP_CB_W / 2, ya, yb, PLATE_Z0 - 1, PLATE_Z0 + SP_CB_D)
+        for y in (ya, yb):
+            t -= case.cyl(case.SP_X, y, SP_CB_W / 2, PLATE_Z0 - 1, PLATE_Z0 + SP_CB_D)
     for x, y in case.MAG_XY:                                                             # magnets, from below
         t -= case.cyl(x, y, MAG_POCKET_D / 2, -MAG_SKIN - MAG_POCKET_T - 1, -MAG_SKIN)
     for x, y in A.LEDS:                                                                  # LEDs: thin skin
@@ -138,6 +148,8 @@ def make_tray():
     for x0, x1, y0, y1 in ((PCB[0] - 1.4, PCB[0] - 0.2, PCB[2] - 1.4, PCB[2] + 3), (PCB[1] + 0.2, PCB[1] + 1.4, PCB[2] - 1.4, PCB[2] + 3),
                            (PCB[0] - 1.4, PCB[0] - 0.2, PCB[3] - 3, PCB[3] + 0.2), (PCB[1] + 0.2, PCB[1] + 1.4, PCB[3] - 3, PCB[3] + 0.2)):
         t += case.box(x0, x1, y0, y1, TRAY_Z0 + FLOOR_T - 0.01, PCB_TOP + 0.6)          # PCB corner stops
+    for x0, x1 in ((PCB[0] + 2.0, PCB[0] + 6.0), (PCB[1] - 6.0, PCB[1] - 2.0)):           # rear stops: the PCB can't
+        t += case.box(x0, x1, PCB[2] - 1.45, PCB[2] - 0.2, TRAY_Z0 + FLOOR_T - 0.01, PCB_TOP + 0.6)  # slide back (0.2 mm play)
     ux, uw, uy = A.USB
     t -= case.box(ux - uw / 2, ux + uw / 2, uy, DOCK[3] + 1, TRAY_Z0 + FLOOR_T, PLATE_Z0 + 1)
     t -= strap_cutters()

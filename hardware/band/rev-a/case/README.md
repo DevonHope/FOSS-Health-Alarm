@@ -206,22 +206,29 @@ it does not need to be powered).
    reference magnet first). Resume; the plastic closes over them.
 2. **Insert:** press the M2 insert into the shell's boss from below with
    the iron at about 230 C, flush with the end of the boss.
-3. **Carrier in the cover.** Lay the carrier in its pocket (it is
-   symmetric, so either end works). Drop the four spring pins in from the
-   top, tail first.
-4. **Seat the pins.** Stand the cover wrist side down on a flat surface.
-   Gravity (or a light press with tweezers) seats every flange flat on the
-   carrier, and the 0.6 mm plated holes keep the 0.43 mm tails centred to
-   about 0.1 mm, so each pin stands square in its window.
-   - Don't do this step on the dock: its spring pins would push up on the
-     loose pins from below and lift them off the carrier.
-5. **Solder** each flange to its carrier pad from the inside, with a little
-   solder (keep it off the plunger). The carrier sits on PETG, so touch each
-   joint briefly and let it cool before the next.
+3. **Pins into the carrier, off the case (review 2026-11-08).** Solder the pins
+   *before* the carrier goes into the cover, so no solder can run down onto the
+   tails, which are the dock's contact surface. Put a small dab of solder paste
+   on each of the carrier's four top pads. Lay the carrier on a spacer with
+   holes under the pins (a scrap of perfboard or a drilled offcut) so the tails
+   hang free, and drop the four pins in from the top, tail first, flanges flat
+   on the paste. (The carrier is symmetric, so either end works.)
+4. **Reflow** on a hotplate (or with hot air from above), then let it cool
+   without moving it. Clean with IPA. Under a magnifier, check every **tail end
+   is bare** (no solder, no flux) and that neighbouring flanges, 0.37 mm apart,
+   are not bridged: measure VIN-GND and SWDIO-SWDCLK with a meter, both open.
+   With only an iron: solder each flange from the top with very little solder
+   and keep the tails pointing up so nothing runs down them.
+5. **Carrier in the cover.** Lay the soldered carrier in its pocket, pins up,
+   tails down into the windows. Stand the cover wrist side down on a flat
+   surface (not on the dock: its pins would push the carrier up).
 6. **Seal:** run a small bead of **gel epoxy** round the inside edge of the
    carrier and over the solder joints, keeping it off the plungers. Let it
    cure. Then set the cover on the dock and check with a multimeter that
-   each of the dock's pins touches its tail.
+   each of the dock's pins touches its tail, also with the cover pushed about
+   0.3 mm sideways in each direction (the dock plunger only just catches the
+   tail at that offset; if a contact drops out, the recess clearance needs
+   tightening, see the 2026-11-08 review).
 7. **Board:** solder the cell to TP201 (+) and TP202 (-), and the LRA to
    TP501 (+) and TP502 (-), all on B. Put kapton over B.Cu with the four
    landing pads (x 131.5) left clear.
