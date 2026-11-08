@@ -204,13 +204,18 @@ under the radio and the RF line.
 - **Radio corner:** Nordic's QFN48 reference placement and vias, with the copper redrawn to the
   house rules. The antenna corner is a keep-out on every layer (no pour, no vias).
 - **Charger:** the BQ25125's 0.4 mm ball grid fans out with 0.25/0.15 mm vias in the balls,
-  which must be **filled and capped (POFV)**. So must the LED driver's two pin vias and the via in
-  TP502.
+  which must be **filled and capped (POFV)**. So must the LED driver's VCC pin via (U202.2) and the
+  via in TP502.
 - **Trace audit** (`scripts/route/audit.py`): 0/45/90-degree segments only; no bend sharper
   than 45 degrees; no step shorter than 0.3 mm between bends; every track end on a pad or via
   centre; no overlapping or dangling copper. 510 segments and 158 vias pass. One exception: PMID
   jogs 0.2 mm between test pads TP203 and TP707 (131.7, 107.25). The pads are 1.6 mm apart with
   CHG_MR beside them, and any single 45-degree line comes within 0.06 mm of one pad.
+- **Ground stitching:** In1 is one unbroken GND fill with no tracks on it. 77 GND vias. Every In2
+  fill island has at least 2. The RF feed has 12 GND vias within 1 mm of it, and there are 4 along
+  the antenna keep-out's inner edges. Top and bottom pours: 15 of 37 islands have 2 or more vias.
+  The rest are small fragments between routes, held by one via plus their parts' GND pads; there is
+  no room left for a second via that clears every layer (`scripts/route/stitch.py` tries).
 - The grid router and clean-up tools are in `scripts/route/`; `audit_ops/` holds the point edits
   from the final audit pass.
 

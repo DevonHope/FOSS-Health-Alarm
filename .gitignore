@@ -1,0 +1,4 @@
+
+# large KiCad STEP export (copied to foss-health-alarm/models instead)
+hardware/rigid-rev-b/rigid-rev-b.step
+hardware/*/*.kicad_prl

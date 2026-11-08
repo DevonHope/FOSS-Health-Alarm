@@ -18283,6 +18283,22 @@
 		(uuid "779e00bf-ed97-43c2-b947-89d5e7504bce")
 	)
 	(via
+		(at 104.5 112.5)
+		(size 0.45)
+		(drill 0.3)
+		(layers "F.Cu" "B.Cu")
+		(net "/GND")
+		(uuid "794e17c1-e72f-4425-9c8d-d66169b73e50")
+	)
+	(via
+		(at 118.9 100.7)
+		(size 0.45)
+		(drill 0.3)
+		(layers "F.Cu" "B.Cu")
+		(net "/GND")
+		(uuid "7be29fd3-0b01-49f7-aa8a-77fe0a4f692c")
+	)
+	(via
 		(at 111.6 105.6)
 		(size 0.66)
 		(drill 0.33)

@@ -24,7 +24,7 @@
 	(constraint hole_clearance (min 0.15mm))
 	(constraint clearance (min 0.1mm)))
 
-# U202 (IS31FL3193, DFN-10 0.5 mm): vias in the outer ends of pins 1 and 2, 0.25/0.15 mm, filled and capped (POFV).
+# U202 (IS31FL3193, DFN-10 0.5 mm): via in the outer end of pin 2 (VCC), 0.25/0.15 mm, filled and capped (POFV).
 (rule "dfn_via_in_pad"
 	(condition "A.Type == 'Via' && A.insideCourtyard('U202')")
 	(constraint via_diameter (min 0.25mm))
