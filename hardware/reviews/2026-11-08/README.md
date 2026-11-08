@@ -68,7 +68,7 @@ DRC with parity 0/0/0/0 and ERC 0 on all three boards.
     standoff, 16 V clamp, C240204) 3.4 mm from VIN (was ~14 mm, SMF12A). The dock's SMF6.0A and 0.21 A limit cover surges.
 - **Verification** ([`verification/`](verification)): three fresh reviewers re-checked every fix by parsing the files, and
   KiCad 10 DRC (with parity, saved fill and fresh refill) / ERC is 0 on all boards. Case clash checks with the moved parts:
-  band rev B 0 overlaps, dock 0 overlaps. All items PASS; follow-ups being fixed: dock U2 pin-1 dot left at the old spot,
+  band rev B 0 overlaps, dock 0 overlaps. All items PASS; follow-ups fixed in `085e49f` (dock) and `d181d0a` (band rev B), DRC/ERC 0: dock U2 pin-1 dot left at the old spot,
   VBUS_F 0.31 mm from J1's shield slot, stale dock README text, band rev B title block still says rev A, D601 GND via
   near the GND landing centre.
 - **Still open:** dock XOUT on an inner layer (above), and band rev B CPL rotations / panel tabs, which stay a JLC preview
