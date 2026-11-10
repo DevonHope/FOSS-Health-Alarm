@@ -1,0 +1,120 @@
+name: Security
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  dependency-review:
+    name: Vulnerable dependency review
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: low
+          comment-summary-in-pr: never
+
+  vulnerability-scan:
+    name: OSV vulnerability scan (OWASP A06)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install OSV-Scanner
+        run: |
+          curl -sSfL -o osv-scanner https://github.com/google/osv-scanner/releases/download/v1.9.2/osv-scanner_linux_amd64
+          chmod +x osv-scanner
+      - name: Scan lockfiles and manifests
+        run: ./osv-scanner scan --recursive .
+
+  outdated-dependencies:
+    name: Outdated dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Generate dependency update report
+        working-directory: android
+        run: ./gradlew --no-daemon -I ../.github/scripts/outdated.init.gradle dependencyUpdates
+      - name: Fail on outdated dependencies
+        run: python3 .github/scripts/check_outdated.py android/build/dependency-updates/report.json
+
+  outdated-actions:
+    name: Outdated GitHub Actions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check action versions are latest major
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          fail=0
+          grep -rhoE 'uses: [A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+(/[A-Za-z0-9_./-]+)?@[^ #]+' .github/workflows | sed 's/uses: //' | sort -u |
+          while IFS=@ read -r action ref; do
+            repo=$(echo "$action" | cut -d/ -f1-2)
+            latest=$(gh api "repos/$repo/releases/latest" --jq .tag_name 2>/dev/null || true)
+            [ -z "$latest" ] && continue
+            if [ "${latest%%.*}" != "${ref%%.*}" ]; then
+              echo "::error::$action@$ref is outdated (latest $latest)"; echo x > /tmp/fail
+            fi
+          done
+          [ ! -f /tmp/fail ]
+
+  secret-scan:
+    name: Secret scan (OWASP A02/A07)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install gitleaks
+        run: |
+          curl -sSfL https://github.com/gitleaks/gitleaks/releases/download/v8.21.2/gitleaks_8.21.2_linux_x64.tar.gz | tar xz gitleaks
+      - run: ./gitleaks detect --source . --redact --verbose
+
+  codeql:
+    name: CodeQL (Kotlin/Actions SAST)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: java-kotlin,actions
+          build-mode: manual
+          queries: security-extended
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Build for analysis
+        working-directory: android
+        run: ./gradlew --no-daemon :app:assembleDebug
+      - uses: github/codeql-action/analyze@v3
+
+  security-gate:
+    name: Security gate
+    if: always()
+    needs: [dependency-review, vulnerability-scan, outdated-dependencies, outdated-actions, secret-scan, codeql]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require all security checks to pass
+        run: |
+          echo '${{ toJSON(needs) }}' | grep -E '"result": "(failure|cancelled)"' && exit 1 || true
