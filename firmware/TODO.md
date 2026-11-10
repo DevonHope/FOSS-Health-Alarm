@@ -5,7 +5,8 @@ Numbers (like **2.1**) are referenced from `TODO(...)` comments in the code.
 
 **Where things stand (10 November 2026):** boards are ordered, nothing has run on hardware yet.
 The hardware-independent parts are written and unit-tested on a PC (smart-wake decision, movement
-measure, alarm times, Bluetooth byte layouts). The rest of `src/` is a first draft that follows the
+measure, alarm times, Bluetooth byte layouts), and the whole firmware builds in CI. The rest of
+`src/` is a first draft that follows the
 band README, written before any board existed: expect fixes at bring-up.
 
 - Target board: band **rev C** (`hardware/band/rev-c/pcb`, pin map and part notes in its README).
@@ -24,8 +25,9 @@ Legend: `[x]` done, `[~]` drafted (written, never run on hardware), `[ ]` not st
 - [x] **0.1** Zephyr application in `firmware/` with its own board definition
   (`boards/nudgeband`, target `nudgeband/nrf54l10/cpuapp`).
 - [x] **0.2** Host unit tests for the pure-C code (`make -C firmware/tests/host`), run in CI.
-- [~] **0.3** CI build of the firmware with upstream Zephyr v4.2 (`.github/workflows/firmware.yml`,
-  manifest `firmware/west.yml`). First run happens on GitHub; fix whatever it finds.
+- [x] **0.3** CI build of the firmware with upstream Zephyr v4.2 (`.github/workflows/firmware.yml`,
+  manifest `firmware/west.yml`). The whole app (drivers, Bluetooth) compiles; the `.hex` is a CI
+  artifact. CMake is pinned to 3.x because Zephyr v4.2 breaks under CMake 4.
 - [ ] **0.4** Flash and debug through the dock. The dock is a CMSIS-DAP probe (RP2040 running
   `debugprobe`). Find the runner that handles the nRF54L10 over CMSIS-DAP (pyOCD with the nRF54L
   pack, or OpenOCD), including erase and recovery of a locked chip. Fallback: a J-Link or an
