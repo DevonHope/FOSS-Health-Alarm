@@ -54,7 +54,7 @@ underside that touch spring pins in the dock.
 | Case and dock housing | ✅ Designed. Ready to print and test-fit |
 | Strap | ✅ Sewing patterns ready |
 | Firmware | ⏳ Not started. Planned on Zephyr / nRF Connect SDK |
-| Android app | ⏳ Planned. Free and open source, for setting the alarm over Bluetooth |
+| Android app | 🧪 **First version** in [`android/`](android/). Works with a simulated band; Bluetooth spec in [`docs/ble-protocol.md`](docs/ble-protocol.md) |
 | Testing | ⏳ Waits for boards. First checks: power-up, charging, radio range, vibration |
 
 **Up next:** assemble the first boards when they arrive, print the case, bring up the firmware
@@ -74,7 +74,8 @@ hardware/
 ├── strap/     strap sewing patterns (PDF)
 ├── reviews/   design reviews of the boards
 └── tools/     helper scripts (e.g. printability check)
-docs/          roadmap, parts research and early design notes
+android/       the Android companion app (and a simulated band for testing)
+docs/          roadmap, parts research, design notes and the Bluetooth protocol
 ```
 
 Older revisions (A and B) are kept for reference. Each folder has its own README with details.
