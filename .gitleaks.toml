@@ -1,0 +1,15 @@
+# gitleaks settings for the Security workflow (.github/workflows/security.yml).
+# Uses gitleaks' built-in rules and skips CAD, geometry and image files, whose
+# embedded base64 images look like random keys to the entropy rules.
+title = "NudgeBand gitleaks config"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "CAD, Gerber, 3D and image files"
+paths = [
+  '''\.(kicad_pcb|kicad_mod|kicad_sch|kicad_sym|kicad_pro|kicad_dru|step|stp|stl|wrl|3mf|sc)$''',
+  '''\.(png|jpg|jpeg|gif|svg|pdf)$''',
+  '''\.(gbr|drl|g[0-9]+|gt[olsp]|gb[olsp]|gm[0-9]+|gko)$''',
+]

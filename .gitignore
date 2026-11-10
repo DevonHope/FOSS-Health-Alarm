@@ -3,3 +3,19 @@
 hardware/band/rev-b/pcb/rigid-rev-b.step
 hardware/**/*.kicad_prl
 __pycache__/
+
+# Never commit secrets, signing keys, per-user config or vendor datasheets
+# (the Security workflow checks for these too)
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+local.properties
+google-services.json
+*.kicad_prl
+*[Dd]atasheet*.pdf
+*[Cc]onfidential*
