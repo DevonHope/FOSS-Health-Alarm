@@ -19,7 +19,9 @@ jobs:
     name: Host unit tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
       - name: Smart-wake, activity, alarm and protocol tests
         run: make -C firmware/tests/host
 
@@ -27,14 +29,15 @@ jobs:
     name: Zephyr build (nudgeband/nrf54l10/cpuapp)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           path: nudgeband
-      - uses: actions/setup-python@v5
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: "3.12"
       - name: Set up Zephyr, its modules and the ARM toolchain
-        uses: zephyrproject-rtos/action-zephyr-setup@v1
+        uses: zephyrproject-rtos/action-zephyr-setup@cc223fe61661d8573c1cd3f95f72f90cce729ae9 # v1.0.16
         with:
           # west makes the folder above app-path the workspace, so point it at the repo root
           app-path: nudgeband
@@ -48,7 +51,7 @@ jobs:
           cmake --version
       - name: Build
         run: west build -b nudgeband/nrf54l10/cpuapp nudgeband/firmware -d build
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: nudgeband-firmware
           path: |

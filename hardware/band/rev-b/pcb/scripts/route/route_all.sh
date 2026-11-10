@@ -1,5 +1,5 @@
 #!/bin/zsh
-RB=/Users/devonhope/Library/CloudStorage/SynologyDrive-WakeBand/foss-health-alarm-git/hardware/band/rev-b/pcb
+export RB="$(cd "$(dirname "$0")/../.." && pwd)"  # this board's pcb folder
 P=/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3
 F="grep -v -e wxApp -e leak -e Debug"
 cd /tmp/wbrevb

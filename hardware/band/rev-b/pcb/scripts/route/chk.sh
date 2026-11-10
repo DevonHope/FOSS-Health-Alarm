@@ -1,5 +1,5 @@
 #!/bin/zsh
-RB=/Users/devonhope/Library/CloudStorage/SynologyDrive-WakeBand/foss-health-alarm-git/hardware/band/rev-b/pcb
+export RB="$(cd "$(dirname "$0")/../.." && pwd)"  # this board's pcb folder
 cd $RB && /Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli pcb drc --severity-all --schematic-parity --format json -o /tmp/revb/drc.json rigid-rev-b.kicad_pcb >/dev/null 2>&1
 python3 - <<'PY'
 import json
@@ -13,7 +13,7 @@ for x in v:
 PY
 /Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3 - <<'PY' 2>&1 | grep -v -E "wxApp|leak|Debug"
 import pcbnew
-b=pcbnew.LoadBoard('/Users/devonhope/Library/CloudStorage/SynologyDrive-WakeBand/foss-health-alarm-git/hardware/band/rev-b/pcb/rigid-rev-b.kicad_pcb'); mm=pcbnew.ToMM
+b=pcbnew.LoadBoard(__import__('os').environ['RB']+'/rigid-rev-b.kicad_pcb'); mm=pcbnew.ToMM
 for z in b.Zones():
     if z.GetZoneName()=='VDD_1V8 plane':
         fp=z.GetFilledPolysList(b.GetLayerID('In2.Cu'))

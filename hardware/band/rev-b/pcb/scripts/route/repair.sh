@@ -1,6 +1,6 @@
 #!/bin/zsh
 # one repair round: rip router copper of nets with DRC errors or gaps, reroute them, apply, check
-RB=/Users/devonhope/Library/CloudStorage/SynologyDrive-WakeBand/foss-health-alarm-git/hardware/band/rev-b/pcb
+export RB="$(cd "$(dirname "$0")/../.." && pwd)"  # this board's pcb folder
 P=/Applications/KiCad/KiCad.app/Contents/Frameworks/Python.framework/Versions/3.9/bin/python3
 cd /tmp/wbrevb
 NETS=$(python3 - <<'PY'
