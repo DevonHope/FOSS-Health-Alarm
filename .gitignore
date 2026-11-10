@@ -1,0 +1,5 @@
+
+# large KiCad STEP export (copied to foss-health-alarm/models instead)
+hardware/band/rev-b/pcb/rigid-rev-b.step
+hardware/**/*.kicad_prl
+__pycache__/

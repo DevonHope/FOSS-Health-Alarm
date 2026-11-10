@@ -1,0 +1,29 @@
+%TF.GenerationSoftware,KiCad,Pcbnew,10.0.3*%
+%TF.CreationDate,2026-11-07T11:39:05-05:00*%
+%TF.ProjectId,contact-carrier-rev-a,636f6e74-6163-4742-9d63-617272696572,A*%
+%TF.SameCoordinates,Original*%
+%TF.FileFunction,Soldermask,Top*%
+%TF.FilePolarity,Negative*%
+%FSLAX46Y46*%
+G04 Gerber Fmt 4.6, Leading zero omitted, Abs format (unit mm)*
+G04 Created by KiCad (PCBNEW 10.0.3) date 2026-11-07 11:39:05*
+%MOMM*%
+%LPD*%
+G01*
+G04 APERTURE LIST*
+%ADD10C,1.500000*%
+G04 APERTURE END LIST*
+D10*
+%TO.C,P1*%
+X131500000Y-101100000D03*
+%TD*%
+%TO.C,P2*%
+X131500000Y-103300000D03*
+%TD*%
+%TO.C,P3*%
+X131500000Y-111700000D03*
+%TD*%
+%TO.C,P4*%
+X131500000Y-113900000D03*
+%TD*%
+M02*

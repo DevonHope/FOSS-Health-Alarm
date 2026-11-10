@@ -1,0 +1,4 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "contact-carrier")(type "KiCad")(uri "${KIPRJMOD}/contact-carrier.pretty")(options "")(descr "WakeBand contact carrier"))
+)

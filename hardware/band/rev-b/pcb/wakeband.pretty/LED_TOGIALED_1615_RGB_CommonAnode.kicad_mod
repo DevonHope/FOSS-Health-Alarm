@@ -1,0 +1,167 @@
+(footprint "LED_TOGIALED_1615_RGB_CommonAnode"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "TOGIALED TJ-S1615SW6TGLCCYRGB-A5 RGB LED, 1.6 x 1.5 x 0.6 mm, top view, common anode. Pin 1 anode, 2 blue, 3 green, 4 red. Pads 0.85 x 0.5 mm per the recommended pad layout (2.6 x 1.6 mm overall, 0.9 mm gap). LCSC C273610. https://www.lcsc.com/datasheet/C273610.pdf")
+	(tags "LED RGB 1615 common anode")
+	(property "Reference" "REF**"
+		(at 0 -1.8 0)
+		(layer "F.SilkS")
+		(uuid "2b41bb55-5641-447b-9708-3313b1ab293d")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(property "Value" "TJ-S1615SW6TGLCCYRGB-A5"
+		(at 0 1.6 0)
+		(layer "F.Fab")
+		(uuid "648b4bfa-1023-4ba7-80d2-5cef052e29b6")
+		(effects
+			(font
+				(size 0.4 0.4)
+				(thickness 0.06)
+			)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -0.8 -0.75)
+		(end 0.8 -0.75)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "0115407b-6d4e-4bbe-9e2c-35d6dd032246")
+	)
+	(fp_line
+		(start 0.8 -0.75)
+		(end 0.8 0.75)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "d9d7ab1a-57b3-4b3e-aed1-078b4a40d96b")
+	)
+	(fp_line
+		(start 0.8 0.75)
+		(end -0.8 0.75)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "2aa83a88-de34-4365-ae2f-843782187a6a")
+	)
+	(fp_line
+		(start -0.8 0.75)
+		(end -0.8 -0.75)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "600725f3-e77f-475c-aea2-d4b926c5fbda")
+	)
+	(fp_line
+		(start 0.4 -0.75)
+		(end 0.8 -0.35)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "0a543fd4-3d46-407a-aa14-d70121919ea1")
+	)
+	(fp_line
+		(start -1.55 -1.05)
+		(end 1.55 -1.05)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "f9d53de4-2ce8-4747-9a20-a41c67154562")
+	)
+	(fp_line
+		(start 1.55 -1.05)
+		(end 1.55 1.05)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "e6d37148-be94-444f-aff1-2f6d33d678cc")
+	)
+	(fp_line
+		(start 1.55 1.05)
+		(end -1.55 1.05)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "94d0888d-46a4-424d-99f8-ff5c537c5680")
+	)
+	(fp_line
+		(start -1.55 1.05)
+		(end -1.55 -1.05)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "64e95b2c-3863-4ada-8189-70b8d8cc5354")
+	)
+	(fp_line
+		(start 1.55 -1.15)
+		(end 0.6 -1.15)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "91d21f9e-f538-481d-a763-47d66a8b7a58")
+	)
+	(pad "1" smd rect
+		(at 0.875 -0.55)
+		(size 0.85 0.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "b1e61078-bfe5-4036-a0ef-5c97c2a01289")
+	)
+	(pad "2" smd rect
+		(at -0.875 -0.55)
+		(size 0.85 0.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "e5d3f9cf-adce-4100-8c5d-aafe2faca904")
+	)
+	(pad "3" smd rect
+		(at -0.875 0.55)
+		(size 0.85 0.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "bb6b7f6c-22c3-478c-87d3-ba8ace3ed48e")
+	)
+	(pad "4" smd rect
+		(at 0.875 0.55)
+		(size 0.85 0.5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "4abab7aa-be40-4ae7-ae6a-905f60f197b8")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/wakeband.3dshapes/LED_TOGIALED_1615_RGB_CommonAnode.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

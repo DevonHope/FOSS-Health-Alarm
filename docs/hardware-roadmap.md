@@ -35,6 +35,7 @@ Targets for the final pod:
 | Accelerometer in low-power mode (25 to 100 Hz) | about 1 to 4 uA |
 | Occasional BLE advertising / sync | a few uA averaged |
 | Motor: about 60 mA for about 30 s per morning | about 0.5 mAh per day |
+| Charge LED driver (KTD2026) in shutdown; the LED lights only on the dock | about 0.1 uA |
 
 That is roughly 1 mAh per day, so a 40 mAh cell should last a month and a
 100 mAh cell much longer. These are datasheet-level guesses; stage 0 exists to
@@ -66,7 +67,7 @@ lasts a month. A 60 mAh cell (about 16 x 13 x 4 mm) does. It sits under a
 33 x 15 mm rigid board, with the motor at the far end and both kept 2 mm past
 the antenna keep-out. The pod is about 35 x 17 mm, back near the Fitbit Air
 size, and about 9 mm tall with a 4 to 5 mm cell. See
-[hardware/rigid-rev-a/README.md](../hardware/rigid-rev-a/README.md).
+[hardware/band/rev-a/pcb/README.md](../hardware/band/rev-a/pcb/README.md).
 
 ## Parts shortlist
 
@@ -158,6 +159,13 @@ The final pick depends on the case layout in stage 2.
 Fall back to BQ25100 plus the SoC's internal DC-DC if board space is tight.
 
 ### Dock contacts: charging, programming and serial
+
+> **Rigid rev A uses the 4-pad fallback (2026-11-07):** VIN, GND, SWDCLK,
+> SWDIO on the wrist side, as spring pins on a carrier PCB in the wrist
+> cover, with the log over SEGGER RTT. The dock is an RP2040 running
+> `debugprobe` on its own PCB. See `hardware/band/rev-a/case`,
+> `hardware/band/rev-a/contact-carrier` and `hardware/dock/rev-a/case`. The 6-pad text
+> below is the original plan.
 
 The band has no USB port. Everything goes through one row of flat gold pads
 on its underside: charging, firmware flashing over SWD, and a serial console
@@ -278,7 +286,7 @@ schematic is frozen. Details in the
 
 **Update 2026-11-02:** Stage 1 is the 4-layer rigid board again, now with
 the nPM1304 and a 60 mAh cell. It is routed and has a JLCPCB fab package in
-[hardware/rigid-rev-a/](../hardware/rigid-rev-a/README.md). The flex board
+[hardware/band/rev-a/pcb/](../hardware/band/rev-a/pcb/README.md). The flex board
 (2026-10-30, [flex-pcb-schematic-plan.md](flex-pcb-schematic-plan.md)) is
 archived. The original Stage 1 notes follow.
 

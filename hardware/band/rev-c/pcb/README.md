@@ -1,0 +1,361 @@
+# WakeBand rigid rev C (KiCad 10 project)
+
+> **Rev C = rev B plus the 2026-11-08 review fixes** ([`../../../reviews/2026-11-08`](../../../reviews/2026-11-08)):
+> In1-only RF filter void with I2C moved out from under the filter, courtyard via rules, C6 at Nordic's
+> spacing, U201 mask dams, feed stitching vias, ESD clamps next to the dock contacts (D601 now an
+> ESD5681N07), title block. Same outline, stackup, case, dock, contact carrier and strap as rev B; rev B
+> itself is kept unchanged in [`../../rev-b`](../../rev-b). In the text below, "rev B" describes the
+> design rev C inherits; the KiCad project is `rigid-rev-c.*`.
+
+Rev B is rev A rebuilt so that **JLCPCB assembles every part** (no consigned module). It keeps rev
+A's 33 x 15 mm outline, 4-layer 0.8 mm stackup (JLC04081H-7628), case, dock, contact carrier and
+strap: the four B-side dock landings (J601 1-4 at x 131.5), the LED position (D702) and the cell and
+LRA lead pads (TP201/TP202, TP501/TP502, JP201) are where rev A had them.
+
+**Not FCC/IC (or CE) certified.** The radio is a bare nRF54L10 with a chip antenna on our own board,
+so the module certification rev A could lean on does not apply. Build it for personal use and
+experiments only; don't sell or distribute it as a product.
+
+**Status (2026-11-08):** schematic, placement and routing done. ERC 0; DRC 0 at every severity
+(errors and warnings), 0 unconnected, schematic parity 0. Trace audit clean except one forced
+0.2 mm jog (see Routing). Not built or tested yet.
+Review fixes of 2026-11-08 applied (`scripts/review_fixes_2026_11_08.py`): In1-only RF filter void with
+I2C_SDA/I2C_SCL moved out from under the filter (B-L1), courtyard via rules (B-L4), C6 at Nordic's
+position (B-L5), U201 mask dams (B-L6), feed stitching vias (B-L7). B-L3 (ESD clamps next to the dock
+contacts) done in a second pass (`scripts/relayout_esd_2026_11_08.py`, run after the first), see Routing.
+Verification follow-ups (`scripts/followups_2026_11_08.py`, run last): the board title block is now rev B
+(it still carried rev A's title, revision and "mounts parts-side down", and so did the Gerber headers and job
+file; B-L10), and D601's GND via sits at the GND landing's edge instead of under the spring-pin plunger.
+
+## What changed from rev A
+
+| Rev A | Rev B | Why |
+| --- | --- | --- |
+| ISP2454 module (radio + antenna) | **nRF54L10-QFAA** (C44800139) + Nordic's QFN48 reference circuit + Johanson **2450AT18A0100001E** chip antenna (C17430588) | Module not stocked at JLC. The nRF54L15 (C42458750) is out of stock at JLC and LCSC (0 on 2026-11-07); the L10 has the same package, pins and reference circuit, with 1 MB RRAM / 192 KB RAM. An nRF54L05 or nRF54L15 drops in unchanged. |
+| nPM1304 PMIC | **BQ25125** (C2871567) | Same family and pinout as the BQ25120A (C2866577, only 4 at JLC). 4.2 V charge, 30 mA set by R202, 1.8 V buck on at power-up (unused here), LS/LDO switches the LED's supply. **No fuel gauge** (the nPM1304 had one): firmware estimates charge from the BQ's VBMON battery-voltage reading. |
+| KTD2026 LED driver | **IS31FL3193** (C2653363) | Stocked; its I2C inputs work on the 2.0 V bus (VIH 1.4 V). |
+| 2.0 V rail (nPM1304 buck) | **2.0 V from a TPS7A0220 LDO** (U203, C2860934) on PMID | The BQ25125 buck is 1.8 V +/- 2.5 % (1.755 V worst case), too close to the nRF54L10's 1.75 V power-on-reset minimum, and a board that fails reset can't run firmware to fix it. The LDO is 2.0 V +/- 1.5 % (1.97 V minimum), draws 25 nA, and sits in a 1 x 1 mm X2SON. The buck stays fitted but unloaded (VSYS). A BQ2512x with a higher default (BQ25121A, 2.5 V) has 1 in stock. |
+| DRV2605L on VSYS | DRV2605L on **VBAT** | Straight from the cell (2.0-5.2 V). |
+| UART pads beside the dock landings, debug LED D701 | **removed** (J601 has the 4 dock landings only) | No routing room at the dock end. Logs go over **SEGGER RTT through the SWD dock pins** (see Firmware setup). |
+| I2C/2.0 V test pads TP702-TP704 | removed | Probe R203/R204 and any 2.0 V capacitor instead. |
+| R209, R210 (/INT and /PG pull-ups) | removed | No routing room; use the nRF54L10's internal pull-ups on P1.05 and P1.06. |
+| KTD2026 on VSYS | IS31FL3193 VCC on **PMID** | Always powered on battery, so its I2C inputs (rated to VCC + 0.3 V) never clamp the shared bus. |
+
+Unchanged: LIS2DW12, DRV2605L, SWD ESD (TPD1E10B06), the dock series resistors. The VIN TVS is now an
+ESD5681N07 (DFN1006, C240204) instead of rev A's SMF12A (SOD-123F), so it fits next to the dock contacts (review B-L3).
+
+## nRF54L10 pin map
+
+| Pin | Port | Net | Notes |
+| --- | --- | --- | --- |
+| 5 | P1.04 | I2C_SCL | clock-capable pin (TWIM needs both lines on clock pins) |
+| 9 | P1.08 | I2C_SDA | clock-capable |
+| 6 | P1.05 | PMIC_INT | BQ25125 /INT, wake from System OFF (P1) |
+| 7 | P1.06 | DOCK_PG | BQ25125 /PG: low while the dock supplies VIN |
+| 8 | P1.07 | HAPT_EN | DRV2605L EN |
+| 27 | P0.02 | ACC_INT1 | LIS2DW12 INT1, wake (P0) |
+| 24 | P0.01 | ACC_INT2 | LIS2DW12 INT2, wake; also TP401 |
+| 38 | P1.10 | LED_EN | IS31FL3193 SDB (R211 pulls it low) |
+| 39 | P1.11 | CHG_CD | BQ25125 /CD |
+| 13 | P2.02 | LS_CTRL | BQ25125 LSCTRL (LED driver supply) |
+| 25 / 26 / 30 | SWDIO / SWDCLK / nRESET | dock pins 3/4; TP701 |
+| 1 / 2 | XL1 / XL2 | 32.768 kHz crystal X1 |
+| 34 / 35 | XC1 / XC2 | 32 MHz crystal X2 |
+
+The pins were chosen for the layout: each signal leaves the QFN on the side facing where it goes.
+P1.02/P1.03 (NFC), P2.07/P2.08 and P1.09 (rev A's UART and debug LED) and the other GPIOs are unconnected.
+
+I2C addresses: LIS2DW12 0x19, DRV2605L 0x5A, IS31FL3193 0x68, BQ25125 0x6A.
+
+## Firmware setup
+
+### Logs: SEGGER RTT, no UART
+
+Rev B has no UART pads. Log over **RTT** through the SWD dock pins (J601 3/4) with any J-Link or
+the nRF54L DK's on-board debugger: in Zephyr set `CONFIG_USE_SEGGER_RTT=y`, `CONFIG_LOG_BACKEND_RTT=y`
+and `CONFIG_UART_CONSOLE=n` (or `CONFIG_RTT_CONSOLE=y`), then read with `JLinkRTTViewer` or
+`west rtt`. RTT works on the dock while the band charges. Disable it in release builds so the
+debug domain powers down.
+
+### nRF54L10
+
+- **DC/DC:** the board has Nordic's DC/DC inductor (L1 4.7 uH), and all of Nordic's current figures
+  assume DC/DC. Turn it on early (`REGULATORS.VREGMAIN.DCDCEN = 1`; in Zephyr set
+  `regulator-initial-mode = <NRF5X_REG_MODE_DCDC>` on `&vregmain`).
+- **Clocks:** both crystals use the chip's internal load capacitors (no external caps).
+  - X1, 32.768 kHz: CL 9 pF.
+  - X2, 32 MHz: CL 8 pF.
+  - Set `&lfxo` / `&hfxo` to `load-capacitance = "internal"` with the value for each crystal's CL (datasheet INTCAP formula).
+  - Use the LFXO as the LF clock source: only the LFXO keeps the GRTC running in System OFF.
+- **RF:** the matching network is the board's own (see "Antenna tuning"); leave TX power at 0 dBm
+  until it is tuned.
+- **NFC pins:** unused; leave NFC disabled.
+- **PMIC_INT (P1.05):** enable the internal pull-up (no external resistor). /INT is open drain; with
+  EN_INT cleared it only pulses low for 128 us on events.
+- **DOCK_PG (P1.06):** enable the internal pull-up (about 13 kOhm; there's no external
+  resistor). /PG is open drain and low only while docked, so the pull-up draws about 140 uA
+  from the dock and nothing on battery.
+
+### BQ25125
+
+- **/CD:** the BQ25125 talks I2C on battery only while /CD is high.
+  - Drive CHG_CD high to configure it. Drive it low to idle: that is Hi-Z mode, where the BQ draws 0.7-0.75 uA. The 2.0 V rail comes from U203 on PMID, so it is unaffected.
+  - The buck's 1.8 V output (VSYS) powers nothing, but **leave it on**: the BQ's /CD and LSCTRL input
+    thresholds are 0.25 / 0.75 x VSYS, so with SYS off the nRF couldn't reliably drive them. (The I2C
+    threshold is 0.75 x the pull-up voltage, 1.5 V on the 2.0 V bus; /CD at 2.0 V is above 0.75 x 1.8 V.)
+  - Also drive it low while docked (DOCK_PG low), because /CD high stops charging.
+- **Defaults:** without I2C the charger already does the right thing.
+  - 1.8 V buck on (unused).
+  - 4.2 V charge.
+  - 30 mA from R202 (6.65 k) in default mode.
+  - 2 mA termination (IPRETERM to GND).
+  - 100 mA input limit (ILIM to GND).
+  - NTC (TS) enabled.
+- **After the first I2C write it is in host mode**, and its 50 s watchdog applies. Write, then re-write at least every 50 s while /CD is high:
+  - Charge current 30 mA (reg 0x03, as for the BQ25120A).
+  - Termination.
+  - EN_INT = 0 in reg 0x02, so /INT pulses instead of staying low through the whole charge.
+- **LED supply:** the LED anode (VLED) is on the BQ25125's LS/LDO output, which powers up as a
+  1.8 V LDO, too low to light the LED. Write reg 0x07 for load-switch mode (VLED then follows PMID),
+  then raise LS_CTRL. The watchdog undoes this after 50 s without I2C in host mode: the LED just
+  goes dark, nothing is damaged.
+- **Battery level:** read VBMON (reg 0x0A): the battery voltage as a percentage of VBATREG, in 2 % steps.
+- **Ship mode:** with VIN absent, /CD high and /MR high, write EN_SHIPMODE. The cell then sees about 2 nA (the DRV2605L on VBAT adds its 4-7 uA shutdown current; see Power budget). The dock (VIN) or shorting TP203 (/MR) to GND wakes it; the nRF54L10 then starts from reset.
+
+### IS31FL3193
+
+- **Shutdown by default:** it starts in software shutdown (reg 0x00). Write EN = 1, SSD = 0, set the current with reg 0x03 (e.g. 5 mA), then write PWM and the update register 0x07.
+- **Channels:** OUT1 is green, OUT2 blue, OUT3 red (assigned for routing).
+- **Supply:** VCC is on PMID (always up on battery), so the I2C bus is never clamped by an
+  unpowered driver. Drive LED_EN (SDB) high to wake it. The LED anode is on VLED, which needs
+  LS_CTRL on in load-switch mode (see above).
+
+## Antenna tuning
+
+The radio output runs: ANT pin -> Nordic's low-pass ladder (L2 2.7 nH, C6 1.5 pF, L3 3.5 nH, C9 2.0 pF,
+L4 3.5 nH, C11 0.3 pF; their exact 0201 parts and placement) -> RF_50 -> **tuning network** -> antenna:
+
+| Part | Position | Fitted | Role |
+| --- | --- | --- | --- |
+| C14 (0402) | RF_50 to GND, at the ladder end | not fitted | pi shunt 1 |
+| R2 (0402) | series, RF_50 to ANT_FEED | 0 ohm | pi series (a 0402 inductor or capacitor) |
+| C15 (0402) | ANT_FEED to GND, at the antenna side | not fitted | pi shunt 2 |
+
+The antenna (AE1) sits in a 4.2 x 5.9 mm corner (x 100-104.2, y 109.1-115) with no copper on any
+layer (rule area "Antenna keep-out"); the 50-ohm feed (0.36 mm on F.Cu over the In1 ground, 0.16 mm
+gap) enters it from the ground edge. Johanson's evaluation board uses 6.5 x 6.5 mm and its own
+match, so this board needs its own values. Expect less range than the datasheet until it is tuned.
+
+**Tune with the cell, case, strap and wrist (or a hand) in place:** the plastic, the cell and the
+body all pull the antenna down in frequency.
+
+With a VNA (best):
+1. Cut the feed at R2: lift R2 and solder a 0402-pad pigtail (a short 1.13 mm coax, shield to the
+   C15/C14 ground pads, centre to the AE1 side of R2). Calibrate at the coax end (port extension).
+2. Measure S11 of the antenna from 2.3 to 2.6 GHz with the band assembled and on the wrist.
+3. Use a Smith-chart tool (e.g. SimSmith or Johanson's own) to pick an L-match with C15 and R2 (or
+   a pi with C14) that moves 2.44 GHz to 50 ohm; Murata LQP03/LQG15 inductors and GJM capacitors
+   come in 0.1 nH / 0.1 pF steps. Typical starting points for this antenna: series 2-4 nH, shunt
+   0.5-1.5 pF.
+4. Fit the parts, put R2 back as the series part and re-measure. Aim for S11 below -10 dB across
+   2.402-2.480 GHz.
+
+Without a VNA (RSSI method):
+1. Start as built: R2 = 0 ohm, C14 and C15 not fitted.
+2. Run the nRF54L10 as a constant-carrier transmitter at 2.440 GHz, 0 dBm (Nordic's radio test
+   sample / `radio_test` in nRF Connect SDK).
+3. Put a receiver (an nRF52/nRF54 DK running the same sample in RX, or a phone app that shows BLE
+   RSSI) 1-2 m away, fixed, and note the RSSI averaged over a few seconds with the band on the wrist.
+4. Try one change at a time: R2 as 1.0 / 1.5 / 2.2 / 3.3 nH; then C15 (or C14) as 0.5 / 1.0 /
+   1.5 pF. Keep the change that raises the RSSI; 3 dB is a real gain, 1 dB is noise.
+5. Re-check the ends of the band (2.402 and 2.480 GHz).
+
+## Power budget
+
+Average current drawn from the cell (60 mAh) in normal use (asleep most of the day, logging motion
+at night, one wake buzz). Datasheet typicals; the stage 0 bench measurement replaces these.
+
+| Load | Average | Notes |
+| --- | --- | --- |
+| BQ25125 in Hi-Z (/CD low) | 0.7 uA | buck idling with no load; 0.75 uA with it on |
+| TPS7A0220 LDO (2.0 V rail) | 0.025 uA | plus the rail's own loads at the cell's current (no buck gain) |
+| nRF54L10 System ON idle, LFXO + GRTC running | about 2 uA | DC/DC on |
+| LIS2DW12 low-power mode, 12.5-25 Hz | about 1-2 uA | |
+| DRV2605L shut down (EN low), on VBAT | 4 uA typical, up to 7 uA | TI datasheet (EN = 0, VDD = 3.6 V); straight from the cell, see below |
+| IS31FL3193 hardware shutdown (SDB low), on PMID | up to 2.5 uA | datasheet max |
+| Waking once a minute to read the accelerometer FIFO | a few uA | |
+| BLE: an occasional sync or advertising burst | a few uA | |
+| **Sleep floor** | **about 5-15 uA** | **0.1-0.35 mAh a day** |
+| Wake buzz: about 60 mA for 30 s each morning | | about 0.5 mAh a day |
+| **Total** | | **about 0.7-1 mAh a day** |
+
+A 60 mAh cell lasts about two months between charges. The charge LED is off when the band
+is off the dock. The LS/LDO output (VLED) is switched off, so neither the LED nor its driver's
+outputs draw anything; the driver itself sits in hardware shutdown on PMID. Ship mode is for
+storage: the BQ25125 then draws about 2 nA and the IS31FL3193 loses its supply with PMID, but the
+DRV2605L runs from raw VBAT (before the BQ's battery FET), so neither ship mode nor the 3.0 V BUVLO
+cut-off disconnects it: it keeps drawing its 4-7 uA shutdown current. That would drain a flat cell to
+0 V in a few weeks; the 60 mAh cell (X2 Robotics) is a protected cell, and its own protection
+circuit stops the deep discharge. Keep this in mind if the cell changes (use a protected cell, or move
+the DRV2605L supply to PMID).
+
+**PMID and the LDO:** off the dock the BQ25125 runs PMID from the cell through its battery FET (at
+most 160 mV drop at 400 mA; microvolts at our currents), in active and Hi-Z modes alike. The BQ cuts
+the cell off at BUVLO (3.0 V default), so the LDO input never goes below about 2.9 V. The TPS7A0220
+needs well under 0.1 V of headroom at a few mA, so the 2.0 V rail holds until the BQ shuts the system
+down. In ship mode the battery FET is off and PMID is discharged (20 kOhm), so the LDO, the nRF54L10
+and everything on PMID are unpowered, as intended. The dock (VIN) or shorting TP203 (/MR) to GND
+brings it back.
+
+**Logic rail margin:** the 2.0 V LDO is +/- 1.5 % (1.97 V minimum), against the nRF54L10's
+1.7 V operating minimum and 1.75 V power-on-reset requirement (datasheet v1.0, Table 92 and
+section 11.14.1; brown-out 1.56-1.64 V). The LDO needs about 0.3 V of headroom, so the rail holds
+down to a cell at about 2.3 V; the BQ25125 cuts the battery off well above that (BUVLO 3.0 V
+default). Every I2C part reads 2.0 V as high: BQ25125 (thresholds 0.75 x its 1.8 V SYS), IS31FL3193
+(VIH 1.4 V), DRV2605L (1.3 V), LIS2DW12 (0.8 x its own 2.0 V supply).
+
+## Routing
+
+4-layer, 0.8 mm: F.Cu signals and parts, In1.Cu solid ground, In2.Cu signals plus ground pour,
+B.Cu signals plus ground pour and the dock landings. Ground pours on all four layers. In1 is solid
+under the radio and the 50 ohm feed, with one void under the RF filter (below); In2 is solid GND
+under the filter and is its reference plane.
+
+**RF filter void (review 2026-11-08, B-L1):** Nordic's layout voids In1 and In2 under the RF filter
+(L2/L3/L4, C6/C9/C11) out to the board edge; that void belongs to Nordic's 1.6 mm board, where the
+0.76 mm RF line is referenced to the bottom layer, and `scripts/transplant.py` skipped it (it lies past
+the copy box). Rev B copies it on **In1 only** (rule area "Nordic ref (In1 only): RF filter void":
+no pour or tracks, vias allowed), clipped at x >= 103.5 so the 50 ohm feed keeps its In1 reference:
+(106.832,105.961) (106.832,104.793) (104.495,104.793) (104.114,104.412) (103.5,104.412) (103.5,105.986)
+(103.809,105.986) (104.19,105.605) (106.197,105.605) (106.197,105.961). In2 GND (0.47 mm down) is
+the filter's reference instead, so no signal runs on In2 or B.Cu inside x 102.5-106.9, y 103.8-106.6:
+I2C_SDA (B.Cu) used to run straight under the ladder at y 105.2 and now passes above it (y 102.6-103.6,
+round the ACC_INT1 via, which moved 0.57 mm up its own diagonal to (105.95, 103.2)); I2C_SCL drops to
+B.Cu at (101.3, 104.6), left of the feed, and crosses under the feed at y 108.7. Nordic's small void
+under the C9 ground island stays on In1 (it overlaps the new one) and was removed from In2, so the
+island's vias tie it to In2 and B.Cu, the planes under the filter (Nordic ties it to their bottom
+reference). The shunt caps' other GND vias reach In2 and B.Cu, and C6 is back at Nordic's position
+(B-L5).
+
+- **Radio corner:** Nordic's QFN48 reference placement and vias, with the copper redrawn to the
+  house rules. The antenna corner is a keep-out on every layer (no pour, no vias).
+- **Charger:** the BQ25125's 0.4 mm ball grid fans out with 0.25/0.15 mm vias in the balls,
+  which must be **filled and capped (POFV)**. So must the LED driver's VCC pin via (U202.2) and the
+  via in TP502. Only these 0.15 mm-hole vias get the relaxed POFV clearances (`.kicad_dru`, hole < 0.16 mm);
+  ordinary vias inside the U201/U202 courtyards keep 0.2 mm hole-to-copper (B-L4). The ball mask openings
+  are 0.29 mm (0.03 mm margin on the 0.23 mm pads, not the datasheet's 0.31 mm) so the mask dams are
+  0.11 mm, above JLCPCB's 0.10 mm minimum (B-L6).
+- **Trace audit** (`scripts/route/audit.py`): 0/45/90-degree segments only; no bend sharper
+  than 45 degrees; no step shorter than 0.3 mm between bends; every track end on a pad or via
+  centre; no overlapping or dangling copper. 518 segments and 172 vias pass. One exception: PMID
+  jogs 0.2 mm between test pads TP203 and TP707 (131.7, 107.25). The pads are 1.6 mm apart with
+  CHG_MR beside them, and any single 45-degree line comes within 0.06 mm of one pad.
+- **Ground stitching:** In1 is one GND fill with no tracks on it (only the RF filter void above). 87 GND
+  vias. Every In2 fill island has at least 2. The 0.36 mm feed (RF_50/ANT_FEED, C11 to the antenna
+  keep-out) has 9 GND vias within 1 mm of its centre line (0.57-0.79 mm; 8 of them 0.4/0.2 mm, added in
+  the 2026-11-08 review, B-L7), on both sides where R2 and the C14/C15 pads leave room; none fit inside
+  the keep-out or between the feed and the C14/C15 pads. There are 4 along the antenna keep-out's inner
+  edges. Top and bottom pours: 18 of 39 islands have 2 or more vias.
+  The rest are small fragments between routes, held by one via plus their parts' GND pads; there is
+  no room left for a second via that clears every layer (`scripts/route/stitch.py` tries).
+- **ESD clamps at the dock contacts (review B-L3, `scripts/relayout_esd_2026_11_08.py`):** each J601 landing
+  (B.Cu circles at x 131.5) goes through one via that touches the landing and a short F.Cu run straight into
+  its clamp pad; the rest of the net leaves from the clamp pad, so a hit on a contact is clamped before it
+  reaches anything else. Copper path, landing centre to clamp pad: SWDCLK 2.7 mm (was 22.1), SWDIO 2.0 mm
+  (was 23.3), VIN 4.2 mm (was 14.1, mostly In2). Each clamp has its own GND via beside its GND pad.
+  - D602 (SWDCLK, at 130.9, 104.0) and D603 (SWDIO, at 132.1, 103.85) sit right of U501, just below the
+    case's dock land (x >= 127.6, y < 103.2, which only touches pads and mask). SWDCLK continues on F.Cu
+    to the In2 via at 129.05, 103.65, SWDIO through a via at 131.5, 104.6 to B.Cu; both then follow the old
+    routes to R601/R602 (the series resistors stay by U1: no room beside the clamps). C502 (U501 REG) moved
+    0.3 mm down and turned horizontal (131.5, 105.38).
+  - PMID used to run down F.Cu at x 132.6 past the clamps; it now hops to B.Cu between the two SWD landings
+    (via 132.45, 102.2) and back to F.Cu beside TP203 (via 132.45, 106.6).
+  - D601 is now an ESD5681N07 (Will Semi, DFN1006, C240204): 7 V standoff, 8 V minimum breakdown, 11 V
+    clamp at 8 kV ESD and 16 V at 27 A 8/20 us, against the BQ25125 IN rating of 20 V (the SMF12A's rated
+    clamp was 19.9 V). The dock already clamps its own VIN (SMF6.0A) and limits it to 0.21 A, so the band only
+    has to take ESD and hot-plug spikes. It sits at 131.25, 110.8 (where TP705 was), above the GND landing:
+    VIN via 132.0, 113.3 in the landing, F.Cu under the case post (mask only) to D601.1, then a via at
+    131.25, 109.8 to the old In2 route to the charger; D601.2's GND via drops into the GND landing at its edge (130.85, 111.7), 0.65 mm from the centre like the
+    other landing vias. The old
+    13 mm In2 run to D601's old place is gone. TP705 (PMID) moved to 127.1, 101.6 on the PMID run along the
+    top edge.
+- The grid router and clean-up tools are in `scripts/route/`; `audit_ops/` holds the point edits
+  from the final audit pass.
+
+## Ordering (JLCPCB)
+
+Rev B needs **Standard PCBA**: the 0.4 mm DSBGA and the 0201 radio parts are below Economic's
+limits, and Standard needs a panel of at least 70 x 70 mm and at least 2 panels. So the order is
+**2 panels of 2 x 2 = 8 boards** (the smallest order that covers 5).
+
+Files: `fab/jlcpcb/gerbers.zip`, `bom.csv`, `pos.csv` (built by `scripts/mkpanel.sh`; panel board in
+`fab/panel/`). Panel 70.1 x 71.1 mm: four boards on 3 mm mousebite tabs, a 3 mm backbone between the
+rows, 15 mm rails with fiducials and tooling holes, "JLCJLCJLCJLC" on the top rail for the order
+number. Panel DRC is 0 at every severity.
+
+PCB options: 4 layers, 0.8 mm, JLC04081H-7628 stackup, **ENIG**, **via-in-pad filled and capped
+(POFV)**, 2 panels, "panel by customer". Assembly: Standard, top side, 2 panels.
+
+**Placement (`pos.csv`) carries per-part JLC corrections** (2026-11-08). JLC places the origin of its own
+(EasyEDA) footprint for each LCSC part at the CPL point, turned by the CPL rotation. `scripts/jlc_cpl_fix.py`
+fetched that footprint for every placed part, matched its pads to the KiCad footprint's pads by number, and
+stored the rotation step and offset that lay one on the other in `scripts/jlc_cpl_fix.json`;
+`scripts/panelfab.py` applies them to all four panel copies. `scripts/jlc_cpl_check.py` then lays JLC's pads
+at the written CPL values on the panel's pads (the Gerber frame):
+
+| Part | JLC correction | Worst pad-centre error | Pin 1 |
+| --- | --- | --- | --- |
+| U201 BQ25125 DSBGA | +270 | 0.00 mm | A1 on A1 |
+| U202 IS31FL3193 DFN-10 | +270 | 0.04 mm | ok |
+| U401 LIS2DW12 LGA-12 | +270 | 0.11 mm | ok |
+| U501 DRV2605L MSOP-10 | +270 | 0.20 mm | ok |
+| U1 nRF54L10 QFN48 | none (JLC's footprint matches KiCad's) | 0.01 mm | ok |
+| U203, D601, D602, D603, D702, X1, X2, AE1 | none | 0.00-0.15 mm | ok |
+| all passives, L201 | none | 0.01-0.28 mm (JLC's land patterns are a little larger) | non-polar |
+
+All offsets are zero: every JLC footprint here is centred like KiCad's. Before the correction, U201, U202,
+U401 and U501 sat turned on their pads in JLC's preview (1.6-3.5 mm pad errors, pin 1 wrong). Still glance
+at the preview; if an LCSC number changes, re-run `jlc_kicad_pads.py` and `jlc_cpl_fix.py` (EasyEDA
+rate-limits; the script caches and backs off).
+
+Not placed: test pads, dock landings, JP201 (solder jumper), C14/C15 (DNP). Solder the cell and LRA
+leads by hand. Sand the tab nubs flush (top edge near x = 122.6; bottom edge near x = 108.5 and
+115.0, board coordinates) so the board drops into the case.
+
+Stock risk: the BQ25125 (C2871567) had only 20 in stock when checked (2026-11-07), and the LDO
+(TPS7A0220, 241) and LIS2DW12 (77) are low. Recheck before ordering.
+
+## Cost estimate (2026-11-08, not a quote)
+
+The smallest order that gives 5 boards is 2 panels = **8 boards**. Prices are from the LCSC/JLC parts
+data (the BQ25125 from a live check on 2026-11-07); fees are JLC's published rates as I understand them.
+Get a real quote from the JLC order page before relying on these.
+
+| Item | Estimate (US$) |
+| --- | --- |
+| Parts, 8 boards (about $13 a board: nRF54L10 3.15, BQ25125 4.49, DRV2605L 1.33, LIS2DW12 1.08, TPS7A0220 0.93, the rest about 2) plus reel minimums | 105-120 |
+| Extended-part setup: 31 of 40 BOM lines are Extended, $3 each | 93 |
+| Standard PCBA setup, stencil, placement | 35-50 |
+| PCB: 4 layers, 0.8 mm, ENIG, filled and capped via-in-pad, 70 x 71 mm panels | 60-100 |
+| **Total before shipping and tax** | **about 295-365, so about $37-46 a board** |
+
+**Compared with rev A, consigned:** rev A's three parts JLC doesn't stock (ISP2454 module $20.61,
+nPM1304 $4.53, KTD2026 $0.69; 0 in stock at JLC) cost about $25.80 a board. Their rev B replacements
+(nRF54L10, antenna and RF parts, BQ25125, TPS7A0220, IS31FL3193) cost about $9.70, so rev B saves about
+$16 a board ($130 over 8). Consigning also means buying those parts elsewhere, shipping them to JLC
+and waiting for them to be booked in. Rev A keeps a certified radio module; rev B needs the antenna
+tuned on the bench and is not certified.
+
+## Source
+
+The schematic and the placed board (with the hand-laid radio and charger copper) are generated by `scripts/build.sh`; the rest of the routing was done with the grid router in `scripts/route/` and then checked by hand (see Routing):
+- `parts.py` is the netlist and BOM source.
+- `mksym.py` builds the project symbols and `mkfp.py` the DSBGA-25 footprint.
+- `fixnordic.py` tidies the footprints imported from Nordic's reference layout.
+- `nordic_place.py` places the nRF54L10 support parts exactly as in Nordic's QFAA reference layout v0.8 (`nordic_ref_qfaa_0_8.kicad_pcb`, imported from Nordic's Altium files), rotated 180 degrees.
+- `gen_sch.py`, `gen_pcb.py` and `placement.json` build the schematic and board.
+- `transplant.py` copies Nordic's vias, no-pour areas and the C9 ground island.
+- `hand_cluster.py` and `hand_bq.py` lay the radio cluster and the charger fan-out by hand.
+- `zones.py` adds the pours and the antenna keep-out.
+- `mkpro.py` restores the design rules after each board save.
+- `mkpanel.sh` (with `paneltabs.py` and `panelfab.py`) builds the 2 x 2 assembly panel and its JLCPCB files; `mkfab.py` builds single-board files.

@@ -6,8 +6,8 @@
 > became a 4-layer, 0.8 mm rigid board, 33 x 15 mm, for a pod of about
 > 35 x 17 x 9 mm. The schematic below carries over unchanged except for the
 > cell. The board, its fab package and the remaining compromises are in
-> [hardware/rigid-rev-a/README.md](../hardware/rigid-rev-a/README.md). The flex
-> design stays in `hardware/flex-rev-a/` as an archive, and the rest of this
+> [hardware/band/rev-a/pcb/README.md](../hardware/band/rev-a/pcb/README.md). The flex
+> design stays in `hardware/band/archive/flex-rev-a/` as an archive, and the rest of this
 > document describes it.
 >
 > Why rigid won once the cell was small:
@@ -246,7 +246,7 @@ KiCad 10 has no native flex or stiffener layers. The plan:
 
 | Step | Work | Output | Advisor check |
 | --- | --- | --- | --- |
-| 1 | Create the KiCad 10 project in `hardware/flex-rev-a/`, project libraries for symbols and footprints, and sheet structure: `power`, `mcu`, `sensors`, `haptics`, `dock`, `debug`. | Empty project with sheets | none |
+| 1 | Create the KiCad 10 project in `hardware/band/archive/flex-rev-a/`, project libraries for symbols and footprints, and sheet structure: `power`, `mcu`, `sensors`, `haptics`, `dock`, `debug`. | Empty project with sheets | none |
 | 2 | **ISP2454 pinout study:** symbol and footprint from the datasheet (pads 1 to 48 signal, 49 to 62 mechanical, a trace joining pins 20 and 22). Check the nRF54L15 port and power-domain rules for each serial block, the dedicated clock pins, and the register setting NFC pins need before they work as GPIO. Decide which pads are reachable without via-in-pad on flex. Assign GPIOs against nRF54L15 pin and power-domain rules. | Symbol, footprint, GPIO table | Second check of footprint dimensions and pin map |
 | 3 | **Power sheet:** nPM1304 per Nordic's reference schematic and the nPM1304-EK design, VBUS TVS, battery pads, NTC, current jumper, SHPHLD pull-up, BUCK1 1.8 V. | Power sheet | Review against the nPM1304 datasheet and the Stage 0b results |
 | 4 | **MCU sheet:** ISP2454, SWD, UART, I2C, interrupts, NFC pins as plain GPIO only after the register change. | MCU sheet | Review against ISP2454 datasheet |
@@ -258,7 +258,7 @@ KiCad 10 has no native flex or stiffener layers. The plan:
 Steps 1, 2 and 4 to 6 can start now. Step 3 is drafted now and frozen after
 Stage 0b.
 
-**Progress (2026-10-30):** step 1 is done (`hardware/flex-rev-a/`). Step 2 is done,
+**Progress (2026-10-30):** step 1 is done (`hardware/band/archive/flex-rev-a/`). Step 2 is done,
 including the module footprint; every signal uses an outer-row pad, so the
 flex needs no via-in-pad (see [flex-rev-a-pinout.md](flex-rev-a-pinout.md)).
 Step 3 is drafted: the power sheet follows the nPM1304 datasheet's reference
@@ -267,7 +267,7 @@ format. Its remaining **(check)** items (QFN exposed-pad size against Nordic's
 reference layout, TVS and inductor part numbers, the GPIO used for PMIC_INT)
 are listed on the sheet. It is frozen after Stage 0b.
 Steps 5 and 6 are drafted too (sensors, haptics, dock and debug sheets), with
-the BOM (`hardware/flex-rev-a/bom.csv`, LCSC numbers) from step 7. ERC is
+the BOM (`hardware/band/archive/flex-rev-a/bom.csv`, LCSC numbers) from step 7. ERC is
 clean. Step 7's power-budget check and independent review are still to do.
 SHPHLD decision: rely on the nPM1304's internal 50 kohm pull-up; the extra
 pull-up and the button stay DNP.
@@ -275,9 +275,9 @@ pull-up and the button stay DNP.
 **Progress (2026-10-30, later):** step 7 is done: the independent schematic
 review and the power budget are below. Step 8 is done too: the board is
 placed, routed (DRC 0 violations, 0 unconnected), reviewed independently and
-reworked, and `hardware/flex-rev-a/fab/` has the Gerbers, drill files, BOM and
+reworked, and `hardware/band/archive/flex-rev-a/fab/` has the Gerbers, drill files, BOM and
 pick-and-place file for JLCPCB. See "Layout review" below and
-[the KiCad project README](../hardware/flex-rev-a/README.md). The paper
+[the KiCad project README](../hardware/band/archive/flex-rev-a/README.md). The paper
 mock-up of the fold is still to do, along with the checks under "Before
 ordering".
 
@@ -430,7 +430,7 @@ The buzz is over half of it. Stage 0b measures the real numbers.
 
 An independent review of the first routed board found six defects. All were
 fixed in the reworked layout (details in the
-[KiCad project README](../hardware/flex-rev-a/README.md#layout-review-rework-2026-10-30-current-layout)).
+[KiCad project README](../hardware/band/archive/flex-rev-a/README.md#layout-review-rework-2026-10-30-current-layout)).
 
 | # | Finding | Fix |
 | --- | --- | --- |

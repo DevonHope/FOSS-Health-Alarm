@@ -69,7 +69,7 @@ P0.04, P1.06, P1.08, P1.09, P1.12 to P1.15, P2.00, P2.03, P2.06 to P2.10).
 
 ## Footprint
 
-`hardware/flex-rev-a/wakeband.pretty/InsightSiP_ISP2454_LGA-62_8x8mm.kicad_mod`,
+`hardware/band/archive/flex-rev-a/wakeband.pretty/InsightSiP_ISP2454_LGA-62_8x8mm.kicad_mod`,
 built from the datasheet's section 4.1 drawing (read from the user's local
 copy of rev R7; the PDF is marked confidential, so it is not in this repo).
 Origin is the module centre; pin 1 is top-left; the antenna half (pins 49 to
