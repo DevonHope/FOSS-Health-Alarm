@@ -1,0 +1,16 @@
+# West manifest for building the firmware with upstream Zephyr (also what CI uses).
+#   west init -l firmware && west update   (run from the folder that holds this repo's checkout)
+# Building with nRF Connect SDK instead works too: see firmware/README.md.
+manifest:
+  remotes:
+    - name: zephyrproject-rtos
+      url-base: https://github.com/zephyrproject-rtos
+  projects:
+    - name: zephyr
+      remote: zephyrproject-rtos
+      revision: v4.2.0
+      import:
+        name-allowlist:
+          - cmsis_6
+          - hal_nordic
+          - segger

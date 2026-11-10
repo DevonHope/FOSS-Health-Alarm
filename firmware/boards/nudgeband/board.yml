@@ -1,0 +1,5 @@
+board:
+  name: nudgeband
+  full_name: NudgeBand wristband (rev C)
+  socs:
+    - name: nrf54l10

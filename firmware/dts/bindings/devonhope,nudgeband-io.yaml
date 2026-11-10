@@ -1,0 +1,32 @@
+# SPDX-License-Identifier: MIT
+description: NudgeBand board signals driven directly by the application
+
+compatible: "devonhope,nudgeband-io"
+
+properties:
+  pmic-int-gpios:
+    type: phandle-array
+    required: true
+    description: BQ25125 /INT
+  dock-pg-gpios:
+    type: phandle-array
+    required: true
+    description: BQ25125 /PG, active while the dock supplies VIN
+  acc-int1-gpios:
+    type: phandle-array
+    required: true
+  acc-int2-gpios:
+    type: phandle-array
+    required: true
+  hapt-en-gpios:
+    type: phandle-array
+    required: true
+  led-en-gpios:
+    type: phandle-array
+    required: true
+  chg-cd-gpios:
+    type: phandle-array
+    required: true
+  ls-ctrl-gpios:
+    type: phandle-array
+    required: true

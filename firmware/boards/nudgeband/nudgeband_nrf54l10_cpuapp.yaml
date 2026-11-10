@@ -1,0 +1,13 @@
+identifier: nudgeband/nrf54l10/cpuapp
+name: NudgeBand rev C
+type: mcu
+arch: arm
+toolchain:
+  - zephyr
+ram: 192
+flash: 1012
+supported:
+  - gpio
+  - i2c
+  - ble
+vendor: devonhope

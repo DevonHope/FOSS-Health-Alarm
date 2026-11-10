@@ -1,0 +1,19 @@
+/* SPDX-License-Identifier: MIT */
+
+&pinctrl {
+	/* External pull-ups R203/R204 to the 2.0 V rail. P1.04 and P1.08 are clock-capable pins. */
+	i2c21_default: i2c21_default {
+		group1 {
+			psels = <NRF_PSEL(TWIM_SCL, 1, 4)>,
+				<NRF_PSEL(TWIM_SDA, 1, 8)>;
+		};
+	};
+
+	i2c21_sleep: i2c21_sleep {
+		group1 {
+			psels = <NRF_PSEL(TWIM_SCL, 1, 4)>,
+				<NRF_PSEL(TWIM_SDA, 1, 8)>;
+			low-power-enable;
+		};
+	};
+};

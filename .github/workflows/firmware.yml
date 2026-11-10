@@ -1,0 +1,49 @@
+name: Firmware
+
+on:
+  push:
+    paths:
+      - "firmware/**"
+      - ".github/workflows/firmware.yml"
+  pull_request:
+    paths:
+      - "firmware/**"
+      - ".github/workflows/firmware.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  host-tests:
+    name: Host unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Smart-wake, activity, alarm and protocol tests
+        run: make -C firmware/tests/host
+
+  build:
+    name: Zephyr build (nudgeband/nrf54l10/cpuapp)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: nudgeband
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set up Zephyr, its modules and the ARM toolchain
+        uses: zephyrproject-rtos/action-zephyr-setup@v1
+        with:
+          app-path: nudgeband/firmware
+          toolchains: arm-zephyr-eabi
+          sdk-version: 0.17.2
+      - name: Build
+        run: west build -b nudgeband/nrf54l10/cpuapp nudgeband/firmware -d build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nudgeband-firmware
+          path: |
+            build/zephyr/zephyr.hex
+            build/zephyr/zephyr.elf
