@@ -41,6 +41,11 @@ jobs:
           manifest-file-name: firmware/west.yml
           toolchains: arm-zephyr-eabi
           sdk-version: 0.17.2
+      # Zephyr v4.2's CMake scripts fail under CMake 4.x (the runner's default)
+      - name: Use CMake 3.x
+        run: |
+          pip install "cmake>=3.20,<4"
+          cmake --version
       - name: Build
         run: west build -b nudgeband/nrf54l10/cpuapp nudgeband/firmware -d build
       - uses: actions/upload-artifact@v4
