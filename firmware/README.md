@@ -44,7 +44,7 @@ With upstream Zephyr (what CI does):
 ```sh
 mkdir nudgeband-ws && cd nudgeband-ws
 git clone https://github.com/DevonHope/NudgeBand nudgeband
-west init -l nudgeband/firmware
+west init -l nudgeband --mf firmware/west.yml
 west update
 west build -b nudgeband/nrf54l10/cpuapp nudgeband/firmware
 ```

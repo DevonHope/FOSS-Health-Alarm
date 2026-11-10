@@ -36,7 +36,9 @@ jobs:
       - name: Set up Zephyr, its modules and the ARM toolchain
         uses: zephyrproject-rtos/action-zephyr-setup@v1
         with:
-          app-path: nudgeband/firmware
+          # west makes the folder above app-path the workspace, so point it at the repo root
+          app-path: nudgeband
+          manifest-file-name: firmware/west.yml
           toolchains: arm-zephyr-eabi
           sdk-version: 0.17.2
       - name: Build

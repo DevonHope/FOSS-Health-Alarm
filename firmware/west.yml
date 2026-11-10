@@ -1,5 +1,6 @@
 # West manifest for building the firmware with upstream Zephyr (also what CI uses).
-#   west init -l firmware && west update   (run from the folder that holds this repo's checkout)
+#   west init -l <repo checkout> --mf firmware/west.yml && west update
+#   (run from the folder that holds the checkout; that folder becomes the west workspace)
 # Building with nRF Connect SDK instead works too: see firmware/README.md.
 manifest:
   remotes:
