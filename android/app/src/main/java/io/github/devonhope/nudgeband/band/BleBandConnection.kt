@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothGattDescriptor
 import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothProfile
+import android.bluetooth.BluetoothStatusCodes
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanFilter
 import android.bluetooth.le.ScanResult
@@ -226,7 +227,7 @@ class BleBandConnection(private val context: Context) : BandConnection {
         op {
             val g = gatt ?: return@op false
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                g.writeCharacteristic(c, value, type) == BluetoothGatt.GATT_SUCCESS
+                g.writeCharacteristic(c, value, type) == BluetoothStatusCodes.SUCCESS
             } else {
                 c.writeType = type
                 c.value = value
@@ -245,7 +246,7 @@ class BleBandConnection(private val context: Context) : BandConnection {
         else BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
         op {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                g.writeDescriptor(d, value) == BluetoothGatt.GATT_SUCCESS
+                g.writeDescriptor(d, value) == BluetoothStatusCodes.SUCCESS
             } else {
                 d.value = value
                 g.writeDescriptor(d)
