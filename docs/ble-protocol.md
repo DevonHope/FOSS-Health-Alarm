@@ -81,7 +81,9 @@ The app writes this on every connection. The band sets `time_set` in Status once
 
 The band rejects a write with out-of-range values (ATT error `0x13`, value not allowed).
 
-Dismiss: a double tap on the band (accelerometer tap detection) or the `DISMISS` command.
+Dismiss: the `DISMISS` command from the app always works. Dismissing on the band itself is TBD
+(tap in the pauses between buzzes, or sustained movement): double-tap detection needs a 400 Hz+
+sample rate, the band samples at 12.5 Hz, and the motor's shaking looks like taps.
 
 ### Status (`0x0004`)
 
@@ -124,6 +126,7 @@ Write with response. The band answers each command with an **indication**:
 | 4 | not ready (e.g. time not set) |
 
 `LOG_READ` answers OK first, then streams Sleep log notifications, ending with an END packet.
+Until the flash log exists in the firmware, `LOG_READ` and `LOG_CLEAR` answer 1 (not supported).
 
 ### Sleep log (`0x0006`)
 
@@ -170,19 +173,24 @@ again.
 
 ## Smart-wake rule
 
-The firmware owns the real algorithm (see `firmware/`). The app uses this simple version to draw past
-nights and to drive the simulated band, and the firmware's first version should match it:
+This is the firmware's rule (`firmware/src/smartwake.c`). The app mirrors it to draw past nights and
+to drive the simulated band, so change both together.
 
-1. Each 30 s epoch, take the activity value.
-2. Average it over the last 5 epochs (2.5 minutes).
-3. **Light sleep** if that average is at least 200 mg, or either of the last 2 epochs is at least 1000 mg.
-   Otherwise **deep / still**. An average above 3000 mg counts as **awake**.
-4. Inside the wake window, wake at the first epoch that counts as light sleep or awake.
-5. If none happens, wake when the window ends (the alarm time).
+1. Each 30 s epoch, take the activity value (epochs with no data are skipped).
+2. **Threshold** = max(300, 3 x the median activity of the night so far). While the night has fewer
+   than 20 epochs, the threshold is just 300.
+3. **Light sleep** = at least 2 of the last 3 epochs are at or above the threshold. For waking, those
+   epochs must be inside the wake window.
+4. Wake at the first light-sleep epoch in the window; otherwise wake at the alarm time.
+5. Smart wake off, or a window of 0, means an exact alarm at the set time.
 
-These thresholds are guesses and will be tuned from real nights.
+The app also shows **awake** when the last 3 epochs average 3000 mg or more. That is for the
+sleep chart only; the band does not use it.
+
+All numbers are first guesses and will be tuned from real nights.
 
 ## Change log
 
 - v1 draft (2026-11-10): first version, agreed between the app and firmware threads: 30 s epochs,
   u16 activity in mg, intensity 0-255 plus pattern id, firmware version and last wake in Status.
+  Smart-wake rule replaced with the firmware's median-threshold rule; band-side dismiss is TBD.

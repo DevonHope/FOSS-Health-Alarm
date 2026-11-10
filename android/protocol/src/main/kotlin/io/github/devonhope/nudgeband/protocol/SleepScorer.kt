@@ -3,35 +3,63 @@ package io.github.devonhope.nudgeband.protocol
 enum class SleepStage(val label: String) { NO_DATA("No data"), DEEP("Deep / still"), LIGHT("Light"), AWAKE("Awake") }
 
 /**
- * The simple light-sleep rule from docs/ble-protocol.md ("Smart-wake rule").
- * The firmware owns the real algorithm; this mirror draws past nights and drives the simulated band.
+ * Mirror of the firmware's smart-wake rule (docs/ble-protocol.md, "Smart-wake rule";
+ * firmware/src/smartwake.c). Keep the two in step.
  */
 object SleepScorer {
     const val EPOCH_SECONDS = 30
-    const val AVERAGE_EPOCHS = 5
-    const val LIGHT_AVERAGE_MG = 200
-    const val LIGHT_SPIKE_MG = 1000
-    const val SPIKE_EPOCHS = 2
+    const val MIN_THRESHOLD_MG = 300
+    const val MEDIAN_FACTOR = 3
+    const val WARMUP_EPOCHS = 20
+    const val LOOKBACK_EPOCHS = 3
+    const val LIGHT_HITS = 2
+
+    /** Display only: the band does not use "awake". */
     const val AWAKE_AVERAGE_MG = 3000
 
-    /** Stage for the epoch at [index], using only that epoch and the ones before it. */
-    fun stageAt(activity: List<Int>, index: Int): SleepStage {
-        if (activity[index] == LogPacket.NO_DATA) return SleepStage.NO_DATA
-        val window = (maxOf(0, index - AVERAGE_EPOCHS + 1)..index)
-            .map { activity[it] }.filter { it != LogPacket.NO_DATA }
-        val avg = window.average()
-        val recentSpike = (maxOf(0, index - SPIKE_EPOCHS + 1)..index)
-            .any { activity[it] != LogPacket.NO_DATA && activity[it] >= LIGHT_SPIKE_MG }
-        return when {
-            avg >= AWAKE_AVERAGE_MG -> SleepStage.AWAKE
-            avg >= LIGHT_AVERAGE_MG || recentSpike -> SleepStage.LIGHT
-            else -> SleepStage.DEEP
+    /**
+     * Light-sleep threshold for each epoch, from the night so far (epochs up to and including it).
+     * Index i of the result is the threshold in force at epoch i.
+     */
+    fun thresholds(activity: List<Int>): List<Int> {
+        val seen = ArrayList<Int>(activity.size)
+        return activity.map { a ->
+            if (a != LogPacket.NO_DATA) insertSorted(seen, a)
+            if (seen.size < WARMUP_EPOCHS) MIN_THRESHOLD_MG
+            else maxOf(MIN_THRESHOLD_MG, MEDIAN_FACTOR * median(seen))
         }
     }
 
-    fun stages(activity: List<Int>): List<SleepStage> = activity.indices.map { stageAt(activity, it) }
+    private fun insertSorted(list: ArrayList<Int>, v: Int) {
+        var i = list.binarySearch(v)
+        if (i < 0) i = -i - 1
+        list.add(i, v)
+    }
 
-    fun isLightOrAwake(stage: SleepStage) = stage == SleepStage.LIGHT || stage == SleepStage.AWAKE
+    private fun median(sorted: List<Int>): Int {
+        val n = sorted.size
+        return if (n % 2 == 1) sorted[n / 2] else (sorted[n / 2 - 1] + sorted[n / 2]) / 2
+    }
+
+    /** True if at least 2 of the last 3 epochs (from [firstAllowed] onward) reach [threshold]. */
+    fun isLight(activity: List<Int>, index: Int, threshold: Int, firstAllowed: Int = 0): Boolean {
+        val from = maxOf(firstAllowed, index - LOOKBACK_EPOCHS + 1)
+        val hits = (from..index).count { activity[it] != LogPacket.NO_DATA && activity[it] >= threshold }
+        return hits >= LIGHT_HITS
+    }
+
+    fun stages(activity: List<Int>): List<SleepStage> {
+        val th = thresholds(activity)
+        return activity.indices.map { i ->
+            if (activity[i] == LogPacket.NO_DATA) return@map SleepStage.NO_DATA
+            val recent = (maxOf(0, i - LOOKBACK_EPOCHS + 1)..i).map { activity[it] }.filter { it != LogPacket.NO_DATA }
+            when {
+                recent.size == LOOKBACK_EPOCHS && recent.average() >= AWAKE_AVERAGE_MG -> SleepStage.AWAKE
+                isLight(activity, i, th[i]) -> SleepStage.LIGHT
+                else -> SleepStage.DEEP
+            }
+        }
+    }
 
     data class Summary(
         val startUtc: Long,
