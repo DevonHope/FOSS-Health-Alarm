@@ -1,0 +1,7 @@
+# SPDX-License-Identifier: MIT
+CONFIG_ARM_MPU=y
+CONFIG_GPIO=y
+
+# No UART on this board: logs go over SEGGER RTT through the dock's SWD pins.
+CONFIG_SERIAL=n
+CONFIG_UART_CONSOLE=n

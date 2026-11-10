@@ -53,7 +53,7 @@ underside that touch spring pins in the dock.
 | PCBs | 📦 **Ordered.** Waiting for delivery |
 | Case and dock housing | ✅ Designed. Ready to print and test-fit |
 | Strap | ✅ Sewing patterns ready |
-| Firmware | ⏳ Not started. Planned on Zephyr / nRF Connect SDK |
+| Firmware | 🛠️ **Started.** Plan in [`firmware/TODO.md`](firmware/TODO.md); smart-wake logic written and unit-tested, drivers drafted, not yet run on hardware |
 | Android app | ⏳ Planned. Free and open source, for setting the alarm over Bluetooth |
 | Testing | ⏳ Waits for boards. First checks: power-up, charging, radio range, vibration |
 
@@ -74,6 +74,7 @@ hardware/
 ├── strap/     strap sewing patterns (PDF)
 ├── reviews/   design reviews of the boards
 └── tools/     helper scripts (e.g. printability check)
+firmware/      band firmware (Zephyr): plan in TODO.md, source, unit tests
 docs/          roadmap, parts research and early design notes
 ```
 
@@ -88,7 +89,7 @@ Older revisions (A and B) are kept for reference. Each folder has its own README
    [`BUY-LIST.md`](hardware/band/rev-a/contact-carrier/BUY-LIST.md).
 3. **Print the case and dock** in PETG. Print notes are in each `case/` folder.
 4. **Sew the strap** from the pattern in `hardware/strap/`.
-5. **Flash the firmware** through the dock (once firmware exists).
+5. **Flash the firmware** through the dock (see [`firmware/README.md`](firmware/README.md); not ready yet).
 
 Design tools: KiCad 10 for the PCBs, Python scripts for the case models.
 

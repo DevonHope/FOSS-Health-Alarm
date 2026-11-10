@@ -1,0 +1,5 @@
+# NudgeBand rev C: nRF54L10-QFAA, chip-down (hardware/band/rev-c/pcb)
+# SPDX-License-Identifier: MIT
+
+config BOARD_NUDGEBAND
+	select SOC_NRF54L10_CPUAPP if BOARD_NUDGEBAND_NRF54L10_CPUAPP
